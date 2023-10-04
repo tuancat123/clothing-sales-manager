@@ -1,1 +1,2 @@
-src\main\java\Application.class
+com\clothingstore\Application.class
+config\database.properties
