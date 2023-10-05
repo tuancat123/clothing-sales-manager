@@ -3,15 +3,15 @@ package com.clothingstore.models;
 import com.clothingstore.enums.UserStatus;
 
 public class UserModel {
-  private String username, password, email, name, phone, image, address;
-  private int id, roleId, gender;
+  private String username, password, email, name, phone, image, address, gender;
+  private int id, roleId;
   private UserStatus userStatus;
 
   public UserModel() {
   }
 
   public UserModel(String username, String password, String email, String name, String phone, String image,
-      String address, int id, int roleId, int gender, UserStatus userStatus) {
+      String address, int id, int roleId, String gender, UserStatus userStatus) {
     this.username = username;
     this.password = password;
     this.email = email;
@@ -97,11 +97,11 @@ public class UserModel {
     this.roleId = roleId;
   }
 
-  public int getGender() {
+  public String getGender() {
     return this.gender;
   }
 
-  public void setGender(int gender) {
+  public void setGender(String gender) {
     this.gender = gender;
   }
 
@@ -158,7 +158,7 @@ public class UserModel {
     return this;
   }
 
-  public UserModel gender(int gender) {
+  public UserModel gender(String gender) {
     setGender(gender);
     return this;
   }

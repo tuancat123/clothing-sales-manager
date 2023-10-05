@@ -64,5 +64,5 @@ public interface daointerface<T> {
    * @return a list of entities that match the search condition
    * @throws SQLException if there is any error accessing the database
    */
-  List<T> search(String condition, String[] columnName) throws SQLException;
+  List<T> search(String condition, String[] columnNames) throws SQLException;
 }

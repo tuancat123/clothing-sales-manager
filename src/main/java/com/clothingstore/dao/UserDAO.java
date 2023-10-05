@@ -30,7 +30,7 @@ public class UserDAO implements daointerface<UserModel> {
     String email = rs.getString("email");
     String name = rs.getString("name");
     String phone = rs.getString("phone");
-    int gender = rs.getInt("gender");
+    String gender = rs.getString("gender");
     String image = rs.getString("image");
     int roleId = rs.getInt("role_id");
     String address = rs.getString("address");
