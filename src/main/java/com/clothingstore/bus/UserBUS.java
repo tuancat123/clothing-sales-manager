@@ -1,8 +1,10 @@
 package com.clothingstore.bus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import com.clothingstore.dao.UserDAO;
 import com.clothingstore.enums.UserStatus;
@@ -207,4 +209,26 @@ public class UserBUS implements IBUS<UserModel> {
         String.valueOf(userModel.getRoleId()).equalsIgnoreCase(value));
   }
 
+  public boolean checkForDuplicate(List<String> values, String[] columns) {
+    Optional<UserModel> optionalUser = UserBUS.getInstance().getAllModels().stream().filter(user -> {
+      for (String value : values) {
+        if (Arrays.asList(columns).contains("username") &&
+            !value.isEmpty() &&
+            user.getUsername().equals(value)) {
+          return true;
+        }
+        if (Arrays.asList(columns).contains("email") &&
+            user.getEmail().equals(value)) {
+          return true;
+        }
+        if (Arrays.asList(columns).contains("phone") &&
+            user.getPhone().equals(value)) {
+          return true;
+        }
+      }
+      return false;
+    })
+        .findFirst();
+    return optionalUser.isPresent();
+  }
 }
