@@ -46,9 +46,8 @@ public class ProductDAO implements IDAO<ProductModel> {
 
   @Override
   public int insert(ProductModel product) {
-    String insertSql = "INSERT INTO products(id, name, category, image, gender, rating) VALUES(?, ?, ?, ?, ?, ?)";
+    String insertSql = "INSERT INTO products(name, category, image, gender, rating) VALUES(?, ?, ?, ?, ?, ?)";
     Object[] args = {
-        product.getId(),
         product.getName(),
         product.getCategory(),
         product.getImage(),
@@ -64,7 +63,7 @@ public class ProductDAO implements IDAO<ProductModel> {
   }
 
   @Override
-  public int update(ProductModel product) throws SQLException {
+  public int update(ProductModel product) {
     String updateSql = "UPDATE products SET name = ?, category = ?, image = ?, gender = ?, rating = ? WHERE id = ?";
     Object[] args = {
         product.getName(),
@@ -78,12 +77,12 @@ public class ProductDAO implements IDAO<ProductModel> {
       return DatabaseConnection.executeUpdate(updateSql, args);
     } catch (SQLException e) {
       e.printStackTrace();
-      throw e;
+      return -1;
     }
   }
 
   @Override
-  public int delete(int id) throws SQLException {
+  public int delete(int id) {
     String deleteSql = "DELETE FROM products WHERE id = ?";
     Object[] args = { id };
     try {
@@ -95,7 +94,7 @@ public class ProductDAO implements IDAO<ProductModel> {
   }
 
   @Override
-  public List<ProductModel> search(String condition, String[] columnNames) throws SQLException {
+  public List<ProductModel> search(String condition, String[] columnNames) {
     if (condition == null || condition.trim().isEmpty()) {
       throw new IllegalArgumentException("Search condition cannot be empty or null");
     }

@@ -99,10 +99,10 @@ public class UserDAO implements IDAO<UserModel> {
         user.getPhone(),
         user.getImage(),
         user.getAddress(),
-        user.getId(),
         user.getRoleId(),
         user.getGender(),
-        user.getUserStatus().toString().toUpperCase()
+        user.getUserStatus().toString().toUpperCase(),
+        user.getId()
     };
     try {
       return DatabaseConnection.executeUpdate(updateSql, args);
