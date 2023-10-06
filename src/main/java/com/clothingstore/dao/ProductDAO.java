@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.clothingstore.interfaces.daointerface;
+import com.clothingstore.interfaces.IDAO;
 import com.clothingstore.models.ProductModel;
 
-public class ProductDAO implements daointerface<ProductModel> {
+public class ProductDAO implements IDAO<ProductModel> {
   private static ProductDAO instance;
 
   public static ProductDAO getInstance() {

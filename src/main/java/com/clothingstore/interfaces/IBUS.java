@@ -2,7 +2,7 @@ package com.clothingstore.interfaces;
 
 import java.util.List;
 
-public interface businterface<T> {
+public interface IBUS<T> {
   /**
    * Returns a list of all models.
    *

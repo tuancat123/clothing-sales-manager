@@ -8,10 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 import com.clothingstore.enums.UserStatus;
-import com.clothingstore.interfaces.daointerface;
+import com.clothingstore.interfaces.IDAO;
 import com.clothingstore.models.UserModel;
 
-public class UserDAO implements daointerface<UserModel> {
+public class UserDAO implements IDAO<UserModel> {
 
   private static UserDAO instance;
 

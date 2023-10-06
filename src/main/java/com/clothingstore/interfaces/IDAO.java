@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @param <T> the entity type that this DAO interface will handle
  */
-public interface daointerface<T> {
+public interface IDAO<T> {
 
   /**
    * Reads all entries from the database table associated with this DAO.
