@@ -1,6 +1,7 @@
 package com.clothingstore.models;
 
 public class SizeItemModel {
+    private int id;
     private int productId;
     private int sizeId;
     private int quantity;
@@ -12,6 +13,14 @@ public class SizeItemModel {
         this.productId = productId;
         this.sizeId = sizeId;
         this.quantity = quantity;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getProductId() {
@@ -36,6 +45,11 @@ public class SizeItemModel {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public SizeItemModel id(int id) {
+        setId(id);
+        return this;
     }
 
     public SizeItemModel productId(int productId) {
