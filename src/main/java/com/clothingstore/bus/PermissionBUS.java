@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.clothingstore.dao.PermissionDAO;
-import com.clothingstore.interfaces.IDAO;
+import com.clothingstore.interfaces.IBUS;
 import com.clothingstore.models.PermissionModel;
 
 public class PermissionBUS implements IBUS<PermissionModel> {
@@ -112,4 +112,36 @@ public class PermissionBUS implements IBUS<PermissionModel> {
                 .findFirst();
         return optionalPermission.isPresent();
     }
+
+    private boolean checkFilter(
+            PermissionModel permissionModel,
+            String value,
+            String[] columns) {
+        for (String column : columns) {
+            switch (column.toLowerCase()) {
+                case "id" -> {
+                    if (Integer.parseInt(value) == permissionModel.getId()) {
+                        return true;
+                    }
+                }
+                case "permissionname" -> {
+                    if (value.equalsIgnoreCase(permissionModel.getPermissionName())) {
+                        return true;
+                    }
+                }
+                default -> {
+                    if (checkAllColumns(permissionModel, value)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkAllColumns(PermissionModel permissionModel, String value) {
+        return (permissionModel.getId() == Integer.parseInt(value) ||
+                permissionModel.getPermissionName().contains(value));
+    }
+
 }
