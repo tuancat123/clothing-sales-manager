@@ -34,7 +34,7 @@ public class ImportDAO implements IDAO<ImportModel> {
   public ArrayList<ImportModel> readDatabase() {
     ArrayList<ImportModel> importList = new ArrayList<>();
     try (
-        ResultSet rs = DatabaseConnection.executeQuery("SELECT * FROM users")) {
+        ResultSet rs = DatabaseConnection.executeQuery("SELECT * FROM imports")) {
       while (rs.next()) {
         ImportModel ImportModel = createImportModelFromResultSet(rs);
         importList.add(ImportModel);
@@ -47,7 +47,7 @@ public class ImportDAO implements IDAO<ImportModel> {
 
   @Override
   public int insert(ImportModel importModel) {
-    String insertSql = "INSERT INTO imports (import_date, total_cost) value (?, ?)";
+    String insertSql = "INSERT INTO imports (import_date, total_cost) VALUES (?, ?)";
     Object[] args = {
         importModel.getImportDate(),
         importModel.getTotalCost()
