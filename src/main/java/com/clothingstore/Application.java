@@ -1,7 +1,9 @@
 package com.clothingstore;
 
+import com.clothingstore.gui.customer.HomePage;
+
 public class Application {
   public static void main(String[] args) {
-    System.out.println("Hello World!");
+    HomePage.getInstance().setVisible(true);
   }
 }
