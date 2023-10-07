@@ -1,8 +1,10 @@
 package com.clothingstore.bus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import com.clothingstore.dao.PaymentMethodDAO;
 import com.clothingstore.interfaces.IBUS;
@@ -113,9 +115,33 @@ public class PaymentMethodBUS implements IBUS<PaymentMethodModel> {
           }
         }
         default -> {
+          if (checkAllColumns(paymentMethod, value)) {
+            return true;
+          }
         }
       }
     }
     return false;
+  }
+
+  private boolean checkAllColumns(PaymentMethodModel PaymentMethodModel, String value) {
+    return (PaymentMethodModel.getId() == Integer.parseInt(value) ||
+        PaymentMethodModel.getMethodName().contains(value));
+  }
+
+  public boolean checkForDuplicate(List<String> values, String[] columns) {
+    Optional<PaymentMethodModel> paymentOptional = PaymentMethodBUS.getInstance().getAllModels().stream()
+        .filter(paymentMethod -> {
+          for (String value : values) {
+            if (Arrays.asList(columns).contains("method_name") &&
+                !value.isEmpty() &&
+                paymentMethod.getMethodName().equals(value)) {
+              return true;
+            }
+          }
+          return false;
+        })
+        .findFirst();
+    return paymentOptional.isPresent();
   }
 }
