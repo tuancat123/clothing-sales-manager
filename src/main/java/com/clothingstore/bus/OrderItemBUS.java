@@ -7,7 +7,6 @@ import java.util.List;
 import com.clothingstore.dao.OrderItemDAO;
 import com.clothingstore.interfaces.IBUS;
 import com.clothingstore.models.OrderItemModel;
-import services.Validation;
 
 public class OrderItemBUS implements IBUS<OrderItemModel> {
     private final List<OrderItemModel> orderItemList = new ArrayList<>();
