@@ -1,11 +1,7 @@
 package com.clothingstore.gui.customer;
 
 import javax.swing.*;
-
-import org.apache.commons.math3.stat.descriptive.summary.Product;
-
 import com.clothingstore.gui.components.Products;
-
 import java.awt.*;
 
 public class HomePage extends JFrame{
@@ -31,5 +27,9 @@ public class HomePage extends JFrame{
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
         add(Products.getInstance(),BorderLayout.CENTER);
+        Invoice invoice = new Invoice();
+        add(invoice, BorderLayout.EAST);
+        Navigation navigation = new Navigation();
+        add(navigation, BorderLayout.SOUTH);
     }
 }

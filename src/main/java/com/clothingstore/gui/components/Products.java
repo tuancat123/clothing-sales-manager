@@ -1,40 +1,50 @@
+
 package com.clothingstore.gui.components;
 
 import java.awt.*;
+
 import javax.swing.*;
+
+import com.clothingstore.gui.customer.HomePage;
 
 public class Products extends JPanel {
 
     private static Products instance;
 
-    private JPanel Header; 
-    private JPanel Content;
-    
+
 
     public static Products getInstance() {
         if (instance == null) {
           instance = new Products();
         }
         return instance;
-      }
-
-    public Products(){
-        initComponent();
     }
 
-    public void initComponent(){
-        Header = new JPanel();
-        Content = new JPanel();
+    public Products() {
+        initComponents();
+    }
 
-        setBackground(new Color(0xAACDEF));
+
+    private void initComponents() {
+
+        Scroll = new JScrollPane();
+        Products = new JPanel();
+
         setLayout(new BorderLayout());
+        Products.setBackground(new Color(170, 205, 239));
 
-        Header.setBackground(Color.red);
-        add(Header, BorderLayout.NORTH);
+        Products.setLayout(new GridLayout(3, 4));
+        for( int i = 0; i<10; i++){
+            Product product = new Product();
+            product.setBackground(new Color(170, 205, 239));
+            Products.add(product);
+        }
+        Scroll.setViewportView(Products);
 
-        Content.setLayout(new GridLayout(10,10));
-        Content.setBackground(new Color(0xAACDEF));
-        Content.add(Product.getInstance());
-        add(Content, BorderLayout.CENTER);
+        add(Scroll, BorderLayout.CENTER);
     }
+
+
+    private JPanel Products;
+    private JScrollPane Scroll;
 }
