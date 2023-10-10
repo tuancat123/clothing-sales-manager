@@ -1,6 +1,8 @@
 package com.clothingstore.gui.customer;
 
 import javax.swing.*;
+
+import com.clothingstore.gui.components.Menu;
 import com.clothingstore.gui.components.Products;
 import java.awt.*;
 
@@ -34,5 +36,8 @@ public class HomePage extends JFrame{
 
         Navigation navigation = new Navigation();
         add(navigation, BorderLayout.SOUTH);
+
+        Menu menu = new Menu();
+        add(menu, BorderLayout.WEST);
     }
 }
