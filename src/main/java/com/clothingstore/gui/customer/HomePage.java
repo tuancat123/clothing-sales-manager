@@ -26,9 +26,12 @@ public class HomePage extends JFrame{
         setSize(new Dimension(1124, 628));
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
+
         add(Products.getInstance(),BorderLayout.CENTER);
+
         Invoice invoice = new Invoice();
         add(invoice, BorderLayout.EAST);
+
         Navigation navigation = new Navigation();
         add(navigation, BorderLayout.SOUTH);
     }

@@ -4,7 +4,11 @@
  */
 package com.clothingstore.gui.components;
 
-import java.awt.Dimension;
+import java.awt.*;
+
+import javax.swing.ImageIcon;
+
+import com.itextpdf.text.Image;
 
 /**
  *
@@ -34,17 +38,21 @@ public class Product extends javax.swing.JPanel {
         Name = new javax.swing.JLabel();
         Price = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        setPreferredSize(new java.awt.Dimension(199, 250));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        setPreferredSize(new java.awt.Dimension(199, 280));
         setLayout(new java.awt.BorderLayout());
 
         Header.setBackground(new java.awt.Color(255, 255, 255));
-        Header.setLayout(new java.awt.BorderLayout());
+        Header.setLayout(new java.awt.GridBagLayout());
 
-        Image.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/config/image/polo2.png"))); // NOI18N
-        Image.setPreferredSize(new java.awt.Dimension(89, 176));
-        Header.add(Image, java.awt.BorderLayout.CENTER);
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/image/polo3.png"));
+        java.awt.Image originalImage = originalIcon.getImage();
+        java.awt.Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        Image.setIcon(scaledIcon); // NOI18N
+        Image.setPreferredSize(new java.awt.Dimension(180, 178));
+        Header.add(Image, new java.awt.GridBagConstraints());
 
         add(Header, java.awt.BorderLayout.CENTER);
 

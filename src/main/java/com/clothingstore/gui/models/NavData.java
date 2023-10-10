@@ -1,5 +1,6 @@
 package com.clothingstore.gui.models;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -22,15 +23,23 @@ public class NavData {
 
     public static ArrayList<NavData> getData() {
         ArrayList<NavData> data = new ArrayList<NavData>() {{
-            add(new NavData("Menu", null));
+            add(new NavData("Menu", MenuAction() ));
+            add(new NavData("All", null));
             add(new NavData("Shirt", null));
             add(new NavData("Polo", null));
-            add(new NavData("2", null));
-            add(new NavData("3", null));
-            add(new NavData("4", null));
-            add(new NavData("5", null));
+            add(new NavData("Short", null));
+            add(new NavData("Jean", null));
+            add(new NavData("More", null));
 
         }};
         return data;
+    }
+    private static ActionListener MenuAction() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Menu clicked");
+            }
+        };
     }
 }

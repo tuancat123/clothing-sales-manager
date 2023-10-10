@@ -5,6 +5,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import com.clothingstore.gui.customer.Header;
 import com.clothingstore.gui.customer.HomePage;
 
 public class Products extends JPanel {
@@ -41,6 +42,9 @@ public class Products extends JPanel {
         }
         Scroll.setViewportView(Products);
 
+        Header header = new Header();
+        add(header, BorderLayout.NORTH);
+        
         add(Scroll, BorderLayout.CENTER);
     }
 
