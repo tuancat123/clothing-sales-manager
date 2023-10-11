@@ -14,7 +14,15 @@ public class Navigation extends javax.swing.JPanel {
 
     ArrayList<NavData> data = NavData.getData();
 
-    
+    private static Navigation instance;
+
+    public static Navigation getInstance() {
+        if (instance == null) {
+          instance = new Navigation();
+        }
+        return instance;
+    }
+
     public Navigation() {
         initComponents();
     }

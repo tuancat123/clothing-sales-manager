@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import com.clothingstore.gui.components.Menu;
+
 public class NavData {
     private String name;
     private ActionListener actionListener;
@@ -38,7 +40,7 @@ public class NavData {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Menu clicked");
+                Menu.getInstance().reSize();
             }
         };
     }
