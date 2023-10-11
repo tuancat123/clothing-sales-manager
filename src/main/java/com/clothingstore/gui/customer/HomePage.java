@@ -37,6 +37,5 @@ public class HomePage extends JFrame{
         Navigation navigation = new Navigation();
         add(navigation, BorderLayout.SOUTH);
 
-        add(Menu.getInstance(), BorderLayout.WEST);
     }
 }

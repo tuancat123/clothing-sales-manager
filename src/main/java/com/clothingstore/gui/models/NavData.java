@@ -2,9 +2,22 @@ package com.clothingstore.gui.models;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
+
+import org.junit.jupiter.api.Test;
+
 import com.clothingstore.gui.components.Menu;
+import com.clothingstore.gui.components.Products;
+import com.clothingstore.gui.customer.HomePage;
+import com.clothingstore.gui.customer.Navigation;
+import com.clothingstore.gui.customer.PopupMunu;
+import com.itextpdf.awt.geom.Dimension;
 
 public class NavData {
     private String name;
@@ -40,7 +53,12 @@ public class NavData {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Menu.getInstance().reSize();
+                if(PopupMunu.getInstance().isVisible()){
+                    PopupMunu.getInstance().setVisible(false);
+                }
+                else{
+                    PopupMunu.getInstance().setVisible(true);
+                }
             }
         };
     }
