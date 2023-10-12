@@ -9,7 +9,6 @@ import com.clothingstore.gui.customer.HomePage;
 import com.clothingstore.gui.models.MenuData;
 import com.clothingstore.gui.models.MenuItemData;
 
-
 public class Menu extends JPanel {
     private static Menu instance;
 
@@ -20,7 +19,7 @@ public class Menu extends JPanel {
 
     public static Menu getInstance() {
         if (instance == null) {
-          instance = new Menu();
+            instance = new Menu();
         }
         return instance;
     }
@@ -30,13 +29,11 @@ public class Menu extends JPanel {
         initComponents();
     }
 
- 
-
     public void initComponents() {
-        setLayout(new GridLayout(10, 1,10,5));
+        setLayout(new GridLayout(10, 1, 10, 5));
         setPreferredSize(new Dimension(250, (int) (HomePage.getInstance().getSize().getHeight() - 93)));
         setBackground(new Color(0, 26, 51));
-        for(MenuData menuData: dataMenu){
+        for (MenuData menuData : dataMenu) {
 
             ArrayList<MenuItemData> dataMenuItem = menuData.getItemData();
 
@@ -49,8 +46,8 @@ public class Menu extends JPanel {
 
             JPopupMenu popupMenu = new JPopupMenu();
 
-            if(dataMenuItem != null){
-                for(MenuItemData option: dataMenuItem){
+            if (dataMenuItem != null) {
+                for (MenuItemData option : dataMenuItem) {
                     JMenuItem menuItem = new JMenuItem(option.getName());
                     menuItem.setPreferredSize(new Dimension(130, 45));
                     menuItem.setBackground(new Color(204, 204, 255));

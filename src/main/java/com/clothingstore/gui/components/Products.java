@@ -12,11 +12,9 @@ public class Products extends JPanel {
 
     private static Products instance;
 
-
-
     public static Products getInstance() {
         if (instance == null) {
-          instance = new Products();
+            instance = new Products();
         }
         return instance;
     }
@@ -24,7 +22,6 @@ public class Products extends JPanel {
     public Products() {
         initComponents();
     }
-
 
     private void initComponents() {
 
@@ -44,10 +41,9 @@ public class Products extends JPanel {
 
         Header header = new Header();
         add(header, BorderLayout.NORTH);
-        
+
         add(Scroll, BorderLayout.CENTER);
     }
-
 
     private JPanel Products;
     private JScrollPane Scroll;
