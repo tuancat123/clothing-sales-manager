@@ -1,9 +1,6 @@
-package com.clothingstore.gui.customer;
+package com.clothingstore.gui.components;
 
 import javax.swing.JPopupMenu;
-
-import com.clothingstore.gui.components.Menu;
-import com.clothingstore.gui.components.Products;
 
 public class PopupMenu extends JPopupMenu {
     private static PopupMenu instance;

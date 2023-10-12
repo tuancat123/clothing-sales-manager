@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import com.clothingstore.gui.customer.HomePage;
 import com.clothingstore.gui.models.MenuData;
 import com.clothingstore.gui.models.MenuItemData;
 
@@ -32,23 +33,29 @@ public class Menu extends JPanel {
  
 
     public void initComponents() {
-        setPreferredSize(new Dimension(0, 0));
-        setLayout(new GridLayout(10, 1));
-        setPreferredSize(new Dimension(100, 450));
-
+        setLayout(new GridLayout(10, 1,10,5));
+        setPreferredSize(new Dimension(250, (int) (HomePage.getInstance().getSize().getHeight() - 93)));
+        setBackground(new Color(0, 26, 51));
         for(MenuData menuData: dataMenu){
 
             ArrayList<MenuItemData> dataMenuItem = menuData.getItemData();
 
             JButton menuButton = new JButton(menuData.getName());
             menuButton.setPreferredSize(new Dimension(150, 50));
+            menuButton.setBackground(new Color(153, 153, 255));
+            menuButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            menuButton.setBorderPainted(false);
+            menuButton.setOpaque(true);
 
             JPopupMenu popupMenu = new JPopupMenu();
 
             if(dataMenuItem != null){
                 for(MenuItemData option: dataMenuItem){
                     JMenuItem menuItem = new JMenuItem(option.getName());
-                    menuItem.setPreferredSize(new Dimension(150, 50));
+                    menuItem.setPreferredSize(new Dimension(130, 45));
+                    menuItem.setBackground(new Color(204, 204, 255));
+                    menuItem.setContentAreaFilled(false);
+                    menuItem.setOpaque(true);
 
                     menuItem.addActionListener(new ActionListener() {
                         @Override
@@ -57,7 +64,7 @@ public class Menu extends JPanel {
                             listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
                         }
                     });
-
+                    popupMenu.add(new JSeparator());
                     popupMenu.add(menuItem);
                 }
             }
@@ -68,7 +75,6 @@ public class Menu extends JPanel {
                     popupMenu.show(menuButton, menuButton.getWidth(), 0);
                 }
             });
-
             add(menuButton);
         }
     }

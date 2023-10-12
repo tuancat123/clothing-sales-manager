@@ -13,10 +13,10 @@ import javax.swing.event.PopupMenuListener;
 import org.junit.jupiter.api.Test;
 
 import com.clothingstore.gui.components.Menu;
+import com.clothingstore.gui.components.PopupMenu;
 import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.customer.HomePage;
 import com.clothingstore.gui.customer.Navigation;
-import com.clothingstore.gui.customer.PopupMunu;
 import com.itextpdf.awt.geom.Dimension;
 
 public class NavData {
@@ -53,11 +53,16 @@ public class NavData {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(PopupMunu.getInstance().isVisible()){
-                    PopupMunu.getInstance().setVisible(false);
+                if(PopupMenu.getInstance().isVisible()){
+                    HomePage.getInstance().setResizable(true);
+                    PopupMenu.getInstance().setVisible(false);
                 }
                 else{
-                    PopupMunu.getInstance().setVisible(true);
+                    Menu.getInstance().setPreferredSize(new java.awt.Dimension(150, (int) (HomePage.getInstance().getSize().getHeight() - 93)));
+                    HomePage.getInstance().setResizable(false);
+                    PopupMenu.getInstance().show(Products.getInstance(), 3, 3);
+                    PopupMenu.getInstance().setInvoker(null);
+                    PopupMenu.getInstance().setVisible(true);
                 }
             }
         };
