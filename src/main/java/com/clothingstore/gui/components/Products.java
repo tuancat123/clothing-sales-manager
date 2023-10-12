@@ -34,7 +34,7 @@ public class Products extends JPanel {
         setLayout(new BorderLayout());
         Products.setBackground(new Color(170, 205, 239));
 
-        Products.setLayout(new GridLayout(3, 4));
+        Products.setLayout(new GridLayout(2, 5));
         for( int i = 0; i<10; i++){
             Product product = new Product();
             product.setBackground(new Color(170, 205, 239));

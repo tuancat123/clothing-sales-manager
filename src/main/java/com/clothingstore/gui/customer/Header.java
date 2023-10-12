@@ -7,8 +7,6 @@ import javax.swing.border.*;
 
 import org.netbeans.lib.awtextra.*;
 
-import  text.AbstractDocument.Content;
-
 public class Header extends  JPanel {
 
     public Header() {
