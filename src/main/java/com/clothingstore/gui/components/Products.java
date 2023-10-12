@@ -12,11 +12,9 @@ public class Products extends JPanel {
 
     private static Products instance;
 
-
-
     public static Products getInstance() {
         if (instance == null) {
-          instance = new Products();
+            instance = new Products();
         }
         return instance;
     }
@@ -24,7 +22,6 @@ public class Products extends JPanel {
     public Products() {
         initComponents();
     }
-
 
     private void initComponents() {
 
@@ -34,8 +31,8 @@ public class Products extends JPanel {
         setLayout(new BorderLayout());
         Products.setBackground(new Color(170, 205, 239));
 
-        Products.setLayout(new GridLayout(3, 4));
-        for( int i = 0; i<10; i++){
+        Products.setLayout(new GridLayout(5, 5));
+        for (int i = 0; i < 22; i++) {
             Product product = new Product();
             product.setBackground(new Color(170, 205, 239));
             Products.add(product);
@@ -44,10 +41,9 @@ public class Products extends JPanel {
 
         Header header = new Header();
         add(header, BorderLayout.NORTH);
-        
+
         add(Scroll, BorderLayout.CENTER);
     }
-
 
     private JPanel Products;
     private JScrollPane Scroll;

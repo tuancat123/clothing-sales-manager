@@ -26,21 +26,21 @@ public class Invoice extends JPanel {
         ButtonPay = new JButton();
         ButtonPrint = new JLabel();
 
-        setPreferredSize(new Dimension(245, 370));
+        setPreferredSize(new Dimension(350, 370));
         setLayout(new BorderLayout());
 
         Header.setBackground(new Color(255, 131, 205));
         Header.setLayout(new BorderLayout());
 
-        Index.setFont(new Font("Segoe UI", 0, 14)); 
+        Index.setFont(new Font("Segoe UI", 0, 14));
         Index.setHorizontalAlignment(SwingConstants.CENTER);
         Index.setText("45");
         Index.setPreferredSize(new Dimension(30, 45));
-       
+
         None.setPreferredSize(new Dimension(30, 45));
 
         NameShop.setEditable(false);
-        NameShop.setFont(new Font("Segoe UI", 1, 18)); 
+        NameShop.setFont(new Font("Segoe UI", 1, 18));
         NameShop.setHorizontalAlignment(JTextField.CENTER);
         NameShop.setText("The Shop VIP");
 
@@ -56,15 +56,14 @@ public class Invoice extends JPanel {
 
         Scroll.setViewportView(Invoices);
 
-
         Footer.setPreferredSize(new Dimension(301, 120));
         Footer.setLayout(new AbsoluteLayout());
 
-        TextSum.setFont(new Font("Segoe UI", 1, 13)); 
+        TextSum.setFont(new Font("Segoe UI", 1, 13));
         TextSum.setHorizontalAlignment(SwingConstants.CENTER);
         TextSum.setText("Tổng Thanh Toán");
 
-        Value.setFont(new Font("Segoe UI", 0, 18)); 
+        Value.setFont(new Font("Segoe UI", 0, 18));
         Value.setForeground(new Color(255, 51, 51));
         Value.setHorizontalAlignment(SwingConstants.CENTER);
         Value.setText("3.000.000");
@@ -72,7 +71,7 @@ public class Invoice extends JPanel {
         ButtonCancel.setText("Hủy");
         ButtonCancel.setPreferredSize(new Dimension(72, 20));
 
-        ButtonPay.setFont(new Font("Segoe UI", 0, 10)); 
+        ButtonPay.setFont(new Font("Segoe UI", 0, 10));
         ButtonPay.setText("Thanh Toán");
         ButtonPay.setPreferredSize(new Dimension(72, 20));
 
@@ -92,8 +91,9 @@ public class Invoice extends JPanel {
         Footer.add(ButtonPay, new AbsoluteConstraints(140, 80, 90, 30));
         Footer.add(ButtonPrint, new AbsoluteConstraints(190, 30, -1, -1));
         add(Footer, BorderLayout.SOUTH);
-        
+
     }
+
     private JButton ButtonCancel;
     private JButton ButtonPay;
     private JLabel ButtonPrint;
