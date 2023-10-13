@@ -29,7 +29,7 @@ public class Invoice extends JPanel {
         setPreferredSize(new Dimension(350, 370));
         setLayout(new BorderLayout());
 
-        Header.setBackground(new Color(255, 131, 205));
+        Header.setBackground(Color.BLACK);
         Header.setLayout(new BorderLayout());
 
         Index.setFont(new Font("Segoe UI", 0, 14));

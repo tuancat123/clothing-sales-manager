@@ -1,6 +1,8 @@
 package com.clothingstore.gui.components;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
@@ -8,6 +10,27 @@ public class Product extends JPanel {
 
     public Product() {
         initComponents();
+        addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                ProductDetail productDetail = new ProductDetail();
+                productDetail.setVisible(true);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent arg0) {}
+
+            @Override
+            public void mouseExited(MouseEvent arg0) {}
+
+            @Override
+            public void mousePressed(MouseEvent arg0) {}
+
+            @Override
+            public void mouseReleased(MouseEvent arg0) {}
+            
+        });
     }
 
     private void initComponents() {
