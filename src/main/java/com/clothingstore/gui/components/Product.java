@@ -50,7 +50,7 @@ public class Product extends JPanel {
 
         ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/image/polo3.png"));
         Image originalImage = originalIcon.getImage();
-        Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+        Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_REPLICATE);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
         Image.setIcon(scaledIcon); 

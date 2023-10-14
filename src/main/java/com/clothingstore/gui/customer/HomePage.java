@@ -25,7 +25,7 @@ public class HomePage extends JFrame{
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
     public void initComponent(){
-        setSize(new Dimension(1124, 628));
+        setSize(new Dimension(1130, 628));
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 

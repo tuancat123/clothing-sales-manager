@@ -16,6 +16,8 @@ public class Goods extends JPanel {
         Name = new JLabel();
         Size = new JLabel();
         Prince = new JLabel();
+        Quantity = new JLabel();
+        ButtonDel = new JButton();
 
         setBorder(BorderFactory.createEtchedBorder());
         setMinimumSize(new Dimension(220, 40));
@@ -24,25 +26,40 @@ public class Goods extends JPanel {
 
         IndexText.setFont(new Font("Segoe UI", 0, 14));
         IndexText.setText("01");
-        add(IndexText, new AbsoluteConstraints(10, 10, -1, 30));
+        add(IndexText, new AbsoluteConstraints(8, 10, -1, 30));
 
-        Name.setFont(new Font("Segoe UI Black", 1, 14));
-        Name.setText("BlackPolo");
+        Name.setFont(new Font("Segoe UI", 3, 14));
+        Name.setText("BlackPolo Bla");
 
-        add(Name, new AbsoluteConstraints(30, 10, 100, 30));
+        add(Name, new AbsoluteConstraints(28, 10, 100, 30));
 
         Size.setFont(new Font("Segoe UI", 1, 14));
+        Size.setForeground(Color.BLUE);
         Size.setText("M");
-        add(Size, new AbsoluteConstraints(140, 10, 20, 30));
+        add(Size, new AbsoluteConstraints(150, 10, 20, 30));
+        
+        Quantity.setFont(new Font("Segoe UI", 2, 13));
+        Quantity.setText("x3");
+        add(Quantity, new AbsoluteConstraints(130, 10, 20, 30));
 
-        Prince.setFont(new Font("Segoe UI", 0, 14));
+        Prince.setFont(new Font("Segoe UI", 0, 15));
         Prince.setForeground(new Color(255, 0, 0));
         Prince.setText("340.333");
-        add(Prince, new AbsoluteConstraints(160, 10, 60, 30));
+        add(Prince, new AbsoluteConstraints(176, 10, 60, 28));
+
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/icon/delete.png"));
+        Image originalImage = originalIcon.getImage();
+        Image scaledImage = originalImage.getScaledInstance(17, 17, java.awt.Image.SCALE_REPLICATE);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        ButtonDel.setIcon(scaledIcon);
+        add(ButtonDel, new AbsoluteConstraints(239, 13 , 25, 25));
     }
 
     private JLabel IndexText;
     private JLabel Name;
     private JLabel Prince;
     private JLabel Size;
+    private JLabel Quantity;
+    private JButton ButtonDel;
 }

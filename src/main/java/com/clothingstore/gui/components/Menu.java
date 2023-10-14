@@ -25,20 +25,19 @@ public class Menu extends JPanel {
     }
 
     public Menu() {
-
         initComponents();
     }
 
     public void initComponents() {
         setLayout(new GridLayout(10, 1, 10, 5));
-        setPreferredSize(new Dimension(250, (int) (HomePage.getInstance().getSize().getHeight() - 93)));
+        setPreferredSize(new Dimension(150, (int) (HomePage.getInstance().getSize().getHeight() - 93)));
         setBackground(new Color(0, 26, 51));
         for (MenuData menuData : dataMenu) {
 
             ArrayList<MenuItemData> dataMenuItem = menuData.getItemData();
 
             JButton menuButton = new JButton(menuData.getName());
-            menuButton.setPreferredSize(new Dimension(150, 50));
+            menuButton.setPreferredSize(new Dimension(50, 50));
             menuButton.setBackground(new Color(153, 153, 255));
             menuButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             menuButton.setBorderPainted(false);

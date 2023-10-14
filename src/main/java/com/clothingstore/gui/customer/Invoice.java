@@ -26,7 +26,7 @@ public class Invoice extends JPanel {
         ButtonPay = new JButton();
         ButtonPrint = new JLabel();
 
-        setPreferredSize(new Dimension(350, 370));
+        setPreferredSize(new Dimension(300, 370));
         setLayout(new BorderLayout());
 
         Header.setBackground(Color.BLACK);
@@ -42,12 +42,13 @@ public class Invoice extends JPanel {
         NameShop.setEditable(false);
         NameShop.setFont(new Font("Segoe UI", 1, 18));
         NameShop.setHorizontalAlignment(JTextField.CENTER);
+        NameShop.setBackground(new Color(180, 180, 180));
         NameShop.setText("The Shop VIP");
 
         Content.setLayout(new BorderLayout());
 
         Invoices.setBackground(new Color(255, 255, 255));
-        Invoices.setLayout(new GridLayout(10, 1));
+        Invoices.setLayout(new GridLayout(7, 1));
 
         Goods goods = new Goods();
         Invoices.add(goods);
@@ -87,9 +88,9 @@ public class Invoice extends JPanel {
 
         Footer.add(TextSum, new AbsoluteConstraints(0, 20, 120, 30));
         Footer.add(Value, new AbsoluteConstraints(0, 40, 120, 30));
-        Footer.add(ButtonCancel, new AbsoluteConstraints(30, 80, -1, 30));
-        Footer.add(ButtonPay, new AbsoluteConstraints(140, 80, 90, 30));
-        Footer.add(ButtonPrint, new AbsoluteConstraints(190, 30, -1, -1));
+        Footer.add(ButtonCancel, new AbsoluteConstraints(40, 80, 90, 30));
+        Footer.add(ButtonPay, new AbsoluteConstraints(170, 80, 90, 30));
+        Footer.add(ButtonPrint, new AbsoluteConstraints(250, 30, -1, -1));
         add(Footer, BorderLayout.SOUTH);
 
     }
