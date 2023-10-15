@@ -36,6 +36,7 @@ public class Header extends  JPanel {
         Search.add(Button, new AbsoluteConstraints(310, 10, 40, 22));
 
         add(Search, BorderLayout.EAST);
+
     }
     private  JLabel Button;
     private  JPanel Search;

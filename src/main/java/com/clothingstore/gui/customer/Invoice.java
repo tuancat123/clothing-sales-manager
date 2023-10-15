@@ -1,6 +1,9 @@
 package com.clothingstore.gui.customer;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
@@ -75,6 +78,15 @@ public class Invoice extends JPanel {
         ButtonPay.setFont(new Font("Segoe UI", 0, 10));
         ButtonPay.setText("Thanh Toán");
         ButtonPay.setPreferredSize(new Dimension(72, 20));
+        ButtonPay.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                InvoiceDetail invoiceDetail = new InvoiceDetail();
+                invoiceDetail.setVisible(true);
+            }
+            
+        });
 
         ButtonPrint.setIcon(new ImageIcon(getClass().getResource("/config/icon/printer.png")));
 
