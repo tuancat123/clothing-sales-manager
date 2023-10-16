@@ -1,3 +1,4 @@
+-- Active: 1697292937360@@127.0.0.1@3306@clothingstore
 INSERT INTO `categories` (`category_name`)
 VALUES ('Polo'),
        ('Shirt'),
@@ -1268,7 +1269,7 @@ INSERT INTO `users`(`username`,`password`,`email`,`name`,`phone`,`gender`,`image
 ('thang',123,'thang@gmail.com','Thang','0123456789',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
 ('trieu',123,'trieu@gmail.com','Trieu','0123456780',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE');
 
-INSERT INTO `role`(`name`) VALUES
+INSERT INTO `roles`(`name`) VALUES
 ('ADMIN'),
 ('MANAGER'),
 ('EMPLOYEE');
@@ -1282,7 +1283,7 @@ INSERT INTO `permissions`(`permission_name`) VALUES
 ('Thống Kê Doanh Số'),
 ('Quản Lý Phân Quyền');
 
-INSERT INTO `role_permissions`(`role_id`,`permission_id`)
+INSERT INTO `role_permissions`(`role_id`,`permission_id`) VALUES
 (1,1),
 (1,2),
 (1,3),
@@ -1295,7 +1296,7 @@ INSERT INTO `role_permissions`(`role_id`,`permission_id`)
 (2,6);
 
 
-INSERT INTO `payments`(`order_id`,`method_id`,`payments_date`,`total_price`) VALUES
+INSERT INTO `payments`(`order_id`,`method_id`,`payment_date`,`total_price`) VALUES
 (1,2,'2023-10-15',5000000),
 (2,1,'2023-10-16',1200000),
 (3,1,'2023-10-17',550000),
