@@ -1255,3 +1255,59 @@ VALUES (1, 1, 50, 300000),
        (9, 167, 50, 250000),
        (9, 168, 50, 250000),
        (9, 169, 50, 250000);
+
+       INSERT INTO `users`(`username`,`password`,`email`,`name`,`phone`,`gender`,`image`,`role_id`,`address`,`status`) VALUES
+       ('admin',123,'admin@gmail.com','Admin','0123456781',1,'./roleImage/adminIcon.png',1,'An Duong Vuong, Quan 5', 'ACTIVE' ),
+       ('manager',123,'manager@gmail.com','Manager','0123456782',1,'./roleImage/managerIcon.png',2,'An Duong Vuong, Quan 5','ACTIVE'),
+       ('chinh',123,'chinh@gmail.com','Chinh','0123456783',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+       ('cuong',123,'cuong@gmail.com','Cuong','0123456784',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+       ('bao',123,'bao@gmail.com','Bao','0123456785',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+       ('cat',123,'cat@gmail.com','Cat','0123456786',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+       ('thanh',123,'thanh@gmail.com','Thanh','01234567897',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+       ('danh',123,'danh@gmail.com','Danh','0123456788',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+       ('thang',123,'thang@gmail.com','Thang','0123456789',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+       ('trieu',123,'trieu@gmail.com','Trieu','0123456780',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+
+       INSERT INTO `role`(`name`) VALUES
+       ('ADMIN'),
+       ('MANAGER'),
+       ('EMPLOYEE');
+
+       INSERT INTO `permissions`(`permission_name`) VALUES
+       ('Quản Lý Sản Phẩm '),
+       ('Quản Lý Kho Hàng'),
+       ('Quản Lý Bán Hàng'),
+       ('Quản Lý Nhân Viên'),
+       ('Quản Lý Khách Hàng'),
+       ('Thống Kê Doanh Số'),
+       ('Quản Lý Phân Quyền');
+
+       INSERT INTO `role_permissions`(`role_id`,`permission_id`)
+       (1,1),
+       (1,2),
+       (1,3),
+       (1,4),
+       (1,5),
+       (1,6),
+       (1,7),
+       (2,4),
+       (2,5),
+       (2,6);
+
+
+       INSERT INTO `payments`(`order_id`,`method_id`,`payments_date`,`total_price`) VALUES
+       (1,2,'2023-10-15',5000000),
+       (2,1,'2023-10-16',1200000),
+       (3,1,'2023-10-17',550000),
+       (4,2,'2023-10-18',1198000),
+       (5,1,'2023-10-19',700000),
+       (6,2,'2023-10-20',1000000),
+       (7,1,'2023-10-21',500000),
+       (8,2,'2023-10-22',1200000),
+       (9,1,'2023-10-23',600000),
+       (10,2,'2023-10-24',1300000);
+
+
+       INSERT INTO `payment_methods`(`method_name`) VALUES
+       ('Thanh toán tiền mặt'),
+       ('Thanh toán chuyển khoản');
