@@ -1,5 +1,4 @@
--- Active: 1697292937360@@127.0.0.1@3306@clothingstore
-INSERT INTO `categories` (`category_name`)
+  INSERT INTO `categories` (`category_name`)
 VALUES ('Polo'),
        ('Shirt'),
        ('Tee'),
@@ -1257,6 +1256,11 @@ VALUES (1, 1, 50, 300000),
        (9, 168, 50, 250000),
        (9, 169, 50, 250000);
 
+INSERT INTO `roles`(`name`) VALUES
+('ADMIN'),
+('MANAGER'),
+('EMPLOYEE');
+
 INSERT INTO `users`(`username`,`password`,`email`,`name`,`phone`,`gender`,`image`,`role_id`,`address`,`status`) VALUES
 ('admin',123,'admin@gmail.com','Admin','0123456781',1,'./roleImage/adminIcon.png',1,'An Duong Vuong, Quan 5', 'ACTIVE' ),
 ('manager',123,'manager@gmail.com','Manager','0123456782',1,'./roleImage/managerIcon.png',2,'An Duong Vuong, Quan 5','ACTIVE'),
@@ -1269,10 +1273,22 @@ INSERT INTO `users`(`username`,`password`,`email`,`name`,`phone`,`gender`,`image
 ('thang',123,'thang@gmail.com','Thang','0123456789',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
 ('trieu',123,'trieu@gmail.com','Trieu','0123456780',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE');
 
-INSERT INTO `roles`(`name`) VALUES
-('ADMIN'),
-('MANAGER'),
-('EMPLOYEE');
+INSERT INTO `customers` (`customer_name`, `phone`, `email`) VALUES
+('Nguyen Van A', '0987654321', '111@gmail.com'),
+('Nguyen Thi B', '0987654322', '222@gmail.com'),
+('Pham Van C', '0987654323', '333@gmail.com'),
+('Pham Quoc D', '0987654324', '444@gmail.com'),
+('Nguyen Anh E', '0987654325', '555@gmail.com'),
+('Truong Gia F', '0987654326', '666@gmail.com'),
+('Ha Thi Thu H', '0987654327', '777@gmail.com'),
+('Teo Van I', '0987654328', '888@gmail.com'),
+('Hoang Van K', '0987654329', '999@gmail.com'),
+('Van Hoang L', '0987654330', '1000@gmail.com'),
+('Truong Gia Thanh', '0987654331', '1111@gmail.com'),
+('Nguyen Anh Danh', '0987654332', '2222@gmail.com'),
+('Hoang Gia Bao', '0987654333', '3333@gmail.com'),
+('Ho Quoc Cuong', '0987654334', '4444@gmail.com'),
+('Vo Chung Thang', '0987654335', '5555@gmail.com');
 
 INSERT INTO `permissions`(`permission_name`) VALUES
 ('Quản Lý Sản Phẩm '),
@@ -1295,6 +1311,21 @@ INSERT INTO `role_permissions`(`role_id`,`permission_id`) VALUES
 (2,5),
 (2,6);
 
+INSERT INTO `orders` (`customer_id`, `user_id`, `order_date`, `total_amount`) VALUES
+(1, 3, '2023-10-15', 500000),
+(2, 4, '2023-10-16', 1200000),
+(3, 5, '2023-10-17', 550000),
+(4, 6, '2023-10-18', 1198000),
+(5, 7, '2023-10-19', 700000),
+(6, 8, '2023-10-20', 1000000),
+(7, 9, '2023-10-21', 500000),
+(8, 3, '2023-10-22', 1200000),
+(9, 4, '2023-10-23', 600000),
+(10, 5, '2023-10-24', 1300000);
+
+INSERT INTO `payment_methods`(`method_name`) VALUES
+('Thanh toán tiền mặt'),
+('Thanh toán chuyển khoản');
 
 INSERT INTO `payments`(`order_id`,`method_id`,`payment_date`,`total_price`) VALUES
 (1,2,'2023-10-15',5000000),
@@ -1307,41 +1338,6 @@ INSERT INTO `payments`(`order_id`,`method_id`,`payment_date`,`total_price`) VALU
 (8,2,'2023-10-22',1200000),
 (9,1,'2023-10-23',600000),
 (10,2,'2023-10-24',1300000);
-
-
-INSERT INTO `payment_methods`(`method_name`) VALUES
-('Thanh toán tiền mặt'),
-('Thanh toán chuyển khoản');
-
-INSERT INTO `customers` (`customer_name`, `phone`, `email`) VALUES
-('Nguyen Van A', '0987654321', '111@gmail.com'),
-('Nguyen Thi B', '0987654322', '222@gmail.com'),
-('Pham Van C', '0987654323', '333@gmail.com'),
-('Pham Quoc D', '0987654324', '444@gmail.com'),
-('Nguyen Anh E', '0987654325', '555@gmail.com'),
-('Truong Gia F', '0987654326', '666@gmail.com'),
-('Ha Thi Thu H', '0987654327', '777@gmail.com'),
-('Teo Van I', '0987654328', '888@gmail.com'),
-('Hoang Van K', '0987654329', '999@gmail.com'),
-('Van Hoang L', '0987654330', '1000@gmail.com'),
-('Truong Gia Thanh', '0987654331', '1111@gmail.com'),
-('Nguyen Anh Danh', '0987654332', '2222@gmail.com'),
-('Hoang Gia Bao', '0987654333', '3333@gmail.com'),
-('Ho Quoc Cuong', '0987654334', '4444@gmail.com'),
-('Vo Chung Thang', '0987654335', '5555@gmail.com');
-
-
-INSERT INTO `orders` (`customer_id`, `user_id`, `order_date`, `total_amount`) VALUES
-(1, 3, '2023-10-15', 500000),
-(2, 4, '2023-10-16', 1200000),
-(3, 5, '2023-10-17', 550000),
-(4, 6, '2023-10-18', 1198000),
-(5, 7, '2023-10-19', 700000),
-(6, 8, '2023-10-20', 1000000),
-(7, 9, '2023-10-21', 500000),
-(8, 3, '2023-10-22', 1200000),
-(9, 4, '2023-10-23', 600000),
-(10, 5, '2023-10-24', 1300000);
 
 
 INSERT INTO `order_items` (`order_id`, `product_id`, `quantity`, `price`) VALUES
@@ -1393,5 +1389,3 @@ INSERT INTO `purchases` (`customer_id`, `purchase_date`, `total_amount`) VALUES
 (8, '2023-10-22', 1200000),
 (9, '2023-10-23', 600000),
 (10, '2023-10-24', 1300000);
-
-
