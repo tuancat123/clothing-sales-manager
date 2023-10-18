@@ -11,6 +11,7 @@ import com.clothingstore.gui.customer.HomePage;
 public class Products extends JPanel {
 
     private static Products instance;
+    Boolean Visible = false;
 
     public static Products getInstance() {
         if (instance == null) {
@@ -21,6 +22,14 @@ public class Products extends JPanel {
 
     public Products() {
         initComponents();
+        MenuOn(Visible);
+    }
+
+    public void MenuOn(Boolean Visible){
+        if(!Visible)
+            Products.setLayout(new GridLayout(3, 4));
+        else
+            Products.setLayout(new GridLayout(4, 3));
     }
 
     private void initComponents() {
@@ -31,7 +40,6 @@ public class Products extends JPanel {
         setLayout(new BorderLayout());
         Products.setBackground(new Color(170, 205, 239));
 
-        Products.setLayout(new GridLayout(3, 4));
         for( int i = 0; i<10; i++){
             Product product = new Product();
             product.setBackground(new Color(170, 205, 239));

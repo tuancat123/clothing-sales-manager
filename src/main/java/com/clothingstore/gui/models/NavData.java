@@ -1,27 +1,20 @@
 package com.clothingstore.gui.models;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
-
+import java.awt.*;
 import javax.swing.*;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
-
-import org.junit.jupiter.api.Test;
 
 import com.clothingstore.gui.components.Menu;
-import com.clothingstore.gui.components.PopupMenu;
 import com.clothingstore.gui.components.Products;
-import com.clothingstore.gui.customer.HomePage;
-import com.clothingstore.gui.customer.Navigation;
-import com.itextpdf.awt.geom.Dimension;
 
 public class NavData {
     private String name;
     private ActionListener actionListener;
+    private static boolean isExpanding = true;
+    private static int menuWidth;
+    private static Menu menu = Menu.getInstance();
+
 
     public NavData(String name, ActionListener actionListener) {
         this.name = name;
@@ -50,21 +43,50 @@ public class NavData {
         return data;
     }
     private static ActionListener MenuAction() {
+        menuWidth = menu.getWidth();
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(PopupMenu.getInstance().isVisible()){
-                    HomePage.getInstance().setResizable(true);
-                    PopupMenu.getInstance().setVisible(false);
+                Timer timer;
+                if ((isExpanding && menuWidth > 0) || (!isExpanding && menuWidth < 150)) {
+                    return;
                 }
                 else{
-                    Menu.getInstance().setPreferredSize(new java.awt.Dimension(150, (int) (HomePage.getInstance().getSize().getHeight() - 93)));
-                    HomePage.getInstance().setResizable(false);
-                    PopupMenu.getInstance().show(Products.getInstance(), 3, 3);
-                    PopupMenu.getInstance().setInvoker(null);
-                    PopupMenu.getInstance().setVisible(true);
+                    if (isExpanding) {
+                    timer = new Timer(10, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (menuWidth <= 150) {
+                                menuWidth += 10;
+                                menu.setPreferredSize(new Dimension(menuWidth, 150));
+                                menu.repaint();
+                                menu.revalidate();
+                            } else {
+                                ((Timer) e.getSource()).stop();
+                            }
+                        }
+                    });
+                    } else {
+                            timer = new Timer(10, new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (menuWidth >= 10) {
+                                        menuWidth -= 10;
+                                        menu.setPreferredSize(new Dimension(menuWidth, 150));
+                                        menu.repaint();
+                                        menu.revalidate();
+                                    } else {
+                                        ((Timer) e.getSource()).stop();
+                                    }
+                                }
+                            });
+                        }
+                    
+                        timer.start();
+                        Products.getInstance().MenuOn(isExpanding);
+                        isExpanding = !isExpanding;
+                    }
                 }
-            }
         };
     }
 }

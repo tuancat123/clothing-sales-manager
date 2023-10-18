@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
+import com.clothingstore.gui.components.invoiceDetail.InvoiceDetail;
+
 public class Invoice extends JPanel {
 
     public Invoice() {
@@ -51,11 +53,11 @@ public class Invoice extends JPanel {
         Content.setLayout(new BorderLayout());
 
         Invoices.setBackground(new Color(255, 255, 255));
-        Invoices.setLayout(new GridLayout(7, 1));
+        Invoices.setLayout(new GridLayout(10, 1));
 
-        Goods goods = new Goods();
+        InvoiceProduct goods = new InvoiceProduct();
         Invoices.add(goods);
-        Goods goods2 = new Goods();
+        InvoiceProduct goods2 = new InvoiceProduct();
         Invoices.add(goods2);
 
         Scroll.setViewportView(Invoices);

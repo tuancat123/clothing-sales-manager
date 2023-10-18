@@ -1,6 +1,8 @@
 package com.clothingstore.gui.components;
 
 import java.awt.*;
+
+import javax.print.DocFlavor.READER;
 import javax.swing.*;
 
 public class Control extends JPanel {
@@ -11,18 +13,22 @@ public class Control extends JPanel {
     }
 
     private void initComponents() {
-
-        IncrButton = new JButton();
-        ReduceButton = new JButton();
+        
+        IncrButton = new JLabel();
+        ReduceButton = new JLabel();
         Value = new JLabel();
 
         setLayout(new BorderLayout());
 
-        IncrButton.setText("+");
+        IncrButton.setText(" +");       
+        IncrButton.setPreferredSize(new Dimension(15, 10));
+        setBorder(BorderFactory.createEtchedBorder());
+        IncrButton.setBackground(new Color(255, 51, 51));
         add(IncrButton, BorderLayout.EAST);
 
-        ReduceButton.setText("-");
-        
+        ReduceButton.setText(" -");
+        ReduceButton.setPreferredSize(new Dimension(15, 10));
+        ReduceButton.setBackground(new Color(255, 51, 51));
         add(ReduceButton, BorderLayout.WEST);
 
         Value.setHorizontalAlignment(SwingConstants.CENTER);
@@ -32,7 +38,7 @@ public class Control extends JPanel {
         add(Value, BorderLayout.CENTER);
     }
 
-    private JButton IncrButton;
-    private JButton ReduceButton;
+    private JLabel IncrButton;
+    private JLabel ReduceButton;
     private JLabel Value;
 }

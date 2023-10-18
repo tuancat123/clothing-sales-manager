@@ -30,7 +30,7 @@ public class Menu extends JPanel {
 
     public void initComponents() {
         setLayout(new GridLayout(10, 1, 10, 5));
-        setPreferredSize(new Dimension(150, (int) (HomePage.getInstance().getSize().getHeight() - 93)));
+        setPreferredSize(new Dimension(0,150));
         setBackground(new Color(0, 26, 51));
         for (MenuData menuData : dataMenu) {
 
