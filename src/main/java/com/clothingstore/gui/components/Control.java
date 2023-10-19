@@ -1,44 +1,98 @@
 package com.clothingstore.gui.components;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.print.DocFlavor.READER;
 import javax.swing.*;
 
 public class Control extends JPanel {
 
-   
-    public Control() {
-        initComponents();
-    }
 
-    private void initComponents() {
-        
-        IncrButton = new JLabel();
-        ReduceButton = new JLabel();
-        Value = new JLabel();
+	public Control() {
+		initComponents();
+	}
 
-        setLayout(new BorderLayout());
+	private void initComponents() {
 
-        IncrButton.setText(" +");       
-        IncrButton.setPreferredSize(new Dimension(15, 10));
-        setBorder(BorderFactory.createEtchedBorder());
-        IncrButton.setBackground(new Color(255, 51, 51));
-        add(IncrButton, BorderLayout.EAST);
+		IncrButton = new JLabel();
+		ReduceButton = new JLabel();
+		Value = new JLabel();
 
-        ReduceButton.setText(" -");
-        ReduceButton.setPreferredSize(new Dimension(15, 10));
-        ReduceButton.setBackground(new Color(255, 51, 51));
-        add(ReduceButton, BorderLayout.WEST);
+		setBorder(BorderFactory.createEtchedBorder());
+		setLayout(new BorderLayout());
 
-        Value.setHorizontalAlignment(SwingConstants.CENTER);
-        Value.setText("6");
-        Value.setFont(new Font("Segoe UI", 0, 14)); 
-        
-        add(Value, BorderLayout.CENTER);
-    }
+		IncrButton.setText(" +");
+		IncrButton.setPreferredSize(new Dimension(16, 16));
+		IncrButton.setFont(new Font("Segoe UI", 1, 16));
+		IncrButton.addMouseListener(increaseBtn);
+		add(IncrButton, BorderLayout.EAST);
 
-    private JLabel IncrButton;
-    private JLabel ReduceButton;
-    private JLabel Value;
+		ReduceButton.setText(" -");
+		ReduceButton.setPreferredSize(new Dimension(16, 16));
+		ReduceButton.addMouseListener(decreaseBtn);
+		add(ReduceButton, BorderLayout.WEST);
+
+		Value.setHorizontalAlignment(SwingConstants.CENTER);
+		Value.setText("1");
+		Value.setFont(new Font("Segoe UI", 0, 14));
+
+		add(Value, BorderLayout.CENTER);
+
+
+
+	}
+
+	private JLabel IncrButton;
+	private JLabel ReduceButton;
+	private JLabel Value;
+
+	public MouseListener increaseBtn = new MouseListener() {
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int quantity = Integer.parseInt(Value.getText()+"");
+			quantity++;
+			Value.setText(quantity+"");
+		}
+	};
+
+	public MouseListener decreaseBtn = new MouseListener() {
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int quantity = Integer.parseInt(Value.getText()+"");
+			if(quantity == 0) {
+				quantity = 0;
+			}else {
+				quantity--;
+			}
+			Value.setText(quantity+"");
+		}
+	};
 }
