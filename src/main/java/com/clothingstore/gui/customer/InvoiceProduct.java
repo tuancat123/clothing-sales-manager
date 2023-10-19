@@ -40,7 +40,7 @@ public class InvoiceProduct extends JPanel {
         add(Size, new AbsoluteConstraints(160, 10, 20, 30));
         
         Control control = new Control();
-        add(control, new AbsoluteConstraints(118, 15, 42, 20));
+        add(control, new AbsoluteConstraints(116, 15, 44, 20));
 
         Prince.setFont(new Font("Segoe UI", 0, 15));
         Prince.setForeground(new Color(255, 0, 0));
