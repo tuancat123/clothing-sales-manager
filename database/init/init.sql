@@ -20,7 +20,7 @@ CREATE TABLE
         `gender` INT,
         `image` VARCHAR(255) NOT NULL,
         `role_id` INT,
-        `address` longtext,
+        `address` VARCHAR(100) NOT NULL,
         `status` ENUM ('active', 'inactive', 'banned') NOT NULL DEFAULT "active",
         PRIMARY KEY (`id`)
     );
@@ -50,7 +50,7 @@ CREATE TABLE
 CREATE TABLE
     `customers` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `customer_name` VARCHAR(50) NOT NULL,
+        `name` VARCHAR(50) NOT NULL,
         `phone` VARCHAR(10) NOT NULL,
         `email` VARCHAR(100) DEFAULT NULL,
         PRIMARY KEY (`id`)
