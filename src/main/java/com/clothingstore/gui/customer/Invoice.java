@@ -10,6 +10,14 @@ import org.netbeans.lib.awtextra.*;
 import com.clothingstore.gui.components.invoiceDetail.InvoiceDetail;
 
 public class Invoice extends JPanel {
+    private static Invoice instance;
+
+    public static Invoice getInstance() {
+        if (instance == null) {
+            instance = new Invoice();
+        }
+        return instance;
+    }
 
     public Invoice() {
         initComponents();
@@ -31,23 +39,26 @@ public class Invoice extends JPanel {
         ButtonPay = new JButton();
         ButtonPrint = new JLabel();
 
+        Color color = new Color(128, 179, 255);
+
         setPreferredSize(new Dimension(300, 370));
         setLayout(new BorderLayout());
 
-        Header.setBackground(Color.BLACK);
+        Header.setBackground(new Color(0, 51, 128));
         Header.setLayout(new BorderLayout());
 
         Index.setFont(new Font("Segoe UI", 0, 14));
         Index.setHorizontalAlignment(SwingConstants.CENTER);
         Index.setText("45");
-        Index.setPreferredSize(new Dimension(30, 45));
+        Index.setPreferredSize(new Dimension(40, 50));
+        Index.setForeground(Color.WHITE);
 
-        None.setPreferredSize(new Dimension(30, 45));
+        None.setPreferredSize(new Dimension(40, 50));
 
         NameShop.setEditable(false);
         NameShop.setFont(new Font("Segoe UI", 1, 18));
         NameShop.setHorizontalAlignment(JTextField.CENTER);
-        NameShop.setBackground(new Color(180, 180, 180));
+        NameShop.setBackground(new Color(128, 179, 255));
         NameShop.setText("The Shop VIP");
 
         Content.setLayout(new BorderLayout());
@@ -55,15 +66,16 @@ public class Invoice extends JPanel {
         Invoices.setBackground(new Color(255, 255, 255));
         Invoices.setLayout(new GridLayout(10, 1));
 
-        InvoiceProduct goods = new InvoiceProduct();
-        Invoices.add(goods);
-        InvoiceProduct goods2 = new InvoiceProduct();
-        Invoices.add(goods2);
+        InvoiceProduct invoiceProduct = new InvoiceProduct();
+        Invoices.add(invoiceProduct);
+        InvoiceProduct invoiceProduct2 = new InvoiceProduct();
+        Invoices.add(invoiceProduct2);
 
         Scroll.setViewportView(Invoices);
 
         Footer.setPreferredSize(new Dimension(301, 120));
         Footer.setLayout(new AbsoluteLayout());
+        Footer.setBackground(color);
 
         TextSum.setFont(new Font("Segoe UI", 1, 13));
         TextSum.setHorizontalAlignment(SwingConstants.CENTER);
@@ -75,10 +87,12 @@ public class Invoice extends JPanel {
         Value.setText("3.000.000");
 
         ButtonCancel.setText("Hủy");
+        ButtonCancel.setBackground(Color.BLUE);
         ButtonCancel.setPreferredSize(new Dimension(72, 20));
 
         ButtonPay.setFont(new Font("Segoe UI", 0, 10));
         ButtonPay.setText("Thanh Toán");
+        ButtonPay.setBackground(Color.BLUE);
         ButtonPay.setPreferredSize(new Dimension(72, 20));
         ButtonPay.addActionListener(new ActionListener() {
 

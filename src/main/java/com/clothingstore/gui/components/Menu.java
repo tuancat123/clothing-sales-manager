@@ -37,6 +37,8 @@ public class Menu extends JPanel {
             ArrayList<MenuItemData> dataMenuItem = menuData.getItemData();
 
             JButton menuButton = new JButton(menuData.getName());
+            menuButton.addActionListener(menuData.getActionListener());
+
             menuButton.setPreferredSize(new Dimension(50, 50));
             menuButton.setBackground(new Color(153, 153, 255));
             menuButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -56,8 +58,7 @@ public class Menu extends JPanel {
                     menuItem.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            ActionListener listener = option.getActionListener();
-                            listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+                            option.getActionListener();
                         }
                     });
                     popupMenu.add(new JSeparator());

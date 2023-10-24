@@ -7,12 +7,15 @@ import org.netbeans.lib.awtextra.*;
 
 public class ProductDetail extends JFrame {
 
+    Color color = new Color(230, 240, 255);
+
     public ProductDetail() {
         setAlwaysOnTop(true);
         setSize(new Dimension(685, 390));
         setPreferredSize(new Dimension(685, 390));
         setResizable(false);
         getContentPane().setLayout(new AbsoluteLayout());
+        getContentPane().setBackground(color);
         setLocationRelativeTo(null);
 
         initComponents();
@@ -49,9 +52,8 @@ public class ProductDetail extends JFrame {
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
         Image.setIcon(scaledIcon); 
-        ImagePanel.setBackground(Color.WHITE);
         ImagePanel.add(Image, new GridBagConstraints());
-
+        ImagePanel.setBackground(color);
         getContentPane().add(ImagePanel, new AbsoluteConstraints(10, 20, 190, 270));
 
         Name.setEditable(false);
@@ -124,7 +126,7 @@ public class ProductDetail extends JFrame {
         Control.setLayout(new BorderLayout());
         Control control = new Control();
         Control.add(control);
-        getContentPane().add(Control, new AbsoluteConstraints(320, 240, 90, 20));
+        getContentPane().add(Control, new AbsoluteConstraints(320, 240, 60, 20));
 
         SizePanel.setBackground(new Color(204, 255, 204));
         SizePanel.setLayout(new java.awt.GridBagLayout());

@@ -3,11 +3,18 @@ package com.clothingstore.gui.components.invoiceDetail;
 import java.awt.*;
 import javax.swing.*;
 
-public class Header extends JPanel {
-
+public class HeaderInvoice extends JPanel {
+    private static HeaderInvoice instance;
     Color background = new Color(153, 179, 255);
+
+    public static HeaderInvoice getInstance() {
+        if (instance == null) {
+            instance = new HeaderInvoice();
+        }
+        return instance;
+    }
    
-    public Header() {
+    public HeaderInvoice() {
         initComponents();
     }
 

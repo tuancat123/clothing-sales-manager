@@ -1,8 +1,15 @@
 package com.clothingstore.gui.models;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
+
+import com.clothingstore.gui.components.Products;
+import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
+import com.clothingstore.gui.customer.HomePage;
+import com.clothingstore.gui.customer.Invoice;
 
 public class MenuData {
     private String name;
@@ -30,11 +37,12 @@ public class MenuData {
     public static ArrayList<MenuData> getData() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, MenuAction())); 
+        data.add(new MenuData("Products", null, ProductsAction())); 
+        data.add(new MenuData("History", null, HistoryAction())); 
         data.add(new MenuData(
-            "History", 
+            "Activity", 
             new ArrayList<MenuItemData>() {{
-                add(new MenuItemData("Option1", MenuAction()));
+                add(new MenuItemData("Option1", null));
                 add(new MenuItemData("Option2", null));
 
             }},
@@ -43,11 +51,22 @@ public class MenuData {
         return data;
     }
 
-    private static ActionListener MenuAction() {
+    private static ActionListener ProductsAction() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Menu clicked");
+                HomePage.getInstance().Remove();
+                HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
+            }
+        };
+    }
+
+    private static ActionListener HistoryAction() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HomePage.getInstance().Remove();
+                HomePage.getInstance().Add(InvoiceHistory.getInstance());
             }
         };
     }

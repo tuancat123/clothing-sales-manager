@@ -22,30 +22,32 @@ public class InvoiceProduct extends JPanel {
 
         setBorder(BorderFactory.createEtchedBorder());
         setMinimumSize(new Dimension(220, 40));
-        setPreferredSize(new Dimension(220, 50));
+        setPreferredSize(new Dimension(220, 65));
         setLayout(new AbsoluteLayout());
+        setBackground(new Color(179, 209, 255));
+
 
         IndexText.setFont(new Font("Segoe UI", 0, 14));
         IndexText.setText("01");
-        add(IndexText, new AbsoluteConstraints(8, 10, -1, 30));
+        add(IndexText, new AbsoluteConstraints(8, 20, -1, 30));
 
         Name.setFont(new Font("Segoe UI", 3, 14));
         Name.setText("BlackPolo Bla");
 
-        add(Name, new AbsoluteConstraints(28, 10, 85, 30));
+        add(Name, new AbsoluteConstraints(32, 6, 150, 30));
 
         Size.setFont(new Font("Segoe UI", 1, 14));
         Size.setForeground(Color.BLUE);
-        Size.setText("M");
-        add(Size, new AbsoluteConstraints(160, 10, 20, 30));
+        Size.setText("( M )");
+        add(Size, new AbsoluteConstraints(45, 28, 45, 30));
         
         Control control = new Control();
-        add(control, new AbsoluteConstraints(116, 15, 44, 20));
+        add(control, new AbsoluteConstraints(90, 34, 55, 20));
 
         Prince.setFont(new Font("Segoe UI", 0, 15));
         Prince.setForeground(new Color(255, 0, 0));
         Prince.setText("340.333");
-        add(Prince, new AbsoluteConstraints(178, 10, 90, 28));
+        add(Prince, new AbsoluteConstraints(160, 28, 90, 28));
 
         ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/icon/delete.png"));
         Image originalImage = originalIcon.getImage();
@@ -53,7 +55,7 @@ public class InvoiceProduct extends JPanel {
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
         ButtonDel.setIcon(scaledIcon);
-        add(ButtonDel, new AbsoluteConstraints(250, 13 , 25, 25));
+        add(ButtonDel, new AbsoluteConstraints(240, 22 , 25, 25));
     }
 
     private JLabel IndexText;

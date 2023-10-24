@@ -48,7 +48,7 @@ public class NavData {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Timer timer;
-                if ((isExpanding && menuWidth > 0) || (!isExpanding && menuWidth < 150)) {
+                if (menuWidth > 0 && menuWidth < 150) {
                     return;
                 }
                 else{

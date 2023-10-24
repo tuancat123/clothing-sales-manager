@@ -48,7 +48,7 @@ public class Product extends JPanel {
         Header.setBackground(new Color(255, 255, 255));
         Header.setLayout(new GridBagLayout());
 
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/image/polo3.png"));
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/image/quan/nam/jean/QuanJeanA.png"));
         Image originalImage = originalIcon.getImage();
         Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_REPLICATE);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);

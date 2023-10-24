@@ -23,14 +23,19 @@ public class Control extends JPanel {
 		setBorder(BorderFactory.createEtchedBorder());
 		setLayout(new BorderLayout());
 
-		IncrButton.setText(" +");
+		IncrButton.setText("+");
 		IncrButton.setPreferredSize(new Dimension(16, 16));
 		IncrButton.setFont(new Font("Segoe UI", 1, 16));
+		IncrButton.setHorizontalAlignment(SwingConstants.CENTER);
+        IncrButton.setVerticalAlignment(SwingConstants.CENTER);
 		IncrButton.addMouseListener(increaseBtn);
 		add(IncrButton, BorderLayout.EAST);
 
 		ReduceButton.setText(" -");
 		ReduceButton.setPreferredSize(new Dimension(16, 16));
+		ReduceButton.setFont(new Font("Segoe UI", 1, 16));
+		ReduceButton.setHorizontalAlignment(SwingConstants.CENTER);
+        ReduceButton.setVerticalAlignment(SwingConstants.CENTER);
 		ReduceButton.addMouseListener(decreaseBtn);
 		add(ReduceButton, BorderLayout.WEST);
 

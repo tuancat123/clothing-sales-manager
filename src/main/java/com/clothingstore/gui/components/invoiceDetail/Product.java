@@ -9,6 +9,7 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
 import java.awt.*;
 import java.util.jar.Attributes.Name;
 
+import com.clothingstore.gui.components.Products;
 import com.itextpdf.awt.geom.Dimension;
 
 public class Product extends JPanel {
@@ -33,6 +34,7 @@ public class Product extends JPanel {
         setLayout(new BorderLayout(5, 5));
 
         Header.setLayout(new AbsoluteLayout());
+        Header.setBackground(Color.WHITE);
 
         Name.setText("BlackPolo");
         Name.setForeground(new Color(26, 101, 101));
@@ -47,6 +49,7 @@ public class Product extends JPanel {
         add(Header, BorderLayout.NORTH);
 
         Panel1.setRequestFocusEnabled(false);
+        Panel1.setBackground(Color.WHITE);
         Panel1.setLayout(new BorderLayout());
 
         QuantityText.setFont(new Font("Segoe UI", 3, 13)); 
@@ -58,6 +61,7 @@ public class Product extends JPanel {
 
         Panel2.setRequestFocusEnabled(false);
         Panel2.setLayout(new BorderLayout());
+        Panel2.setBackground(Color.WHITE);
 
         SizeText.setFont(new Font("Segoe UI", 3, 13)); 
         SizeText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -68,6 +72,7 @@ public class Product extends JPanel {
 
         Panel3.setRequestFocusEnabled(false);
         Panel3.setLayout(new BorderLayout());
+        Panel3.setBackground(Color.WHITE);
 
         PriceText.setFont(new Font("Segoe UI", 3, 13)); 
         PriceText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -78,6 +83,7 @@ public class Product extends JPanel {
 
         Panel4.setRequestFocusEnabled(false);
         Panel4.setLayout(new BorderLayout());
+        Panel4.setBackground(Color.WHITE);
 
         AmountText.setFont(new Font("Segoe UI", 3, 13)); 
         AmountText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -87,6 +93,7 @@ public class Product extends JPanel {
         Detail.add(Panel4);
 
         Detail.setLayout(new GridLayout(1, 0, 5, 0));
+        Detail.setBackground(Color.WHITE);
         add(Detail, BorderLayout.CENTER);
     }
 

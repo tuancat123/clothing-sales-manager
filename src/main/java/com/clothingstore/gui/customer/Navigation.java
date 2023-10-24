@@ -31,6 +31,7 @@ public class Navigation extends javax.swing.JPanel {
     private void initComponents() {
         setPreferredSize(new java.awt.Dimension(662, 50));
         setLayout(new java.awt.GridBagLayout());
+        setBackground(new Color(102, 163, 255));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 10);
