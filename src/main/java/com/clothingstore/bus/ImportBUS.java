@@ -109,7 +109,7 @@ public class ImportBUS implements IBUS<ImportModel> {
             return true;
           }
         }
-        case "total_cost" -> {
+        case "total_price" -> {
           if (Double.valueOf(importModel.getTotalCost()).equals(Double.valueOf(value))) {
             return true;
           }

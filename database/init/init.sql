@@ -136,7 +136,7 @@ CREATE TABLE
     `imports` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `import_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `total_cost` INT,
+        `total_price` INT,
         PRIMARY KEY (`id`)
     );
 
