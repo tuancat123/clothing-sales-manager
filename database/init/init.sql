@@ -35,7 +35,7 @@ CREATE TABLE
 CREATE TABLE
     `permissions` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `permission_name` VARCHAR(50),
+        `name` VARCHAR(50),
         PRIMARY KEY (`id`)
     );
 
@@ -90,7 +90,7 @@ CREATE TABLE
         `customer_id` INT,
         `user_id` INT,
         `order_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `total_amount` INT NOT NULL,
+        `total_amount` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
@@ -100,14 +100,14 @@ CREATE TABLE
         `order_id` INT,
         `product_id` INT,
         `quantity` INT,
-        `price` INT,
+        `price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
 CREATE TABLE
     `payment_methods` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `method_name` VARCHAR(50),
+        `name` VARCHAR(50),
         PRIMARY KEY (`id`)
     );
 
@@ -117,7 +117,7 @@ CREATE TABLE
         `order_id` INT,
         `method_id` INT,
         `payment_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `total_price` INT,
+        `total_price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
@@ -128,8 +128,7 @@ CREATE TABLE
         `category_id` INT NOT NULL,
         `image` VARCHAR(255) NOT NULL,
         `gender` INT NOT NULL,
-        `price` INT NOT NULL,
-        `rating` FLOAT DEFAULT NULL,
+        `price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
@@ -147,14 +146,14 @@ CREATE TABLE
         `import_id` INT,
         `product_id` INT,
         `quantity` INT,
-        `price` INT,
+        `price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
 CREATE TABLE
     `sizes` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `size_name` VARCHAR(255) NOT NULL,
+        `name` VARCHAR(255) NOT NULL,
         PRIMARY KEY (`id`)
     );
 
@@ -170,7 +169,7 @@ CREATE TABLE
 CREATE TABLE
     `categories` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `category_name` VARCHAR(50),
+        `name` VARCHAR(50),
         PRIMARY KEY (`id`)
     );
 
