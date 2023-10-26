@@ -1073,7 +1073,7 @@ VALUES (1, 1, 10),
        (169, 4, 10),
        (169, 5, 10);
 
-INSERT INTO `imports` (`import_date`, `total_price`)
+INSERT INTO `imports` (`user_id`,`import_date`, `total_price`)
 VALUES (4,'2023-10-13 13:30:00', 255000000),
        (5,'2023-10-13 14:30:00', 339150000),
        (4,'2023-10-13 15:30:00', 297500000),
