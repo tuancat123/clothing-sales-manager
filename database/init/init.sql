@@ -135,6 +135,7 @@ CREATE TABLE
 CREATE TABLE
     `imports` (
         `id` INT NOT NULL AUTO_INCREMENT,
+        `user_id` INT NOT NULL,
         `import_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         `total_price` INT,
         PRIMARY KEY (`id`)
@@ -267,3 +268,7 @@ ADD
 ALTER TABLE `products`
 ADD
     FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+
+ALTER TABLE `imports`
+ADD
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
