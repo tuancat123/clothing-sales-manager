@@ -6,10 +6,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import javax.security.auth.login.LoginException;
+
 import com.clothingstore.dao.UserDAO;
 import com.clothingstore.enums.UserStatus;
 import com.clothingstore.interfaces.IBUS;
 import com.clothingstore.models.UserModel;
+
+import services.PasswordUtils;
 import services.Validation;
 
 public class UserBUS implements IBUS<UserModel> {
@@ -230,5 +234,29 @@ public class UserBUS implements IBUS<UserModel> {
     })
         .findFirst();
     return optionalUser.isPresent();
+  }
+
+  public UserModel login(String username, String password) throws LoginException {
+    if (!Validation.isValidUsername(username)) {
+      throw new LoginException("The account must have at least 8 characters, both letters and numbers");
+    }
+    if (!Validation.isValidPassword(password)) {
+      throw new LoginException(
+          "Password must have at least 8 characters, contain both letters and numbers, and capitalize the first letter");
+    }
+    UserModel userModel = UserDAO.getInstance().getUserByUsername(username);
+    if (userModel == null) {
+      throw new LoginException("User not found");
+    }
+    if (!PasswordUtils.checkPassword(password, userModel.getPassword())) {
+      throw new LoginException("Incorrect password");
+    }
+    if (userModel.getUserStatus() == UserStatus.INACTIVE) {
+      throw new LoginException("User is inactive");
+    }
+    if (userModel.getUserStatus() == UserStatus.BANNED) {
+      throw new LoginException("User is banned");
+    }
+    return userModel;
   }
 }
