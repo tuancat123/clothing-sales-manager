@@ -1,12 +1,10 @@
 package com.clothingstore.gui.components.invoicesHistory;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
+import javax.swing.*;
 
-import javax.swing.BorderFactory;
 
-public class HistoryList extends javax.swing.JPanel {
+public class HistoryList extends JPanel {
 
     private static HistoryList instance;
 
@@ -23,73 +21,81 @@ public class HistoryList extends javax.swing.JPanel {
 
     private void initComponents() {
 
-        Header = new javax.swing.JPanel();
-        NameHeader = new javax.swing.JPanel();
-        NamePanel = new javax.swing.JLabel();
-        ButtonBack = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        ButtonSearch = new javax.swing.JButton();
-        SearchValue = new javax.swing.JTextField();
-        Invoices = new javax.swing.JPanel();
+        Header = new JPanel();
+        NameHeader = new JPanel();
+        NamePanel = new JLabel();
+        ButtonBack = new JButton();
+        jPanel4 = new JPanel();
+        ButtonSearch = new JButton();
+        SearchValue = new JTextField();
+        Invoices = new JPanel();
+        Scroll = new JScrollPane();
 
         Color color = new Color(179, 209, 255);
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 4));
-        setLayout(new java.awt.BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 4));
+        setLayout(new BorderLayout());
         setPreferredSize(new Dimension(250, 150));
         setBackground(color);
 
-        Header.setLayout(new java.awt.BorderLayout());
+        Header.setLayout(new BorderLayout());
         Header.setPreferredSize(new Dimension(250, 65));
         Header.setBackground(color);
 
-        NameHeader.setLayout(new java.awt.BorderLayout());
+        NameHeader.setLayout(new BorderLayout());
 
-        NamePanel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        NamePanel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        NamePanel.setFont(new Font("Segoe UI", 1, 18)); // NOI18N
+        NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
         NamePanel.setText("Hoạt Động");
         NameHeader.setBackground(color);
-        NameHeader.add(NamePanel, java.awt.BorderLayout.CENTER);
+        NameHeader.add(NamePanel, BorderLayout.CENTER);
 
-        ButtonBack.setBackground(new java.awt.Color(242, 242, 242));
-        ButtonBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/config/icon/back.png"))); // NOI18N
-        ButtonBack.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1));
-        NameHeader.add(ButtonBack, java.awt.BorderLayout.LINE_START);
+        ButtonBack.setBackground(new Color(242, 242, 242));
+        ButtonBack.setIcon(new ImageIcon(getClass().getResource("/config/icon/back.png"))); // NOI18N
+        ButtonBack.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
+        NameHeader.add(ButtonBack, BorderLayout.LINE_START);
 
-        Header.add(NameHeader, java.awt.BorderLayout.NORTH);
+        Header.add(NameHeader, BorderLayout.NORTH);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 1, 1));
-        jPanel4.setLayout(new java.awt.BorderLayout());
+        jPanel4.setBorder(BorderFactory.createEmptyBorder(4, 4, 1, 1));
+        jPanel4.setLayout(new BorderLayout());
         jPanel4.setBackground(color);
 
-        ButtonSearch.setBackground(new java.awt.Color(242, 242, 242));
-        ButtonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/config/icon/search.png"))); // NOI18N
+        ButtonSearch.setBackground(new Color(242, 242, 242));
+        ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/config/icon/search.png"))); // NOI18N
         ButtonSearch.setBorder(null);
         ButtonSearch.setBackground(color);
-        jPanel4.add(ButtonSearch, java.awt.BorderLayout.WEST);
+        jPanel4.add(ButtonSearch, BorderLayout.WEST);
 
-        SearchValue.setBackground(new java.awt.Color(242, 242, 242));
-        SearchValue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        SearchValue.setBackground(new Color(242, 242, 242));
+        SearchValue.setFont(new Font("Segoe UI", 0, 14)); // NOI18N
         SearchValue.setText("Tìm theo mã hóa đơn");
         SearchValue.setBackground(Color.white);
-        SearchValue.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 6, 1, 1));
-        jPanel4.add(SearchValue, java.awt.BorderLayout.CENTER);
+        SearchValue.setBorder(BorderFactory.createEmptyBorder(1, 6, 1, 1));
+        jPanel4.add(SearchValue, BorderLayout.CENTER);
 
-        Header.add(jPanel4, java.awt.BorderLayout.SOUTH);
+        Header.add(jPanel4, BorderLayout.SOUTH);
 
-        add(Header, java.awt.BorderLayout.PAGE_START);
+        add(Header, BorderLayout.PAGE_START);
 
-        Invoices.setLayout(new java.awt.GridLayout());
+        Invoices.setLayout(new GridLayout(0,1));
         Invoices.setBackground(color);
+        for(int i = 0; i<10; i++){
+            Invoice invoice = new Invoice();
+            Invoices.add(invoice);
+        }
 
-        add(Invoices, java.awt.BorderLayout.CENTER);
+        Scroll.setViewportView(Invoices);
+
+        add(Scroll, BorderLayout.CENTER);
     }
-    private javax.swing.JButton ButtonBack;
-    private javax.swing.JButton ButtonSearch;
-    private javax.swing.JPanel Header;
-    private javax.swing.JPanel Invoices;
-    private javax.swing.JPanel NameHeader;
-    private javax.swing.JLabel NamePanel;
-    private javax.swing.JTextField SearchValue;
-    private javax.swing.JPanel jPanel4;
+    private JButton ButtonBack;
+    private JButton ButtonSearch;
+    private JPanel Header;
+    private JPanel Invoices;
+    private JPanel NameHeader;
+    private JLabel NamePanel;
+    private JTextField SearchValue;
+    private JPanel jPanel4;
+    private JScrollPane Scroll;
 }

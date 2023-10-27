@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.netbeans.lib.awtextra.*;
 
 

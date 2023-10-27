@@ -2,15 +2,11 @@ package com.clothingstore.gui.components.invoiceDetail;
 
 import javax.swing.*;
 
-import org.apache.xmlbeans.impl.soap.Detail;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import java.awt.*;
-import java.util.jar.Attributes.Name;
 
-import com.clothingstore.gui.components.Products;
-import com.itextpdf.awt.geom.Dimension;
 
 public class Product extends JPanel {
     public Product(){
@@ -32,6 +28,7 @@ public class Product extends JPanel {
         Detail = new JPanel();
 
         setLayout(new BorderLayout(5, 5));
+        setBackground(Color.WHITE);
 
         Header.setLayout(new AbsoluteLayout());
         Header.setBackground(Color.WHITE);

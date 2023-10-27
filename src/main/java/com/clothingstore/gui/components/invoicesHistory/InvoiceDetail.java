@@ -1,16 +1,12 @@
 package com.clothingstore.gui.components.invoicesHistory;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
-import org.apache.poi.sl.usermodel.TableCell.BorderEdge;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
-
-import com.clothingstore.gui.models.NavData;
+import com.clothingstore.gui.components.invoiceDetail.HeaderInvoice;
+import com.clothingstore.gui.components.invoiceDetail.Product;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.jar.Attributes.Name;
 
 
 public class InvoiceDetail extends JPanel {
@@ -55,6 +51,8 @@ public class InvoiceDetail extends JPanel {
         Info = new JPanel();
         Products = new JPanel();
         Scroll = new JScrollPane();
+        Product = new JPanel();
+        HeaderProducts = new JPanel();
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -93,9 +91,19 @@ public class InvoiceDetail extends JPanel {
 
             Info.add(panel);
         }
+        Products.setLayout(new BorderLayout());
 
-        Products.setLayout(new java.awt.GridBagLayout());
-        Products.setPreferredSize(new Dimension(150, 150));
+        HeaderProducts.setLayout(new BorderLayout());
+        HeaderProducts.setPreferredSize(new Dimension(100,40));
+        HeaderProducts.add(HeaderInvoice.getInstance(), BorderLayout.CENTER);
+
+        Product.setLayout(new GridLayout(5,1));
+        for(int i = 0; i< 5;i++){
+            Product product = new Product();
+            Product.add(product);
+        }
+        Products.add(HeaderProducts, BorderLayout.NORTH);
+        Products.add(Product, BorderLayout.CENTER);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 10);
@@ -110,4 +118,6 @@ public class InvoiceDetail extends JPanel {
     private JPanel Info;
     private JPanel Products;
     private JScrollPane Scroll;
+    private JPanel Product;
+    private JPanel HeaderProducts;
 }
