@@ -23,7 +23,7 @@ public class CustomerDAO implements IDAO<CustomerModel> {
 
   private static CustomerModel createCustomerModelFromResultSet(ResultSet rs) throws SQLException {
     int id = rs.getInt("id");
-    String customerName = rs.getString("customer_name");
+    String customerName = rs.getString("name");
     String phone = rs.getString("phone");
     String email = rs.getString("email");
     return new CustomerModel(id, customerName, phone, email);
@@ -46,7 +46,7 @@ public class CustomerDAO implements IDAO<CustomerModel> {
 
   @Override
   public int insert(CustomerModel customerModel) {
-    String insertSql = "INSERT INTO customers (customer_name, phone, email) VALUES (?, ?, ?)";
+    String insertSql = "INSERT INTO customers (name, phone, email) VALUES (?, ?, ?)";
     Object[] args = {
         customerModel.getCustomerName(),
         customerModel.getPhone(),
@@ -62,7 +62,7 @@ public class CustomerDAO implements IDAO<CustomerModel> {
 
   @Override
   public int update(CustomerModel customerModel) {
-    String updateSql = "UPDATE customers SET customer_name = ?, phone = ?, email = ? WHERE id = ?";
+    String updateSql = "UPDATE customers SET name = ?, phone = ?, email = ? WHERE id = ?";
     Object[] args = {
         customerModel.getCustomerName(),
         customerModel.getPhone(),
@@ -100,14 +100,14 @@ public class CustomerDAO implements IDAO<CustomerModel> {
       String query;
       if (columnNames == null || columnNames.length == 0) {
         // Search all columns
-        query = "SELECT * FROM customers WHERE CONCAT(id, customer_name, phone, email) LIKE ?";
+        query = "SELECT * FROM customers WHERE CONCAT(id, name, phone, email) LIKE ?";
       } else if (columnNames.length == 1) {
         // Search specific column in customers table
         String column = columnNames[0];
         query = "SELECT * FROM customers WHERE " + column + " LIKE ?";
       } else {
         // Search specific columns in customers table
-        query = "SELECT id, customer_name, phone, email FROM customers WHERE CONCAT("
+        query = "SELECT id, name, phone, email FROM customers WHERE CONCAT("
             +
             String.join(", ", columnNames) +
             ") LIKE ?";

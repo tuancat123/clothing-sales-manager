@@ -23,7 +23,7 @@ public class PermissionDAO implements IDAO<PermissionModel> {
 
   private static PermissionModel createPermissionModelFromResultSet(ResultSet rs) throws SQLException {
     int id = rs.getInt("id");
-    String permissionName = rs.getString("permission_name");
+    String permissionName = rs.getString("name");
     return new PermissionModel(id, permissionName);
   }
 
@@ -44,7 +44,7 @@ public class PermissionDAO implements IDAO<PermissionModel> {
 
   @Override
   public int insert(PermissionModel permission) {
-    String insertSql = "INSERT INTO permissions (permission_name) VALUES (?)";
+    String insertSql = "INSERT INTO permissions (name) VALUES (?)";
     Object[] args = { permission.getPermissionName() };
     try {
       return DatabaseConnection.executeUpdate(insertSql, args);
@@ -56,7 +56,7 @@ public class PermissionDAO implements IDAO<PermissionModel> {
 
   @Override
   public int update(PermissionModel permission) {
-    String updateSql = "UPDATE permissions SET permission_name = ? WHERE id = ?";
+    String updateSql = "UPDATE permissions SET name = ? WHERE id = ?";
     Object[] args = { permission.getPermissionName(), permission.getId() };
     try {
       return DatabaseConnection.executeUpdate(updateSql, args);
@@ -88,7 +88,7 @@ public class PermissionDAO implements IDAO<PermissionModel> {
       String query;
       if (columnNames == null || columnNames.length == 0) {
         // Search all columns
-        query = "SELECT * FROM permissions WHERE permission_name LIKE ?";
+        query = "SELECT * FROM permissions WHERE name LIKE ?";
       } else {
         // Search specific columns in permissions table
         query = "SELECT * FROM permissions WHERE CONCAT(" +

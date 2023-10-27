@@ -119,7 +119,7 @@ public class CustomerBUS implements IBUS<CustomerModel> {
             return true;
           }
         }
-        case "customer_name" -> {
+        case "name" -> {
           if (value.contains(CustomerModel.getCustomerName().toLowerCase())) {
             return true;
           }
