@@ -61,10 +61,9 @@ public class HistoryList extends JPanel {
         jPanel4.setLayout(new BorderLayout());
         jPanel4.setBackground(color);
 
-        ButtonSearch.setBackground(new Color(242, 242, 242));
         ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/config/icon/search.png"))); // NOI18N
         ButtonSearch.setBorder(null);
-        ButtonSearch.setBackground(color);
+        ButtonSearch.setBackground(Color.WHITE);
         jPanel4.add(ButtonSearch, BorderLayout.WEST);
 
         SearchValue.setBackground(new Color(242, 242, 242));
