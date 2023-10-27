@@ -1,15 +1,8 @@
 package com.clothingstore.gui.components.invoiceDetail;
 
 import javax.swing.*;
-
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
-
+import org.netbeans.lib.awtextra.*;
 import java.awt.*;
-<<<<<<< HEAD
-
-=======
->>>>>>> 2202ee3acdeba710f226a5fd120733a262251f47
 
 public class Product extends JPanel {
     public Product() {

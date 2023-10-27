@@ -35,7 +35,7 @@ public class HistoryList extends JPanel {
 
         setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 4));
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(250, 150));
+        setPreferredSize(new Dimension(322, 170));
         setBackground(color);
 
         Header.setLayout(new BorderLayout());
@@ -57,7 +57,7 @@ public class HistoryList extends JPanel {
 
         Header.add(NameHeader, BorderLayout.NORTH);
 
-        jPanel4.setBorder(BorderFactory.createEmptyBorder(4, 4, 1, 1));
+        jPanel4.setBorder(BorderFactory.createEmptyBorder(4, 4, 7, 1));
         jPanel4.setLayout(new BorderLayout());
         jPanel4.setBackground(color);
 

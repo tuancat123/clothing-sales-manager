@@ -7,6 +7,7 @@ import com.clothingstore.gui.components.invoiceDetail.Product;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.jar.Attributes.Name;
 
 
 public class InvoiceDetail extends JPanel {
@@ -58,19 +59,19 @@ public class InvoiceDetail extends JPanel {
         mainPanel.setLayout(new BorderLayout());
 
         setLayout(new BorderLayout());
+        setBackground(new Color(153, 194, 255));
 
         Scroll.setViewportView(mainPanel);
 
         Info.setLayout(new GridLayout(0, 1));
-        Info.setBackground(Color.WHITE);
 
-        NamePanel.setText("-- History --");
+        NamePanel.setText("-- Detail --");
         NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
         NamePanel.setVerticalAlignment(SwingConstants.CENTER);
         NamePanel.setFont(new Font("Segoe UI", 1, 17));
+        NamePanel.setPreferredSize(new Dimension(150,70));
 
-        System.out.println();
-        Info.add(NamePanel);
+        add(NamePanel,BorderLayout.NORTH);
 
         for(InvoiceDetail invoiceDetail : getData()){
             JPanel panel = new JPanel();
