@@ -1072,17 +1072,18 @@ INSERT INTO `roles`(`name`) VALUES
 ('MANAGER'),
 ('EMPLOYEE');
 
+-- password: Admin12345
 INSERT INTO `users`(`username`,`password`,`email`,`name`,`phone`,`gender`,`image`,`role_id`,`address`,`status`) VALUES
-('admin',123,'admin@gmail.com','Admin','0123456781',1,'./roleImage/adminIcon.png',1,'An Duong Vuong, Quan 5', 'ACTIVE' ),
-('manager',123,'manager@gmail.com','Manager','0123456782',1,'./roleImage/managerIcon.png',2,'An Duong Vuong, Quan 5','ACTIVE'),
-('chinh',123,'chinh@gmail.com','Chinh','0123456783',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('cuong',123,'cuong@gmail.com','Cuong','0123456784',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('bao',123,'bao@gmail.com','Bao','0123456785',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('cat',123,'cat@gmail.com','Cat','0123456786',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('thanh',123,'thanh@gmail.com','Thanh','01234567897',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('danh',123,'danh@gmail.com','Danh','0123456788',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('thang',123,'thang@gmail.com','Thang','0123456789',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
-('trieu',123,'trieu@gmail.com','Trieu','0123456780',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE');
+('admin12345','$2a$12$yk7tZFRcmRUV4CYO6ucPIOUm8St/.bVlxoo.eFUdyoaiUYdgjqNWu','admin@gmail.com','Admin','0123456781',1,'./roleImage/adminIcon.png',1,'An Duong Vuong, Quan 5', 'ACTIVE' ),
+('manager12345','$2a$12$yk7tZFRcmRUV4CYO6ucPIOUm8St/.bVlxoo.eFUdyoaiUYdgjqNWu','manager@gmail.com','Manager','0123456782',1,'./roleImage/managerIcon.png',2,'An Duong Vuong, Quan 5','ACTIVE'),
+('chinh12345','$2a$12$yk7tZFRcmRUV4CYO6ucPIOUm8St/.bVlxoo.eFUdyoaiUYdgjqNWu','chinh@gmail.com','Chinh','0123456783',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('cuong12345','$2a$12$yk7tZFRcmRUV4CYO6ucPIOUm8St/.bVlxoo.eFUdyoaiUYdgjqNWu','cuong@gmail.com','Cuong','0123456784',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('bao12345','$2a$12$yk7tZFRcmRUV4CYO6ucPIOUm8St/.bVlxoo.eFUdyoaiUYdgjqNWu','bao@gmail.com','Bao','0123456785',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('cat12345','$2a$12$yk7tZFRcmRUV4CYO6ucPIOUm8St/.bVlxoo.eFUdyoaiUYdgjqNWu','cat@gmail.com','Cat','0123456786',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('thanh12345','$2a$12$yk7tZFRcmRUV4CYO6ucPIOUm8St/.bVlxoo.eFUdyoaiUYdgjqNWu','thanh@gmail.com','Thanh','01234567897',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('danh12345','$2a$12$yk7tZFRcmRUV4CYO6ucPIOUm8St/.bVlxoo.eFUdyoaiUYdgjqNWu','danh@gmail.com','Danh','0123456788',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('thang12345','$2a$12$yk7tZFRcmRUV4CYO6ucPIOUm8St/.bVlxoo.eFUdyoaiUYdgjqNWu','thang@gmail.com','Thang','0123456789',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE'),
+('trieu12345','$2a$12$yk7tZFRcmRUV4CYO6ucPIOUm8St/.bVlxoo.eFUdyoaiUYdgjqNWu','trieu@gmail.com','Trieu','0123456780',1,'./roleImage/employeeIcon.png',3,'An Duong Vuong, Quan 5','ACTIVE');
 
 INSERT INTO `imports` (`user_id`,`import_date`, `total_price`)
 VALUES (4,'2023-10-13 13:30:00', 255000000),
