@@ -57,15 +57,6 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    `purchases` (
-        `id` INT NOT NULL AUTO_INCREMENT,
-        `customer_id` INT,
-        `purchase_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `total_amount` double,
-        PRIMARY KEY (`id`)
-    );
-
-CREATE TABLE
     `points` (
         `id` INT NOT NULL AUTO_INCREMENT,
         `customer_id` INT,
@@ -203,10 +194,6 @@ ADD
 ALTER TABLE `role_permissions`
 ADD
     FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`);
-
-ALTER TABLE `purchases`
-ADD
-    FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`);
 
 ALTER TABLE `points`
 ADD
