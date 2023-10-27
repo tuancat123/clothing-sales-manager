@@ -15,10 +15,10 @@ public class Application {
         }
 
         SwingUtilities.invokeLater(() -> {
-            // HomePage homePage = HomePage.getInstance();
-            // homePage.setVisible(true);
-            Dashboard dashboard = Dashboard.getInstance();
-            dashboard.setVisible(true);
+            HomePage homePage = HomePage.getInstance();
+            homePage.setVisible(true);
+            // Dashboard dashboard = Dashboard.getInstance();
+            // dashboard.setVisible(true);
             // Login login = Login.getInstance();
             // login.setVisible(true);
         });
