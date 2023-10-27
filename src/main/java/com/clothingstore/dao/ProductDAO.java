@@ -21,12 +21,13 @@ public class ProductDAO implements IDAO<ProductModel> {
   }
 
   private ProductModel createProductModelFromResultSet(ResultSet rs) throws SQLException {
-    return new ProductModel(rs.getInt("id"),
-        rs.getFloat("rating"),
+    return new ProductModel(
+        rs.getInt("id"),
         rs.getString("name"),
-        rs.getString("category"),
+        rs.getInt("category_id"),
         rs.getString("image"),
-        rs.getString("gender"));
+        rs.getString("gender"),
+        rs.getFloat("price"));
   }
 
   @Override
@@ -46,13 +47,13 @@ public class ProductDAO implements IDAO<ProductModel> {
 
   @Override
   public int insert(ProductModel product) {
-    String insertSql = "INSERT INTO products(name, category, image, gender, rating) VALUES(?, ?, ?, ?, ?, ?)";
+    String insertSql = "INSERT INTO products(name, category_id, image, gender, price) VALUES(?, ?, ?, ?, ?, ?)";
     Object[] args = {
         product.getName(),
-        product.getCategory(),
+        product.getCategoryId(),
         product.getImage(),
         product.getGender(),
-        product.getRating(),
+        product.getPrice()
     };
     try {
       return DatabaseConnection.executeUpdate(insertSql, args);
@@ -64,13 +65,12 @@ public class ProductDAO implements IDAO<ProductModel> {
 
   @Override
   public int update(ProductModel product) {
-    String updateSql = "UPDATE products SET name = ?, category = ?, image = ?, gender = ?, rating = ? WHERE id = ?";
+    String updateSql = "UPDATE products SET name = ?, category_id = ?, image = ?, gender = ?, price = ? WHERE id = ?";
     Object[] args = {
         product.getName(),
-        product.getCategory(),
+        product.getCategoryId(),
         product.getImage(),
         product.getGender(),
-        product.getRating(),
         product.getId()
     };
     try {
@@ -101,13 +101,13 @@ public class ProductDAO implements IDAO<ProductModel> {
 
     String query;
     if (columnNames == null || columnNames.length == 0) {
-      query = "SELECT * FROM products WHERE CONCAT(id, name, category, image, gender, rating) LIKE ?";
+      query = "SELECT * FROM products WHERE CONCAT(id, name, category_id, image, gender, price) LIKE ?";
     } else if (columnNames.length == 1) {
       String column = columnNames[0];
       query = "SELECT * FROM products WHERE " + column + " LIKE ?";
     } else {
       String columns = String.join(",", columnNames);
-      query = "SELECT id, name, category, image, gender, rating FROM products WHERE CONCAT(" + columns + ") LIKE ?";
+      query = "SELECT id, name, category_id, image, gender, price FROM products WHERE CONCAT(" + columns + ") LIKE ?";
     }
 
     try (PreparedStatement pst = DatabaseConnection.getPreparedStatement(query, "%" + condition + "%")) {

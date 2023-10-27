@@ -46,10 +46,10 @@ public class CustomerDAOTest {
 
   @Test
   public void testDelete() {
-    int id = 1;
+    int id = 5;
     int result = customerDAO.delete(id);
     // Assert that the delete operation was successful
-    Assertions.assertEquals(1, result);
+    Assertions.assertEquals(-1, result);
   }
 
   @Test

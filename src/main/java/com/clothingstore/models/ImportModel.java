@@ -4,55 +4,50 @@ import java.time.LocalDate;
 
 public class ImportModel {
   private int id;
+  private int userId;
   private LocalDate importDate;
-  private double totalCost;
+  private double totalPrice;
 
   public ImportModel() {
   }
 
-  public ImportModel(int id, LocalDate importDate, double totalCost) {
+  public ImportModel(int id, int userId, LocalDate importDate, double totalPrice) {
     this.id = id;
+    this.userId = userId;
     this.importDate = importDate;
-    this.totalCost = totalCost;
+    this.totalPrice = totalPrice;
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public void setId(int id) {
     this.id = id;
   }
 
+  public int getUserId() {
+    return userId;
+  }
+
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
+
   public LocalDate getImportDate() {
-    return this.importDate;
+    return importDate;
   }
 
   public void setImportDate(LocalDate importDate) {
     this.importDate = importDate;
   }
 
-  public double getTotalCost() {
-    return this.totalCost;
+  public double getTotalPrice() {
+    return totalPrice;
   }
 
-  public void setTotalCost(double totalCost) {
-    this.totalCost = totalCost;
-  }
-
-  public ImportModel id(int id) {
-    setId(id);
-    return this;
-  }
-
-  public ImportModel importDate(LocalDate importDate) {
-    setImportDate(importDate);
-    return this;
-  }
-
-  public ImportModel totalCost(double totalCost) {
-    setTotalCost(totalCost);
-    return this;
+  public void setTotalPrice(double totalPrice) {
+    this.totalPrice = totalPrice;
   }
 
 }

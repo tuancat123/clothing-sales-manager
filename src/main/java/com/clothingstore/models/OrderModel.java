@@ -7,17 +7,17 @@ public class OrderModel {
     private int customerId;
     private int userId;
     private Timestamp orderDate;
-    private int totalAmount;
+    private int totalPrice;
 
-    public OrderModel() {
-    }
-
-    public OrderModel(int id, int customerId, int userId, Timestamp orderDate, int totalAmount) {
+    public OrderModel(int id, int customerId, int userId, Timestamp orderDate, int totalPrice) {
         this.id = id;
         this.customerId = customerId;
         this.userId = userId;
         this.orderDate = orderDate;
-        this.totalAmount = totalAmount;
+        this.totalPrice = totalPrice;
+    }
+
+    public OrderModel() {
     }
 
     public int getId() {
@@ -52,12 +52,12 @@ public class OrderModel {
         this.orderDate = orderDate;
     }
 
-    public int getTotalAmount() {
-        return totalAmount;
+    public int getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setTotalAmount(int totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
 }

@@ -22,9 +22,10 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
   }
 
   private static RolePermissionModel createRolePermissionModelFromResultSet(ResultSet rs) throws SQLException {
+    int id = rs.getInt("id");
     int roleId = rs.getInt("role_id");
     int permissionId = rs.getInt("permission_id");
-    return new RolePermissionModel(roleId, permissionId);
+    return new RolePermissionModel(id, roleId, permissionId);
   }
 
   @Override

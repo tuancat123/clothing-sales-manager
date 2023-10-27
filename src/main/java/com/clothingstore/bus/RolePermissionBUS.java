@@ -3,7 +3,6 @@ package com.clothingstore.bus;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import com.clothingstore.dao.RolePermissionDAO;
 import com.clothingstore.interfaces.IBUS;
@@ -18,10 +17,6 @@ public class RolePermissionBUS implements IBUS<RolePermissionModel> {
       instance = new RolePermissionBUS();
     }
     return instance;
-  }
-
-  private RolePermissionBUS() {
-    this.rolePermissionList.addAll(RolePermissionDAO.getInstance().readDatabase());
   }
 
   @Override
@@ -39,7 +34,7 @@ public class RolePermissionBUS implements IBUS<RolePermissionModel> {
   public RolePermissionModel getModelById(int id) {
     refreshData();
     for (RolePermissionModel rolePermission : rolePermissionList) {
-      if (rolePermission.getRoleId() == id) {
+      if (rolePermission.getId() == id) {
         return rolePermission;
       }
     }
@@ -53,62 +48,95 @@ public class RolePermissionBUS implements IBUS<RolePermissionModel> {
   }
 
   private void updateEntityFields(RolePermissionModel from, RolePermissionModel to) {
+    to.setId(from.getId());
     to.setRoleId(from.getRoleId());
     to.setPermissionId(from.getPermissionId());
   }
 
   @Override
-  public int addModel(RolePermissionModel rolePermissionModel) {
-    if (rolePermissionModel == null) {
-      throw new IllegalArgumentException("The rolePermissionModel cannot be null");
+  public int addModel(RolePermissionModel model) {
+    if (model == null || model.getRoleId() <= 0 || model.getPermissionId() <= 0) {
+      throw new IllegalArgumentException(
+          "There may be errors in required fields, please check your input and try again.");
     }
-    int roleId = rolePermissionModel.getRoleId();
-    int permissionId = rolePermissionModel.getPermissionId();
-    if (roleId <= 0 || permissionId <= 0) {
-      throw new IllegalArgumentException("Role ID and Permission ID must be greater than zero");
-    }
-
-    int id = RolePermissionDAO.getInstance().insert(mapToEntity(rolePermissionModel));
-    rolePermissionList.add(rolePermissionModel);
+    int id = RolePermissionDAO.getInstance().insert(mapToEntity(model));
+    rolePermissionList.add(model);
     return id;
   }
 
   @Override
-  public int updateModel(RolePermissionModel rolePermissionModel) {
-    int updatedRows = RolePermissionDAO.getInstance().update(rolePermissionModel);
+  public int updateModel(RolePermissionModel model) {
+    int updatedRows = RolePermissionDAO.getInstance().update(model);
     if (updatedRows > 0) {
-      int index = rolePermissionList.indexOf(rolePermissionModel);
+      int index = rolePermissionList.indexOf(model);
       if (index != -1) {
-        rolePermissionList.set(index, rolePermissionModel);
+        rolePermissionList.set(index, model);
       }
     }
     return updatedRows;
   }
 
   @Override
-  public int deleteModel(int roleId) {
-    RolePermissionModel rolePermissionModel = getModelById(roleId);
-    if (rolePermissionModel == null) {
+  public int deleteModel(int id) {
+    RolePermissionModel rolePermission = getModelById(id);
+    if (rolePermission == null) {
       throw new IllegalArgumentException(
-          "Role Permission with Role ID: " + roleId + " doesn't exist.");
+          "RolePermission with ID: " + id + " doesn't exist.");
     }
-    int deletedRows = RolePermissionDAO.getInstance().delete(roleId);
+    int deletedRows = RolePermissionDAO.getInstance().delete(id);
     if (deletedRows > 0) {
-      rolePermissionList.remove(rolePermissionModel);
+      rolePermissionList.remove(rolePermission);
     }
     return deletedRows;
   }
 
-  @Override
-  public List<RolePermissionModel> searchModel(String value, String[] columns) {
-    return Collections.emptyList();
+  private boolean checkFilter(
+      RolePermissionModel rolePermission,
+      String value,
+      String[] columns) {
+    for (String column : columns) {
+      switch (column.toLowerCase()) {
+        case "id" -> {
+          if (Integer.parseInt(value) == rolePermission.getId()) {
+            return true;
+          }
+        }
+        case "role_id" -> {
+          if (Integer.parseInt(value) == rolePermission.getRoleId()) {
+            return true;
+          }
+        }
+        case "permission_id" -> {
+          if (Integer.parseInt(value) == rolePermission.getPermissionId()) {
+            return true;
+          }
+        }
+        default -> {
+          if (checkAllColumns(rolePermission, value)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
-  public boolean checkForDuplicate(int roleId, int permissionId) {
-    Optional<RolePermissionModel> optionalRolePermission = RolePermissionBUS.getInstance().getAllModels().stream()
-        .filter(rolePermission -> rolePermission.getRoleId() == roleId
-            && rolePermission.getPermissionId() == permissionId)
-        .findFirst();
-    return optionalRolePermission.isPresent();
+  private boolean checkAllColumns(RolePermissionModel rolePermission, String value) {
+    return (rolePermission.getId() == Integer.parseInt(value) ||
+        rolePermission.getRoleId() == Integer.parseInt(value) ||
+        rolePermission.getPermissionId() == Integer.parseInt(value));
+  }
+
+  @Override
+  public List<RolePermissionModel> searchModel(String value, String[] columns) {
+    List<RolePermissionModel> results = new ArrayList<>();
+    List<RolePermissionModel> entities = RolePermissionDAO.getInstance().search(value, columns);
+    for (RolePermissionModel entity : entities) {
+      RolePermissionModel model = mapToEntity(entity);
+      if (checkFilter(model, value, columns)) {
+        results.add(model);
+      }
+    }
+    return results;
   }
 }

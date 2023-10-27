@@ -5,12 +5,12 @@ public class OrderItemModel {
   private int orderId;
   private int productId;
   private int quantity;
-  private int price;
+  private double price;
 
   public OrderItemModel() {
   }
 
-  public OrderItemModel(int id, int orderId, int productId, int quantity, int price) {
+  public OrderItemModel(int id, int orderId, int productId, int quantity, double price) {
     this.id = id;
     this.orderId = orderId;
     this.productId = productId;
@@ -19,7 +19,7 @@ public class OrderItemModel {
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public void setId(int id) {
@@ -27,7 +27,7 @@ public class OrderItemModel {
   }
 
   public int getOrderId() {
-    return this.orderId;
+    return orderId;
   }
 
   public void setOrderId(int orderId) {
@@ -35,7 +35,7 @@ public class OrderItemModel {
   }
 
   public int getProductId() {
-    return this.productId;
+    return productId;
   }
 
   public void setProductId(int productId) {
@@ -43,43 +43,19 @@ public class OrderItemModel {
   }
 
   public int getQuantity() {
-    return this.quantity;
+    return quantity;
   }
 
   public void setQuantity(int quantity) {
     this.quantity = quantity;
   }
 
-  public int getPrice() {
-    return this.price;
+  public double getPrice() {
+    return price;
   }
 
-  public void setPrice(int price) {
+  public void setPrice(double price) {
     this.price = price;
   }
 
-  public OrderItemModel id(int id) {
-    setId(id);
-    return this;
-  }
-
-  public OrderItemModel orderId(int orderId) {
-    setOrderId(orderId);
-    return this;
-  }
-
-  public OrderItemModel productId(int productId) {
-    setProductId(productId);
-    return this;
-  }
-
-  public OrderItemModel quantity(int quantity) {
-    setQuantity(quantity);
-    return this;
-  }
-
-  public OrderItemModel price(int price) {
-    setPrice(price);
-    return this;
-  }
 }

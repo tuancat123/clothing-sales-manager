@@ -53,7 +53,7 @@ public class OrderDAO implements IDAO<OrderModel> {
         orderModel.getCustomerId(),
         orderModel.getUserId(),
         orderModel.getOrderDate(),
-        orderModel.getTotalAmount()
+        orderModel.getTotalPrice()
     };
     try {
       return DatabaseConnection.executeUpdate(insertSql, args);
@@ -70,7 +70,7 @@ public class OrderDAO implements IDAO<OrderModel> {
         orderModel.getCustomerId(),
         orderModel.getUserId(),
         orderModel.getOrderDate(),
-        orderModel.getTotalAmount(),
+        orderModel.getTotalPrice(),
         orderModel.getId()
     };
     try {

@@ -26,8 +26,9 @@ public class ImportDAO implements IDAO<ImportModel> {
     int id = rs.getInt("id");
     LocalDateTime importDateTime = rs.getTimestamp("import_date").toLocalDateTime();
     LocalDate importDate = importDateTime.toLocalDate();
+    int userId = rs.getInt("user_id");
     Double totalCost = rs.getDouble("total_price");
-    return new ImportModel(id, importDate, totalCost);
+    return new ImportModel(id, userId, importDate, totalCost);
   }
 
   @Override
@@ -50,7 +51,7 @@ public class ImportDAO implements IDAO<ImportModel> {
     String insertSql = "INSERT INTO imports (import_date, total_price) VALUES (?, ?)";
     Object[] args = {
         importModel.getImportDate(),
-        importModel.getTotalCost()
+        importModel.getTotalPrice()
     };
     try {
       return DatabaseConnection.executeUpdate(insertSql, args);
@@ -65,7 +66,7 @@ public class ImportDAO implements IDAO<ImportModel> {
     String updateSql = "UPDATE imports SET import_date = ?, total_price = ? WHERE id = ?";
     Object[] args = {
         importModel.getImportDate(),
-        importModel.getTotalCost(),
+        importModel.getTotalPrice(),
         importModel.getId()
     };
     try {
