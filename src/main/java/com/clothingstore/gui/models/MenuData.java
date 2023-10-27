@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import com.clothingstore.gui.components.Products;
+import com.clothingstore.gui.components.invoicesHistory.HistoryList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
 import com.clothingstore.gui.customer.HomePage;
 import com.clothingstore.gui.customer.Invoice;
@@ -14,7 +15,7 @@ import com.clothingstore.gui.customer.Invoice;
 public class MenuData {
     private String name;
     private ActionListener actionListener;
-    private ArrayList<MenuItemData> menuItemData; 
+    private ArrayList<MenuItemData> menuItemData;
 
     public MenuData(String name, ArrayList<MenuItemData> menuItemData, ActionListener actionListener) {
         this.name = name;
@@ -30,23 +31,25 @@ public class MenuData {
         return actionListener;
     }
 
-    public ArrayList<MenuItemData> getItemData() { 
+    public ArrayList<MenuItemData> getItemData() {
         return menuItemData;
     }
 
     public static ArrayList<MenuData> getData() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, ProductsAction())); 
-        data.add(new MenuData("History", null, HistoryAction())); 
+        data.add(new MenuData("Products", null, ProductsAction()));
+        data.add(new MenuData("History", null, HistoryAction()));
         data.add(new MenuData(
-            "Activity", 
-            new ArrayList<MenuItemData>() {{
-                add(new MenuItemData("Option1", null));
-                add(new MenuItemData("Option2", null));
+                "Activity",
+                new ArrayList<MenuItemData>() {
+                    {
+                        add(new MenuItemData("Option1", null));
+                        add(new MenuItemData("Option2", null));
 
-            }},
-            null )); 
+                    }
+                },
+                null));
 
         return data;
     }
@@ -65,6 +68,7 @@ public class MenuData {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                HistoryList.getInstance().setVisible(true);
                 HomePage.getInstance().Remove();
                 HomePage.getInstance().Add(InvoiceHistory.getInstance());
             }

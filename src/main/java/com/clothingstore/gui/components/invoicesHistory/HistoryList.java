@@ -1,8 +1,14 @@
 package com.clothingstore.gui.components.invoicesHistory;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
+import com.clothingstore.bus.UserBUS;
+import com.clothingstore.models.UserModel;
+
+import services.Authentication;
 
 public class HistoryList extends JPanel {
 
@@ -54,6 +60,7 @@ public class HistoryList extends JPanel {
         ButtonBack.setIcon(new ImageIcon(getClass().getResource("/config/icon/back.png"))); // NOI18N
         ButtonBack.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
         NameHeader.add(ButtonBack, BorderLayout.LINE_START);
+        ButtonBack.addActionListener(closeHistoryList);
 
         Header.add(NameHeader, BorderLayout.NORTH);
 
@@ -77,9 +84,9 @@ public class HistoryList extends JPanel {
 
         add(Header, BorderLayout.PAGE_START);
 
-        Invoices.setLayout(new GridLayout(0,1));
+        Invoices.setLayout(new GridLayout(0, 1));
         Invoices.setBackground(color);
-        for(int i = 0; i<10; i++){
+        for (int i = 0; i < 10; i++) {
             Invoice invoice = new Invoice();
             Invoices.add(invoice);
         }
@@ -88,6 +95,11 @@ public class HistoryList extends JPanel {
 
         add(Scroll, BorderLayout.CENTER);
     }
+
+    private ActionListener closeHistoryList = e -> {
+        setVisible(false);
+    };
+
     private JButton ButtonBack;
     private JButton ButtonSearch;
     private JPanel Header;

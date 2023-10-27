@@ -6,26 +6,20 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import javax.swing.border.Border;
-
-import org.apache.poi.ss.usermodel.Color;
-
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.models.UserModel;
-
 import services.Authentication;
 
 public class Login extends JFrame {
@@ -38,6 +32,8 @@ public class Login extends JFrame {
     private JLabel passwordLabel;
     private JLabel usernameLabel;
     private JPasswordField txtPassWord;
+    private JTextField txtusername;
+
     private JLabel eyeLabel;
     private JLabel jLabel3;
     private JLabel jLabel4;
@@ -62,7 +58,6 @@ public class Login extends JFrame {
 
     private void initComponents() {
         setLayout(new BorderLayout());
-        LogoLabel = new JLabel();
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
@@ -103,7 +98,7 @@ public class Login extends JFrame {
         usernameLabel.setFont(new java.awt.Font("Segoe UI", 0, 13));
         usernameLabel.setForeground(java.awt.Color.BLACK);
         usernameLabel.setText("Username");
-        JTextField txtusername = new JTextField();
+        txtusername = new JTextField();
         txtusername.setColumns(20);
         txtusername.setPreferredSize(new Dimension(200, 30));
         txtusername.setBorder(null);
@@ -145,6 +140,8 @@ public class Login extends JFrame {
         loginButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         loginButton.setMargin(new Insets(6, 120, 6, 120));
+        loginButton.addActionListener(loginButtonActionListener);
+
         grPassWord.add(txtPassWord);
         grPassWord.add(eyeLabel);
 
@@ -173,6 +170,25 @@ public class Login extends JFrame {
             }
         }
     }
+
+    private ActionListener loginButtonActionListener = e -> {
+        try {
+            String username = txtusername.getText();
+            String password = String.valueOf(txtPassWord.getPassword());
+
+            UserModel user = UserBUS.getInstance().login(username, password);
+            Authentication.setCurrentUser(user);
+            // UIFactory.showForm(user);
+            dispose();
+        } catch (Exception exception) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    exception.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        txtPassWord.setText("");
+    };
 
     public static void main(String[] args) {
         try {
