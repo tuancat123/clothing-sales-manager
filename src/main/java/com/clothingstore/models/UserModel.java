@@ -3,30 +3,40 @@ package com.clothingstore.models;
 import com.clothingstore.enums.UserStatus;
 
 public class UserModel {
-  private String username, password, email, name, phone, image, address, gender;
-  private int id, roleId;
+  private int id;
+  private String username, password, email, name, phone, address;
+  private int gender;
+  private String image;
+  private int roleId;
   private UserStatus userStatus;
 
   public UserModel() {
   }
 
-  public UserModel(String username, String password, String email, String name, String phone, String image,
-      String address, int id, int roleId, String gender, UserStatus userStatus) {
+  public UserModel(String username, String password, String email, String name, String phone, String address,
+      int gender, String image, int roleId, UserStatus userStatus) {
     this.username = username;
     this.password = password;
     this.email = email;
     this.name = name;
     this.phone = phone;
-    this.image = image;
     this.address = address;
-    this.id = id;
-    this.roleId = roleId;
     this.gender = gender;
+    this.image = image;
+    this.roleId = roleId;
     this.userStatus = userStatus;
   }
 
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
   public String getUsername() {
-    return this.username;
+    return username;
   }
 
   public void setUsername(String username) {
@@ -34,7 +44,7 @@ public class UserModel {
   }
 
   public String getPassword() {
-    return this.password;
+    return password;
   }
 
   public void setPassword(String password) {
@@ -42,7 +52,7 @@ public class UserModel {
   }
 
   public String getEmail() {
-    return this.email;
+    return email;
   }
 
   public void setEmail(String email) {
@@ -50,7 +60,7 @@ public class UserModel {
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public void setName(String name) {
@@ -58,114 +68,51 @@ public class UserModel {
   }
 
   public String getPhone() {
-    return this.phone;
+    return phone;
   }
 
   public void setPhone(String phone) {
     this.phone = phone;
   }
 
-  public String getImage() {
-    return this.image;
-  }
-
-  public void setImage(String image) {
-    this.image = image;
-  }
-
   public String getAddress() {
-    return this.address;
+    return address;
   }
 
   public void setAddress(String address) {
     this.address = address;
   }
 
-  public int getId() {
-    return this.id;
+  public int getGender() {
+    return gender;
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public void setGender(int gender) {
+    this.gender = gender;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
   }
 
   public int getRoleId() {
-    return this.roleId;
+    return roleId;
   }
 
   public void setRoleId(int roleId) {
     this.roleId = roleId;
   }
 
-  public String getGender() {
-    return this.gender;
-  }
-
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
-
   public UserStatus getUserStatus() {
-    return this.userStatus;
+    return userStatus;
   }
 
   public void setUserStatus(UserStatus userStatus) {
     this.userStatus = userStatus;
-  }
-
-  public UserModel username(String username) {
-    setUsername(username);
-    return this;
-  }
-
-  public UserModel password(String password) {
-    setPassword(password);
-    return this;
-  }
-
-  public UserModel email(String email) {
-    setEmail(email);
-    return this;
-  }
-
-  public UserModel name(String name) {
-    setName(name);
-    return this;
-  }
-
-  public UserModel phone(String phone) {
-    setPhone(phone);
-    return this;
-  }
-
-  public UserModel image(String image) {
-    setImage(image);
-    return this;
-  }
-
-  public UserModel address(String address) {
-    setAddress(address);
-    return this;
-  }
-
-  public UserModel id(int id) {
-    setId(id);
-    return this;
-  }
-
-  public UserModel roleId(int roleId) {
-    setRoleId(roleId);
-    return this;
-  }
-
-  public UserModel gender(String gender) {
-    setGender(gender);
-    return this;
-  }
-
-  public UserModel userStatus(UserStatus userStatus) {
-    setUserStatus(userStatus);
-    return this;
   }
 
 }

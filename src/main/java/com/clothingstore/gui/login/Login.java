@@ -182,6 +182,7 @@ public class Login extends JFrame {
 
             UserModel user = UserBUS.getInstance().login(username, password);
             Authentication.setCurrentUser(user);
+            System.out.println("Success");
             // UIFactory.showForm(user);
             dispose();
         } catch (Exception exception) {

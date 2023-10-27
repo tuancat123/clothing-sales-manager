@@ -30,7 +30,7 @@ public class UserDAO implements IDAO<UserModel> {
     String email = rs.getString("email");
     String name = rs.getString("name");
     String phone = rs.getString("phone");
-    String gender = rs.getString("gender");
+    int gender = rs.getInt("gender");
     String image = rs.getString("image");
     int roleId = rs.getInt("role_id");
     String address = rs.getString("address");
@@ -41,11 +41,10 @@ public class UserDAO implements IDAO<UserModel> {
         email,
         name,
         phone,
-        image,
         address,
-        id,
-        roleId,
         gender,
+        image,
+        roleId,
         userStatus);
   }
 
@@ -66,17 +65,17 @@ public class UserDAO implements IDAO<UserModel> {
 
   @Override
   public int insert(UserModel user) {
-    String insertSql = "INSERT INTO users (username, password, email, name, phone, image, address, role_id, gender, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String insertSql = "INSERT INTO users (username, password, email, name, phone, gender, image, role_id, address, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     Object[] args = {
         user.getUsername(),
         user.getPassword(),
         user.getEmail(),
         user.getName(),
         user.getPhone(),
-        user.getImage(),
-        user.getAddress(),
-        user.getRoleId(),
         user.getGender(),
+        user.getImage(),
+        user.getRoleId(),
+        user.getAddress(),
         user.getUserStatus().toString().toUpperCase()
     };
     try {

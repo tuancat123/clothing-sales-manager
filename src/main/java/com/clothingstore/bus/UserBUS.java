@@ -78,14 +78,14 @@ public class UserBUS implements IBUS<UserModel> {
     }
 
     if (hasPhone && !Validation.isValidPhoneNumber(userModel.getPhone())) {
-      throw new IllegalArgumentException("Invalid number format.");
+    throw new IllegalArgumentException("Invalid number format.");
     }
     // 0 is admin, 1 is manager, 2 is employee
     userModel.setRoleId(2);
-
+    userModel.setPassword(PasswordUtils.hashPassword(userModel.getPassword()));
     userModel.setUserStatus(
         userModel.getUserStatus() != null ? userModel.getUserStatus() : UserStatus.ACTIVE);
-    int id = UserDAO.getInstance().insert(mapToEntity(userModel));
+    int id = UserDAO.getInstance().insert(userModel);
     userModel.setId(id);
     userList.add(userModel);
     return id;

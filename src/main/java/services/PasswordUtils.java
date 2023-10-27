@@ -4,7 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class PasswordUtils {
 
-    private static final int BCRYPT_WORKLOAD = 4;
+    private static final int BCRYPT_WORKLOAD = 12;
 
     public static String hashPassword(String plainTextPassword) {
         String salt = BCrypt.gensalt(BCRYPT_WORKLOAD);
