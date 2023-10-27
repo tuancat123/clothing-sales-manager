@@ -124,7 +124,7 @@ public class PermissionBUS implements IBUS<PermissionModel> {
             return true;
           }
         }
-        case "permissionname" -> {
+        case "name" -> {
           if (value.equalsIgnoreCase(permissionModel.getPermissionName())) {
             return true;
           }

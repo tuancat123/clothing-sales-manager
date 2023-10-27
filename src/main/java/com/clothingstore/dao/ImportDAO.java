@@ -26,8 +26,9 @@ public class ImportDAO implements IDAO<ImportModel> {
     int id = rs.getInt("id");
     LocalDateTime importDateTime = rs.getTimestamp("import_date").toLocalDateTime();
     LocalDate importDate = importDateTime.toLocalDate();
-    Double totalCost = rs.getDouble("total_cost");
-    return new ImportModel(id, importDate, totalCost);
+    int userId = rs.getInt("user_id");
+    Double totalCost = rs.getDouble("total_price");
+    return new ImportModel(id, userId, importDate, totalCost);
   }
 
   @Override
@@ -47,10 +48,10 @@ public class ImportDAO implements IDAO<ImportModel> {
 
   @Override
   public int insert(ImportModel importModel) {
-    String insertSql = "INSERT INTO imports (import_date, total_cost) VALUES (?, ?)";
+    String insertSql = "INSERT INTO imports (import_date, total_price) VALUES (?, ?)";
     Object[] args = {
         importModel.getImportDate(),
-        importModel.getTotalCost()
+        importModel.getTotalPrice()
     };
     try {
       return DatabaseConnection.executeUpdate(insertSql, args);
@@ -62,10 +63,10 @@ public class ImportDAO implements IDAO<ImportModel> {
 
   @Override
   public int update(ImportModel importModel) {
-    String updateSql = "UPDATE imports SET import_date = ?, total_cost = ? WHERE id = ?";
+    String updateSql = "UPDATE imports SET import_date = ?, total_price = ? WHERE id = ?";
     Object[] args = {
         importModel.getImportDate(),
-        importModel.getTotalCost(),
+        importModel.getTotalPrice(),
         importModel.getId()
     };
     try {
@@ -96,13 +97,13 @@ public class ImportDAO implements IDAO<ImportModel> {
 
     String query;
     if (columnNames == null || columnNames.length == 0) {
-      query = "SELECT * FROM imports WHERE CONCAT(id, import_date, total_cost) LIKE ?";
+      query = "SELECT * FROM imports WHERE CONCAT(id, import_date, total_price) LIKE ?";
     } else if (columnNames.length == 1) {
       String column = columnNames[0];
       query = "SELECT * FROM imports WHERE " + column + " LIKE ?";
     } else {
       String columns = String.join(",", columnNames);
-      query = "SELECT id, import_date, total_cost FROM imports WHERE CONCAT(" + columns + ") LIKE ?";
+      query = "SELECT id, import_date, total_price FROM imports WHERE CONCAT(" + columns + ") LIKE ?";
     }
 
     try (PreparedStatement pst = DatabaseConnection.getPreparedStatement(query, "%" + condition + "%")) {

@@ -1,4 +1,4 @@
--- Active: 1695036225563@@127.0.0.1@3306@clothingstore
+-- Active: 1695036225563@@127.0.0.1@3306@clothingsales
 
 DROP DATABASE IF EXISTS clothingstore;
 
@@ -35,7 +35,7 @@ CREATE TABLE
 CREATE TABLE
     `permissions` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `permission_name` VARCHAR(50),
+        `name` VARCHAR(50),
         PRIMARY KEY (`id`)
     );
 
@@ -53,15 +53,6 @@ CREATE TABLE
         `name` VARCHAR(50) NOT NULL,
         `phone` VARCHAR(10) NOT NULL,
         `email` VARCHAR(100) DEFAULT NULL,
-        PRIMARY KEY (`id`)
-    );
-
-CREATE TABLE
-    `purchases` (
-        `id` INT NOT NULL AUTO_INCREMENT,
-        `customer_id` INT,
-        `purchase_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `total_amount` double,
         PRIMARY KEY (`id`)
     );
 
@@ -90,7 +81,7 @@ CREATE TABLE
         `customer_id` INT,
         `user_id` INT,
         `order_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `total_amount` INT NOT NULL,
+        `total_price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
@@ -100,14 +91,14 @@ CREATE TABLE
         `order_id` INT,
         `product_id` INT,
         `quantity` INT,
-        `price` INT,
+        `price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
 CREATE TABLE
     `payment_methods` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `method_name` VARCHAR(50),
+        `name` VARCHAR(50),
         PRIMARY KEY (`id`)
     );
 
@@ -117,7 +108,7 @@ CREATE TABLE
         `order_id` INT,
         `method_id` INT,
         `payment_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `total_price` INT,
+        `total_price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
@@ -128,16 +119,16 @@ CREATE TABLE
         `category_id` INT NOT NULL,
         `image` VARCHAR(255) NOT NULL,
         `gender` INT NOT NULL,
-        `price` INT NOT NULL,
-        `rating` FLOAT DEFAULT NULL,
+        `price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
 CREATE TABLE
     `imports` (
         `id` INT NOT NULL AUTO_INCREMENT,
+        `user_id` INT NOT NULL,
         `import_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `total_cost` INT,
+        `total_price` INT,
         PRIMARY KEY (`id`)
     );
 
@@ -147,14 +138,14 @@ CREATE TABLE
         `import_id` INT,
         `product_id` INT,
         `quantity` INT,
-        `price` INT,
+        `price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
 CREATE TABLE
     `sizes` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `size_name` VARCHAR(255) NOT NULL,
+        `name` VARCHAR(255) NOT NULL,
         PRIMARY KEY (`id`)
     );
 
@@ -170,7 +161,7 @@ CREATE TABLE
 CREATE TABLE
     `categories` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `category_name` VARCHAR(50),
+        `name` VARCHAR(50),
         PRIMARY KEY (`id`)
     );
 
@@ -203,10 +194,6 @@ ADD
 ALTER TABLE `role_permissions`
 ADD
     FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`);
-
-ALTER TABLE `purchases`
-ADD
-    FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`);
 
 ALTER TABLE `points`
 ADD
@@ -268,3 +255,7 @@ ADD
 ALTER TABLE `products`
 ADD
     FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+
+ALTER TABLE `imports`
+ADD
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);

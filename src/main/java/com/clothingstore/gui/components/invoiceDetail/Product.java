@@ -6,14 +6,17 @@ import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import java.awt.*;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2202ee3acdeba710f226a5fd120733a262251f47
 
 public class Product extends JPanel {
-    public Product(){
+    public Product() {
         initComponents();
     }
 
-    public void initComponents(){
+    public void initComponents() {
         Header = new JPanel();
         Sr = new JLabel();
         Name = new JLabel();
@@ -35,10 +38,10 @@ public class Product extends JPanel {
 
         Name.setText("BlackPolo");
         Name.setForeground(new Color(26, 101, 101));
-        Name.setFont(new Font("Segoe UI", 3, 15)); 
+        Name.setFont(new Font("Segoe UI", 3, 15));
 
         Sr.setText("01");
-        Sr.setFont(new Font("Segoe UI", 0, 14)); 
+        Sr.setFont(new Font("Segoe UI", 0, 14));
 
         Header.add(Sr, new AbsoluteConstraints(20, 10, 350, 20));
         Header.add(Name, new AbsoluteConstraints(50, 10, 350, 20));
@@ -49,7 +52,7 @@ public class Product extends JPanel {
         Panel1.setBackground(Color.WHITE);
         Panel1.setLayout(new BorderLayout());
 
-        QuantityText.setFont(new Font("Segoe UI", 3, 13)); 
+        QuantityText.setFont(new Font("Segoe UI", 3, 13));
         QuantityText.setHorizontalAlignment(SwingConstants.CENTER);
         QuantityText.setText("2");
         Panel1.add(QuantityText, BorderLayout.CENTER);
@@ -60,7 +63,7 @@ public class Product extends JPanel {
         Panel2.setLayout(new BorderLayout());
         Panel2.setBackground(Color.WHITE);
 
-        SizeText.setFont(new Font("Segoe UI", 3, 13)); 
+        SizeText.setFont(new Font("Segoe UI", 3, 13));
         SizeText.setHorizontalAlignment(SwingConstants.CENTER);
         SizeText.setText("M");
         Panel2.add(SizeText, BorderLayout.CENTER);
@@ -71,7 +74,7 @@ public class Product extends JPanel {
         Panel3.setLayout(new BorderLayout());
         Panel3.setBackground(Color.WHITE);
 
-        PriceText.setFont(new Font("Segoe UI", 3, 13)); 
+        PriceText.setFont(new Font("Segoe UI", 3, 13));
         PriceText.setHorizontalAlignment(SwingConstants.CENTER);
         PriceText.setText("300.000");
         Panel3.add(PriceText, BorderLayout.CENTER);
@@ -82,7 +85,7 @@ public class Product extends JPanel {
         Panel4.setLayout(new BorderLayout());
         Panel4.setBackground(Color.WHITE);
 
-        AmountText.setFont(new Font("Segoe UI", 3, 13)); 
+        AmountText.setFont(new Font("Segoe UI", 3, 13));
         AmountText.setHorizontalAlignment(SwingConstants.CENTER);
         AmountText.setText("600.000");
         Panel4.add(AmountText, BorderLayout.CENTER);

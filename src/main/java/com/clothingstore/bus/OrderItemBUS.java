@@ -19,10 +19,6 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
         return instance;
     }
 
-    private OrderItemBUS() {
-        this.orderItemList.addAll(OrderItemDAO.getInstance().readDatabase());
-    }
-
     @Override
     public List<OrderItemModel> getAllModels() {
         return Collections.unmodifiableList(orderItemList);
@@ -52,6 +48,7 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
     }
 
     private void updateEntityFields(OrderItemModel from, OrderItemModel to) {
+        to.setId(from.getId());
         to.setOrderId(from.getOrderId());
         to.setProductId(from.getProductId());
         to.setQuantity(from.getQuantity());
@@ -59,25 +56,23 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
     }
 
     @Override
-    public int addModel(OrderItemModel orderItem) {
-        if (orderItem.getOrderId() <= 0 || orderItem.getProductId() <= 0 || orderItem.getQuantity() <= 0
-                || orderItem.getPrice() <= 0) {
+    public int addModel(OrderItemModel model) {
+        if (model == null || model.getOrderId() <= 0 || model.getProductId() <= 0 || model.getQuantity() <= 0 || model.getPrice() <= 0) {
             throw new IllegalArgumentException(
-                    "Order ID, Product ID, Quantity, and Price must be greater than 0. Please check the input and try again.");
+                "There may be errors in required fields, please check your input and try again.");
         }
-
-        int id = OrderItemDAO.getInstance().insert(mapToEntity(orderItem));
-        orderItemList.add(orderItem);
+        int id = OrderItemDAO.getInstance().insert(mapToEntity(model));
+        orderItemList.add(model);
         return id;
     }
 
     @Override
-    public int updateModel(OrderItemModel orderItem) {
-        int updatedRows = OrderItemDAO.getInstance().update(orderItem);
+    public int updateModel(OrderItemModel model) {
+        int updatedRows = OrderItemDAO.getInstance().update(model);
         if (updatedRows > 0) {
-            int index = orderItemList.indexOf(orderItem);
+            int index = orderItemList.indexOf(model);
             if (index != -1) {
-                orderItemList.set(index, orderItem);
+                orderItemList.set(index, model);
             }
         }
         return updatedRows;
@@ -88,7 +83,7 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
         OrderItemModel orderItem = getModelById(id);
         if (orderItem == null) {
             throw new IllegalArgumentException(
-                    "Order Item with ID: " + id + " doesn't exist.");
+                "OrderItem with ID: " + id + " doesn't exist.");
         }
         int deletedRows = OrderItemDAO.getInstance().delete(id);
         if (deletedRows > 0) {
@@ -98,9 +93,9 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
     }
 
     private boolean checkFilter(
-            OrderItemModel orderItem,
-            String value,
-            String[] columns) {
+        OrderItemModel orderItem,
+        String value,
+        String[] columns) {
         for (String column : columns) {
             switch (column.toLowerCase()) {
                 case "id" -> {
@@ -124,7 +119,7 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
                     }
                 }
                 case "price" -> {
-                    if (Integer.parseInt(value) == orderItem.getPrice()) {
+                    if (Double.valueOf(orderItem.getPrice()).equals(Double.valueOf(value))) {
                         return true;
                     }
                 }
@@ -143,13 +138,13 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
                 orderItem.getOrderId() == Integer.parseInt(value) ||
                 orderItem.getProductId() == Integer.parseInt(value) ||
                 orderItem.getQuantity() == Integer.parseInt(value) ||
-                orderItem.getPrice() == Integer.parseInt(value));
+                Double.valueOf(orderItem.getPrice()).equals(Double.valueOf(value)));
     }
 
     @Override
     public List<OrderItemModel> searchModel(String value, String[] columns) {
         List<OrderItemModel> results = new ArrayList<>();
-        List<OrderItemModel> entities = OrderItemBUS.getInstance().getAllModels();
+        List<OrderItemModel> entities = OrderItemDAO.getInstance().search(value, columns);
         for (OrderItemModel entity : entities) {
             OrderItemModel model = mapToEntity(entity);
             if (checkFilter(model, value, columns)) {

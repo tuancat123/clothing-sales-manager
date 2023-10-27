@@ -1,15 +1,25 @@
 package com.clothingstore.models;
 
 public class RolePermissionModel {
+    private int id;
     private int roleId;
     private int permissionId;
 
     public RolePermissionModel() {
     }
 
-    public RolePermissionModel(int roleId, int permissionId) {
+    public RolePermissionModel(int id, int roleId, int permissionId) {
+        this.id = id;
         this.roleId = roleId;
         this.permissionId = permissionId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getRoleId() {
@@ -28,13 +38,4 @@ public class RolePermissionModel {
         this.permissionId = permissionId;
     }
 
-    public RolePermissionModel roleId(int roleId) {
-        setRoleId(roleId);
-        return this;
-    }
-
-    public RolePermissionModel permissionId(int permissionId) {
-        setPermissionId(permissionId);
-        return this;
-    }
 }

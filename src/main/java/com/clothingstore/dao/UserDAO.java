@@ -66,7 +66,7 @@ public class UserDAO implements IDAO<UserModel> {
 
   @Override
   public int insert(UserModel user) {
-    String insertSql = "INSERT INTO users (username, password, email, name, phone, image, address, id, role_id, gender, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String insertSql = "INSERT INTO users (username, password, email, name, phone, image, address, role_id, gender, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     Object[] args = {
         user.getUsername(),
         user.getPassword(),
@@ -75,7 +75,6 @@ public class UserDAO implements IDAO<UserModel> {
         user.getPhone(),
         user.getImage(),
         user.getAddress(),
-        user.getId(),
         user.getRoleId(),
         user.getGender(),
         user.getUserStatus().toString().toUpperCase()
