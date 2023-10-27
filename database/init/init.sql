@@ -81,7 +81,7 @@ CREATE TABLE
         `customer_id` INT,
         `user_id` INT,
         `order_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `total_amount` DOUBLE NOT NULL,
+        `total_price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
     );
 
