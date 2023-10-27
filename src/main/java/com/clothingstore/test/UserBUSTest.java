@@ -17,10 +17,4 @@ public class UserBUSTest {
                 "0972200871", "Đồng Nai", 1, "noimage", 2, UserStatus.ACTIVE);
         assertEquals(UserBUS.getInstance().addModel(userModel), 1);
     }
-
-    public static void main(String[] args) throws Exception {
-        String password = "stackjava.com";
-        String hash = BCrypt.hashpw(password, BCrypt.gensalt(12));
-        System.out.println("BCrypt hash: " + hash);
-    }
 }
