@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import com.clothingstore.bus.UserBUS;
+import com.clothingstore.gui.employee.HomePage;
 import com.clothingstore.models.UserModel;
 import services.Authentication;
 
@@ -177,6 +178,8 @@ public class Login extends JFrame {
             String password = String.valueOf(txtPassWord.getPassword());
             UserModel user = UserBUS.getInstance().login(username, password);
             Authentication.setCurrentUser(user);
+            HomePage homePage = HomePage.getInstance(user);
+            homePage.setVisible(true);
             dispose();
         } catch (Exception exception) {
             JOptionPane.showMessageDialog(
@@ -187,19 +190,5 @@ public class Login extends JFrame {
         }
         txtPassWord.setText("");
     };
-
-    public static void main(String[] args) {
-        try {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    Login login = new Login();
-                    login.setVisible(true);
-
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 }
