@@ -175,11 +175,8 @@ public class Login extends JFrame {
         try {
             String username = txtusername.getText();
             String password = String.valueOf(txtPassWord.getPassword());
-
             UserModel user = UserBUS.getInstance().login(username, password);
             Authentication.setCurrentUser(user);
-            System.out.println("Success");
-            // UIFactory.showForm(user);
             dispose();
         } catch (Exception exception) {
             JOptionPane.showMessageDialog(
