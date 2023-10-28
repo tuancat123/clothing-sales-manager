@@ -54,7 +54,6 @@ public class MenuData {
                 data = MenuData.getDataManager();
                 break;
             case 3:
-                data = MenuData.getDataManager();
                 data = MenuData.getDataEmployee();
                 break;
             default:
@@ -122,8 +121,9 @@ public class MenuData {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                HomePage.getInstance(currentUser).Remove(currentUser);
-                HomePage.getInstance(currentUser).Add(Products.getInstance(), Invoice.getInstance());
+                HomePage.getInstance().Remove();
+                ;
+                HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
             }
         };
     }
@@ -133,8 +133,8 @@ public class MenuData {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HistoryList.getInstance().setVisible(true);
-                HomePage.getInstance(currentUser).Remove(currentUser);
-                HomePage.getInstance(currentUser).Add(InvoiceHistory.getInstance());
+                HomePage.getInstance().Remove();
+                HomePage.getInstance().Add(InvoiceHistory.getInstance());
             }
         };
     }

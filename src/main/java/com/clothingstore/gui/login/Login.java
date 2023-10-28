@@ -178,7 +178,7 @@ public class Login extends JFrame {
             String password = String.valueOf(txtPassWord.getPassword());
             UserModel user = UserBUS.getInstance().login(username, password);
             Authentication.setCurrentUser(user);
-            HomePage homePage = HomePage.getInstance(user);
+            HomePage homePage = HomePage.getInstance();
             homePage.setVisible(true);
             dispose();
         } catch (Exception exception) {

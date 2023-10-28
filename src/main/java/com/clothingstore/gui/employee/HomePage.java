@@ -7,27 +7,31 @@ import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.models.MenuData;
 import com.clothingstore.models.UserModel;
 
+import services.Authentication;
+
 import java.awt.*;
 import java.util.ArrayList;
 
 public class HomePage extends JFrame {
 
   private static HomePage instance;
+  public Authentication authentication;
+  static UserModel currentUser = Authentication.getCurrentUser();
 
-  public static HomePage getInstance(UserModel user) {
+  public static HomePage getInstance() {
     if (instance == null) {
-      instance = new HomePage(user);
+      instance = new HomePage();
     }
     return instance;
   }
 
-  public HomePage(UserModel user) {
-    initComponent(user);
+  public HomePage() {
+    initComponent();
     setLocationRelativeTo(null);
     this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
   }
 
-  public void initComponent(UserModel user) {
+  public void initComponent() {
     setSize(new Dimension(1130, 628));
     setLayout(new BorderLayout());
     setBackground(Color.BLACK);
@@ -39,13 +43,29 @@ public class HomePage extends JFrame {
     Navigation navigation = new Navigation();
     add(navigation, BorderLayout.SOUTH);
 
-    ArrayList<MenuData> data = MenuData.getDataMenu();
-
-    add(Menu.getInstance(data), BorderLayout.WEST);
+    add(Menu.getInstance(getDataMenu()), BorderLayout.WEST);
   }
 
-  public void Remove(UserModel user) {
-    Container contentPane = HomePage.getInstance(user).getContentPane();
+  public static ArrayList<MenuData> getDataMenu() {
+    ArrayList<MenuData> data;
+    switch (currentUser.getRoleId()) {
+      case 1:
+        data = MenuData.getDataAdmin();
+        break;
+      case 2:
+        data = MenuData.getDataManager();
+        break;
+      case 3:
+        data = MenuData.getDataEmployee();
+        break;
+      default:
+        throw new IllegalArgumentException("User role is not supported");
+    }
+    return data;
+  }
+
+  public void Remove() {
+    Container contentPane = HomePage.getInstance().getContentPane();
     Component centerComponent = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.CENTER);
     Component eastComponent = ((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.EAST);
     if (centerComponent != null) {
