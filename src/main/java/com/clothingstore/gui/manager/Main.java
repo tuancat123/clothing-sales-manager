@@ -1,24 +1,24 @@
-package com.clothingstore.gui.admin.Dashboard;
+package com.clothingstore.gui.manager;
 
 import java.awt.*;
-import java.util.ArrayList;
-
+import java.util.*;
 import javax.swing.*;
 
 import com.clothingstore.gui.models.MenuData;
+import com.clothingstore.gui.admin.Dashboard.Header;
 import com.clothingstore.gui.components.Menu;
-public class Dashboard extends JFrame {
+public class Main extends JFrame {
 
-    private static Dashboard instance;
+    private static Main instance;
 
-    public static Dashboard getInstance() {
+    public static Main getInstance() {
         if (instance == null) {
-            instance = new Dashboard();
+            instance = new Main();
         }
         return instance;
     }
 
-    public Dashboard(){
+    public Main(){
         initComponents();
         setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -28,13 +28,11 @@ public class Dashboard extends JFrame {
 
         setLayout(new BorderLayout());
         setSize(new Dimension(1130, 628));
-        setLayout(new BorderLayout());
 
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(Header.getInstance(), BorderLayout.NORTH);
         add(mainPanel, BorderLayout.CENTER);
 
-        ArrayList<MenuData> data = MenuData.getDataAdmin();
+        ArrayList<MenuData> data = MenuData.getDataManager();
         Menu.getInstance(data).setPreferredSize(new Dimension(150,150));
         add(Menu.getInstance(data), BorderLayout.WEST);
     }

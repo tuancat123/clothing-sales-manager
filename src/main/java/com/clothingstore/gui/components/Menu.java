@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import com.clothingstore.gui.customer.HomePage;
+import com.clothingstore.gui.employee.HomePage;
 import com.clothingstore.gui.models.MenuData;
 import com.clothingstore.gui.models.MenuItemData;
 
@@ -15,24 +15,22 @@ public class Menu extends JPanel {
     JPopupMenu popupMenu;
     JMenuItem menuItem;
 
-    ArrayList<MenuData> dataMenu = MenuData.getData();
-
-    public static Menu getInstance() {
+    public static Menu getInstance(ArrayList<MenuData> data) {
         if (instance == null) {
-            instance = new Menu();
+            instance = new Menu(data);
         }
         return instance;
     }
 
-    public Menu() {
-        initComponents();
+    public Menu(ArrayList<MenuData> data) {
+        initComponents(data);
     }
 
-    public void initComponents() {
+    public void initComponents(ArrayList<MenuData> data) {
         setLayout(new GridLayout(10, 1, 10, 5));
         setPreferredSize(new Dimension(0,150));
         setBackground(new Color(0, 26, 51));
-        for (MenuData menuData : dataMenu) {
+        for (MenuData menuData : data) {
 
             ArrayList<MenuItemData> dataMenuItem = menuData.getItemData();
 

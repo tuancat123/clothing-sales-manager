@@ -13,7 +13,8 @@ public class NavData {
     private ActionListener actionListener;
     private static boolean isExpanding = true;
     private static int menuWidth;
-    private static Menu menu = Menu.getInstance();
+    private static ArrayList<MenuData> menuData = MenuData.getDataEmployee();
+    private static Menu menu = Menu.getInstance(menuData);
 
 
     public NavData(String name, ActionListener actionListener) {

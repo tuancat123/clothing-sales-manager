@@ -1,8 +1,8 @@
-package com.clothingstore.gui.customer;
-
-import com.clothingstore.gui.customer.HomePage;
+package com.clothingstore.gui.employee;
 
 import javax.swing.*;
+
+import com.clothingstore.gui.employee.HomePage;
 
 public class Main extends JFrame{
     private static Main instance;

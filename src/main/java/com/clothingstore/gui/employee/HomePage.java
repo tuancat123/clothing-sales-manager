@@ -1,10 +1,13 @@
-package com.clothingstore.gui.customer;
+package com.clothingstore.gui.employee;
 
 import javax.swing.*;
 
 import com.clothingstore.gui.components.Menu;
 import com.clothingstore.gui.components.Products;
+import com.clothingstore.gui.models.MenuData;
+
 import java.awt.*;
+import java.util.ArrayList;
 
 public class HomePage extends JFrame{
 
@@ -36,7 +39,9 @@ public class HomePage extends JFrame{
         Navigation navigation = new Navigation();
         add(navigation, BorderLayout.SOUTH);
 
-        add(Menu.getInstance(), BorderLayout.WEST);
+        ArrayList<MenuData> data = MenuData.getDataEmployee();
+
+        add(Menu.getInstance(data), BorderLayout.WEST);
     }
     public void Remove(){
         Container contentPane = HomePage.getInstance().getContentPane();

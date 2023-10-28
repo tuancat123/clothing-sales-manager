@@ -5,8 +5,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import com.clothingstore.gui.customer.Header;
-import com.clothingstore.gui.customer.HomePage;
+import com.clothingstore.gui.employee.Header;
+import com.clothingstore.gui.employee.HomePage;
 
 public class Products extends JPanel {
 

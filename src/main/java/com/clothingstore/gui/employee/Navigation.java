@@ -1,5 +1,5 @@
 
-package com.clothingstore.gui.customer;
+package com.clothingstore.gui.employee;
 
 import com.clothingstore.gui.models.NavData;
 

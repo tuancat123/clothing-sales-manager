@@ -4,6 +4,8 @@
  */
 package com.clothingstore.gui.admin.Dashboard;
 
+import java.awt.*;
+
 /**
  *
  * @author yanti
@@ -45,6 +47,7 @@ public class Header extends javax.swing.JPanel {
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
         setLayout(new java.awt.BorderLayout());
+        setPreferredSize(new Dimension(70,75));
 
         jLabel1.setText("DashBoard");
         add(jLabel1, java.awt.BorderLayout.LINE_START);
