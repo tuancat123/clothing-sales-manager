@@ -23,10 +23,10 @@ public class Application {
             // Dashboard dashboard = Dashboard.getInstance();
             // dashboard.setVisible(true);
             /*-----manager----*/
-            Main main = Main.getInstance();
-            main.setVisible(true);
-            // Login login = Login.getInstance();
-            // login.setVisible(true);
+            // Main main = Main.getInstance();
+            // main.setVisible(true);
+            Login login = Login.getInstance();
+            login.setVisible(true);
         });
     }
 }

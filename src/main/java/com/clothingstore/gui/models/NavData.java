@@ -13,9 +13,8 @@ public class NavData {
     private ActionListener actionListener;
     private static boolean isExpanding = true;
     private static int menuWidth;
-    private static ArrayList<MenuData> menuData = MenuData.getDataEmployee();
+    private static ArrayList<MenuData> menuData = MenuData.getDataMenu();
     private static Menu menu = Menu.getInstance(menuData);
-
 
     public NavData(String name, ActionListener actionListener) {
         this.name = name;
@@ -31,18 +30,21 @@ public class NavData {
     }
 
     public static ArrayList<NavData> getData() {
-        ArrayList<NavData> data = new ArrayList<NavData>() {{
-            add(new NavData("Menu", MenuAction() ));
-            add(new NavData("All", null));
-            add(new NavData("Shirt", null));
-            add(new NavData("Polo", null));
-            add(new NavData("Short", null));
-            add(new NavData("Jean", null));
-            add(new NavData("More", null));
+        ArrayList<NavData> data = new ArrayList<NavData>() {
+            {
+                add(new NavData("Menu", MenuAction()));
+                add(new NavData("All", null));
+                add(new NavData("Shirt", null));
+                add(new NavData("Polo", null));
+                add(new NavData("Short", null));
+                add(new NavData("Jean", null));
+                add(new NavData("More", null));
 
-        }};
+            }
+        };
         return data;
     }
+
     private static ActionListener MenuAction() {
         menuWidth = menu.getWidth();
         return new ActionListener() {
@@ -51,43 +53,42 @@ public class NavData {
                 Timer timer;
                 if (menuWidth > 0 && menuWidth < 150) {
                     return;
-                }
-                else{
+                } else {
                     if (isExpanding) {
-                    timer = new Timer(10, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if (menuWidth <= 150) {
-                                menuWidth += 10;
-                                menu.setPreferredSize(new Dimension(menuWidth, 150));
-                                menu.repaint();
-                                menu.revalidate();
-                            } else {
-                                ((Timer) e.getSource()).stop();
-                            }
-                        }
-                    });
-                    } else {
-                            timer = new Timer(10, new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    if (menuWidth >= 10) {
-                                        menuWidth -= 10;
-                                        menu.setPreferredSize(new Dimension(menuWidth, 150));
-                                        menu.repaint();
-                                        menu.revalidate();
-                                    } else {
-                                        ((Timer) e.getSource()).stop();
-                                    }
+                        timer = new Timer(10, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                if (menuWidth <= 150) {
+                                    menuWidth += 10;
+                                    menu.setPreferredSize(new Dimension(menuWidth, 150));
+                                    menu.repaint();
+                                    menu.revalidate();
+                                } else {
+                                    ((Timer) e.getSource()).stop();
                                 }
-                            });
-                        }
-                    
-                        timer.start();
-                        Products.getInstance().MenuOn(isExpanding);
-                        isExpanding = !isExpanding;
+                            }
+                        });
+                    } else {
+                        timer = new Timer(10, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                if (menuWidth >= 10) {
+                                    menuWidth -= 10;
+                                    menu.setPreferredSize(new Dimension(menuWidth, 150));
+                                    menu.repaint();
+                                    menu.revalidate();
+                                } else {
+                                    ((Timer) e.getSource()).stop();
+                                }
+                            }
+                        });
                     }
+
+                    timer.start();
+                    Products.getInstance().MenuOn(isExpanding);
+                    isExpanding = !isExpanding;
                 }
+            }
         };
     }
 }
