@@ -1,13 +1,13 @@
 package com.clothingstore.models;
 
-public class Categories {
+public class CategoryModel {
     private int id;
     private String categoryName;
 
-    public Categories() {
+    public CategoryModel() {
     }
 
-    public Categories(int id, String categoryName) {
+    public CategoryModel(int id, String categoryName) {
         this.id = id;
         this.categoryName = categoryName;
     }
