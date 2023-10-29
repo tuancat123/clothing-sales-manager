@@ -50,9 +50,10 @@ public class HomePage extends JFrame {
         break;
       default:
         break;
-    }    
+    }
     add(Menu.getInstance(getDataMenu()), BorderLayout.WEST);
   }
+
   public static ArrayList<MenuData> getDataMenu() {
     ArrayList<MenuData> data;
     switch (currentUser.getRoleId()) {
