@@ -25,8 +25,8 @@ public class Application {
             /*-----manager----*/
             // Main main = Main.getInstance();
             // main.setVisible(true);
-            Login login = Login.getInstance();
-            login.setVisible(true);
+            // Login login = Login.getInstance();
+            // login.setVisible(true);
         });
     }
 }

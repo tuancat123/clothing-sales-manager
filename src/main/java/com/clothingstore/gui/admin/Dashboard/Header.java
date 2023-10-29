@@ -38,14 +38,13 @@ public class Header extends JPanel {
         NamePanel.setForeground(Color.WHITE);
         add(NamePanel, BorderLayout.LINE_START);
 
-        Panel.setBorder(BorderFactory.createEmptyBorder(20, 1, 20, 1));
+        Panel.setBorder(BorderFactory.createEmptyBorder(22, 1, 22, 1));
         Panel.setPreferredSize(new Dimension(360, 80));
         Panel.setLayout(new GridLayout(1, 2));
         Panel.setBackground(backgroundColor);
 
         SearchPanel.setLayout(new BorderLayout());
         
-        Value.setText("Value");
         Value.setBorder(null);
         SearchPanel.add(Value, BorderLayout.CENTER);
         

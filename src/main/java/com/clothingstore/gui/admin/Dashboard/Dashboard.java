@@ -32,6 +32,7 @@ public class Dashboard extends JFrame {
 
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(Header.getInstance(), BorderLayout.NORTH);
+        mainPanel.add(Content.getInstance(), BorderLayout.CENTER);
         add(mainPanel, BorderLayout.CENTER);
 
         ArrayList<MenuData> data = MenuData.getDataAdmin();
