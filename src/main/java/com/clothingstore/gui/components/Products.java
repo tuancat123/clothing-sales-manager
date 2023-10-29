@@ -2,17 +2,21 @@
 package com.clothingstore.gui.components;
 
 import java.awt.*;
+import java.util.List;
 
 import javax.swing.*;
 
+import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.gui.employee.Header;
-import com.clothingstore.gui.employee.HomePage;
+import com.clothingstore.models.ProductModel;
 
 public class Products extends JPanel {
 
+    List<ProductModel> productList = ProductBUS.getInstance().getAllModels();
+    
     private static Products instance;
     Boolean Visible = false;
-
+    
     public static Products getInstance() {
         if (instance == null) {
             instance = new Products();
@@ -27,9 +31,9 @@ public class Products extends JPanel {
 
     public void MenuOn(Boolean Visible){
         if(!Visible)
-            Products.setLayout(new GridLayout(3, 4));
+            Products.setLayout(new GridLayout(0, 4));
         else
-            Products.setLayout(new GridLayout(4, 3));
+            Products.setLayout(new GridLayout(0, 3));
     }
 
     private void initComponents() {
@@ -39,9 +43,9 @@ public class Products extends JPanel {
 
         setLayout(new BorderLayout());
         Products.setBackground(new Color(170, 205, 239));
-
-        for( int i = 0; i<10; i++){
-            Product product = new Product();
+        
+        for(ProductModel products : productList){
+            Product product = new Product(products);
             product.setBackground(new Color(170, 205, 239));
             Products.add(product);
         }

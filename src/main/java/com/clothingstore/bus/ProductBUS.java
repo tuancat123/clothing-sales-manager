@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.clothingstore.dao.CustomerDAO;
 import com.clothingstore.dao.ProductDAO;
 import com.clothingstore.interfaces.IBUS;
 import com.clothingstore.models.ProductModel;
@@ -17,6 +18,10 @@ public class ProductBUS implements IBUS<ProductModel> {
       instance = new ProductBUS();
     }
     return instance;
+  }
+
+  private ProductBUS() {
+    this.productList.addAll(ProductDAO.getInstance().readDatabase());
   }
 
   @Override
@@ -94,35 +99,35 @@ public class ProductBUS implements IBUS<ProductModel> {
   }
 
   private boolean checkFilter(
-        ProductModel product,
-        String value,
-        String[] columns) {
-        for (String column : columns) {
-            switch (column.toLowerCase()) {
-                case "id" -> {
-                    if (Integer.parseInt(value) == product.getId()) {
-                        return true;
-                    }
-                }
-                case "category_id" -> {
-                    if (Integer.parseInt(value) == product.getCategoryId()) {
-                        return true;
-                    }
-                }
-                case "price" -> {
-                    if (Double.valueOf(product.getPrice()).equals(Double.valueOf(value))) {
-                        return true;
-                    }
-                }
-                default -> {
-                    if (checkAllColumns(product, value)) {
-                        return true;
-                    }
-                }
-            }
+      ProductModel product,
+      String value,
+      String[] columns) {
+    for (String column : columns) {
+      switch (column.toLowerCase()) {
+        case "id" -> {
+          if (Integer.parseInt(value) == product.getId()) {
+            return true;
+          }
         }
-        return false;
+        case "category_id" -> {
+          if (Integer.parseInt(value) == product.getCategoryId()) {
+            return true;
+          }
+        }
+        case "price" -> {
+          if (Double.valueOf(product.getPrice()).equals(Double.valueOf(value))) {
+            return true;
+          }
+        }
+        default -> {
+          if (checkAllColumns(product, value)) {
+            return true;
+          }
+        }
+      }
     }
+    return false;
+  }
 
   private boolean checkAllColumns(ProductModel product, String value) {
     return (product.getId() == Integer.parseInt(value) ||
