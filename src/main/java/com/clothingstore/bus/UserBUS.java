@@ -70,6 +70,19 @@ public class UserBUS implements IBUS<UserModel> {
           "Username, name and password cannot be empty. Please check the input and try again.");
     }
 
+    ArrayList<UserModel> userList = UserDAO.getInstance().readDatabase();
+    for (UserModel userModel2 : userList) {
+      if (userModel2.getUsername().equals(userModel.getUsername())) {
+        throw new IllegalArgumentException("Username is exist");
+      }
+      if (userModel2.getEmail().equals(userModel.getEmail())) {
+        throw new IllegalArgumentException("Email is exist");
+      }
+      if (userModel2.getPhone().equals(userModel.getPhone())) {
+        throw new IllegalArgumentException("Phone is exist");
+      }
+    }
+
     boolean hasPhone = userModel.getPhone() != null && !userModel.getPhone().isEmpty();
     boolean hasEmail = userModel.getEmail() != null && !userModel.getEmail().isEmpty();
 
