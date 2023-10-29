@@ -94,8 +94,8 @@ public class UserBUS implements IBUS<UserModel> {
       throw new IllegalArgumentException("Invalid number format.");
     }
 
-    // 0 is admin, 1 is manager, 2 is employee
-    userModel.setRoleId(2);
+    // 1 is admin, 2 is manager, 3 is employee
+    userModel.setRoleId(3);
     userModel.setPassword(PasswordUtils.hashPassword(userModel.getPassword()));
     userModel.setUserStatus(
         userModel.getUserStatus() != null ? userModel.getUserStatus() : UserStatus.ACTIVE);

@@ -1,5 +1,5 @@
 package com.clothingstore;
-
+    
 import javax.swing.*;
 
 import com.clothingstore.gui.admin.Dashboard.Dashboard;
