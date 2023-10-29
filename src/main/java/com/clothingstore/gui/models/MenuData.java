@@ -1,10 +1,7 @@
 package com.clothingstore.gui.models;
 
-import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
-import javax.swing.JPanel;
 
 import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.components.invoicesHistory.HistoryList;
@@ -122,8 +119,10 @@ public class MenuData {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HomePage.getInstance().Remove();
-                ;
-                HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
+                if(currentUser.getRoleId() == 0)
+                    HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
+                else
+                    HomePage.getInstance().Add(Products.getInstance());
             }
         };
     }

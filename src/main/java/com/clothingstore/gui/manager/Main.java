@@ -5,7 +5,7 @@ import java.util.*;
 import javax.swing.*;
 
 import com.clothingstore.gui.models.MenuData;
-import com.clothingstore.gui.admin.Dashboard.Header;
+import com.clothingstore.gui.admin.dashboard.Header;
 import com.clothingstore.gui.components.Menu;
 public class Main extends JFrame {
 
