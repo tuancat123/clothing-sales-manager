@@ -78,8 +78,9 @@ public class UserBUS implements IBUS<UserModel> {
     }
 
     if (hasPhone && !Validation.isValidPhoneNumber(userModel.getPhone())) {
-    throw new IllegalArgumentException("Invalid number format.");
+      throw new IllegalArgumentException("Invalid number format.");
     }
+
     // 0 is admin, 1 is manager, 2 is employee
     userModel.setRoleId(2);
     userModel.setPassword(PasswordUtils.hashPassword(userModel.getPassword()));
