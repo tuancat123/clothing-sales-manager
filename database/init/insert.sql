@@ -50,7 +50,7 @@ VALUES
     ('Áo Polo Cổ Bẻ Tay Ngắn Đơn Giản Đen', 1, './src/main/java/config/image/Ao/Nam/Polo/AoPoloC.png', 1, 550000),
     ('Áo Polo Cổ Bẻ Tay Ngắn Gam Nóng', 1, './src/main/java/config/image/Ao/Nam/Polo/AoPoloD.png', 1, 599000),
     ('Áo Polo Cổ Bẻ Tay Ngắn Màu Be', 1, './src/main/java/config/image/Ao/Nam/Polo/AoPoloE.png', 1, 700000),
-    ('Áo Polo Cổ Bẻ Tay Ngắn Sợi Nhân Tạo Đen', 1, './src/main/java/config/image/Ao/Nam/Polo/AoPoloF.png', 1, 500000),
+    ('Áo Polo Cổ Bẻ Tay Ngắn Sợi Nhân Tạo Style Màu Đen', 1, './src/main/java/config/image/Ao/Nam/Polo/AoPoloF.png', 1, 500000),
     ('Áo Polo Cổ Bẻ Tay Ngắn Sợi Nhân Tạo Thoáng Mát Trơn Dáng Vừa Đơn Giản', 1, './src/main/java/config/image/Ao/Nam/Polo/AoPoloG.png', 1, 500000),
     ('Áo Polo Cổ Bẻ Tay Ngắn Trắng Sọc EST2010', 1, './src/main/java/config/image/Ao/Nam/Polo/AoPoloH.png', 1, 600000),
     ('Áo Polo Cổ Bẻ Tay Ngắn Vải Cotton 2 Chiều Gam Nóng', 1, './src/main/java/config/image/Ao/Nam/Polo/AoPoloI.png', 1, 600000),
