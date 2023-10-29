@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import com.clothingstore.gui.models.MenuData;
 import com.clothingstore.gui.components.Menu;
-public class Dashboard extends JFrame {
+public class Dashboard extends JPanel {
 
     private static Dashboard instance;
 
@@ -20,14 +20,14 @@ public class Dashboard extends JFrame {
 
     public Dashboard(){
         initComponents();
-        setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
     public void initComponents(){
         mainPanel = new JPanel();
 
         setLayout(new BorderLayout());
         setSize(new Dimension(1130, 628));
+        mainPanel.setBackground(new Color(0, 38, 77));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(1, 20, 1, 5));
         setLayout(new BorderLayout());
 
         mainPanel.setLayout(new BorderLayout());

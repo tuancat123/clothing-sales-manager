@@ -16,15 +16,6 @@ public class Application {
         }
 
         SwingUtilities.invokeLater(() -> {
-            /*-----employee----*/
-            // HomePage homePage = HomePage.getInstance();
-            // homePage.setVisible(true);
-            /*-----admin----*/
-            // Dashboard dashboard = Dashboard.getInstance();
-            // dashboard.setVisible(true);
-            /*-----manager----*/
-            // Main main = Main.getInstance();
-            // main.setVisible(true);
             Login login = Login.getInstance();
             login.setVisible(true);
         });

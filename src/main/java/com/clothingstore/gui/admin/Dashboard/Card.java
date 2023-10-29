@@ -26,31 +26,40 @@ public class Card extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        Icon = new javax.swing.JLabel();
+        MainPanel = new javax.swing.JPanel();
+        NamePanel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        Value = new javax.swing.JLabel();
 
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/config/icon/coin.png"))); // NOI18N
-        add(jLabel1, java.awt.BorderLayout.PAGE_START);
+        Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/config/icon/coin.png"))); // NOI18N
+        add(Icon, java.awt.BorderLayout.PAGE_START);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 276, Short.MAX_VALUE)
-        );
+        MainPanel.setLayout(new java.awt.GridLayout(3, 0));
 
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        NamePanel.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        NamePanel.setText("New Invoice");
+        MainPanel.add(NamePanel);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+        MainPanel.add(jPanel2);
+
+        Value.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        Value.setText("300.000");
+        MainPanel.add(Value);
+
+        add(MainPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel Icon;
+    private javax.swing.JPanel MainPanel;
+    private javax.swing.JLabel NamePanel;
+    private javax.swing.JLabel Value;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
