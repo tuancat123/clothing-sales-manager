@@ -2,6 +2,7 @@ package com.clothingstore.gui.employee;
 
 import javax.swing.*;
 
+import com.clothingstore.gui.admin.Dashboard.Dashboard;
 import com.clothingstore.gui.components.Menu;
 import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.models.MenuData;
@@ -35,17 +36,23 @@ public class HomePage extends JFrame {
     setSize(new Dimension(1130, 628));
     setLayout(new BorderLayout());
     setBackground(Color.BLACK);
-
-    add(Products.getInstance(), BorderLayout.CENTER);
-
-    add(Invoice.getInstance(), BorderLayout.EAST);
-
-    Navigation navigation = new Navigation();
-    add(navigation, BorderLayout.SOUTH);
-
+    switch (currentUser.getRoleId()) {
+      case 1:
+        add(Dashboard.getInstance(), BorderLayout.CENTER);
+        break;
+      case 2:
+        add(Dashboard.getInstance(), BorderLayout.CENTER);
+        break;
+      case 3:
+        add(Products.getInstance(), BorderLayout.CENTER);
+        add(Navigation.getInstance(), BorderLayout.SOUTH);
+        add(Invoice.getInstance(), BorderLayout.EAST);
+        break;
+      default:
+        break;
+    }    
     add(Menu.getInstance(getDataMenu()), BorderLayout.WEST);
   }
-
   public static ArrayList<MenuData> getDataMenu() {
     ArrayList<MenuData> data;
     switch (currentUser.getRoleId()) {
