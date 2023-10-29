@@ -36,6 +36,7 @@ public class UserDAO implements IDAO<UserModel> {
     String address = rs.getString("address");
     UserStatus userStatus = UserStatus.valueOf(rs.getString("status").toUpperCase());
     return new UserModel(
+        id,
         username,
         password,
         email,

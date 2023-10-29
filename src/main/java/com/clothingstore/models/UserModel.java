@@ -27,6 +27,23 @@ public class UserModel {
     this.userStatus = userStatus;
   }
 
+  
+
+  public UserModel(int id, String username, String password, String email, String name, String phone, String address,
+      int gender, String image, int roleId, UserStatus userStatus) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+    this.email = email;
+    this.name = name;
+    this.phone = phone;
+    this.address = address;
+    this.gender = gender;
+    this.image = image;
+    this.roleId = roleId;
+    this.userStatus = userStatus;
+  }
+
   public int getId() {
     return id;
   }
