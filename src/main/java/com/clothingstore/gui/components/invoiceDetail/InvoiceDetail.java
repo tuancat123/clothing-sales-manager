@@ -129,6 +129,7 @@ public class InvoiceDetail extends JFrame {
         ButtonExit.setPreferredSize(new Dimension(80, 30));
         ButtonExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+                dispose();
             }
         });
         gridBagConstraints = new GridBagConstraints();

@@ -6,12 +6,13 @@ import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
+import com.clothingstore.models.ProductModel;
+
 public class Product extends JPanel {
 
-    public Product() {
-        initComponents();
+    public Product(ProductModel productModel) {
+        initComponents(productModel);
         addMouseListener(new MouseListener() {
-
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 ProductDetail productDetail = new ProductDetail();
@@ -19,21 +20,24 @@ public class Product extends JPanel {
             }
 
             @Override
-            public void mouseEntered(MouseEvent arg0) {}
+            public void mouseEntered(MouseEvent arg0) {
+            }
 
             @Override
-            public void mouseExited(MouseEvent arg0) {}
+            public void mouseExited(MouseEvent arg0) {
+            }
 
             @Override
-            public void mousePressed(MouseEvent arg0) {}
+            public void mousePressed(MouseEvent arg0) {
+            }
 
             @Override
-            public void mouseReleased(MouseEvent arg0) {}
-            
+            public void mouseReleased(MouseEvent arg0) {
+            }
         });
     }
 
-    private void initComponents() {
+    private void initComponents(ProductModel productModel) {
 
         Header = new JPanel();
         Image = new JLabel();
@@ -48,12 +52,12 @@ public class Product extends JPanel {
         Header.setBackground(new Color(255, 255, 255));
         Header.setLayout(new GridBagLayout());
 
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/image/quan/nam/jean/QuanJeanA.png"));
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource(productModel.getImage()));
         Image originalImage = originalIcon.getImage();
         Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_REPLICATE);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
-        Image.setIcon(scaledIcon); 
+        Image.setIcon(scaledIcon);
         Image.setPreferredSize(new Dimension(180, 178));
         Header.add(Image, new GridBagConstraints());
 
@@ -65,17 +69,18 @@ public class Product extends JPanel {
 
         Name.setFont(new Font("Segoe UI", 1, 18)); // NOI18N
         Name.setHorizontalAlignment(SwingConstants.CENTER);
-        Name.setText("Black Polo");
+        Name.setText(productModel.getName());
         Footer.add(Name);
 
         Price.setFont(new Font("Segoe UI", 2, 16)); // NOI18N
         Price.setForeground(new Color(240, 18, 18));
         Price.setHorizontalAlignment(SwingConstants.CENTER);
-        Price.setText("350.000");
+        Price.setText(String.valueOf(productModel.getPrice()));
         Footer.add(Price);
 
         add(Footer, BorderLayout.SOUTH);
     }
+
     private JPanel Footer;
     private JPanel Header;
     private JLabel Image;

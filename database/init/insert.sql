@@ -1,4 +1,4 @@
--- Active: 1695036225563@@127.0.0.1@3306@clothingstore
+-- Active: 1698378821566@@127.0.0.1@3306@clothingstore
   INSERT INTO `categories` (`name`)
 VALUES ('Polo'),
        ('Shirt'),
