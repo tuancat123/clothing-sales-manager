@@ -15,7 +15,7 @@ public class Product extends JPanel {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
-                ProductDetail productDetail = new ProductDetail();
+                ProductDetail productDetail = new ProductDetail(productModel);
                 productDetail.setVisible(true);
             }
 

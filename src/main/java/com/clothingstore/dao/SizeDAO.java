@@ -23,7 +23,7 @@ public class SizeDAO implements IDAO<SizeModel> {
 
   private static SizeModel createSizeModelFromResultSet(ResultSet rs) throws SQLException {
     int id = rs.getInt("id");
-    String size = rs.getString("size");
+    String size = rs.getString("name");
     return new SizeModel(id, size);
   }
 
@@ -44,7 +44,7 @@ public class SizeDAO implements IDAO<SizeModel> {
 
   @Override
   public int insert(SizeModel sizeModel) {
-    String insertSql = "INSERT INTO sizes (size) VALUES (?)";
+    String insertSql = "INSERT INTO sizes (name) VALUES (?)";
     Object[] args = {
         sizeModel.getSize()
     };
@@ -58,7 +58,7 @@ public class SizeDAO implements IDAO<SizeModel> {
 
   @Override
   public int update(SizeModel sizeModel) {
-    String updateSql = "UPDATE sizes SET size = ? WHERE id = ?";
+    String updateSql = "UPDATE sizes SET name = ? WHERE id = ?";
     Object[] args = {
         sizeModel.getSize(),
         sizeModel.getId()
@@ -94,14 +94,14 @@ public class SizeDAO implements IDAO<SizeModel> {
       String query;
       if (columnNames == null || columnNames.length == 0) {
         // Search all columns
-        query = "SELECT * FROM sizes WHERE CONCAT(id, size) LIKE ?";
+        query = "SELECT * FROM sizes WHERE CONCAT(id, name) LIKE ?";
       } else if (columnNames.length == 1) {
         // Search specific column in sizes table
         String column = columnNames[0];
         query = "SELECT * FROM sizes WHERE " + column + " LIKE ?";
       } else {
         // Search specific columns in sizes table
-        query = "SELECT id, size FROM sizes WHERE CONCAT("
+        query = "SELECT id, name FROM sizes WHERE CONCAT("
             +
             String.join(", ", columnNames) +
             ") LIKE ?";

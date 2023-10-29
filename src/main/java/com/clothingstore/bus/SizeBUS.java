@@ -107,7 +107,7 @@ public class SizeBUS implements IBUS<SizeModel> {
             return true;
           }
         }
-        case "size" -> {
+        case "name" -> {
           if (value.contains(sizeModel.getSize().toLowerCase())) {
             return true;
           }
