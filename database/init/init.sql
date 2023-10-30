@@ -1,4 +1,4 @@
--- Active: 1695036225563@@127.0.0.1@3306@clothingsales
+-- Active: 1698378821566@@127.0.0.1@3306@clothingstore
 
 DROP DATABASE IF EXISTS clothingstore;
 
@@ -117,7 +117,7 @@ CREATE TABLE
         `id` INT NOT NULL AUTO_INCREMENT,
         `name` VARCHAR(50) NOT NULL,
         `category_id` INT NOT NULL,
-        `image` VARCHAR(255) NOT NULL,
+        `image` LONGTEXT NOT NULL,
         `gender` INT NOT NULL,
         `price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)

@@ -3,9 +3,14 @@ package com.clothingstore.gui.components;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.swing.*;
 
+import org.netbeans.lib.awtextra.AbsoluteConstraints;
+
+import com.clothingstore.gui.utilities.ImageUtil;
 import com.clothingstore.models.ProductModel;
 
 public class Product extends JPanel {
@@ -52,15 +57,16 @@ public class Product extends JPanel {
         Header.setBackground(new Color(255, 255, 255));
         Header.setLayout(new GridBagLayout());
 
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/image/quan/nam/jean/QuanJeanA.png"));
-        Image originalImage = originalIcon.getImage();
-        Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_REPLICATE);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-
-        Image.setIcon(scaledIcon);
-        Image.setPreferredSize(new Dimension(180, 178));
-        Header.add(Image, new GridBagConstraints());
-
+        try {
+            BufferedImage originalImage = ImageUtil.fromBase64(productModel.getImage());
+            Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            Image.setIcon(scaledIcon);
+            Image.setPreferredSize(new Dimension(180, 178));
+            Header.add(Image, new GridBagConstraints());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         add(Header, BorderLayout.CENTER);
 
         Footer.setBackground(new Color(255, 255, 255));

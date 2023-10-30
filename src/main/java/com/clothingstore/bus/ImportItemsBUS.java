@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.clothingstore.dao.ImportItemsDAO;
+import com.clothingstore.dao.SizeItemDAO;
 import com.clothingstore.interfaces.IBUS;
 import com.clothingstore.models.ImportItemsModel;
 
@@ -17,6 +18,10 @@ public class ImportItemsBUS implements IBUS<ImportItemsModel> {
       instance = new ImportItemsBUS();
     }
     return instance;
+  }
+
+  private ImportItemsBUS() {
+    this.importItemsList.addAll(ImportItemsDAO.getInstance().readDatabase());
   }
 
   @Override
