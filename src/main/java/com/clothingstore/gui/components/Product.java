@@ -57,16 +57,16 @@ public class Product extends JPanel {
         Header.setBackground(new Color(255, 255, 255));
         Header.setLayout(new GridBagLayout());
 
-        try {
-            BufferedImage originalImage = ImageUtil.fromBase64(productModel.getImage());
-            Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(scaledImage);
-            Image.setIcon(scaledIcon);
-            Image.setPreferredSize(new Dimension(180, 178));
-            Header.add(Image, new GridBagConstraints());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     BufferedImage originalImage = ImageUtil.fromBase64(productModel.getImage());
+        //     Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+        //     ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        //     Image.setIcon(scaledIcon);
+        //     Image.setPreferredSize(new Dimension(180, 178));
+        //     Header.add(Image, new GridBagConstraints());
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
         add(Header, BorderLayout.CENTER);
 
         Footer.setBackground(new Color(255, 255, 255));

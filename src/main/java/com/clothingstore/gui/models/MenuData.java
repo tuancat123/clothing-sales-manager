@@ -4,12 +4,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-import org.apache.xmlbeans.impl.xb.xsdschema.ImportDocument.Import;
 
 import com.clothingstore.gui.components.Products;
-import com.clothingstore.gui.components.ProductsHeader;
 import com.clothingstore.gui.components.customerList.Customers;
 import com.clothingstore.gui.components.importInvoice.ImportHistory;
 import com.clothingstore.gui.components.invoicesHistory.HistoryList;
