@@ -1,4 +1,4 @@
-package com.clothingstore.gui.components.invoicesHistory;
+package com.clothingstore.gui.components.importInvoice;
 
 import javax.swing.*;
 
@@ -7,42 +7,37 @@ import com.clothingstore.gui.components.invoiceDetail.Product;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.jar.Attributes.Name;
 
 
-public class InvoiceDetail extends JPanel {
+public class ImportDetail extends JPanel {
 
     private String name;
     private String value;
 
-    private static InvoiceDetail instance;
+    private static ImportDetail instance;
 
-    public static InvoiceDetail getInstance() {
+    public static ImportDetail getInstance() {
         if (instance == null) {
-            instance = new InvoiceDetail();
+            instance = new ImportDetail();
         }
         return instance;
     }
 
-    public InvoiceDetail(){
+    public ImportDetail(){
         initComponents();
     }
     
-    public InvoiceDetail(String name, String value) {
+    public ImportDetail(String name, String value) {
         this.name = name;
         this.value = value;
     }
 
-    public static ArrayList<InvoiceDetail> getData() {
-        ArrayList<InvoiceDetail> data = new ArrayList<InvoiceDetail>() {{
-            add(new InvoiceDetail("Id Invoice", "0936622"));
-            add(new InvoiceDetail("Employee Name", "Huỳnh Ngọc Triều"));
-            add(new InvoiceDetail("Date", "23/8/2023"));
-            add(new InvoiceDetail("Total", "300.450.444"));
-            add(new InvoiceDetail("Paying", "Cash"));
-            add(new InvoiceDetail("Customer Name", "Bánh Văn A"));
-            add(new InvoiceDetail("Customer Phone", "09366252"));
-            add(new InvoiceDetail("Products", "6"));
+    public static ArrayList<ImportDetail> getData() {
+        ArrayList<ImportDetail> data = new ArrayList<ImportDetail>() {{
+            add(new ImportDetail("Id Invoice", "0936622"));
+            add(new ImportDetail("Date", "23/8/2023"));
+            add(new ImportDetail("Products", "6"));
+            add(new ImportDetail("Total", "300.450.444"));
         }};
         return data;
     }
@@ -73,19 +68,19 @@ public class InvoiceDetail extends JPanel {
 
         add(NamePanel,BorderLayout.NORTH);
 
-        for(InvoiceDetail invoiceDetail : getData()){
+        for(ImportDetail ImportDetail : getData()){
             JPanel panel = new JPanel();
             panel.setBackground(Color.WHITE);
             panel.setPreferredSize(new Dimension(60, 60));
             panel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
             panel.setLayout(new BorderLayout());
 
-            JLabel Name = new JLabel(invoiceDetail.name);
+            JLabel Name = new JLabel(ImportDetail.name);
             Name.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
             Name.setFont(new Font("Segoe UI", 1, 14));
             panel.add(Name, BorderLayout.WEST);
 
-            JLabel Value = new JLabel(invoiceDetail.value);
+            JLabel Value = new JLabel(ImportDetail.value);
             Value.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 19));
             Value.setFont(new Font("Segoe UI", 0, 14));
             panel.add(Value, BorderLayout.EAST);

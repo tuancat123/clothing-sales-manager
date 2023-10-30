@@ -1,48 +1,47 @@
-package com.clothingstore.gui.components.invoicesHistory;
+package com.clothingstore.gui.components.customerList;
 
 import javax.swing.*;
 
-import com.clothingstore.gui.components.invoiceDetail.HeaderInvoice;
+import com.clothingstore.gui.components.customerList.Invoice;
 import com.clothingstore.gui.components.invoiceDetail.Product;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.jar.Attributes.Name;
 
 
-public class InvoiceDetail extends JPanel {
+public class CustomerDetail extends JPanel {
 
     private String name;
     private String value;
 
-    private static InvoiceDetail instance;
+    private static CustomerDetail instance;
 
-    public static InvoiceDetail getInstance() {
+    public static CustomerDetail getInstance() {
         if (instance == null) {
-            instance = new InvoiceDetail();
+            instance = new CustomerDetail();
         }
         return instance;
     }
 
-    public InvoiceDetail(){
+    public CustomerDetail(){
         initComponents();
     }
     
-    public InvoiceDetail(String name, String value) {
+    public CustomerDetail(String name, String value) {
         this.name = name;
         this.value = value;
     }
 
-    public static ArrayList<InvoiceDetail> getData() {
-        ArrayList<InvoiceDetail> data = new ArrayList<InvoiceDetail>() {{
-            add(new InvoiceDetail("Id Invoice", "0936622"));
-            add(new InvoiceDetail("Employee Name", "Huỳnh Ngọc Triều"));
-            add(new InvoiceDetail("Date", "23/8/2023"));
-            add(new InvoiceDetail("Total", "300.450.444"));
-            add(new InvoiceDetail("Paying", "Cash"));
-            add(new InvoiceDetail("Customer Name", "Bánh Văn A"));
-            add(new InvoiceDetail("Customer Phone", "09366252"));
-            add(new InvoiceDetail("Products", "6"));
+    public static ArrayList<CustomerDetail> getData() {
+        ArrayList<CustomerDetail> data = new ArrayList<CustomerDetail>() {{
+            add(new CustomerDetail("Invoice Id", "0936622"));
+            add(new CustomerDetail("Customer Name", "Huỳnh Ngọc Triều"));
+            add(new CustomerDetail("Phone", "0123456789"));
+            add(new CustomerDetail("Email", "null"));
+            add(new CustomerDetail("Create Date", "30/3/2012"));
+            add(new CustomerDetail("Point Earned", "36622"));
+            add(new CustomerDetail("Point Used", "322"));
+            add(new CustomerDetail("Invoice Quantity", "2"));
         }};
         return data;
     }
@@ -73,19 +72,19 @@ public class InvoiceDetail extends JPanel {
 
         add(NamePanel,BorderLayout.NORTH);
 
-        for(InvoiceDetail invoiceDetail : getData()){
+        for(CustomerDetail CustomerDetail : getData()){
             JPanel panel = new JPanel();
             panel.setBackground(Color.WHITE);
             panel.setPreferredSize(new Dimension(60, 60));
             panel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
             panel.setLayout(new BorderLayout());
 
-            JLabel Name = new JLabel(invoiceDetail.name);
+            JLabel Name = new JLabel(CustomerDetail.name);
             Name.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
             Name.setFont(new Font("Segoe UI", 1, 14));
             panel.add(Name, BorderLayout.WEST);
 
-            JLabel Value = new JLabel(invoiceDetail.value);
+            JLabel Value = new JLabel(CustomerDetail.value);
             Value.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 19));
             Value.setFont(new Font("Segoe UI", 0, 14));
             panel.add(Value, BorderLayout.EAST);
@@ -96,12 +95,13 @@ public class InvoiceDetail extends JPanel {
 
         HeaderProducts.setLayout(new BorderLayout());
         HeaderProducts.setPreferredSize(new Dimension(100,40));
-        HeaderProducts.add(HeaderInvoice.getInstance(), BorderLayout.CENTER);
+        Invoice headerInvoice = new Invoice();
+        HeaderProducts.add(headerInvoice, BorderLayout.CENTER);
 
         Product.setLayout(new GridLayout(5,1));
         for(int i = 0; i< 5;i++){
-            Product product = new Product();
-            Product.add(product);
+            Invoice invoice = new Invoice("001", "30/4/2003", "4", "3.000.000 đ");
+            Product.add(invoice);
         }
         Products.add(HeaderProducts, BorderLayout.NORTH);
         Products.add(Product, BorderLayout.CENTER);

@@ -1,12 +1,12 @@
-package com.clothingstore.gui.components.invoicesHistory;
+package com.clothingstore.gui.components.customerList;
 
 import java.awt.*;
 import javax.swing.*;
 
-public class Invoice extends JPanel {
+public class Customer extends JPanel {
 
     
-    public Invoice() {
+    public Customer() {
         initComponents();
     }
     private void initComponents() {
@@ -14,10 +14,8 @@ public class Invoice extends JPanel {
         Icon = new JLabel();
         Detail = new JPanel();
         Panel = new JPanel();
-        Price = new JLabel();
-        IdInvoice = new JLabel();
-        CustomerInfo = new JPanel();
-        CustomerName = new JLabel();
+        Name = new JLabel();
+        Id = new JLabel();
         Time = new JPanel();
         Date = new JLabel();
         TimeHour = new JLabel();
@@ -29,7 +27,7 @@ public class Invoice extends JPanel {
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
         setBackground(color);
 
-        Icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/coin.png")));
+        Icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/user.png")));
         Icon.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
         add(Icon, BorderLayout.LINE_START);
 
@@ -40,28 +38,18 @@ public class Invoice extends JPanel {
         Panel.setLayout(new GridLayout(2, 0));
         Panel.setBackground(color);
 
-        Price.setHorizontalAlignment(SwingConstants.CENTER);
-        Price.setText("4.000.000 Đ");
-        Price.setFont(new Font("Segoe UI", 0, 14));
-        Price.setForeground(Color.RED);
-        Panel.add(Price);
+        Name.setHorizontalAlignment(SwingConstants.CENTER);
+        Name.setText("Bành Văn A");
+        Name.setFont(new Font("Segoe UI", 0, 14));
+        Name.setForeground(Color.RED);
+        Panel.add(Name);
 
-        IdInvoice.setHorizontalAlignment(SwingConstants.CENTER);
-        IdInvoice.setText("64747374");
-        IdInvoice.setForeground(new Color(0, 128, 0));
-        Panel.add(IdInvoice);
+        Id.setHorizontalAlignment(SwingConstants.CENTER);
+        Id.setText("64747374");
+        Id.setForeground(new Color(0, 128, 0));
+        Panel.add(Id);
 
         Detail.add(Panel, BorderLayout.LINE_START);
-
-        CustomerInfo.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
-        CustomerInfo.setLayout(new GridLayout(2, 0));
-        CustomerInfo.setBackground(color);
-
-        CustomerName.setText("Bành Văn A");
-        CustomerName.setFont(new Font("Segoe UI", 0, 14));
-        CustomerInfo.add(CustomerName);
-
-        Detail.add(CustomerInfo, BorderLayout.CENTER);
 
         add(Detail, BorderLayout.CENTER);
 
@@ -86,12 +74,10 @@ public class Invoice extends JPanel {
 
     private JLabel Date;
     private JPanel Detail;
-    private JPanel CustomerInfo;
-    private JLabel CustomerName;
     private JLabel Icon;
-    private JLabel IdInvoice;
+    private JLabel Id;
     private JPanel Panel;
-    private JLabel Price;
+    private JLabel Name;
     private JPanel Time;
     private JLabel TimeHour;
 }

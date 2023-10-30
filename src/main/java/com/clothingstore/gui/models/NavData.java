@@ -45,7 +45,7 @@ public class NavData {
         return data;
     }
 
-    private static ActionListener MenuAction() {
+    public static ActionListener MenuAction() {
         menuWidth = menu.getWidth();
         return new ActionListener() {
             @Override

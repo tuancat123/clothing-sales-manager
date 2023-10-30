@@ -1,27 +1,21 @@
-package com.clothingstore.gui.components.invoicesHistory;
+package com.clothingstore.gui.components.customerList;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
-
-import com.clothingstore.bus.UserBUS;
-import com.clothingstore.models.UserModel;
-
 import services.Authentication;
 
-public class HistoryList extends JPanel {
+public class CustomerList extends JPanel {
 
-    private static HistoryList instance;
+    private static CustomerList instance;
 
-    public static HistoryList getInstance() {
+    public static CustomerList getInstance() {
         if (instance == null) {
-            instance = new HistoryList();
+            instance = new CustomerList();
         }
         return instance;
     }
 
-    public HistoryList() {
+    public CustomerList() {
         initComponents();
     }
 
@@ -34,7 +28,7 @@ public class HistoryList extends JPanel {
         Panel = new JPanel();
         ButtonSearch = new JButton();
         SearchValue = new JTextField();
-        Invoices = new JPanel();
+        Customers = new JPanel();
         Scroll = new JScrollPane();
 
         Color color = new Color(179, 209, 255);
@@ -52,7 +46,7 @@ public class HistoryList extends JPanel {
 
         NamePanel.setFont(new Font("Segoe UI", 1, 18)); // NOI18N
         NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
-        NamePanel.setText("Hoạt Động");
+        NamePanel.setText("Customer List");
         NameHeader.setBackground(color);
         NameHeader.add(NamePanel, BorderLayout.CENTER);
 
@@ -60,7 +54,6 @@ public class HistoryList extends JPanel {
         ButtonBack.setIcon(new ImageIcon(getClass().getResource("/config/icon/back.png"))); // NOI18N
         ButtonBack.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
         NameHeader.add(ButtonBack, BorderLayout.LINE_START);
-        ButtonBack.addActionListener(closeHistoryList);
 
         Header.add(NameHeader, BorderLayout.NORTH);
 
@@ -75,7 +68,7 @@ public class HistoryList extends JPanel {
 
         SearchValue.setBackground(new Color(242, 242, 242));
         SearchValue.setFont(new Font("Segoe UI", 0, 14)); // NOI18N
-        SearchValue.setText("Tìm theo mã hóa đơn");
+        SearchValue.setText("Tìm theo mã khách hàng");
         SearchValue.setBackground(Color.white);
         SearchValue.setBorder(BorderFactory.createEmptyBorder(1, 6, 1, 1));
         Panel.add(SearchValue, BorderLayout.CENTER);
@@ -84,26 +77,22 @@ public class HistoryList extends JPanel {
 
         add(Header, BorderLayout.PAGE_START);
 
-        Invoices.setLayout(new GridLayout(0, 1));
-        Invoices.setBackground(color);
+        Customers.setLayout(new GridLayout(0, 1));
+        Customers.setBackground(color);
         for (int i = 0; i < 10; i++) {
-            Invoice invoice = new Invoice();
-            Invoices.add(invoice);
+            Customer customer = new Customer();
+            Customers.add(customer);
         }
 
-        Scroll.setViewportView(Invoices);
+        Scroll.setViewportView(Customers);
 
         add(Scroll, BorderLayout.CENTER);
     }
 
-    private ActionListener closeHistoryList = e -> {
-        setVisible(false);
-    };
-
     private JButton ButtonBack;
     private JButton ButtonSearch;
     private JPanel Header;
-    private JPanel Invoices;
+    private JPanel Customers;
     private JPanel NameHeader;
     private JLabel NamePanel;
     private JTextField SearchValue;

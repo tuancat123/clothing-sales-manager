@@ -38,10 +38,10 @@ public class HomePage extends JFrame {
     setBackground(Color.BLACK);
     switch (currentUser.getRoleId()) {
       case 1:
-        add(Dashboard.getInstance(), BorderLayout.CENTER);
+        add(Products.getInstance(), BorderLayout.CENTER);
         break;
       case 2:
-        add(Dashboard.getInstance(), BorderLayout.CENTER);
+        add(Products.getInstance(), BorderLayout.CENTER);
         break;
       case 3:
         add(Products.getInstance(), BorderLayout.CENTER);

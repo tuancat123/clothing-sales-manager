@@ -53,12 +53,7 @@ public class Menu extends JPanel {
                     menuItem.setContentAreaFilled(false);
                     menuItem.setOpaque(true);
 
-                    menuItem.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            option.getActionListener();
-                        }
-                    });
+                    menuItem.addActionListener(option.getActionListener());
                     popupMenu.add(new JSeparator());
                     popupMenu.add(menuItem);
                 }

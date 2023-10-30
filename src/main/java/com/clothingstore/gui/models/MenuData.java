@@ -5,7 +5,12 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.ImportDocument.Import;
+
 import com.clothingstore.gui.components.Products;
+import com.clothingstore.gui.components.ProductsHeader;
+import com.clothingstore.gui.components.customerList.Customers;
+import com.clothingstore.gui.components.importInvoice.ImportHistory;
 import com.clothingstore.gui.components.invoicesHistory.HistoryList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
 import com.clothingstore.gui.employee.HomePage;
@@ -102,7 +107,7 @@ public class MenuData {
                 new ArrayList<MenuItemData>() {
                     {
                         add(new MenuItemData("Add Invoice", null));
-                        add(new MenuItemData("Import Management", null));
+                        add(new MenuItemData("Import Management", ImportAction()));
 
                     }
                 },
@@ -121,7 +126,7 @@ public class MenuData {
                 "Customers Management",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Customers List", null));
+                        add(new MenuItemData("Customers List", CustomerAction()));
                         add(new MenuItemData("Add Customers", null));
 
                     }
@@ -153,7 +158,7 @@ public class MenuData {
                 new ArrayList<MenuItemData>() {
                     {
                         add(new MenuItemData("Add Invoice", null));
-                        add(new MenuItemData("Import Management", null));
+                        add(new MenuItemData("Import Management", ImportAction()));
 
                     }
                 },
@@ -162,7 +167,7 @@ public class MenuData {
                 "Customers Management",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Customers List", null));
+                        add(new MenuItemData("Customers List", CustomerAction()));
                         add(new MenuItemData("Add Customers", null));
 
                     }
@@ -177,8 +182,10 @@ public class MenuData {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HomePage.getInstance().Remove();
-                ;
-                HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
+                if(currentUser.getRoleId()==3)
+                    HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
+                else
+                    HomePage.getInstance().Add(Products.getInstance());
             }
         };
     }
@@ -190,6 +197,25 @@ public class MenuData {
                 HistoryList.getInstance().setVisible(true);
                 HomePage.getInstance().Remove();
                 HomePage.getInstance().Add(InvoiceHistory.getInstance());
+            }
+        };
+    }
+
+    private static ActionListener ImportAction() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HomePage.getInstance().Remove();
+                HomePage.getInstance().Add(ImportHistory.getInstance());
+            }
+        };
+    }
+    private static ActionListener CustomerAction() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HomePage.getInstance().Remove();
+                HomePage.getInstance().Add(Customers.getInstance());
             }
         };
     }

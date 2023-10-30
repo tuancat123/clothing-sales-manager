@@ -1,12 +1,12 @@
-package com.clothingstore.gui.components.invoicesHistory;
+package com.clothingstore.gui.components.importInvoice;
 
 import java.awt.*;
 import javax.swing.*;
 
-public class Invoice extends JPanel {
+public class ImportInvoice extends JPanel {
 
     
-    public Invoice() {
+    public ImportInvoice() {
         initComponents();
     }
     private void initComponents() {
@@ -16,8 +16,6 @@ public class Invoice extends JPanel {
         Panel = new JPanel();
         Price = new JLabel();
         IdInvoice = new JLabel();
-        CustomerInfo = new JPanel();
-        CustomerName = new JLabel();
         Time = new JPanel();
         Date = new JLabel();
         TimeHour = new JLabel();
@@ -53,16 +51,6 @@ public class Invoice extends JPanel {
 
         Detail.add(Panel, BorderLayout.LINE_START);
 
-        CustomerInfo.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
-        CustomerInfo.setLayout(new GridLayout(2, 0));
-        CustomerInfo.setBackground(color);
-
-        CustomerName.setText("Bành Văn A");
-        CustomerName.setFont(new Font("Segoe UI", 0, 14));
-        CustomerInfo.add(CustomerName);
-
-        Detail.add(CustomerInfo, BorderLayout.CENTER);
-
         add(Detail, BorderLayout.CENTER);
 
         Time.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -86,8 +74,6 @@ public class Invoice extends JPanel {
 
     private JLabel Date;
     private JPanel Detail;
-    private JPanel CustomerInfo;
-    private JLabel CustomerName;
     private JLabel Icon;
     private JLabel IdInvoice;
     private JPanel Panel;

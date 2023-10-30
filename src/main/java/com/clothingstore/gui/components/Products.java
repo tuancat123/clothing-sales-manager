@@ -7,9 +7,6 @@ import java.util.List;
 import javax.swing.*;
 
 import com.clothingstore.bus.ProductBUS;
-import com.clothingstore.gui.admin.products.MainHeader;
-import com.clothingstore.gui.employee.Header;
-import com.clothingstore.gui.models.MenuData;
 import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.UserModel;
 
@@ -20,8 +17,8 @@ public class Products extends JPanel {
     List<ProductModel> productList = ProductBUS.getInstance().getAllModels();
     static UserModel currentUser = Authentication.getCurrentUser();
 
-    private static Products instance;
     Boolean Visible = false;
+    private static Products instance;
     
     public static Products getInstance() {
         if (instance == null) {
@@ -55,25 +52,8 @@ public class Products extends JPanel {
             product.setBackground(new Color(170, 205, 239));
             Products.add(product);
         }
-        Scroll.setViewportView(Products);
-
-        
-        // switch (currentUser.getRoleId()) {
-        //     case 1:
-                MainHeader mainHeader = new MainHeader();
-                add(mainHeader, BorderLayout.NORTH);
-        //         break;
-        //     case 2:
-        //         add(headerAdmin, BorderLayout.NORTH);
-        //         break;
-        //     case 3:
-        //         Header header = new Header();
-        //         add(header, BorderLayout.NORTH);
-        //         break;
-        //     default:
-        //         throw new IllegalArgumentException("User role is not supported");
-        // }
-
+        Scroll.setViewportView(Products);        
+        add(ProductsHeader.getInstance(), BorderLayout.NORTH);
         add(Scroll, BorderLayout.CENTER);
     }
 

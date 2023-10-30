@@ -1,4 +1,4 @@
-package com.clothingstore.gui.components.invoicesHistory;
+package com.clothingstore.gui.components.importInvoice;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -10,18 +10,18 @@ import com.clothingstore.models.UserModel;
 
 import services.Authentication;
 
-public class HistoryList extends JPanel {
+public class ImportList extends JPanel {
 
-    private static HistoryList instance;
+    private static ImportList instance;
 
-    public static HistoryList getInstance() {
+    public static ImportList getInstance() {
         if (instance == null) {
-            instance = new HistoryList();
+            instance = new ImportList();
         }
         return instance;
     }
 
-    public HistoryList() {
+    public ImportList() {
         initComponents();
     }
 
@@ -52,7 +52,7 @@ public class HistoryList extends JPanel {
 
         NamePanel.setFont(new Font("Segoe UI", 1, 18)); // NOI18N
         NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
-        NamePanel.setText("Hoạt Động");
+        NamePanel.setText("Import Invoice");
         NameHeader.setBackground(color);
         NameHeader.add(NamePanel, BorderLayout.CENTER);
 
@@ -60,7 +60,6 @@ public class HistoryList extends JPanel {
         ButtonBack.setIcon(new ImageIcon(getClass().getResource("/config/icon/back.png"))); // NOI18N
         ButtonBack.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
         NameHeader.add(ButtonBack, BorderLayout.LINE_START);
-        ButtonBack.addActionListener(closeHistoryList);
 
         Header.add(NameHeader, BorderLayout.NORTH);
 
@@ -87,18 +86,14 @@ public class HistoryList extends JPanel {
         Invoices.setLayout(new GridLayout(0, 1));
         Invoices.setBackground(color);
         for (int i = 0; i < 10; i++) {
-            Invoice invoice = new Invoice();
-            Invoices.add(invoice);
+            ImportInvoice importInvoice = new ImportInvoice();
+            Invoices.add(importInvoice);
         }
 
         Scroll.setViewportView(Invoices);
 
         add(Scroll, BorderLayout.CENTER);
     }
-
-    private ActionListener closeHistoryList = e -> {
-        setVisible(false);
-    };
 
     private JButton ButtonBack;
     private JButton ButtonSearch;
