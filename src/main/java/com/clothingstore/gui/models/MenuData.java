@@ -10,6 +10,7 @@ import com.clothingstore.gui.components.customerList.Customers;
 import com.clothingstore.gui.components.importInvoice.ImportHistory;
 import com.clothingstore.gui.components.invoicesHistory.HistoryList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
+import com.clothingstore.gui.components.statistical.Revenue;
 import com.clothingstore.gui.employee.HomePage;
 import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.gui.login.Login;
@@ -113,7 +114,7 @@ public class MenuData {
                 "Employees Management",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Employeees List", null));
+                        add(new MenuItemData("Employees List", null));
                         add(new MenuItemData("Add Employee", null));
 
                     }
@@ -133,7 +134,7 @@ public class MenuData {
                 "statistical",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("revenue statistics", null));
+                        add(new MenuItemData("revenue statistics", RevenueAction()));
                         add(new MenuItemData("operating costs", null));
                         add(new MenuItemData("profit statistics", null));
 
@@ -213,6 +214,15 @@ public class MenuData {
             public void actionPerformed(ActionEvent e) {
                 HomePage.getInstance().Remove();
                 HomePage.getInstance().Add(Customers.getInstance());
+            }
+        };
+    }
+    private static ActionListener RevenueAction() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HomePage.getInstance().Remove();
+                HomePage.getInstance().Add(Revenue.getInstance());
             }
         };
     }
