@@ -162,6 +162,7 @@ public class ProductDetail extends JFrame {
     GenderText.setText("Gender:");
     getContentPane().add(GenderText, new AbsoluteConstraints(240, 130, 60, 30));
 
+    // TODO: ERD Không có cột Description?
     Describe.setFont(new Font("Segoe UI", 0, 14));
     Describe.setText("Trong ví dụ này, chúng ta sử dụng GridBagLayout để quản lý việc");
     Scroll.setViewportView(Describe);
@@ -183,14 +184,24 @@ public class ProductDetail extends JFrame {
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.insets = new Insets(0, 0, 0, 10);
 
-    // TODO: Hoàn thành nút Add to cart, hiển thị số lượng sản phẩm còn lại theo size dựa theo bản import_items
-
     ButtonGroup sizeGroup = new ButtonGroup();
     JRadioButton sizeS = new JRadioButton("S");
     sizeS.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-
+        int spinnerValue = (int) spinner.getValue();
+        for (int i = 0; i < sizeItemModels.size(); i++) {
+          if (sizeItemModels.get(i).getSizeId() == 1) {
+            Remaining.setFont(new Font("Segoe UI", 0, 15));
+            Remaining.setForeground(new Color(102, 102, 102));
+            Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
+            getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
+            if (spinnerValue >= sizeItemModels.get(i).getQuantity()) {
+              spinner.setValue(sizeItemModels.get(i).getQuantity());
+            }
+            break;
+          }
+        }
       }
     });
 
@@ -199,8 +210,19 @@ public class ProductDetail extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        int spinnerValue = (int) spinner.getValue();
+        for (int i = 0; i < sizeItemModels.size(); i++) {
+          if (sizeItemModels.get(i).getSizeId() == 2) {
+            Remaining.setFont(new Font("Segoe UI", 0, 15));
+            Remaining.setForeground(new Color(102, 102, 102));
+            Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
+            getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
+            if (spinnerValue >= sizeItemModels.get(i).getQuantity()) {
+              spinner.setValue(sizeItemModels.get(i).getQuantity());
+            }
+            break;
+          }
+        }
       }
 
     });
@@ -209,8 +231,19 @@ public class ProductDetail extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        int spinnerValue = (int) spinner.getValue();
+        for (int i = 0; i < sizeItemModels.size(); i++) {
+          if (sizeItemModels.get(i).getSizeId() == 3) {
+            Remaining.setFont(new Font("Segoe UI", 0, 15));
+            Remaining.setForeground(new Color(102, 102, 102));
+            Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
+            getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
+            if (spinnerValue >= sizeItemModels.get(i).getQuantity()) {
+              spinner.setValue(sizeItemModels.get(i).getQuantity());
+            }
+            break;
+          }
+        }
       }
 
     });
@@ -219,8 +252,19 @@ public class ProductDetail extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        int spinnerValue = (int) spinner.getValue();
+        for (int i = 0; i < sizeItemModels.size(); i++) {
+          if (sizeItemModels.get(i).getSizeId() == 4) {
+            Remaining.setFont(new Font("Segoe UI", 0, 15));
+            Remaining.setForeground(new Color(102, 102, 102));
+            Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
+            getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
+            if (spinnerValue >= sizeItemModels.get(i).getQuantity()) {
+              spinner.setValue(sizeItemModels.get(i).getQuantity());
+            }
+            break;
+          }
+        }
       }
 
     });
@@ -229,8 +273,19 @@ public class ProductDetail extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        int spinnerValue = (int) spinner.getValue();
+        for (int i = 0; i < sizeItemModels.size(); i++) {
+          if (sizeItemModels.get(i).getSizeId() == 5) {
+            Remaining.setFont(new Font("Segoe UI", 0, 15));
+            Remaining.setForeground(new Color(102, 102, 102));
+            Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
+            getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
+            if (spinnerValue >= sizeItemModels.get(i).getQuantity()) {
+              spinner.setValue(sizeItemModels.get(i).getQuantity());
+            }
+            break;
+          }
+        }
       }
 
     });
@@ -258,19 +313,17 @@ public class ProductDetail extends JFrame {
     });
     getContentPane().add(ButtonExit, new AbsoluteConstraints(200, 320, -1, -1));
 
+    // TODO: Hoàn thành nút Add to cart
     ButtonAdd.setText("Add To Cart");
     ButtonAdd.setPreferredSize(new Dimension(94, 28));
     ButtonAdd.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        
+
       }
 
     });
     getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 320, -1, -1));
-    Remaining.setFont(new Font("Segoe UI", 0, 15));
-    Remaining.setForeground(new Color(102, 102, 102));
-    getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
 
     pack();
   }
