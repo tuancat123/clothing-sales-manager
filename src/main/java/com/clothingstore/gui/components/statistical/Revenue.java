@@ -31,6 +31,7 @@ public class Revenue extends JPanel {
 
         add(ChartPanel, BorderLayout.NORTH);
         add(Content, BorderLayout.CENTER);
+        
     }
     private JPanel ChartPanel;
     private JPanel Content;
