@@ -3,6 +3,8 @@ package com.clothingstore.gui.components;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,6 +24,7 @@ import com.clothingstore.models.ImportItemsModel;
 import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
 import com.clothingstore.models.SizeModel;
+import com.clothingstore.gui.utilities.ImageUtil;
 
 public class ProductDetail extends JFrame {
 
@@ -92,15 +95,18 @@ public class ProductDetail extends JFrame {
 
     ImagePanel.setLayout(new GridBagLayout());
 
-    ImageIcon originalIcon = new ImageIcon(productModel.getImage());
-    Image originalImage = originalIcon.getImage();
-    Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
-    ImageIcon scaledIcon = new ImageIcon(scaledImage);
-
-    Image.setIcon(scaledIcon);
-    ImagePanel.add(Image, new GridBagConstraints());
-    ImagePanel.setBackground(color);
-    getContentPane().add(ImagePanel, new AbsoluteConstraints(10, 20, 190, 270));
+    try {
+      BufferedImage originalImage = ImageUtil.fromBase64(productModel.getImage());
+      Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+      ImageIcon scaledIcon = new ImageIcon(scaledImage);
+      JLabel imageLabel = new JLabel(scaledIcon);
+      JPanel imagePanel = new JPanel(new GridBagLayout());
+      imagePanel.add(imageLabel, new GridBagConstraints());
+      imagePanel.setBackground(color);
+      getContentPane().add(imagePanel, new AbsoluteConstraints(10, 20, 190, 270));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     Name.setEditable(false);
     Name.setBackground(new Color(255, 255, 255));
