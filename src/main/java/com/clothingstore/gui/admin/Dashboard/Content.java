@@ -41,7 +41,7 @@ public class Content extends JPanel {
 
         Cards.setLayout(new GridLayout(1,4,20,20));
         for(int i = 0; i<4;i++){
-            Card card = new Card();
+            Card card = new Card("coin.png", "Total Order",344.4,Color.BLUE);
             Cards.add(card);
         }
         MainPanel.add(Cards, BorderLayout.NORTH);
