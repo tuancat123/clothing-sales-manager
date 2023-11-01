@@ -1306,7 +1306,7 @@ INSERT INTO `role_permissions`(`role_id`,`permission_id`) VALUES
 (2,5),
 (2,6);
 
-INSERT INTO `orders` (`customer_id`, `user_id`, `order_date`, `total_price`) VALUES
+INSERT INTO `orders` (`customer_id`, `user_id`, `order_date`, `total_amount`) VALUES
 (1, 3, '2023-10-15', 500000),
 (2, 4, '2023-10-16', 1200000),
 (3, 5, '2023-10-17', 550000),

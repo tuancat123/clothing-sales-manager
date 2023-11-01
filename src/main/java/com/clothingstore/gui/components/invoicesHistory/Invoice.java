@@ -1,15 +1,21 @@
 package com.clothingstore.gui.components.invoicesHistory;
 
 import java.awt.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.*;
 
-public class Invoice extends JPanel {
+import com.clothingstore.models.CustomerModel;
+import com.clothingstore.models.OrderModel;
 
-    
-    public Invoice() {
-        initComponents();
+public class Invoice extends JPanel {
+    public Invoice(OrderModel orderModel, CustomerModel customerModel) {
+        initComponents(orderModel, customerModel);
     }
-    private void initComponents() {
+
+    private void initComponents(OrderModel orderModel, CustomerModel customerModel) {
 
         Icon = new JLabel();
         Detail = new JPanel();
@@ -41,13 +47,13 @@ public class Invoice extends JPanel {
         Panel.setBackground(color);
 
         Price.setHorizontalAlignment(SwingConstants.CENTER);
-        Price.setText("4.000.000 Đ");
+        Price.setText(" " + orderModel.getTotalPrice());
         Price.setFont(new Font("Segoe UI", 0, 14));
         Price.setForeground(Color.RED);
         Panel.add(Price);
 
         IdInvoice.setHorizontalAlignment(SwingConstants.CENTER);
-        IdInvoice.setText("64747374");
+        IdInvoice.setText(" " + orderModel.getId());
         IdInvoice.setForeground(new Color(0, 128, 0));
         Panel.add(IdInvoice);
 
@@ -57,7 +63,7 @@ public class Invoice extends JPanel {
         CustomerInfo.setLayout(new GridLayout(2, 0));
         CustomerInfo.setBackground(color);
 
-        CustomerName.setText("Bành Văn A");
+        CustomerName.setText(customerModel.getCustomerName());
         CustomerName.setFont(new Font("Segoe UI", 0, 14));
         CustomerInfo.add(CustomerName);
 
@@ -69,20 +75,27 @@ public class Invoice extends JPanel {
         Time.setLayout(new GridLayout(2, 1));
         Time.setBackground(color);
 
-        Date.setText("05/10/2022");
-        Date.setFont(new Font("Segoe UI", 0, 13));
-        Date.setForeground(new Color(102, 0, 51));
-        Time.add(Date);
+        Timestamp timestamp = orderModel.getOrderDate();
+        if (timestamp != null) {
+            Date date = new Date(timestamp.getTime());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm"); // Corrected the time format pattern
+            String dateString = dateFormat.format(date);
+            String timeString = timeFormat.format(date);
+            Date.setText(" " + dateString);
+            Date.setFont(new Font("Segoe UI", 0, 13));
+            Date.setForeground(new Color(102, 0, 51));
+            Time.add(Date);
 
-        TimeHour.setHorizontalAlignment(SwingConstants.CENTER);
-        TimeHour.setText("16h30");
-        TimeHour.setForeground(new Color(0, 0, 102));
-        TimeHour.setFont(new Font("Segoe UI", 0, 12));
-        Time.add(TimeHour);
+            TimeHour.setHorizontalAlignment(SwingConstants.CENTER);
+            TimeHour.setText(" " + timeString);
+            TimeHour.setForeground(new Color(0, 0, 102));
+            TimeHour.setFont(new Font("Segoe UI", 0, 12));
+            Time.add(TimeHour);
+        }
 
         add(Time, BorderLayout.EAST);
     }
-
 
     private JLabel Date;
     private JPanel Detail;

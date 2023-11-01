@@ -2,10 +2,17 @@ package com.clothingstore.gui.components.invoicesHistory;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
 
+import com.clothingstore.bus.CustomerBUS;
+import com.clothingstore.bus.OrderBUS;
 import com.clothingstore.bus.UserBUS;
+import com.clothingstore.models.CustomerModel;
+import com.clothingstore.models.OrderModel;
 import com.clothingstore.models.UserModel;
 
 import services.Authentication;
@@ -86,13 +93,24 @@ public class HistoryList extends JPanel {
 
         Invoices.setLayout(new GridLayout(0, 1));
         Invoices.setBackground(color);
-        for (int i = 0; i < 10; i++) {
-            Invoice invoice = new Invoice();
-            Invoices.add(invoice);
+        java.util.List<OrderModel> orderList = new ArrayList<>();
+        orderList.addAll(OrderBUS.getInstance().getAllModels());
+        java.util.List<CustomerModel> customerList = new ArrayList<>();
+        customerList.addAll(CustomerBUS.getInstance().getAllModels());
+        java.util.List<Invoice> invoices = new ArrayList<>();
+
+
+        for (int i = 0; i < orderList.size(); i++) {
+            for (int j = 0; j < customerList.size(); j++) {
+                if (customerList.get(j).getId() == orderList.get(i).getCustomerId()) {
+                    Invoice invoice = new Invoice(orderList.get(i), customerList.get(j));
+                    invoices.add(invoice);
+                }
+            }
+
         }
 
         Scroll.setViewportView(Invoices);
-
         add(Scroll, BorderLayout.CENTER);
     }
 

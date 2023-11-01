@@ -19,6 +19,10 @@ public class OrderBUS implements IBUS<OrderModel> {
     return instance;
   }
 
+  private OrderBUS() {
+    this.orderList.addAll(OrderDAO.getInstance().readDatabase());
+  }
+
   @Override
   public List<OrderModel> getAllModels() {
     return Collections.unmodifiableList(orderList);
@@ -93,40 +97,40 @@ public class OrderBUS implements IBUS<OrderModel> {
   }
 
   private boolean checkFilter(
-        OrderModel order,
-        String value,
-        String[] columns) {
-        for (String column : columns) {
-            switch (column.toLowerCase()) {
-                case "id" -> {
-                    if (Integer.parseInt(value) == order.getId()) {
-                        return true;
-                    }
-                }
-                case "customer_id" -> {
-                    if (Integer.parseInt(value) == order.getCustomerId()) {
-                        return true;
-                    }
-                }
-                case "user_id" -> {
-                    if (Integer.parseInt(value) == order.getUserId()) {
-                        return true;
-                    }
-                }
-                case "total_price" -> {
-                    if (Double.valueOf(order.getTotalPrice()).equals(Double.valueOf(value))) {
-                        return true;
-                    }
-                }
-                default -> {
-                    if (checkAllColumns(order, value)) {
-                        return true;
-                    }
-                }
-            }
+      OrderModel order,
+      String value,
+      String[] columns) {
+    for (String column : columns) {
+      switch (column.toLowerCase()) {
+        case "id" -> {
+          if (Integer.parseInt(value) == order.getId()) {
+            return true;
+          }
         }
-        return false;
+        case "customer_id" -> {
+          if (Integer.parseInt(value) == order.getCustomerId()) {
+            return true;
+          }
+        }
+        case "user_id" -> {
+          if (Integer.parseInt(value) == order.getUserId()) {
+            return true;
+          }
+        }
+        case "total_price" -> {
+          if (Double.valueOf(order.getTotalPrice()).equals(Double.valueOf(value))) {
+            return true;
+          }
+        }
+        default -> {
+          if (checkAllColumns(order, value)) {
+            return true;
+          }
+        }
+      }
     }
+    return false;
+  }
 
   private boolean checkAllColumns(OrderModel order, String value) {
     return (order.getId() == Integer.parseInt(value) ||

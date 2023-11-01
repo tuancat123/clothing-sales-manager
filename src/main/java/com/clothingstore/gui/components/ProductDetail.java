@@ -6,11 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.*;
 
 import org.netbeans.lib.awtextra.*;
@@ -325,7 +322,7 @@ public class ProductDetail extends JFrame {
     ButtonAdd.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-
+        
       }
 
     });

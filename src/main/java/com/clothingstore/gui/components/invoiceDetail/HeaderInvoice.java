@@ -13,7 +13,7 @@ public class HeaderInvoice extends JPanel {
         }
         return instance;
     }
-   
+
     public HeaderInvoice() {
         initComponents();
     }
