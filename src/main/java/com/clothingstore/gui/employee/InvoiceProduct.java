@@ -4,8 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
-import com.clothingstore.gui.components.Control;
-
 public class InvoiceProduct extends JPanel {
 
     public InvoiceProduct() {
@@ -26,7 +24,6 @@ public class InvoiceProduct extends JPanel {
         setLayout(new AbsoluteLayout());
         setBackground(new Color(179, 209, 255));
 
-
         IndexText.setFont(new Font("Segoe UI", 0, 14));
         IndexText.setText("01");
         add(IndexText, new AbsoluteConstraints(8, 20, -1, 30));
@@ -40,7 +37,7 @@ public class InvoiceProduct extends JPanel {
         Size.setForeground(Color.BLUE);
         Size.setText("( M )");
         add(Size, new AbsoluteConstraints(45, 28, 45, 30));
-        
+
         JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
         spinner.setBackground(new Color(255, 204, 204));
         add(spinner, new AbsoluteConstraints(90, 34, 55, 20));
@@ -56,7 +53,7 @@ public class InvoiceProduct extends JPanel {
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
         ButtonDel.setIcon(scaledIcon);
-        add(ButtonDel, new AbsoluteConstraints(240, 22 , 25, 25));
+        add(ButtonDel, new AbsoluteConstraints(240, 22, 25, 25));
     }
 
     private JLabel IndexText;
