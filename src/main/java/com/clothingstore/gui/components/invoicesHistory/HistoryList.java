@@ -107,33 +107,31 @@ public class HistoryList extends JPanel {
         if (customerList.get(j).getId() == orderList.get(i).getCustomerId()) {
           Invoice invoice = new Invoice(orderList.get(i), customerList.get(j));
           Invoices.add(invoice);
+          InvoiceDetail invoiceDetail = new InvoiceDetail(orderList.get(i), customerList.get(j));
           invoice.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-              throw new UnsupportedOperationException("Unimplemented");
-              // new InvoiceDetail();
+              InvoiceHistory.getInstance().add(invoiceDetail, BorderLayout.CENTER);
+              InvoiceHistory.getInstance().repaint();
+              InvoiceHistory.getInstance().revalidate();
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-              throw new UnsupportedOperationException("Unimplemented");
-              // new InvoiceDetail();
+
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-              throw new UnsupportedOperationException("Unimplemented method 'mouseReleased'");
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-              throw new UnsupportedOperationException("Unimplemented");
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-              throw new UnsupportedOperationException("Unimplemented method 'mouseExited'");
             }
 
           });

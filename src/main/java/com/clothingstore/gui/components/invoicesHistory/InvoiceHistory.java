@@ -20,7 +20,6 @@ public class InvoiceHistory extends JPanel {
     private void initComponents() {
         setLayout(new BorderLayout());
         add(HistoryList.getInstance(), BorderLayout.WEST);
-        add(InvoiceDetail.getInstance(), BorderLayout.CENTER);
     }
-    
+
 }
