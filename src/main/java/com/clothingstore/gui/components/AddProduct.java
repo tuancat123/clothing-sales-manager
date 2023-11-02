@@ -1,9 +1,21 @@
 package com.clothingstore.gui.components;
 
 import java.awt.*;
+import java.util.*;
 import javax.swing.*;
 
 public class AddProduct extends JFrame {
+
+    ArrayList<String> name = new ArrayList<String>(){{
+        add("Name");
+        add("Value");
+    }};
+
+    ArrayList<String> invalid = new ArrayList<String>(){{
+        add("Not null");
+        add("False");
+    }};
+    
     public AddProduct(){
         initComponents();
         setVisible(true);
