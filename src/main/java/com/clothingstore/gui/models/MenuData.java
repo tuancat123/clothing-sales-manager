@@ -74,7 +74,7 @@ public class MenuData {
                 "Customers",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Customers list", null));
+                        add(new MenuItemData("Customers list", CustomerAction()));
                         add(new MenuItemData("Add Customers", null));
 
                     }

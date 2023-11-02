@@ -2,10 +2,7 @@ package com.clothingstore.gui.components.invoicesHistory;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.*;
 import javax.swing.*;
 
 import com.clothingstore.bus.CustomerBUS;
@@ -43,6 +40,7 @@ public class HistoryList extends JPanel {
         SearchValue = new JTextField();
         Invoices = new JPanel();
         Scroll = new JScrollPane();
+        ChooseDate = new JPanel();
 
         Color color = new Color(179, 209, 255);
 
@@ -87,6 +85,11 @@ public class HistoryList extends JPanel {
         SearchValue.setBorder(BorderFactory.createEmptyBorder(1, 6, 1, 1));
         Panel.add(SearchValue, BorderLayout.CENTER);
 
+        JComboBox<String> Month = new JComboBox<>(); 
+        Month.setModel(new DefaultComboBoxModel<>(new String[] { "..","1", "2", "3", "4" }));
+        ChooseDate.add(Month);
+        Panel.add(ChooseDate, BorderLayout.EAST);
+
         Header.add(Panel, BorderLayout.SOUTH);
 
         add(Header, BorderLayout.PAGE_START);
@@ -127,4 +130,5 @@ public class HistoryList extends JPanel {
     private JTextField SearchValue;
     private JPanel Panel;
     private JScrollPane Scroll;
+    private JPanel ChooseDate;
 }

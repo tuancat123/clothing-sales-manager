@@ -23,8 +23,9 @@ public class Card extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setLayout(new BorderLayout());
         setBackground(color);
-
-        Icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/"+icon))); // NOI18N
+        
+        Icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/"+icon)));
+        Icon.setHorizontalAlignment(SwingConstants.RIGHT);
         add(Icon, BorderLayout.PAGE_START);
 
         MainPanel.setLayout(new GridLayout(3, 0));
@@ -57,4 +58,5 @@ public class Card extends JPanel {
     private JLabel Value;
     private JPanel Panel;
     private JProgressBar ProgressBar;
+    
 }
