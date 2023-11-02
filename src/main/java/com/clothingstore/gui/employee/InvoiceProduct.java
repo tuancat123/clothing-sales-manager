@@ -41,8 +41,9 @@ public class InvoiceProduct extends JPanel {
         Size.setText("( M )");
         add(Size, new AbsoluteConstraints(45, 28, 45, 30));
         
-        Control control = new Control();
-        add(control, new AbsoluteConstraints(90, 34, 55, 20));
+        JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
+        spinner.setBackground(new Color(255, 204, 204));
+        add(spinner, new AbsoluteConstraints(90, 34, 55, 20));
 
         Prince.setFont(new Font("Segoe UI", 0, 15));
         Prince.setForeground(new Color(255, 0, 0));

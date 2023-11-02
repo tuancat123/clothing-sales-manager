@@ -92,18 +92,18 @@ public class ProductDetail extends JFrame {
 
     ImagePanel.setLayout(new GridBagLayout());
 
-    try {
-      BufferedImage originalImage = ImageUtil.fromBase64(productModel.getImage());
-      Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
-      ImageIcon scaledIcon = new ImageIcon(scaledImage);
-      JLabel imageLabel = new JLabel(scaledIcon);
-      JPanel imagePanel = new JPanel(new GridBagLayout());
-      imagePanel.add(imageLabel, new GridBagConstraints());
-      imagePanel.setBackground(color);
-      getContentPane().add(imagePanel, new AbsoluteConstraints(10, 20, 190, 270));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    // try {
+    //   BufferedImage originalImage = ImageUtil.fromBase64(productModel.getImage());
+    //   Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+    //   ImageIcon scaledIcon = new ImageIcon(scaledImage);
+    //   JLabel imageLabel = new JLabel(scaledIcon);
+    //   JPanel imagePanel = new JPanel(new GridBagLayout());
+    //   imagePanel.add(imageLabel, new GridBagConstraints());
+    //   imagePanel.setBackground(color);
+    //   getContentPane().add(imagePanel, new AbsoluteConstraints(10, 20, 190, 270));
+    // } catch (IOException e) {
+    //   e.printStackTrace();
+    // }
 
     Name.setEditable(false);
     Name.setBackground(new Color(255, 255, 255));

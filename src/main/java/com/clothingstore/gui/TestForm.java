@@ -1,7 +1,6 @@
 package com.clothingstore.gui;
     
 import java.awt.BorderLayout;
-
 import javax.security.auth.login.LoginException;
 import javax.swing.*;
 

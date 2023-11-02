@@ -1,15 +1,11 @@
 package com.clothingstore.gui.components.statistical;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.util.ArrayList;
+import java.awt.*;
 
 import javax.swing.*;
 
 import com.clothingstore.gui.admin.dashboard.Card;
-import com.clothingstore.gui.components.customerList.CustomerDetail;
+import com.clothingstore.gui.components.customerList.Invoice;
 
 public class Revenue extends JPanel {
     private static Revenue instance;
@@ -26,13 +22,15 @@ public class Revenue extends JPanel {
     }
 
     private void initComponents(){
+        NamePanel = new JLabel("Revenue Statistics");
         ChartPanel = new JPanel();
-        Content = new JPanel();
+        Scroll = new JScrollPane();
         CardPanel = new JPanel();
+        Invoice = new JPanel();
         setLayout(new BorderLayout());
         setBackground(Color.gray);
 
-        ChartPanel.setPreferredSize(new Dimension(700,400));
+        ChartPanel.setPreferredSize(new Dimension(620,400));
         ChartPanel.setLayout(new BorderLayout());
         ChartPanel.setBorder(BorderFactory.createEmptyBorder(0,0,1,15));
         Chart chart = new Chart();
@@ -54,12 +52,28 @@ public class Revenue extends JPanel {
         Card card4 = new Card("coin.png", "Points Earned","3000", new Color(153, 51, 255), 77);
         CardPanel.add(card4);
 
+        Invoice.setLayout(new GridLayout(0,1));
+        Invoice invoiceHeader = new Invoice("Id", "Customer Id", "Quantity", "Total");
+        Invoice.add(invoiceHeader);
+
+        for(int i = 0; i< 10; i++){
+            Invoice invoice = new Invoice("001","002","5","3000.000");
+            invoice.setPreferredSize(new Dimension(35,35));
+            Invoice.add(invoice);
+        }
+        Scroll.setViewportView(Invoice);
+
+        NamePanel.setFont(new Font("Segoe UI", 1, 17));
+        ChartPanel.add(NamePanel, BorderLayout.NORTH);
+
         add(CardPanel, BorderLayout.NORTH);
         add(ChartPanel, BorderLayout.WEST);
-        add(Content, BorderLayout.CENTER);
+        add(Scroll, BorderLayout.CENTER);
         
     }
+    private JLabel NamePanel;
     private JPanel CardPanel;
     private JPanel ChartPanel;
-    private JPanel Content;
+    private JScrollPane Scroll;
+    private JPanel Invoice;
 }
