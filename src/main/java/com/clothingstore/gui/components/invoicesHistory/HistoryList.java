@@ -44,11 +44,11 @@ public class HistoryList extends JPanel {
 
     setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 4));
     setLayout(new BorderLayout());
-    setPreferredSize(new Dimension(450, 170));
+    setPreferredSize(new Dimension(400, 170));
     setBackground(color);
 
     Header.setLayout(new BorderLayout());
-    Header.setPreferredSize(new Dimension(250, 65));
+    Header.setPreferredSize(new Dimension(400, 95));
     Header.setBackground(color);
 
     NameHeader.setLayout(new BorderLayout());
@@ -76,11 +76,29 @@ public class HistoryList extends JPanel {
     ButtonSearch.setBackground(Color.WHITE);
     Panel.add(ButtonSearch, BorderLayout.WEST);
 
+    // ...
+
+    // JTextField SearchValue = new JTextField();
     SearchValue.setBackground(new Color(242, 242, 242));
     SearchValue.setFont(new Font("Segoe UI", 0, 14)); // NOI18N
     SearchValue.setText("Tìm theo mã hóa đơn");
-    SearchValue.setBackground(Color.white);
     SearchValue.setBorder(BorderFactory.createEmptyBorder(1, 6, 1, 1));
+    SearchValue.addFocusListener(new FocusListener() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        if (SearchValue.getText().equals("Tìm theo mã hóa đơn")) {
+          SearchValue.setText("");
+        }
+      }
+
+      @Override
+      public void focusLost(FocusEvent e) {
+        if (SearchValue.getText().isEmpty()) {
+          SearchValue.setText("Tìm theo mã hóa đơn");
+        }
+      }
+    });
+
     Panel.add(SearchValue, BorderLayout.CENTER);
 
     setStartDate();

@@ -1,6 +1,8 @@
 package com.clothingstore.gui.components.customerList;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 import services.Authentication;
 
@@ -71,6 +73,22 @@ public class CustomerList extends JPanel {
         SearchValue.setText("Tìm theo mã khách hàng");
         SearchValue.setBackground(Color.white);
         SearchValue.setBorder(BorderFactory.createEmptyBorder(1, 6, 1, 1));
+        SearchValue.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (SearchValue.getText().equals("Tìm theo mã khách hàng")) {
+                    SearchValue.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (SearchValue.getText().isEmpty()) {
+                    SearchValue.setText("Tìm theo mã khách hàng");
+                }
+            }
+        });
+
         Panel.add(SearchValue, BorderLayout.CENTER);
 
         Header.add(Panel, BorderLayout.SOUTH);
