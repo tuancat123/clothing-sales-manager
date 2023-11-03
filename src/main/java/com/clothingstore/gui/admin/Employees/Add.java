@@ -3,7 +3,6 @@ package com.clothingstore.gui.admin.employees;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -22,8 +21,7 @@ public class Add extends JFrame {
     private JTextField textField_name;
     private JTextField textField_address;
 
-
-    public Add(){
+    public Add() {
         initComponents();
     }
 
@@ -39,7 +37,7 @@ public class Add extends JFrame {
         contentPane.setLayout(new BorderLayout(0, 0));
 
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(500,50));
+        panel.setPreferredSize(new Dimension(500, 50));
         panel.setBackground(new Color(0, 38, 77));
         contentPane.add(panel, BorderLayout.NORTH);
 
@@ -57,10 +55,10 @@ public class Add extends JFrame {
                 TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel_1.add(panel_3);
         GridBagLayout gbl_panel_3 = new GridBagLayout();
-        gbl_panel_3.columnWidths = new int[]{78, 180, 0, 75, 166, 0, 0, 0};
-        gbl_panel_3.rowHeights = new int[]{0, 43, 37, 39, 36, 41, 55, 0, 0};
-        gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-        gbl_panel_3.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+        gbl_panel_3.columnWidths = new int[] { 78, 180, 0, 75, 166, 0, 0, 0 };
+        gbl_panel_3.rowHeights = new int[] { 0, 43, 37, 39, 36, 41, 55, 0, 0 };
+        gbl_panel_3.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+        gbl_panel_3.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
         panel_3.setLayout(gbl_panel_3);
 
         JLabel lbl_id = new JLabel("ID");
@@ -119,8 +117,8 @@ public class Add extends JFrame {
         gbc_lbl_gender.gridy = 2;
         panel_3.add(lbl_gender, gbc_lbl_gender);
 
-        JComboBox comboBox_role = new JComboBox();
-        comboBox_role.setModel(new DefaultComboBoxModel(new String[] {"Male", "Female"}));
+        JComboBox<String> comboBox_role = new JComboBox<>();
+        comboBox_role.setModel(new DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
         GridBagConstraints gbc_comboBox_role = new GridBagConstraints();
         gbc_comboBox_role.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_role.fill = GridBagConstraints.BOTH;
@@ -151,7 +149,7 @@ public class Add extends JFrame {
         gbc_lbl_role.gridy = 3;
         panel_3.add(lbl_role, gbc_lbl_role);
 
-        JComboBox comboBox_1 = new JComboBox();
+        JComboBox<String> comboBox_1 = new JComboBox<>();
         GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
         gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_1.fill = GridBagConstraints.BOTH;
@@ -244,23 +242,23 @@ public class Add extends JFrame {
                         "JPG & GIF Images", "jpg", "gif", "png");
                 file.setFileFilter(filter);
                 int returnVal = file.showOpenDialog(null);
-                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
                     String filePath = file.getSelectedFile().getAbsolutePath();
                     ImageIcon imageIcon = new ImageIcon(filePath);
-                    System.out.println(""+filePath);
+                    System.out.println("" + filePath);
                     lbl_img.setIcon(imageIcon);
                 }
             }
         });
 
         JPanel panel_Model = new JPanel();
-        panel_Model.setPreferredSize(new Dimension(500,100));
+        panel_Model.setPreferredSize(new Dimension(500, 100));
         panel_Model.setBorder(new TitledBorder(null, "Button List",
                 TitledBorder.LEADING, TitledBorder.TOP, null, null));
         contentPane.add(panel_Model, BorderLayout.SOUTH);
 
         JButton btnAdd = new JButton("Add");
-        btnAdd.setPreferredSize(new Dimension(100,30));
+        btnAdd.setPreferredSize(new Dimension(100, 30));
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             }
@@ -268,7 +266,7 @@ public class Add extends JFrame {
         panel_Model.add(btnAdd);
 
         JButton btnReset = new JButton("Reset");
-        btnReset.setPreferredSize(new Dimension(100,30));
+        btnReset.setPreferredSize(new Dimension(100, 30));
         btnReset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             }
@@ -276,11 +274,11 @@ public class Add extends JFrame {
         panel_Model.add(btnReset);
 
         JButton btnCancel = new JButton("Cancel");
-        btnCancel.setPreferredSize(new Dimension(100,30));
+        btnCancel.setPreferredSize(new Dimension(100, 30));
         panel_Model.add(btnCancel);
         btnCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Window window = SwingUtilities.getWindowAncestor((Component)e.getSource());
+                Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
                 if (window != null) {
                     window.dispose();
                 }
