@@ -1,21 +1,18 @@
 package com.clothingstore.gui.components;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.*;
 import javax.swing.*;
 
 public class AddProduct extends JFrame {
 
-    ArrayList<String> name = new ArrayList<String>(){{
-        add("Name");
-        add("Value");
-    }};
-
-    ArrayList<String> invalid = new ArrayList<String>(){{
-        add("Not null");
-        add("False");
-    }};
-    
+    String[] name = {"Name", "Category", "Gender", "Price", "Origin Price", "Description"};
+    String[] size = {"S", "M","L", "XL", "XXL"};
+    int[] sizeQuantity = {1,1,1,1,1};    
     public AddProduct(){
         initComponents();
         setVisible(true);
@@ -24,6 +21,7 @@ public class AddProduct extends JFrame {
     }
     public void initComponents(){
         Scroll = new JScrollPane();
+        Panel = new JPanel();
         Content = new JPanel();
         NameFrame = new JLabel("New Product");
         ImagePanel = new JPanel();
@@ -34,6 +32,9 @@ public class AddProduct extends JFrame {
         ChooseImage = new JPanel();
         LinkImage = new JTextField();
         Choose = new JButton();
+        SizePanel= new JPanel();
+        Size= new JComboBox<>();
+        QuantityPanel = new JPanel();
 
         setSize(800,500);
         setPreferredSize(new Dimension(800,500));
@@ -41,14 +42,16 @@ public class AddProduct extends JFrame {
         
         add(NameFrame, BorderLayout.NORTH);
 
+        Panel.setLayout(new BorderLayout());
+
         Content.setLayout(new GridLayout(0,1));
-        for(int i = 0; i< 5; i++){
+        for(int i = 0; i< 6; i++){
             JPanel Panel = new JPanel();
             Panel.setLayout(new BorderLayout());
-            Panel.setPreferredSize(new Dimension(40,60));
+            Panel.setPreferredSize(new Dimension(40,80));
             Panel.setBorder(BorderFactory.createEmptyBorder(5, 40, 15, 45));
 
-            JLabel Name = new JLabel("Name");
+            JLabel Name = new JLabel(name[i]);
             Name.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 45));
             Panel.add(Name, BorderLayout.NORTH);
 
@@ -62,7 +65,36 @@ public class AddProduct extends JFrame {
             
             Content.add(Panel);
         }
-        Scroll.setViewportView(Content);
+        Panel.add(Content, BorderLayout.CENTER);
+        
+        SizePanel.setLayout(new BorderLayout());
+        
+        Size.setModel(new DefaultComboBoxModel<>(new String[] { "S", "M", "L", "XL" }));
+        Size.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel Panel = new JPanel();
+                Panel.setLayout(new GridBagLayout());
+
+                JLabel SizeName = new JLabel(Size.getSelectedItem().toString());
+                Panel.add(SizeName);
+
+                JTextField SizeQuantity = new JTextField();
+                Panel.add(SizeQuantity);
+                QuantityPanel.add(Panel);
+                repaint();
+                revalidate();
+            }
+            
+        });
+        SizePanel.add(Size, BorderLayout.NORTH);
+        Panel.add(SizePanel, BorderLayout.SOUTH);
+                
+        QuantityPanel.setLayout(new GridLayout(0,1));
+        SizePanel.add(QuantityPanel, BorderLayout.CENTER);
+
+        Scroll.setViewportView(Panel);
         add(Scroll, BorderLayout.CENTER);
         
         ImagePanel.setLayout(new BorderLayout());
@@ -89,6 +121,8 @@ public class AddProduct extends JFrame {
         
     }
     private JScrollPane Scroll;
+    private JPanel Panel;
+    private JPanel SizePanel;
     private JPanel Content;
     private JLabel NameFrame;
     private JPanel ImagePanel;
@@ -99,6 +133,8 @@ public class AddProduct extends JFrame {
     private JPanel ChooseImage;
     private JTextField LinkImage;
     private JButton Choose;
+    private JComboBox<String> Size;
+    private JPanel QuantityPanel;
 
     public static void main(String[] args) {
         new AddProduct();

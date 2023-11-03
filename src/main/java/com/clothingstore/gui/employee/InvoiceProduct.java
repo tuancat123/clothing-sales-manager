@@ -4,8 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
-import com.clothingstore.gui.components.Control;
-
 public class InvoiceProduct extends JPanel {
 
     public InvoiceProduct() {
