@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import com.clothingstore.gui.components.Products;
-import com.clothingstore.gui.components.customerList.Customer;
 import com.clothingstore.gui.components.customerList.Customers;
 import com.clothingstore.gui.components.importInvoice.ImportAdd;
 import com.clothingstore.gui.components.importInvoice.ImportHistory;

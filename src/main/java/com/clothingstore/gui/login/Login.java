@@ -157,14 +157,11 @@ public class Login extends JFrame {
         ImageIcon eyeOpenIcon = new ImageIcon("src/main/java/resources/icons/icons8_eye_20px_1.png");
         ImageIcon eyeCloseIcon = new ImageIcon("src/main/java/resources/icons/icons8_invisible_20px_1.png");
 
-        // Đổi trạng thái hiển thị mật khẩu
         if (txtPassWord != null) {
             if (txtPassWord.getEchoChar() == 0) {
-                // Hiển thị mật khẩu
                 txtPassWord.setEchoChar('\u25cf');
                 eyeLabel.setIcon(eyeCloseIcon);
             } else {
-                // Ẩn mật khẩu
                 txtPassWord.setEchoChar('\u0000');
                 eyeLabel.setIcon(eyeOpenIcon);
             }

@@ -25,10 +25,9 @@ public class ImportDAO implements IDAO<ImportModel> {
   private static ImportModel createImportModelFromResultSet(ResultSet rs) throws SQLException {
     int id = rs.getInt("id");
     LocalDateTime importDateTime = rs.getTimestamp("import_date").toLocalDateTime();
-    LocalDate importDate = importDateTime.toLocalDate();
     int userId = rs.getInt("user_id");
     Double totalCost = rs.getDouble("total_price");
-    return new ImportModel(id, userId, importDate, totalCost);
+    return new ImportModel(id, userId, importDateTime, totalCost);
   }
 
   @Override

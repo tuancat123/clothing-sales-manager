@@ -1,17 +1,18 @@
 package com.clothingstore.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ImportModel {
   private int id;
   private int userId;
-  private LocalDate importDate;
+  private LocalDateTime importDate;
   private double totalPrice;
 
   public ImportModel() {
   }
 
-  public ImportModel(int id, int userId, LocalDate importDate, double totalPrice) {
+  public ImportModel(int id, int userId, LocalDateTime importDate, double totalPrice) {
     this.id = id;
     this.userId = userId;
     this.importDate = importDate;
@@ -34,11 +35,11 @@ public class ImportModel {
     this.userId = userId;
   }
 
-  public LocalDate getImportDate() {
+  public LocalDateTime getImportDate() {
     return importDate;
   }
 
-  public void setImportDate(LocalDate importDate) {
+  public void setImportDate(LocalDateTime importDate) {
     this.importDate = importDate;
   }
 

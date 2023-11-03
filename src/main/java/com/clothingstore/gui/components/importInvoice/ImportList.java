@@ -33,7 +33,7 @@ public class ImportList extends JPanel {
         Panel = new JPanel();
         ButtonSearch = new JButton();
         SearchValue = new JTextField();
-        Invoices = new JPanel();
+        invoices = new JPanel();
         Scroll = new JScrollPane();
 
         Color color = new Color(179, 209, 255);
@@ -82,28 +82,29 @@ public class ImportList extends JPanel {
 
         add(Header, BorderLayout.PAGE_START);
 
-        Invoices.setLayout(new GridLayout(0, 1));
-        Invoices.setBackground(color);
-        for (int i = 0; i < 10; i++) {
-            ImportInvoice importInvoice = new ImportInvoice();
-            Invoices.add(importInvoice);
-        }
-
-        Scroll.setViewportView(Invoices);
-
-        add(Scroll, BorderLayout.CENTER);
+        invoices.setLayout(new GridLayout(0, 1));
+        invoices.setBackground(color);
     }
 
     private void initData() {
         ArrayList<ImportModel> importList = new ArrayList<ImportModel>();
         importList.addAll(ImportBUS.getInstance().getAllModels());
-        
+
+        for (ImportModel importModel : importList) {
+            ImportInvoice importInvoice = new ImportInvoice();
+            importInvoice.setImportModel(importModel);
+            invoices.add(importInvoice);
+        }
+
+        Scroll.getVerticalScrollBar().setUnitIncrement(10); 
+        Scroll.setViewportView(invoices);
+        add(Scroll, BorderLayout.CENTER);
     }
 
     private JButton ButtonBack;
     private JButton ButtonSearch;
     private JPanel Header;
-    private JPanel Invoices;
+    private JPanel invoices;
     private JPanel NameHeader;
     private JLabel NamePanel;
     private JTextField SearchValue;

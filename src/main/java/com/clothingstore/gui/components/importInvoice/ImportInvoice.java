@@ -1,83 +1,110 @@
 package com.clothingstore.gui.components.importInvoice;
 
 import java.awt.*;
+import java.text.DecimalFormat;
+
 import javax.swing.*;
 
-public class ImportInvoice extends JPanel {
+import com.clothingstore.models.ImportModel;
 
-    
+public class ImportInvoice extends JPanel {
+    private static ImportInvoice instance;
+    private ImportModel importModel;
+
+    private JLabel idInvoiceLabel;
+    private JLabel priceLabel;
+    private JLabel dateLabel;
+    private JLabel timeHourLabel;
+
+    public static ImportInvoice getInstance() {
+        if (instance == null) {
+            instance = new ImportInvoice();
+        }
+        return instance;
+    }
+
     public ImportInvoice() {
         initComponents();
     }
+
+    public void setImportModel(ImportModel importModel) {
+        this.importModel = importModel;
+        initData();
+    }
+
+    public ImportModel getImportModel() {
+        return importModel;
+    }
+
     private void initComponents() {
-
-        Icon = new JLabel();
-        Detail = new JPanel();
-        Panel = new JPanel();
-        Price = new JLabel();
-        IdInvoice = new JLabel();
-        Time = new JPanel();
-        Date = new JLabel();
-        TimeHour = new JLabel();
-
-        Color color = new Color(204, 224, 255);
-
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(40, 60));
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
-        setBackground(color);
+        setBackground(new Color(204, 224, 255));
 
-        Icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/coin.png")));
-        Icon.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
-        add(Icon, BorderLayout.LINE_START);
+        JLabel icon = new JLabel();
+        icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/coin.png")));
+        icon.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
+        add(icon, BorderLayout.LINE_START);
 
-        Detail.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-        Detail.setBackground(color);
-        Detail.setLayout(new BorderLayout());
+        JPanel detail = new JPanel();
+        detail.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+        detail.setBackground(new Color(204, 224, 255));
+        detail.setLayout(new BorderLayout());
 
-        Panel.setLayout(new GridLayout(2, 0));
-        Panel.setBackground(color);
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(2, 0));
+        panel.setBackground(new Color(204, 224, 255));
 
-        Price.setHorizontalAlignment(SwingConstants.CENTER);
-        Price.setText("4.000.000 Đ");
-        Price.setFont(new Font("Segoe UI", 0, 14));
-        Price.setForeground(Color.RED);
-        Panel.add(Price);
+        priceLabel = new JLabel();
+        priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        priceLabel.setFont(new Font("Segoe UI", 0, 14));
+        priceLabel.setForeground(Color.RED);
+        panel.add(priceLabel);
 
-        IdInvoice.setHorizontalAlignment(SwingConstants.CENTER);
-        IdInvoice.setText("64747374");
-        IdInvoice.setForeground(new Color(0, 128, 0));
-        Panel.add(IdInvoice);
+        idInvoiceLabel = new JLabel();
+        idInvoiceLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        idInvoiceLabel.setForeground(new Color(0, 128, 0));
+        panel.add(idInvoiceLabel);
 
-        Detail.add(Panel, BorderLayout.LINE_START);
+        detail.add(panel, BorderLayout.LINE_START);
+        add(detail, BorderLayout.CENTER);
 
-        add(Detail, BorderLayout.CENTER);
+        JPanel time = new JPanel();
+        time.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        time.setLayout(new GridLayout(2, 1));
+        time.setBackground(new Color(204, 224, 255));
 
-        Time.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        Time.setLayout(new GridLayout(2, 1));
-        Time.setBackground(color);
+        dateLabel = new JLabel();
+        dateLabel.setFont(new Font("Segoe UI", 0, 13));
+        dateLabel.setForeground(new Color(102, 0, 51));
+        time.add(dateLabel);
 
-        Date.setText("05/10/2022");
-        Date.setFont(new Font("Segoe UI", 0, 13));
-        Date.setForeground(new Color(102, 0, 51));
-        Time.add(Date);
+        timeHourLabel = new JLabel();
+        timeHourLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        timeHourLabel.setForeground(new Color(0, 0, 102));
+        timeHourLabel.setFont(new Font("Segoe UI", 0, 12));
+        time.add(timeHourLabel);
 
-        TimeHour.setHorizontalAlignment(SwingConstants.CENTER);
-        TimeHour.setText("16h30");
-        TimeHour.setForeground(new Color(0, 0, 102));
-        TimeHour.setFont(new Font("Segoe UI", 0, 12));
-        Time.add(TimeHour);
-
-        add(Time, BorderLayout.EAST);
+        add(time, BorderLayout.EAST);
     }
 
+    private void initData() {
+        idInvoiceLabel.setText(String.valueOf(importModel.getId()));
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        String formattedAmount = decimalFormat.format(importModel.getTotalPrice());
+        priceLabel.setText(formattedAmount);
+        String dateTimeString = String.valueOf(importModel.getImportDate());
+        String[] parts = dateTimeString.split("T");
+        if (parts.length == 2) {
+            String datePart = parts[0];
+            String timePart = parts[1];
 
-    private JLabel Date;
-    private JPanel Detail;
-    private JLabel Icon;
-    private JLabel IdInvoice;
-    private JPanel Panel;
-    private JLabel Price;
-    private JPanel Time;
-    private JLabel TimeHour;
+            dateLabel.setText(datePart);
+            timeHourLabel.setText(timePart);
+        } else {
+            dateLabel.setText("Invalid input format.");
+        }
+    }
+
 }
