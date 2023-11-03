@@ -32,7 +32,7 @@ public class InvoiceDetail extends JPanel {
   private static List<OrderItemModel> orderItemModels;
   private static List<ProductModel> productModels;
   private static List<UserModel> userModels;
-
+  //TODO: Need to optimize, runs pretty slow.
   public InvoiceDetail() {
     revalidate();
     repaint();
