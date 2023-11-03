@@ -76,8 +76,6 @@ public class MenuData {
                 new ArrayList<MenuItemData>() {
                     {
                         add(new MenuItemData("Customer Management", CustomerAction()));
-                        add(new MenuItemData("Add Customer", CustomerAction()));
-
                     }
                 },
                 null));
@@ -151,7 +149,7 @@ public class MenuData {
         ArrayList<MenuData> data = new ArrayList<>();
 
         data.add(new MenuData("Products", null, ProductAction()));
-        data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction()));
+        data.add(new MenuData("Invoice history", null, InvoiceHistoryAction()));
         data.add(new MenuData(
                 "Inventory Management",
                 new ArrayList<MenuItemData>() {
