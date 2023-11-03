@@ -3,6 +3,8 @@ package com.clothingstore.gui.components.invoicesHistory;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
+
 import javax.swing.*;
 
 import com.clothingstore.bus.CustomerBUS;
@@ -103,7 +105,7 @@ public class HistoryList extends JPanel {
 
     setStartDate();
     setEndDate();
-    setFillterButton();
+    setFilterButton();
     fillPanel.add(startDate, BorderLayout.WEST);
     fillPanel.add(endDate, BorderLayout.CENTER);
     fillPanel.add(filterButton, BorderLayout.EAST);
@@ -115,48 +117,38 @@ public class HistoryList extends JPanel {
 
     Invoices.setLayout(new GridLayout(0, 1));
     Invoices.setBackground(color);
-    java.util.List<OrderModel> orderList = new ArrayList<>();
+    List<OrderModel> orderList = new ArrayList<>();
     orderList.addAll(OrderBUS.getInstance().getAllModels());
-    java.util.List<CustomerModel> customerList = new ArrayList<>();
+    List<CustomerModel> customerList = new ArrayList<>();
     customerList.addAll(CustomerBUS.getInstance().getAllModels());
 
-    for (int i = 0; i < orderList.size(); i++) {
-      for (int j = 0; j < customerList.size(); j++) {
-        if (customerList.get(j).getId() == orderList.get(i).getCustomerId()) {
-          Invoice invoice = new Invoice(orderList.get(i), customerList.get(j));
-          Invoices.add(invoice);
-          InvoiceDetail invoiceDetail = new InvoiceDetail(orderList.get(i), customerList.get(j));
-          invoice.addMouseListener(new MouseListener() {
+    Map<Integer, CustomerModel> customerMap = new HashMap<>();
 
-            @Override
-            public void mouseClicked(MouseEvent e) {
-              InvoiceHistory.getInstance().add(invoiceDetail, BorderLayout.CENTER);
-              InvoiceHistory.getInstance().repaint();
-              InvoiceHistory.getInstance().revalidate();
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-
-          });
-        }
-      }
-
+    for (CustomerModel customer : customerList) {
+      customerMap.put(customer.getId(), customer);
     }
+
+    Iterator<OrderModel> orderIterator = orderList.iterator();
+    while (orderIterator.hasNext()) {
+      OrderModel orderModel = orderIterator.next();
+      int customerId = orderModel.getCustomerId();
+      CustomerModel customerModel = customerMap.get(customerId);
+
+      if (customerModel != null) {
+        Invoice invoice = new Invoice(orderModel, customerModel);
+        Invoices.add(invoice);
+        InvoiceDetail invoiceDetail = new InvoiceDetail(orderModel, customerModel);
+        invoice.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            InvoiceHistory.getInstance().add(invoiceDetail, BorderLayout.CENTER);
+            InvoiceHistory.getInstance().repaint();
+            InvoiceHistory.getInstance().revalidate();
+          }
+        });
+      }
+    }
+
     Scroll.setViewportView(Invoices);
     add(Scroll, BorderLayout.CENTER);
   }
@@ -177,8 +169,8 @@ public class HistoryList extends JPanel {
     endDate.setDateFormatString("yyyy-MM-dd");
   }
 
-  public void setFillterButton() {
-    this.filterButton = new JButton("lọc");
+  public void setFilterButton() {
+    this.filterButton = new JButton("Filter");
     filterButton.setBounds(360, 75, 80, 30);
   }
 

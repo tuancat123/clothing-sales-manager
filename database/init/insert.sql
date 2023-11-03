@@ -1318,7 +1318,7 @@ INSERT INTO `orders` (`customer_id`, `user_id`, `order_date`, `total_amount`) VA
 (9, 4, '2023-10-23', 600000),
 (10, 5, '2023-10-24', 1300000);
 
-INSERT INTO `payment_methods`(`name`) VALUES
+INSERT INTO `payment_methods`(`method_name`) VALUES
 ('Thanh toán tiền mặt'),
 ('Thanh toán chuyển khoản');
 

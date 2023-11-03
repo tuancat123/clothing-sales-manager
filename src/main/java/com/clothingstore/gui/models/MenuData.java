@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import com.clothingstore.gui.components.Products;
+import com.clothingstore.gui.components.customerList.Customer;
 import com.clothingstore.gui.components.customerList.Customers;
+import com.clothingstore.gui.components.importInvoice.ImportAdd;
 import com.clothingstore.gui.components.importInvoice.ImportHistory;
 import com.clothingstore.gui.components.invoicesHistory.HistoryList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
@@ -68,14 +70,14 @@ public class MenuData {
     public static ArrayList<MenuData> getDataEmployee() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, ProductsAction()));
-        data.add(new MenuData("Invoice history ", null, HistoryAction()));
+        data.add(new MenuData("Products", null, ProductAction()));
+        data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction()));
         data.add(new MenuData(
                 "Customers",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Customers list", CustomerAction()));
-                        add(new MenuItemData("Add Customers", null));
+                        add(new MenuItemData("Customer Management", CustomerAction()));
+                        add(new MenuItemData("Add Customer", CustomerAction()));
 
                     }
                 },
@@ -88,14 +90,14 @@ public class MenuData {
     public static ArrayList<MenuData> getDataAdmin() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, ProductsAction()));
-        data.add(new MenuData("Invoice history ", null, HistoryAction()));
+        data.add(new MenuData("Products", null, ProductAction()));
+        data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction()));
         // data.add(new MenuData(
         // "Sales Manager",
         // new ArrayList<MenuItemData>() {
         // {
         // add(new MenuItemData("Add Invoice", null));
-        // add(new MenuItemData("Invoice History", HistoryAction()));
+        // add(new MenuItemData("Invoice History", InvoiceHistoryAction()));
 
         // }
         // },
@@ -104,7 +106,7 @@ public class MenuData {
                 "Inventory Management",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Add Invoice", null));
+                        add(new MenuItemData("Add Import", ImportAction()));
                         add(new MenuItemData("Import Management", ImportAction()));
 
                     }
@@ -125,7 +127,7 @@ public class MenuData {
                 new ArrayList<MenuItemData>() {
                     {
                         add(new MenuItemData("Customers List", CustomerAction()));
-                        add(new MenuItemData("Add Customers", null));
+                        add(new MenuItemData("Add Customer", null));
 
                     }
                 },
@@ -149,24 +151,24 @@ public class MenuData {
     public static ArrayList<MenuData> getDataManager() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, ProductsAction()));
-        data.add(new MenuData("Invoice history ", null, HistoryAction()));
+        data.add(new MenuData("Products", null, ProductAction()));
+        data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction()));
         data.add(new MenuData(
                 "Inventory Management",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Add Invoice", null));
+                        add(new MenuItemData("Import Add", ImportAction()));
                         add(new MenuItemData("Import Management", ImportAction()));
 
                     }
                 },
                 null));
         data.add(new MenuData(
-                "Customers Management",
+                "Customer Management",
                 new ArrayList<MenuItemData>() {
                     {
                         add(new MenuItemData("Customers List", CustomerAction()));
-                        add(new MenuItemData("Add Customers", null));
+                        add(new MenuItemData("Add Customer", CustomerAction()));
 
                     }
                 },
@@ -175,12 +177,12 @@ public class MenuData {
         return data;
     }
 
-    private static ActionListener ProductsAction() {
+    private static ActionListener ProductAction() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HomePage.getInstance().Remove();
-                if(currentUser.getRoleId()==3)
+                if (currentUser.getRoleId() == 3)
                     HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
                 else
                     HomePage.getInstance().Add(Products.getInstance());
@@ -188,7 +190,7 @@ public class MenuData {
         };
     }
 
-    private static ActionListener HistoryAction() {
+    private static ActionListener InvoiceHistoryAction() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -204,19 +206,31 @@ public class MenuData {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HomePage.getInstance().Remove();
-                HomePage.getInstance().Add(ImportHistory.getInstance());
+                HomePage homePage = HomePage.getInstance();
+
+                if (e.getActionCommand().equals("Import Management")) {
+                    homePage.Add(ImportHistory.getInstance());
+                } else if (e.getActionCommand().equals("Add Import")) {
+                    homePage.Add(ImportAdd.getInstance());
+                }
             }
         };
     }
+
     private static ActionListener CustomerAction() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HomePage.getInstance().Remove();
-                HomePage.getInstance().Add(Customers.getInstance());
+                HomePage homePage = HomePage.getInstance();
+                if (e.getActionCommand().equals("Customer Management")) {
+                    homePage.Add(Customers.getInstance());
+                } else if (e.getActionCommand().equals("Add Customer")) {
+                }
             }
         };
     }
+
     private static ActionListener RevenueAction() {
         return new ActionListener() {
             @Override

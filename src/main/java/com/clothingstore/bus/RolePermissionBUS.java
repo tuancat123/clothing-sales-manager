@@ -19,6 +19,10 @@ public class RolePermissionBUS implements IBUS<RolePermissionModel> {
     return instance;
   }
 
+   private RolePermissionBUS() {
+        this.rolePermissionList.addAll(RolePermissionDAO.getInstance().readDatabase());
+    }
+
   @Override
   public List<RolePermissionModel> getAllModels() {
     return Collections.unmodifiableList(rolePermissionList);

@@ -1,9 +1,8 @@
-package com.clothingstore.gui.admin.Employees;
+package com.clothingstore.gui.admin.employees;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -121,8 +120,8 @@ public class Edit extends JFrame {
         gbc_lbl_Gender.gridy = 2;
         panel_3.add(lbl_Gender, gbc_lbl_Gender);
 
-        JComboBox comboBox_role = new JComboBox();
-        comboBox_role.setModel(new DefaultComboBoxModel(new String[] {"Male", "Female"}));
+        JComboBox<String> comboBox_role = new JComboBox<>();
+        comboBox_role.setModel(new DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
         GridBagConstraints gbc_comboBox_role = new GridBagConstraints();
         gbc_comboBox_role.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_role.fill = GridBagConstraints.BOTH;
@@ -155,7 +154,7 @@ public class Edit extends JFrame {
         gbc_lbl_Role.gridy = 3;
         panel_3.add(lbl_Role, gbc_lbl_Role);
 
-        JComboBox comboBox_1 = new JComboBox();
+        JComboBox<String> comboBox_1 = new JComboBox<>();
         GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
         gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_1.fill = GridBagConstraints.BOTH;

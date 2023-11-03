@@ -1,4 +1,4 @@
-package com.clothingstore.gui.admin.Employees;
+package com.clothingstore.gui.admin.employees;
 
 
 import com.clothingstore.gui.components.Menu;
@@ -23,8 +23,6 @@ public class Employees extends JFrame {
     private JPanel panel;
     private JPanel centerPanel;
     private JLabel lblNewLabel_1;
-    private JPanel panel_Search;
-    private JPanel panel_Search_1;
     private JPanel bottomPanel;
     private JPanel panel_table;
     private JTable table;
