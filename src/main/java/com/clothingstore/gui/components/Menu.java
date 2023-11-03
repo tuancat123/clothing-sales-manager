@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import com.clothingstore.gui.employee.HomePage;
 import com.clothingstore.gui.models.MenuData;
 import com.clothingstore.gui.models.MenuItemData;
 

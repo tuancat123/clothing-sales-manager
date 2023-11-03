@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.components.customerList.Customers;
+import com.clothingstore.gui.components.importInvoice.ImportAdd;
 import com.clothingstore.gui.components.importInvoice.ImportHistory;
 import com.clothingstore.gui.components.invoicesHistory.HistoryList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
@@ -104,7 +105,7 @@ public class MenuData {
                 "Inventory Management",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Add Invoice", null));
+                        add(new MenuItemData("Add Import", ImportAction()));
                         add(new MenuItemData("Import Management", ImportAction()));
 
                     }
@@ -155,7 +156,7 @@ public class MenuData {
                 "Inventory Management",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Add Invoice", null));
+                        add(new MenuItemData("Import Add", ImportAction()));
                         add(new MenuItemData("Import Management", ImportAction()));
 
                     }
@@ -180,7 +181,7 @@ public class MenuData {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HomePage.getInstance().Remove();
-                if(currentUser.getRoleId()==3)
+                if (currentUser.getRoleId() == 3)
                     HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
                 else
                     HomePage.getInstance().Add(Products.getInstance());
@@ -204,10 +205,17 @@ public class MenuData {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HomePage.getInstance().Remove();
-                HomePage.getInstance().Add(ImportHistory.getInstance());
+                HomePage homePage = HomePage.getInstance();
+
+                if (e.getActionCommand().equals("Import Management")) {
+                    homePage.Add(ImportHistory.getInstance());
+                } else if (e.getActionCommand().equals("Add Import")) {
+                    homePage.Add(ImportAdd.getInstance());
+                }
             }
         };
     }
+
     private static ActionListener CustomerAction() {
         return new ActionListener() {
             @Override
@@ -217,6 +225,7 @@ public class MenuData {
             }
         };
     }
+
     private static ActionListener RevenueAction() {
         return new ActionListener() {
             @Override
