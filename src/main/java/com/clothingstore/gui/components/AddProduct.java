@@ -7,12 +7,15 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class AddProduct extends JFrame {
 
     String[] name = {"Name", "Category", "Gender", "Price", "Origin Price", "Description"};
     String[] size = {"S", "M","L", "XL", "XXL"};
-    int[] sizeQuantity = {1,1,1,1,1};    
+    static int[] sizeQuantity = {-1,-1,-1,-1,-1};
+
     public AddProduct(){
         initComponents();
         setVisible(true);
@@ -64,35 +67,18 @@ public class AddProduct extends JFrame {
             Panel.add(Invalid, BorderLayout.SOUTH);
             
             Content.add(Panel);
-        }
+        }        
         Panel.add(Content, BorderLayout.CENTER);
         
-        SizePanel.setLayout(new BorderLayout());
+        SizePanel.setLayout(new GridBagLayout());
         
-        Size.setModel(new DefaultComboBoxModel<>(new String[] { "S", "M", "L", "XL" }));
-        Size.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JPanel Panel = new JPanel();
-                Panel.setLayout(new GridBagLayout());
-
-                JLabel SizeName = new JLabel(Size.getSelectedItem().toString());
-                Panel.add(SizeName);
-
-                JTextField SizeQuantity = new JTextField();
-                Panel.add(SizeQuantity);
-                QuantityPanel.add(Panel);
-                repaint();
-                revalidate();
-            }
-            
-        });
-        SizePanel.add(Size, BorderLayout.NORTH);
+        Size.setModel(new DefaultComboBoxModel<>(size));
+        Size.addActionListener(ChooseSizeAction);
+        SizePanel.add(Size);
         Panel.add(SizePanel, BorderLayout.SOUTH);
                 
         QuantityPanel.setLayout(new GridLayout(0,1));
-        SizePanel.add(QuantityPanel, BorderLayout.CENTER);
+        SizePanel.add(QuantityPanel);
 
         Scroll.setViewportView(Panel);
         add(Scroll, BorderLayout.CENTER);
@@ -112,6 +98,8 @@ public class AddProduct extends JFrame {
         ImagePanel.add(ChooseImage, BorderLayout.SOUTH);
 
         add(ImagePanel, BorderLayout.WEST);
+
+        ButtonSave.addActionListener(SaveAction);
 
         Buttons.setPreferredSize(new Dimension(60,60));
         Buttons.setLayout(new GridBagLayout());
@@ -135,6 +123,107 @@ public class AddProduct extends JFrame {
     private JButton Choose;
     private JComboBox<String> Size;
     private JPanel QuantityPanel;
+
+    public ActionListener ChooseSizeAction = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JPanel Panel = new JPanel();
+            Panel.setLayout(new GridBagLayout());
+            Panel.setPreferredSize(new Dimension(150,35));
+
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.ipadx = 20;
+            gbc.fill = GridBagConstraints.LINE_START;
+
+            JLabel SizeName = new JLabel(Size.getSelectedItem().toString() + ": amount is");
+            SizeName.setFont(new Font("Segoe UI", 0, 14));
+            Panel.add(SizeName, gbc);
+
+            JTextField SizeQuantity = new JTextField();
+            SizeQuantity.setPreferredSize(new Dimension(35,25));
+            SizeQuantity.setText("0");
+            Panel.add(SizeQuantity);
+
+            switch (Size.getSelectedItem().toString()) {
+                case "S":
+                    if(sizeQuantity[0] == -1 ){
+                        QuantityPanel.add(Panel, gbc);
+                        sizeQuantity[0] = 0;
+                        repaint();
+                        revalidate();
+                        SizeQuantity.getDocument().addDocumentListener(SaveValueAction(0, SizeQuantity));
+                    }
+                    break;
+                case "M":
+                    if(sizeQuantity[1] == -1 ){
+                        sizeQuantity[1] = 0;
+                        QuantityPanel.add(Panel, gbc);
+                        repaint();
+                        revalidate();
+                        SizeQuantity.getDocument().addDocumentListener(SaveValueAction(1, SizeQuantity));
+                    }
+                    break;
+                case "L":
+                    if(sizeQuantity[2] == -1 ){
+                        sizeQuantity[2] = 0;
+                        QuantityPanel.add(Panel, gbc);
+                        repaint();
+                        revalidate();
+                        SizeQuantity.getDocument().addDocumentListener(SaveValueAction(2, SizeQuantity));
+                    }
+                    break;
+                case "XL":
+                    if(sizeQuantity[3] == -1 ){
+                        sizeQuantity[3] = 0;
+                        QuantityPanel.add(Panel, gbc);
+                        repaint();
+                        revalidate();
+                        SizeQuantity.getDocument().addDocumentListener(SaveValueAction(3, SizeQuantity));
+                    }
+                    break;
+                case "XXL":
+                    if(sizeQuantity[4] == -1 ){
+                        sizeQuantity[4] = 0;
+                        QuantityPanel.add(Panel, gbc);
+                        repaint();
+                        revalidate();
+                        SizeQuantity.getDocument().addDocumentListener(SaveValueAction(4, SizeQuantity));
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        }
+        
+    };
+
+    private ActionListener SaveAction = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for(int i = 0; i<sizeQuantity.length;i++){
+                System.out.println(sizeQuantity[i]);
+            }
+        }
+        
+    };
+
+    private DocumentListener SaveValueAction(final int value, final JTextField text) {
+        return new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                sizeQuantity[value] = Integer.parseInt(text.getText().toString());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {}
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {}
+        };
+    }
 
     public static void main(String[] args) {
         new AddProduct();
