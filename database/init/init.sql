@@ -98,7 +98,7 @@ CREATE TABLE
 CREATE TABLE
     `payment_methods` (
         `id` INT NOT NULL AUTO_INCREMENT,
-        `name` VARCHAR(50),
+        `method_name` VARCHAR(50),
         PRIMARY KEY (`id`)
     );
 
