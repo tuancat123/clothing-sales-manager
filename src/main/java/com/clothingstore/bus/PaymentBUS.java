@@ -20,6 +20,10 @@ public class PaymentBUS implements IBUS<PaymentModel> {
         return instance;
     }
 
+    private PaymentBUS() {
+        this.paymentList.addAll(PaymentDAO.getInstance().readDatabase());
+    }
+
     @Override
     public List<PaymentModel> getAllModels() {
         return Collections.unmodifiableList(paymentList);

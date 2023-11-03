@@ -19,6 +19,10 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
         return instance;
     }
 
+     private OrderItemBUS() {
+        this.orderItemList.addAll(OrderItemDAO.getInstance().readDatabase());
+    }
+
     @Override
     public List<OrderItemModel> getAllModels() {
         return Collections.unmodifiableList(orderItemList);

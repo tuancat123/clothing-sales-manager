@@ -19,6 +19,10 @@ public class ImportBUS implements IBUS<ImportModel> {
         return instance;
     }
 
+    private ImportBUS() {
+        this.importList.addAll(ImportDAO.getInstance().readDatabase());
+    }
+
     @Override
     public List<ImportModel> getAllModels() {
         return Collections.unmodifiableList(importList);
@@ -60,7 +64,7 @@ public class ImportBUS implements IBUS<ImportModel> {
                 model.getImportDate() == null ||
                 model.getTotalPrice() <= 0) {
             throw new IllegalArgumentException(
-                "There may be errors in required fields, please check your input and try again.");
+                    "There may be errors in required fields, please check your input and try again.");
         }
         int id = ImportDAO.getInstance().insert(mapToEntity(model));
         importList.add(model);
@@ -84,7 +88,7 @@ public class ImportBUS implements IBUS<ImportModel> {
         ImportModel importModel = getModelById(id);
         if (importModel == null) {
             throw new IllegalArgumentException(
-                "Imports with ID: " + id + " don't exist.");
+                    "Imports with ID: " + id + " don't exist.");
         }
         int deletedRows = ImportDAO.getInstance().delete(id);
         if (deletedRows > 0) {
@@ -94,9 +98,9 @@ public class ImportBUS implements IBUS<ImportModel> {
     }
 
     private boolean checkFilter(
-        ImportModel importModel,
-        String value,
-        String[] columns) {
+            ImportModel importModel,
+            String value,
+            String[] columns) {
         for (String column : columns) {
             switch (column.toLowerCase()) {
                 case "id" -> {

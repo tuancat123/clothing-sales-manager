@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.clothingstore.dao.CustomerDAO;
 import com.clothingstore.dao.ProductDAO;
 import com.clothingstore.interfaces.IBUS;
 import com.clothingstore.models.ProductModel;
