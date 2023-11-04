@@ -13,7 +13,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 
 public class Product extends JPanel {
-    private static ProductModel productModel;
+    private ProductModel productModel;
     DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
     String[] data;
 
@@ -25,7 +25,7 @@ public class Product extends JPanel {
                 productModel.getName(),
                 "01",
                 String.valueOf(importItemsModel.getQuantity()),
-                "Size",
+                String.valueOf(SizeBUS.getInstance().getModelById(importItemsModel.getSize_id()).getSize()),
                 String.valueOf(importItemsModel.getPrice()),
                 decimalFormat.format(importItemsModel.getPrice() * importItemsModel.getQuantity()),
             };

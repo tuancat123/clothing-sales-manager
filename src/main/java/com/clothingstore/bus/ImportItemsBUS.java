@@ -55,6 +55,7 @@ public class ImportItemsBUS implements IBUS<ImportItemsModel> {
     to.setId(from.getId());
     to.setImport_id(from.getImport_id());
     to.setProduct_id(from.getProduct_id());
+    to.setSize_id(from.getSize_id());
     to.setQuantity(from.getQuantity());
     to.setPrice(from.getPrice());
   }
@@ -64,6 +65,7 @@ public class ImportItemsBUS implements IBUS<ImportItemsModel> {
     if (model == null ||
         model.getImport_id() <= 0 ||
         model.getProduct_id() <= 0 ||
+        model.getSize_id() <= 0 ||
         model.getQuantity() <= 0 ||
         model.getPrice() <= 0) {
       throw new IllegalArgumentException(
@@ -116,13 +118,13 @@ public class ImportItemsBUS implements IBUS<ImportItemsModel> {
             return true;
           }
         }
-        case "size_id" -> {
-          if (Integer.parseInt(value) == ImportItemsModel.getSize_id()) {
+        case "product_id" -> {
+          if (Integer.parseInt(value) == ImportItemsModel.getProduct_id()) {
             return true;
           }
         }
-        case "product_id" -> {
-          if (Integer.parseInt(value) == ImportItemsModel.getProduct_id()) {
+        case "size_id" -> {
+          if (Integer.parseInt(value) == ImportItemsModel.getSize_id()) {
             return true;
           }
         }
