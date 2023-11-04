@@ -18,7 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import com.clothingstore.bus.UserBUS;
-import com.clothingstore.gui.employee.HomePage;
+import com.clothingstore.gui.components.HomePage;
 import com.clothingstore.models.UserModel;
 import services.Authentication;
 

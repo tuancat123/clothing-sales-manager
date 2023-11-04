@@ -5,7 +5,7 @@ import javax.security.auth.login.LoginException;
 import javax.swing.*;
 
 import com.clothingstore.bus.UserBUS;
-import com.clothingstore.gui.employee.HomePage;
+import com.clothingstore.gui.components.HomePage;
 import com.clothingstore.models.UserModel;
 import services.Authentication;
 

@@ -2,14 +2,24 @@ package com.clothingstore.gui.components.invoiceDetail;
 
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
+
+import com.clothingstore.bus.ProductBUS;
+import com.clothingstore.models.ImportItemsModel;
+import com.clothingstore.models.ProductModel;
+
 import java.awt.*;
+import java.text.DecimalFormat;
 
 public class Product extends JPanel {
-    public Product() {
-        initComponents();
+    private static ProductModel productModel;
+    DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+
+    public Product(ImportItemsModel importItemsModel) {
+        productModel = ProductBUS.getInstance().getModelById(importItemsModel.getProduct_id());
+        initComponents(importItemsModel);
     }
 
-    public void initComponents() {
+    public void initComponents(ImportItemsModel importItemsModel) {
         Header = new JPanel();
         Sr = new JLabel();
         Name = new JLabel();
@@ -29,7 +39,7 @@ public class Product extends JPanel {
         Header.setLayout(new AbsoluteLayout());
         Header.setBackground(Color.WHITE);
 
-        Name.setText("BlackPolo");
+        Name.setText(productModel.getName());
         Name.setForeground(new Color(26, 101, 101));
         Name.setFont(new Font("Segoe UI", 3, 15));
 
@@ -37,7 +47,7 @@ public class Product extends JPanel {
         Sr.setFont(new Font("Segoe UI", 0, 14));
 
         Header.add(Sr, new AbsoluteConstraints(20, 10, 350, 20));
-        Header.add(Name, new AbsoluteConstraints(50, 10, 350, 20));
+        Header.add(Name, new AbsoluteConstraints(50, 10, 450, 20));
 
         add(Header, BorderLayout.NORTH);
 
@@ -47,7 +57,7 @@ public class Product extends JPanel {
 
         QuantityText.setFont(new Font("Segoe UI", 3, 13));
         QuantityText.setHorizontalAlignment(SwingConstants.CENTER);
-        QuantityText.setText("2");
+        QuantityText.setText(""+importItemsModel.getQuantity());
         Panel1.add(QuantityText, BorderLayout.CENTER);
 
         Detail.add(Panel1);
@@ -69,7 +79,7 @@ public class Product extends JPanel {
 
         PriceText.setFont(new Font("Segoe UI", 3, 13));
         PriceText.setHorizontalAlignment(SwingConstants.CENTER);
-        PriceText.setText("300.000");
+        PriceText.setText(""+importItemsModel.getPrice());
         Panel3.add(PriceText, BorderLayout.CENTER);
 
         Detail.add(Panel3);
@@ -80,7 +90,7 @@ public class Product extends JPanel {
 
         AmountText.setFont(new Font("Segoe UI", 3, 13));
         AmountText.setHorizontalAlignment(SwingConstants.CENTER);
-        AmountText.setText("600.000");
+        AmountText.setText(""+ decimalFormat.format(importItemsModel.getPrice()*importItemsModel.getQuantity()));
         Panel4.add(AmountText, BorderLayout.CENTER);
 
         Detail.add(Panel4);

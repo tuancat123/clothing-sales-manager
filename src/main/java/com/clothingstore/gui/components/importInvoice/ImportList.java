@@ -99,6 +99,7 @@ public class ImportList extends JPanel {
         Scroll.getVerticalScrollBar().setUnitIncrement(10); 
         Scroll.setViewportView(invoices);
         add(Scroll, BorderLayout.CENTER);
+        
     }
 
     private JButton ButtonBack;

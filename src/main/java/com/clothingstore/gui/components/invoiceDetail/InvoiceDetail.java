@@ -74,9 +74,9 @@ public class InvoiceDetail extends JFrame {
         Products.setBackground(new Color(255, 255, 255));
         Products.setLayout(new GridLayout(0, 1));
         for(int i = 0; i< 5;i++){
-            Product product = new Product();
-            product.setBackground(Color.WHITE);
-            Products.add(product);
+            // Product product = new Product();
+            // product.setBackground(Color.WHITE);
+            // Products.add(product);
         }
         
 

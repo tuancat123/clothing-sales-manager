@@ -1,6 +1,8 @@
 package com.clothingstore.gui.components.importInvoice;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 
 import javax.swing.*;
@@ -25,6 +27,30 @@ public class ImportInvoice extends JPanel {
 
     public ImportInvoice() {
         initComponents();
+        this.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ImportDetail importDetail = new ImportDetail(getImportModel());
+                ImportHistory.getInstance().Remove();
+                ImportHistory.getInstance().add(importDetail, BorderLayout.CENTER);
+                ImportHistory.getInstance().revalidate();
+                ImportHistory.getInstance().repaint();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {}
+
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+
+            @Override
+            public void mouseExited(MouseEvent e) {}
+    
+        });
     }
 
     public void setImportModel(ImportModel importModel) {
