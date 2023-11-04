@@ -137,6 +137,7 @@ CREATE TABLE
         `id` INT NOT NULL AUTO_INCREMENT,
         `import_id` INT,
         `product_id` INT,
+        `size_id` INT,
         `quantity` INT,
         `price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
@@ -235,6 +236,10 @@ ADD
 ALTER TABLE `import_items`
 ADD
     FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+ALTER TABLE `import_items`
+ADD
+    FOREIGN KEY (`size_id`) REFERENCES `sizes` (`id`);
 
 ALTER TABLE `size_items`
 ADD
