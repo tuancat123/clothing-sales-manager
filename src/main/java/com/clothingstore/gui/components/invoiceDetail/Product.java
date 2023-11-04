@@ -11,7 +11,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 
 public class Product extends JPanel {
-    private static ProductModel productModel;
+    private ProductModel productModel;
     DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
     public Product(ImportItemsModel importItemsModel) {
@@ -68,7 +68,7 @@ public class Product extends JPanel {
 
         SizeText.setFont(new Font("Segoe UI", 3, 13));
         SizeText.setHorizontalAlignment(SwingConstants.CENTER);
-        SizeText.setText("" + importItemsModel.getSize_id());
+        SizeText.setText(String.valueOf(importItemsModel.getSize_id()));
         Panel2.add(SizeText, BorderLayout.CENTER);
 
         Detail.add(Panel2);

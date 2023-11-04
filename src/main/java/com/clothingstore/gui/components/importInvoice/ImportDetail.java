@@ -99,6 +99,7 @@ public class ImportDetail extends JPanel {
 
         Product.setLayout(new GridLayout(0, 1));
         for (ImportItemsModel importItemsModel : importItemsList) {
+            System.out.println(importItemsModel.getSize_id());
             Product product = new Product(importItemsModel);
             Product.add(product);
         }
