@@ -7,7 +7,6 @@ import javax.swing.*;
 
 import org.netbeans.lib.awtextra.*;
 
-import com.clothingstore.gui.employee.HomePage;
 import com.clothingstore.gui.models.NavData;
 import com.clothingstore.models.UserModel;
 

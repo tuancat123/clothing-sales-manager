@@ -1,10 +1,10 @@
-package com.clothingstore.gui.employee;
+package com.clothingstore.gui.components;
 
 import javax.swing.*;
 
 import com.clothingstore.gui.admin.dashboard.Dashboard;
-import com.clothingstore.gui.components.Menu;
-import com.clothingstore.gui.components.Products;
+import com.clothingstore.gui.employee.Invoice;
+import com.clothingstore.gui.employee.Navigation;
 import com.clothingstore.gui.models.MenuData;
 import com.clothingstore.models.UserModel;
 

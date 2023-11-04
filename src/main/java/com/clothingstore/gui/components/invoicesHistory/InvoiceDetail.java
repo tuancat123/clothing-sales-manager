@@ -147,8 +147,8 @@ public class InvoiceDetail extends JPanel {
 
     Product.setLayout(new GridLayout(5, 1));
     for (int i = 0; i < 5; i++) {
-      Product product = new Product();
-      Product.add(product);
+      // Product product = new Product();
+      // Product.add(product);
     }
     Products.add(HeaderProducts, BorderLayout.NORTH);
     Products.add(Product, BorderLayout.CENTER);

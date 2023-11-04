@@ -2,28 +2,30 @@ package com.clothingstore.gui.components.importInvoice;
 
 import javax.swing.*;
 
+import com.clothingstore.bus.ImportItemsBUS;
 import com.clothingstore.gui.components.invoiceDetail.HeaderInvoice;
 import com.clothingstore.gui.components.invoiceDetail.Product;
+import com.clothingstore.models.ImportItemsModel;
+import com.clothingstore.models.ImportModel;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ImportDetail extends JPanel {
 
     private String name;
     private String value;
+    private static ImportModel importModel;
+    private static List<ImportItemsModel> importItemsList ;
+    
+    static DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
-    private static ImportDetail instance;
-
-    public static ImportDetail getInstance() {
-        if (instance == null) {
-            instance = new ImportDetail();
-        }
-        return instance;
-    }
-
-    public ImportDetail(){
+    public ImportDetail(ImportModel importModel){
+        this.importModel = importModel;
+        importItemsList = ImportItemsBUS.getInstance().searchModel(String.valueOf(importModel.getId()), new String[]{"import_id"});
         initComponents();
     }
     
@@ -34,10 +36,10 @@ public class ImportDetail extends JPanel {
 
     public static ArrayList<ImportDetail> getData() {
         ArrayList<ImportDetail> data = new ArrayList<ImportDetail>() {{
-            add(new ImportDetail("Id Invoice", "0936622"));
-            add(new ImportDetail("Date", "23/8/2023"));
-            add(new ImportDetail("Products", "6"));
-            add(new ImportDetail("Total", "300.450.444"));
+            add(new ImportDetail("Id Invoice",""+importModel.getId()));
+            add(new ImportDetail("Date",""+ importModel.getImportDate()));
+            add(new ImportDetail("Products",""+ importItemsList.size()));
+            add(new ImportDetail("Total",""+ decimalFormat.format(importModel.getTotalPrice())));
         }};
         return data;
     }
@@ -93,9 +95,9 @@ public class ImportDetail extends JPanel {
         HeaderProducts.setPreferredSize(new Dimension(100,40));
         HeaderProducts.add(HeaderInvoice.getInstance(), BorderLayout.CENTER);
 
-        Product.setLayout(new GridLayout(5,1));
-        for(int i = 0; i< 5;i++){
-            Product product = new Product();
+        Product.setLayout(new GridLayout(0,1));
+        for(ImportItemsModel importItemsModel: importItemsList){
+            Product product = new Product(importItemsModel);
             Product.add(product);
         }
         Products.add(HeaderProducts, BorderLayout.NORTH);
