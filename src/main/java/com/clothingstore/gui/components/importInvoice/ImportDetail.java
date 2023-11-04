@@ -111,6 +111,7 @@ public class ImportDetail extends JPanel {
 
         mainPanel.add(Info, BorderLayout.CENTER);
         mainPanel.add(Products, BorderLayout.SOUTH);
+        Scroll.getVerticalScrollBar().setUnitIncrement(10); 
         add(Scroll, BorderLayout.CENTER);
     }
 

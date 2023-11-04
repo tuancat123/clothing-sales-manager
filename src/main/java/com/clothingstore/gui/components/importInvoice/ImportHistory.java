@@ -6,7 +6,6 @@ import java.util.List;
 import javax.swing.*;
 
 import com.clothingstore.bus.ImportBUS;
-import com.clothingstore.gui.components.HomePage;
 import com.clothingstore.models.ImportModel;
 
 public class ImportHistory extends JPanel {
