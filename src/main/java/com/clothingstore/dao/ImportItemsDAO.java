@@ -51,6 +51,7 @@ public class ImportItemsDAO implements IDAO<ImportItemsModel> {
     Object[] args = {
         ImportItemsModel.getImport_id(),
         ImportItemsModel.getProduct_id(),
+        ImportItemsModel.getSize_id(),
         ImportItemsModel.getQuantity(),
         ImportItemsModel.getPrice()
     };
@@ -68,6 +69,7 @@ public class ImportItemsDAO implements IDAO<ImportItemsModel> {
     Object[] args = {
         ImportItemsModel.getImport_id(),
         ImportItemsModel.getProduct_id(),
+        ImportItemsModel.getSize_id(),
         ImportItemsModel.getQuantity(),
         ImportItemsModel.getPrice(),
         ImportItemsModel.getId()

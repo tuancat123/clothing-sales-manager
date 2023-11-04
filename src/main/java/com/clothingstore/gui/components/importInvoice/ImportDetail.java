@@ -13,38 +13,40 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ImportDetail extends JPanel {
 
     private String name;
     private String value;
-    private static ImportModel importModel;
-    private static List<ImportItemsModel> importItemsList ;
-    
+    private ImportModel importModel;
+    private List<ImportItemsModel> importItemsList;
+
     static DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
-    public ImportDetail(ImportModel importModel){
+    public ImportDetail(ImportModel importModel) {
         this.importModel = importModel;
-        importItemsList = ImportItemsBUS.getInstance().searchModel(String.valueOf(importModel.getId()), new String[]{"import_id"});
+        importItemsList = ImportItemsBUS.getInstance().searchModel(String.valueOf(importModel.getId()),
+                new String[] { "import_id" });
         initComponents();
     }
-    
+
     public ImportDetail(String name, String value) {
         this.name = name;
         this.value = value;
     }
 
-    public static ArrayList<ImportDetail> getData() {
-        ArrayList<ImportDetail> data = new ArrayList<ImportDetail>() {{
-            add(new ImportDetail("Id Invoice",""+importModel.getId()));
-            add(new ImportDetail("Date",""+ importModel.getImportDate()));
-            add(new ImportDetail("Products",""+ importItemsList.size()));
-            add(new ImportDetail("Total",""+ decimalFormat.format(importModel.getTotalPrice())));
-        }};
+    public ArrayList<ImportDetail> getData() {
+        ArrayList<ImportDetail> data = new ArrayList<ImportDetail>() {
+            {
+                add(new ImportDetail("Id Invoice", "" + importModel.getId()));
+                add(new ImportDetail("Date", "" + importModel.getImportDate()));
+                add(new ImportDetail("Products", "" + importItemsList.size()));
+                add(new ImportDetail("Total", "" + decimalFormat.format(importModel.getTotalPrice())));
+            }
+        };
         return data;
     }
 
-    public void initComponents(){
+    public void initComponents() {
         NamePanel = new JLabel();
         Info = new JPanel();
         Products = new JPanel();
@@ -66,11 +68,11 @@ public class ImportDetail extends JPanel {
         NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
         NamePanel.setVerticalAlignment(SwingConstants.CENTER);
         NamePanel.setFont(new Font("Segoe UI", 1, 17));
-        NamePanel.setPreferredSize(new Dimension(150,70));
+        NamePanel.setPreferredSize(new Dimension(150, 70));
 
-        add(NamePanel,BorderLayout.NORTH);
+        add(NamePanel, BorderLayout.NORTH);
 
-        for(ImportDetail ImportDetail : getData()){
+        for (ImportDetail ImportDetail : getData()) {
             JPanel panel = new JPanel();
             panel.setBackground(Color.WHITE);
             panel.setPreferredSize(new Dimension(60, 60));
@@ -92,11 +94,11 @@ public class ImportDetail extends JPanel {
         Products.setLayout(new BorderLayout());
 
         HeaderProducts.setLayout(new BorderLayout());
-        HeaderProducts.setPreferredSize(new Dimension(100,40));
+        HeaderProducts.setPreferredSize(new Dimension(100, 40));
         HeaderProducts.add(HeaderInvoice.getInstance(), BorderLayout.CENTER);
 
-        Product.setLayout(new GridLayout(0,1));
-        for(ImportItemsModel importItemsModel: importItemsList){
+        Product.setLayout(new GridLayout(0, 1));
+        for (ImportItemsModel importItemsModel : importItemsList) {
             Product product = new Product(importItemsModel);
             Product.add(product);
         }

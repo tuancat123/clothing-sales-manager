@@ -116,6 +116,11 @@ public class ImportItemsBUS implements IBUS<ImportItemsModel> {
             return true;
           }
         }
+        case "size_id" -> {
+          if (Integer.parseInt(value) == ImportItemsModel.getSize_id()) {
+            return true;
+          }
+        }
         case "product_id" -> {
           if (Integer.parseInt(value) == ImportItemsModel.getProduct_id()) {
             return true;
@@ -145,6 +150,7 @@ public class ImportItemsBUS implements IBUS<ImportItemsModel> {
     return (importItemsModel.getId() == Integer.parseInt(value) ||
         importItemsModel.getImport_id() == Integer.parseInt(value) ||
         importItemsModel.getProduct_id() == Integer.parseInt(value) ||
+        importItemsModel.getSize_id() == Integer.parseInt(value) ||
         importItemsModel.getQuantity() == Integer.parseInt(value) ||
         importItemsModel.getPrice() == Double.parseDouble(value));
   }
