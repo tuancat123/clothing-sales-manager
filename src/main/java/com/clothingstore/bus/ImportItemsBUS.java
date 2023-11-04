@@ -65,6 +65,7 @@ public class ImportItemsBUS implements IBUS<ImportItemsModel> {
     if (model == null ||
         model.getImport_id() <= 0 ||
         model.getProduct_id() <= 0 ||
+        model.getSize_id() <= 0 ||
         model.getQuantity() <= 0 ||
         model.getPrice() <= 0) {
       throw new IllegalArgumentException(
