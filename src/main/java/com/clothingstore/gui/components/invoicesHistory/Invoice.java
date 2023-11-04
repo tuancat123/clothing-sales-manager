@@ -1,21 +1,61 @@
 package com.clothingstore.gui.components.invoicesHistory;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.*;
 
+import org.w3c.dom.events.MouseEvent;
+
+import com.clothingstore.bus.CustomerBUS;
+import com.clothingstore.gui.components.importInvoice.ImportDetail;
+import com.clothingstore.gui.components.importInvoice.ImportHistory;
 import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderModel;
 
 public class Invoice extends JPanel {
-    public Invoice(OrderModel orderModel, CustomerModel customerModel) {
-        initComponents(orderModel, customerModel);
+
+    public Invoice(OrderModel orderModel) {
+        initComponents(orderModel);
+        this.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                InvoiceDetail invoiceDetail = new InvoiceDetail(orderModel);
+                InvoiceHistory.getInstance().Remove();
+                InvoiceHistory.getInstance().add(invoiceDetail, BorderLayout.CENTER);
+                InvoiceHistory.getInstance().revalidate();
+                InvoiceHistory.getInstance().repaint();
+            }
+
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+               
+            }
+            
+        });
     }
 
-    private void initComponents(OrderModel orderModel, CustomerModel customerModel) {
+    private void initComponents(OrderModel orderModel) {
 
         Icon = new JLabel();
         Detail = new JPanel();
@@ -63,7 +103,7 @@ public class Invoice extends JPanel {
         CustomerInfo.setLayout(new GridLayout(2, 0));
         CustomerInfo.setBackground(color);
 
-        CustomerName.setText(customerModel.getCustomerName());
+        CustomerName.setText(""+CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getCustomerName());
         CustomerName.setFont(new Font("Segoe UI", 0, 14));
         CustomerInfo.add(CustomerName);
 

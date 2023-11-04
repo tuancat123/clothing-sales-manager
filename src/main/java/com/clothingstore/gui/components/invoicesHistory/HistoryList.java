@@ -80,7 +80,6 @@ public class HistoryList extends JPanel {
 
     // ...
 
-    // JTextField SearchValue = new JTextField();
     SearchValue.setBackground(new Color(242, 242, 242));
     SearchValue.setFont(new Font("Segoe UI", 0, 14)); // NOI18N
     SearchValue.setText("Tìm theo mã hóa đơn");
@@ -117,36 +116,33 @@ public class HistoryList extends JPanel {
 
     Invoices.setLayout(new GridLayout(0, 1));
     Invoices.setBackground(color);
-    List<OrderModel> orderList = new ArrayList<>();
-    orderList.addAll(OrderBUS.getInstance().getAllModels());
-    List<CustomerModel> customerList = new ArrayList<>();
-    customerList.addAll(CustomerBUS.getInstance().getAllModels());
+    // List<OrderModel> orderList = new ArrayList<>();
+    // orderList.addAll(OrderBUS.getInstance().getAllModels());
+    // List<CustomerModel> customerList = new ArrayList<>();
+    // customerList.addAll(CustomerBUS.getInstance().getAllModels());
 
-    Map<Integer, CustomerModel> customerMap = new HashMap<>();
+    // Map<Integer, CustomerModel> customerMap = new HashMap<>();
 
-    for (CustomerModel customer : customerList) {
-      customerMap.put(customer.getId(), customer);
-    }
+    // for (CustomerModel customer : customerList) {
+    //   customerMap.put(customer.getId(), customer);
+    // }
 
-    Iterator<OrderModel> orderIterator = orderList.iterator();
-    while (orderIterator.hasNext()) {
-      OrderModel orderModel = orderIterator.next();
-      int customerId = orderModel.getCustomerId();
-      CustomerModel customerModel = customerMap.get(customerId);
+    // Iterator<OrderModel> orderIterator = orderList.iterator();
+    // while (orderIterator.hasNext()) {
+    //   OrderModel orderModel = orderIterator.next();
+    //   int customerId = orderModel.getCustomerId();
+    //   CustomerModel customerModel = customerMap.get(customerId);
 
-      if (customerModel != null) {
-        Invoice invoice = new Invoice(orderModel, customerModel);
-        Invoices.add(invoice);
-        InvoiceDetail invoiceDetail = new InvoiceDetail(orderModel, customerModel);
-        invoice.addMouseListener(new MouseAdapter() {
-          @Override
-          public void mouseClicked(MouseEvent e) {
-            InvoiceHistory.getInstance().add(invoiceDetail, BorderLayout.CENTER);
-            InvoiceHistory.getInstance().repaint();
-            InvoiceHistory.getInstance().revalidate();
-          }
-        });
-      }
+    //   if (customerModel != null) {
+    //     Invoice invoice = new Invoice(orderModel, customerModel);
+    //     Invoices.add(invoice);
+    //     InvoiceDetail invoiceDetail = new InvoiceDetail(orderModel, customerModel);
+    //   }
+    // }
+    List<OrderModel> orderList = OrderBUS.getInstance().getAllModels();
+    for(OrderModel orderModel: orderList){
+      Invoice invoice = new Invoice(orderModel);
+      Invoices.add(invoice);
     }
 
     Scroll.setViewportView(Invoices);

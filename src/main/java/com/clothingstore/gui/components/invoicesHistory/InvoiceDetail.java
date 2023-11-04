@@ -2,6 +2,7 @@ package com.clothingstore.gui.components.invoicesHistory;
 
 import javax.swing.*;
 
+import com.clothingstore.bus.CustomerBUS;
 import com.clothingstore.bus.OrderItemBUS;
 import com.clothingstore.bus.PaymentBUS;
 import com.clothingstore.bus.PaymentMethodBUS;
@@ -25,44 +26,48 @@ public class InvoiceDetail extends JPanel {
 
   private String name;
   private String value;
-  private static OrderModel order;
-  private static CustomerModel customer;
-  private static List<PaymentModel> paymentModels;
-  private static List<PaymentMethodModel> paymentMethodModels;
-  private static List<OrderItemModel> orderItemModels;
-  private static List<ProductModel> productModels;
-  private static List<UserModel> userModels;
+  // private static OrderModel order;
+  // private static CustomerModel customer;
+  // private static List<PaymentModel> paymentModels;
+  // private static List<PaymentMethodModel> paymentMethodModels;
+  // private static List<OrderItemModel> orderItemModels;
+  // private static List<ProductModel> productModels;
+  // private static List<UserModel> userModels;
   //TODO: Need to optimize, runs pretty slow.
-  public InvoiceDetail() {
-    revalidate();
-    repaint();
-    initComponents();
-  }
+  // public InvoiceDetail() {
+    // revalidate();
+    // repaint();
+    // initComponents();
+  // }
 
-  public InvoiceDetail(OrderModel orderModel, CustomerModel customerModel) {
-    revalidate();
-    repaint();
-    InvoiceDetail.order = orderModel;
-    InvoiceDetail.customer = customerModel;
+  OrderModel orderModel;
+  List<OrderItemModel> orderItemModels;
+  public InvoiceDetail(OrderModel orderModel) {
+    // revalidate();
+    // repaint();
+    // InvoiceDetail.order = orderModel;
+    // InvoiceDetail.customer = customerModel;
 
-    // Initialize the lists here
-    paymentModels = new ArrayList<>();
-    paymentModels.addAll(PaymentBUS.getInstance().getAllModels());
-    paymentModels.removeIf(paymentModel -> paymentModel.getOrderId() != InvoiceDetail.order.getId());
+    // // Initialize the lists here
+    // paymentModels = new ArrayList<>();
+    // paymentModels.addAll(PaymentBUS.getInstance().getAllModels());
+    // paymentModels.removeIf(paymentModel -> paymentModel.getOrderId() != InvoiceDetail.order.getId());
 
-    paymentMethodModels = new ArrayList<>();
-    paymentMethodModels.addAll(PaymentMethodBUS.getInstance().getAllModels());
+    // paymentMethodModels = new ArrayList<>();
+    // paymentMethodModels.addAll(PaymentMethodBUS.getInstance().getAllModels());
 
-    orderItemModels = new ArrayList<>();
-    orderItemModels.addAll(OrderItemBUS.getInstance().getAllModels());
-    orderItemModels.removeIf(orderItemModel -> orderItemModel.getOrderId() != InvoiceDetail.order.getId());
+    // orderItemModels = new ArrayList<>();
+    // orderItemModels.addAll(OrderItemBUS.getInstance().getAllModels());
+    // orderItemModels.removeIf(orderItemModel -> orderItemModel.getOrderId() != InvoiceDetail.order.getId());
 
-    productModels = new ArrayList<>();
-    productModels.addAll(ProductBUS.getInstance().getAllModels());
+    // productModels = new ArrayList<>();
+    // productModels.addAll(ProductBUS.getInstance().getAllModels());
 
-    userModels = new ArrayList<>();
-    userModels.addAll(UserBUS.getInstance().getAllModels());
-    userModels.removeIf(userModel -> userModel.getId() != InvoiceDetail.order.getUserId());
+    // userModels = new ArrayList<>();
+    // userModels.addAll(UserBUS.getInstance().getAllModels());
+    // userModels.removeIf(userModel -> userModel.getId() != InvoiceDetail.order.getUserId());
+    this.orderModel = orderModel;
+    orderItemModels = OrderItemBUS.getInstance().searchModel(String.valueOf(orderModel.getId()), new String[]{"order_id"});
     initComponents();
   }
 
@@ -71,24 +76,36 @@ public class InvoiceDetail extends JPanel {
     this.value = value;
   }
 
-  public static ArrayList<InvoiceDetail> getData() {
+  public ArrayList<InvoiceDetail> getData() {
     // Initialize with an empty string by default
-    String alter = "";
-    if (InvoiceDetail.order.getUserId() == userModels.get(0).getId()) {
-      alter = userModels.get(0).getName();
-    }
+    // String alter = "";
+    // if (InvoiceDetail.order.getUserId() == userModels.get(0).getId()) {
+    //   alter = userModels.get(0).getName();
+    // }
 
-    String employeeName = new String(alter);
+    // String employeeName = new String(alter);
+    // ArrayList<InvoiceDetail> data = new ArrayList<InvoiceDetail>() {
+    //   {
+    //     add(new InvoiceDetail("Id Invoice", "" + InvoiceDetail.order.getId()));
+    //     add(new InvoiceDetail("Employee Name", employeeName));
+    //     add(new InvoiceDetail("Date", "" + InvoiceDetail.order.getOrderDate()));
+    //     add(new InvoiceDetail("Total", "" + InvoiceDetail.order.getTotalPrice()));
+    //     add(new InvoiceDetail("Paying", "Cash"));
+    //     add(new InvoiceDetail("Customer Name", InvoiceDetail.customer.getCustomerName()));
+    //     add(new InvoiceDetail("Customer Phone", InvoiceDetail.customer.getPhone()));
+    //     add(new InvoiceDetail("Products", "" + orderItemModels.size()));
+    //   }
+    // };
     ArrayList<InvoiceDetail> data = new ArrayList<InvoiceDetail>() {
       {
-        add(new InvoiceDetail("Id Invoice", "" + InvoiceDetail.order.getId()));
-        add(new InvoiceDetail("Employee Name", employeeName));
-        add(new InvoiceDetail("Date", "" + InvoiceDetail.order.getOrderDate()));
-        add(new InvoiceDetail("Total", "" + InvoiceDetail.order.getTotalPrice()));
-        add(new InvoiceDetail("Paying", "Cash"));
-        add(new InvoiceDetail("Customer Name", InvoiceDetail.customer.getCustomerName()));
-        add(new InvoiceDetail("Customer Phone", InvoiceDetail.customer.getPhone()));
-        add(new InvoiceDetail("Products", "" + orderItemModels.size()));
+        add(new InvoiceDetail("Id Invoice", "" + orderModel.getId()));
+        add(new InvoiceDetail("Employee Name", UserBUS.getInstance().getModelById(orderModel.getUserId()).getName()));
+        add(new InvoiceDetail("Date", "" + orderModel.getOrderDate()));
+        add(new InvoiceDetail("Total", "" + orderModel.getTotalPrice()));
+        add(new InvoiceDetail("Paying","chưa tìm ra chỗ để lấy method"));
+        add(new InvoiceDetail("Customer Name", CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getCustomerName()));
+        add(new InvoiceDetail("Customer Phone", CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getPhone()));
+        add(new InvoiceDetail("Products", ""+orderItemModels.size() ));
       }
     };
 
