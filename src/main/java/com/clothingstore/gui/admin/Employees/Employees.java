@@ -1,4 +1,4 @@
-package com.clothingstore.gui.admin.employees;
+package com.clothingstore.gui.admin.Employees;
 
 
 import com.clothingstore.gui.components.Menu;

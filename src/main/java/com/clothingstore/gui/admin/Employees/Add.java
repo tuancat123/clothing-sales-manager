@@ -1,4 +1,4 @@
-package com.clothingstore.gui.admin.employees;
+package com.clothingstore.gui.admin.Employees;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
