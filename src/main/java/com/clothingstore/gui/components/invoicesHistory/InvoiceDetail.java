@@ -2,22 +2,14 @@ package com.clothingstore.gui.components.invoicesHistory;
 
 import javax.swing.*;
 
+import com.clothingstore.gui.components.invoiceDetail.Product;
 import com.clothingstore.bus.CustomerBUS;
+import com.clothingstore.bus.OrderBUS;
 import com.clothingstore.bus.OrderItemBUS;
-import com.clothingstore.bus.PaymentBUS;
-import com.clothingstore.bus.PaymentMethodBUS;
-import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.gui.components.invoiceDetail.HeaderInvoice;
-import com.clothingstore.gui.components.invoiceDetail.Product;
-import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
-import com.clothingstore.models.PaymentMethodModel;
-import com.clothingstore.models.PaymentModel;
-import com.clothingstore.models.ProductModel;
-import com.clothingstore.models.UserModel;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,48 +18,14 @@ public class InvoiceDetail extends JPanel {
 
   private String name;
   private String value;
-  // private static OrderModel order;
-  // private static CustomerModel customer;
-  // private static List<PaymentModel> paymentModels;
-  // private static List<PaymentMethodModel> paymentMethodModels;
-  // private static List<OrderItemModel> orderItemModels;
-  // private static List<ProductModel> productModels;
-  // private static List<UserModel> userModels;
-  //TODO: Need to optimize, runs pretty slow.
-  // public InvoiceDetail() {
-    // revalidate();
-    // repaint();
-    // initComponents();
-  // }
 
   OrderModel orderModel;
   List<OrderItemModel> orderItemModels;
+
   public InvoiceDetail(OrderModel orderModel) {
-    // revalidate();
-    // repaint();
-    // InvoiceDetail.order = orderModel;
-    // InvoiceDetail.customer = customerModel;
-
-    // // Initialize the lists here
-    // paymentModels = new ArrayList<>();
-    // paymentModels.addAll(PaymentBUS.getInstance().getAllModels());
-    // paymentModels.removeIf(paymentModel -> paymentModel.getOrderId() != InvoiceDetail.order.getId());
-
-    // paymentMethodModels = new ArrayList<>();
-    // paymentMethodModels.addAll(PaymentMethodBUS.getInstance().getAllModels());
-
-    // orderItemModels = new ArrayList<>();
-    // orderItemModels.addAll(OrderItemBUS.getInstance().getAllModels());
-    // orderItemModels.removeIf(orderItemModel -> orderItemModel.getOrderId() != InvoiceDetail.order.getId());
-
-    // productModels = new ArrayList<>();
-    // productModels.addAll(ProductBUS.getInstance().getAllModels());
-
-    // userModels = new ArrayList<>();
-    // userModels.addAll(UserBUS.getInstance().getAllModels());
-    // userModels.removeIf(userModel -> userModel.getId() != InvoiceDetail.order.getUserId());
     this.orderModel = orderModel;
-    orderItemModels = OrderItemBUS.getInstance().searchModel(String.valueOf(orderModel.getId()), new String[]{"order_id"});
+    orderItemModels = OrderItemBUS.getInstance().searchModel(String.valueOf(orderModel.getId()),
+        new String[] { "order_id" });
     initComponents();
   }
 
@@ -76,40 +34,22 @@ public class InvoiceDetail extends JPanel {
     this.value = value;
   }
 
-  public ArrayList<InvoiceDetail> getData() {
-    // Initialize with an empty string by default
-    // String alter = "";
-    // if (InvoiceDetail.order.getUserId() == userModels.get(0).getId()) {
-    //   alter = userModels.get(0).getName();
-    // }
-
-    // String employeeName = new String(alter);
-    // ArrayList<InvoiceDetail> data = new ArrayList<InvoiceDetail>() {
-    //   {
-    //     add(new InvoiceDetail("Id Invoice", "" + InvoiceDetail.order.getId()));
-    //     add(new InvoiceDetail("Employee Name", employeeName));
-    //     add(new InvoiceDetail("Date", "" + InvoiceDetail.order.getOrderDate()));
-    //     add(new InvoiceDetail("Total", "" + InvoiceDetail.order.getTotalPrice()));
-    //     add(new InvoiceDetail("Paying", "Cash"));
-    //     add(new InvoiceDetail("Customer Name", InvoiceDetail.customer.getCustomerName()));
-    //     add(new InvoiceDetail("Customer Phone", InvoiceDetail.customer.getPhone()));
-    //     add(new InvoiceDetail("Products", "" + orderItemModels.size()));
-    //   }
-    // };
-    ArrayList<InvoiceDetail> data = new ArrayList<InvoiceDetail>() {
+  public List<InvoiceDetail> getData() {
+    return new ArrayList<InvoiceDetail>() {
       {
+
         add(new InvoiceDetail("Id Invoice", "" + orderModel.getId()));
         add(new InvoiceDetail("Employee Name", UserBUS.getInstance().getModelById(orderModel.getUserId()).getName()));
         add(new InvoiceDetail("Date", "" + orderModel.getOrderDate()));
         add(new InvoiceDetail("Total", "" + orderModel.getTotalPrice()));
-        add(new InvoiceDetail("Paying","chưa tìm ra chỗ để lấy method"));
-        add(new InvoiceDetail("Customer Name", CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getCustomerName()));
-        add(new InvoiceDetail("Customer Phone", CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getPhone()));
-        add(new InvoiceDetail("Products", ""+orderItemModels.size() ));
+        add(new InvoiceDetail("Paying", "chưa tìm ra chỗ để lấy method"));
+        add(new InvoiceDetail("Customer Name",
+            CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getCustomerName()));
+        add(new InvoiceDetail("Customer Phone",
+            CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getPhone()));
+        add(new InvoiceDetail("Products", "" + orderItemModels.size()));
       }
     };
-
-    return data;
   }
 
   public void initComponents() {
@@ -163,10 +103,11 @@ public class InvoiceDetail extends JPanel {
     HeaderProducts.add(HeaderInvoice.getInstance(), BorderLayout.CENTER);
 
     Product.setLayout(new GridLayout(5, 1));
-    for (int i = 0; i < 5; i++) {
-      // Product product = new Product();
-      // Product.add(product);
+    for (int i = 0; i < orderItemModels.size(); i++) {
+      Product product = new Product(orderModel, orderItemModels.get(i));
+      Product.add(product);
     }
+
     Products.add(HeaderProducts, BorderLayout.NORTH);
     Products.add(Product, BorderLayout.CENTER);
 
