@@ -2,6 +2,9 @@ package com.clothingstore.gui.components.invoicesHistory;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -9,13 +12,16 @@ import javax.swing.*;
 
 import com.clothingstore.bus.CustomerBUS;
 import com.clothingstore.bus.OrderBUS;
+// import com.clothingstore.dao.OrderDAO;
 import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderModel;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
 public class HistoryList extends JPanel {
 
   private static HistoryList instance;
+  Date currentDate = new Date();
 
   public static HistoryList getInstance() {
     if (instance == null) {
@@ -124,23 +130,23 @@ public class HistoryList extends JPanel {
     // Map<Integer, CustomerModel> customerMap = new HashMap<>();
 
     // for (CustomerModel customer : customerList) {
-    //   customerMap.put(customer.getId(), customer);
+    // customerMap.put(customer.getId(), customer);
     // }
 
     // Iterator<OrderModel> orderIterator = orderList.iterator();
     // while (orderIterator.hasNext()) {
-    //   OrderModel orderModel = orderIterator.next();
-    //   int customerId = orderModel.getCustomerId();
-    //   CustomerModel customerModel = customerMap.get(customerId);
+    // OrderModel orderModel = orderIterator.next();
+    // int customerId = orderModel.getCustomerId();
+    // CustomerModel customerModel = customerMap.get(customerId);
 
-    //   if (customerModel != null) {
-    //     Invoice invoice = new Invoice(orderModel, customerModel);
-    //     Invoices.add(invoice);
-    //     InvoiceDetail invoiceDetail = new InvoiceDetail(orderModel, customerModel);
-    //   }
+    // if (customerModel != null) {
+    // Invoice invoice = new Invoice(orderModel, customerModel);
+    // Invoices.add(invoice);
+    // InvoiceDetail invoiceDetail = new InvoiceDetail(orderModel, customerModel);
+    // }
     // }
     List<OrderModel> orderList = OrderBUS.getInstance().getAllModels();
-    for(OrderModel orderModel: orderList){
+    for (OrderModel orderModel : orderList) {
       Invoice invoice = new Invoice(orderModel);
       Invoices.add(invoice);
     }
@@ -157,17 +163,71 @@ public class HistoryList extends JPanel {
     this.startDate = new JDateChooser();
     startDate.setBounds(40, 75, 150, 30);
     startDate.setDateFormatString("yyyy-MM-dd");
+    JTextField editor = (JTextField) startDate.getDateEditor();
+    editor.setEditable(false);
   }
 
   public void setEndDate() {
     this.endDate = new JDateChooser();
     endDate.setBounds(200, 75, 150, 30);
     endDate.setDateFormatString("yyyy-MM-dd");
+    JTextField editor = (JTextField) endDate.getDateEditor();
+    editor.setEditable(false);
   }
 
   public void setFilterButton() {
     this.filterButton = new JButton("Filter");
     filterButton.setBounds(360, 75, 80, 30);
+    filterButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Date fromDate = startDate.getDate();
+        Date toDate = endDate.getDate();
+        checkDate(fromDate, toDate);
+      }
+    });
+  }
+
+  private void checkDate(Date fromDate, Date toDate) {
+    if (fromDate == null) {
+      JOptionPane.showMessageDialog(null, "không được để trống ngày bắt đầu", "Lỗi",
+          JOptionPane.ERROR_MESSAGE);
+    } else if (toDate == null) {
+      JOptionPane.showMessageDialog(null, "không được để trống ngày kết thúc", "Lỗi",
+          JOptionPane.ERROR_MESSAGE);
+    } else {
+      int result1 = fromDate.compareTo(currentDate);
+      int result2 = fromDate.compareTo(toDate);
+      if (result1 > 0) {
+        System.out.println(currentDate);
+        System.out.println(startDate);
+        System.out.println(result1);
+        JOptionPane.showMessageDialog(null, "Ngày bắt đầu không thể lớn hơn ngày hiện tại.", "Lỗi",
+            JOptionPane.ERROR_MESSAGE);
+        startDate.setDate(null);
+      } else if (result2 > 0) {
+        JOptionPane.showMessageDialog(null, "Ngày bắt đầu không thể lớn hơn ngày kết thúc.", "Lỗi",
+            JOptionPane.ERROR_MESSAGE);
+        startDate.setDate(null);
+      } else {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fromDateStr = (fromDate != null) ? sdf.format(fromDate) : null;
+        String toDateStr = (toDate != null) ? sdf.format(toDate) : null;
+
+        List<OrderModel> filteredOrders = OrderBUS.searchDateToDate(fromDateStr, toDateStr);
+
+        if (filteredOrders.isEmpty()) {
+          JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn trong khoảng thời gian đã chọn.", "Thông báo",
+              JOptionPane.INFORMATION_MESSAGE);
+        } else {
+          Invoices.removeAll();
+          for (OrderModel orderModel : filteredOrders) {
+            Invoice invoice = new Invoice(orderModel);
+            Invoices.add(invoice);
+          }
+        }
+      }
+    }
   }
 
   private JButton ButtonBack;

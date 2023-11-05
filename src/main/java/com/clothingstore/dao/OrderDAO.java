@@ -135,4 +135,37 @@ public class OrderDAO implements IDAO<OrderModel> {
       return Collections.emptyList();
     }
   }
+
+  public List<OrderModel> searchDatetoDate(String fromDate, String toDate) {
+    try {
+      String query;
+      if (fromDate == null && toDate == null) {
+        query = "SELECT * FROM orders";
+      } else if (fromDate == null || toDate == null) {
+        throw new IllegalArgumentException("Both fromDate and toDate must be specified.");
+      } else {
+        query = "SELECT * FROM orders WHERE order_date BETWEEN ? AND ?";
+      }
+      try (
+          PreparedStatement pst = (fromDate != null && toDate != null)
+              ? DatabaseConnection.getPreparedStatement(query, fromDate, toDate)
+              : DatabaseConnection.getPreparedStatement(query);
+          ResultSet rs = pst.executeQuery()) {
+        List<OrderModel> orderList = new ArrayList<>();
+        while (rs.next()) {
+          OrderModel orderModel = createOrderModelFromResultSet(rs);
+          orderList.add(orderModel);
+        }
+
+        if (orderList.isEmpty()) {
+          throw new SQLException("No records found for the given date range.");
+        }
+
+        return orderList;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return Collections.emptyList();
+    }
+  }
 }
