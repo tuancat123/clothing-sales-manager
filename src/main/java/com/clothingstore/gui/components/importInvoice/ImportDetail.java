@@ -98,8 +98,10 @@ public class ImportDetail extends JPanel {
     HeaderProducts.add(HeaderInvoice.getInstance(), BorderLayout.CENTER);
 
     Product.setLayout(new GridLayout(0, 1));
+
+    int i = 0;
     for (ImportItemsModel importItemsModel : importItemsList) {
-      Product product = new Product(importItemsModel);
+      Product product = new Product(importItemsModel, i += 1);
       Product.add(product);
     }
     Products.add(HeaderProducts, BorderLayout.NORTH);

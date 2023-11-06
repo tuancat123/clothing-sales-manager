@@ -24,7 +24,7 @@ public class Product extends JPanel {
   DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
   String[] data;
 
-  public Product(ImportItemsModel importItemsModel) {
+  public Product(ImportItemsModel importItemsModel, int i) {
     productModel = ProductBUS.getInstance().getModelById(importItemsModel.getProduct_id());
     java.util.List<SizeItemModel> sizeItemModelList = SizeItemBUS.getInstance()
         .searchModel(String.valueOf(productModel.getId()), new String[] { "product_id" });
@@ -32,7 +32,7 @@ public class Product extends JPanel {
     SizeModel sizeModel = SizeBUS.getInstance().getModelById(sizeItemModel.getSizeId());
     data = new String[] {
         productModel.getName(),
-        "01", // TODO: What does this number do?
+        String.valueOf(i),
         String.valueOf(importItemsModel.getQuantity()),
         String.valueOf(sizeModel.getSize()),
         String.valueOf(importItemsModel.getPrice()),
