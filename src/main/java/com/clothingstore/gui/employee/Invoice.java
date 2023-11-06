@@ -3,27 +3,30 @@ package com.clothingstore.gui.employee;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.List;
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
 import com.clothingstore.gui.components.invoiceDetail.InvoiceDetail;
+import com.clothingstore.models.OrderItemModel;
+import com.clothingstore.models.OrderModel;
 
 public class Invoice extends JPanel {
   private static Invoice instance;
 
   public static Invoice getInstance() {
     if (instance == null) {
-      instance = new Invoice();
+      instance = new Invoice(null);
     }
     return instance;
   }
 
-  public Invoice() {
-    initComponents();
+  public Invoice(List<OrderItemModel> orderItemModel) {
+    initComponents(orderItemModel);
+    // updateCartUI(orderItemModel);
   }
 
-  private void initComponents() {
+  private void initComponents(List<OrderItemModel> orderItemModel) {
 
     Header = new JPanel();
     Index = new JLabel();
@@ -65,11 +68,22 @@ public class Invoice extends JPanel {
 
     Invoices.setBackground(new Color(255, 255, 255));
     Invoices.setLayout(new GridLayout(10, 1));
+    if (orderItemModel != null) {
+      for (OrderItemModel orderItemModels : orderItemModel) {
+        InvoiceProduct invoiceProduct = new InvoiceProduct(orderItemModels);
+        System.out.println("tao thanh cong invoid pro");
+        Invoices.add(invoiceProduct);
+        System.out.println("add thanh cong invoid pro");
+        Invoices.setVisible(true);
+      }
+    } else {
+      System.out.println("ddang null");
+    }
 
-    InvoiceProduct invoiceProduct = new InvoiceProduct();
-    Invoices.add(invoiceProduct);
-    InvoiceProduct invoiceProduct2 = new InvoiceProduct();
-    Invoices.add(invoiceProduct2);
+    // InvoiceProduct invoiceProduct = new InvoiceProduct();
+    // Invoices.add(invoiceProduct);
+    // InvoiceProduct invoiceProduct2 = new InvoiceProduct();
+    // Invoices.add(invoiceProduct2);
 
     Scroll.setViewportView(Invoices);
 
@@ -122,6 +136,22 @@ public class Invoice extends JPanel {
     add(Footer, BorderLayout.SOUTH);
 
   }
+
+  // public void updateCartUI(List<OrderItemModel> orderItemModels) {
+  // System.out.println("update");
+  // if (orderItemModels != null) {
+  // for (OrderItemModel orderItemModel1 : orderItemModels) {
+  // InvoiceProduct invoiceProduct = new InvoiceProduct(orderItemModel1);
+  // System.out.println("tao thanh cong invoid pro");
+  // Invoices.add(invoiceProduct);
+  // System.out.println("add thanh cong invoid pro");
+  // Invoices.setVisible(true);
+  // }
+  // } else {
+  // System.out.println("ddang null");
+  // }
+
+  // }
 
   private JButton ButtonCancel;
   private JButton ButtonPay;

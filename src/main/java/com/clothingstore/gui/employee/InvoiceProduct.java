@@ -4,14 +4,15 @@ import java.awt.*;
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
+import com.clothingstore.models.OrderItemModel;
+
 public class InvoiceProduct extends JPanel {
 
-  public InvoiceProduct() {
-    initComponents();
+  public InvoiceProduct(OrderItemModel orderItemModel) {
+    initComponents(orderItemModel);
   }
 
-  private void initComponents() {
-
+  private void initComponents(OrderItemModel orderItemModel) {
     IndexText = new JLabel();
     Name = new JLabel();
     Size = new JLabel();
@@ -29,16 +30,28 @@ public class InvoiceProduct extends JPanel {
     add(IndexText, new AbsoluteConstraints(8, 20, -1, 30));
 
     Name.setFont(new Font("Segoe UI", 3, 14));
-    Name.setText("BlackPolo Bla");
+    Name.setText("ch co");
 
     add(Name, new AbsoluteConstraints(32, 6, 150, 30));
 
     Size.setFont(new Font("Segoe UI", 1, 14));
     Size.setForeground(Color.BLUE);
-    Size.setText("( M )");
+    int size = orderItemModel.getSizeId();
+    System.out.println("size " + size);
+    if (size == 1) {
+      Size.setText("( S )");
+    } else if (size == 2) {
+      Size.setText("( M )");
+    } else if (size == 3) {
+      Size.setText("( L )");
+    } else if (size == 4) {
+      Size.setText("( XL )");
+    } else if (size == 5) {
+      Size.setText("( XXL )");
+    }
     add(Size, new AbsoluteConstraints(45, 28, 45, 30));
 
-    JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
+    JSpinner spinner = new JSpinner(new SpinnerNumberModel(orderItemModel.getQuantity(), 1, null, 1));
     spinner.setBackground(new Color(255, 204, 204));
     add(spinner, new AbsoluteConstraints(90, 34, 55, 20));
 

@@ -18,14 +18,17 @@ import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.SizeBUS;
 import com.clothingstore.bus.SizeItemBUS;
 import com.clothingstore.models.ImportItemsModel;
+import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
 import com.clothingstore.models.SizeModel;
+import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.gui.utilities.ImageUtil;
 
 public class ProductDetail extends JFrame {
 
   Color color = new Color(230, 240, 255);
+  int selectedSizeId = -1;
 
   public ProductDetail(ProductModel productModel) {
     setAlwaysOnTop(true);
@@ -44,10 +47,12 @@ public class ProductDetail extends JFrame {
   SizeModel sizeModel = null;
 
   private void initComponents(ProductModel productModel) {
+    int selectedProductId = productModel.getId();
     List<ImportItemsModel> importItemsModels = new ArrayList<>();
     List<ProductModel> productModels = new ArrayList<>();
     List<SizeItemModel> sizeItemModels = new ArrayList<>();
     List<SizeModel> sizeModels = new ArrayList<>();
+    List<OrderItemModel> cartItems = new ArrayList<>();
 
     importItemsModels.addAll(ImportItemsBUS.getInstance().getAllModels());
     productModels.addAll(ProductBUS.getInstance().getAllModels());
@@ -93,16 +98,17 @@ public class ProductDetail extends JFrame {
     ImagePanel.setLayout(new GridBagLayout());
 
     // try {
-    //   BufferedImage originalImage = ImageUtil.fromBase64(productModel.getImage());
-    //   Image scaledImage = originalImage.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
-    //   ImageIcon scaledIcon = new ImageIcon(scaledImage);
-    //   JLabel imageLabel = new JLabel(scaledIcon);
-    //   JPanel imagePanel = new JPanel(new GridBagLayout());
-    //   imagePanel.add(imageLabel, new GridBagConstraints());
-    //   imagePanel.setBackground(color);
-    //   getContentPane().add(imagePanel, new AbsoluteConstraints(10, 20, 190, 270));
+    // BufferedImage originalImage = ImageUtil.fromBase64(productModel.getImage());
+    // Image scaledImage = originalImage.getScaledInstance(180, 180,
+    // java.awt.Image.SCALE_SMOOTH);
+    // ImageIcon scaledIcon = new ImageIcon(scaledImage);
+    // JLabel imageLabel = new JLabel(scaledIcon);
+    // JPanel imagePanel = new JPanel(new GridBagLayout());
+    // imagePanel.add(imageLabel, new GridBagConstraints());
+    // imagePanel.setBackground(color);
+    // getContentPane().add(imagePanel, new AbsoluteConstraints(10, 20, 190, 270));
     // } catch (IOException e) {
-    //   e.printStackTrace();
+    // e.printStackTrace();
     // }
 
     Name.setEditable(false);
@@ -192,6 +198,7 @@ public class ProductDetail extends JFrame {
     sizeS.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+        selectedSizeId = 1;
         int spinnerValue = (int) spinner.getValue();
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 1) {
@@ -213,6 +220,7 @@ public class ProductDetail extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
+        selectedSizeId = 2;
         int spinnerValue = (int) spinner.getValue();
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 2) {
@@ -234,6 +242,7 @@ public class ProductDetail extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
+        selectedSizeId = 3;
         int spinnerValue = (int) spinner.getValue();
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 3) {
@@ -255,6 +264,7 @@ public class ProductDetail extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
+        selectedSizeId = 4;
         int spinnerValue = (int) spinner.getValue();
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 4) {
@@ -276,6 +286,7 @@ public class ProductDetail extends JFrame {
 
       @Override
       public void actionPerformed(ActionEvent e) {
+        selectedSizeId = 5;
         int spinnerValue = (int) spinner.getValue();
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 5) {
@@ -322,7 +333,20 @@ public class ProductDetail extends JFrame {
     ButtonAdd.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        
+        if (selectedProductId != -1 && selectedSizeId != -1) {
+          int quantity = (int) spinner.getValue();
+
+          // Tạo một mục hóa đơn mới
+          OrderItemModel orderItem = new OrderItemModel();
+          orderItem.setProductId(selectedProductId);
+          orderItem.setSizeId(selectedSizeId);
+          orderItem.setQuantity(quantity);
+          cartItems.add(orderItem);
+          Invoice invoice = new Invoice(cartItems);
+          // invoice.updateCartUI(cartItems);
+          invoice.setVisible(true);
+          System.out.println("1 2 3");
+        }
       }
 
     });
