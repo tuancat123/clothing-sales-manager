@@ -16,6 +16,7 @@ public class HistoryList extends JPanel {
 
   private static HistoryList instance;
   Date currentDate = new Date();
+  List<OrderModel> orderList;
 
   public static HistoryList getInstance() {
     if (instance == null) {
@@ -102,9 +103,11 @@ public class HistoryList extends JPanel {
     setStartDate();
     setEndDate();
     setFilterButton();
+    setRemoveFilterButton();
     fillPanel.add(startDate, BorderLayout.WEST);
     fillPanel.add(endDate, BorderLayout.CENTER);
     fillPanel.add(filterButton, BorderLayout.EAST);
+    fillPanel.add(removeFilterButton, BorderLayout.EAST);
     Panel.add(fillPanel, BorderLayout.SOUTH);
 
     Header.add(Panel, BorderLayout.SOUTH);
@@ -113,7 +116,7 @@ public class HistoryList extends JPanel {
 
     Invoices.setLayout(new GridLayout(0, 1));
     Invoices.setBackground(color);
-    List<OrderModel> orderList = OrderBUS.getInstance().getAllModels();
+    orderList = OrderBUS.getInstance().getAllModels();
     for (OrderModel orderModel : orderList) {
       Invoice invoice = new Invoice(orderModel);
       Invoices.add(invoice);
@@ -156,11 +159,28 @@ public class HistoryList extends JPanel {
     });
   }
 
+  public void setRemoveFilterButton() {
+    this.removeFilterButton = new JButton("Remove Filter");
+    removeFilterButton.setBounds(360, 75, 80, 30);
+    removeFilterButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Invoices.removeAll();
+        startDate.setDate(null);
+        endDate.setDate(null);
+        for (OrderModel orderModel : orderList) {
+          Invoice invoice = new Invoice(orderModel);
+          Invoices.add(invoice);
+        }
+      }
+    });
+  }
+
   private void checkDate(Date fromDate, Date toDate) {
-    if (fromDate == null) {
+    if (fromDate == null && toDate != null) {
       JOptionPane.showMessageDialog(null, "không được để trống ngày bắt đầu", "Lỗi",
           JOptionPane.ERROR_MESSAGE);
-    } else if (toDate == null) {
+    } else if (toDate == null && fromDate != null) {
       JOptionPane.showMessageDialog(null, "không được để trống ngày kết thúc", "Lỗi",
           JOptionPane.ERROR_MESSAGE);
     } else {
@@ -211,4 +231,5 @@ public class HistoryList extends JPanel {
   private JDateChooser endDate;
   private JPanel fillPanel;
   private JButton filterButton;
+  private JButton removeFilterButton;
 }
