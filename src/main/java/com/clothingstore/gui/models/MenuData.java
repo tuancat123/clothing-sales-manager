@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import com.clothingstore.gui.admin.employees.Employees;
 import com.clothingstore.gui.components.HomePage;
 import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.components.customerList.Customers;
@@ -113,7 +114,7 @@ public class MenuData {
                 "Employees Management",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Employees List", null));
+                        add(new MenuItemData("Employees List", EmployeeAction()));
                         add(new MenuItemData("Add Employee", null));
 
                     }
@@ -175,86 +176,74 @@ public class MenuData {
     }
 
     private static ActionListener ProductAction() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                HomePage.getInstance().Remove();
-                if (currentUser.getRoleId() == 3)
-                    HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
-                else
-                    HomePage.getInstance().Add(Products.getInstance());
-            }
+        return e -> {
+            HomePage.getInstance().Remove();
+            if (currentUser.getRoleId() == 3)
+                HomePage.getInstance().Add(Products.getInstance(), Invoice.getInstance());
+            else
+                HomePage.getInstance().Add(Products.getInstance());
+
         };
     }
 
     private static ActionListener InvoiceHistoryAction() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                HistoryList.getInstance().setVisible(true);
-                HomePage.getInstance().Remove();
-                HomePage.getInstance().Add(InvoiceHistory.getInstance());
-            }
+        return e -> {
+            HistoryList.getInstance().setVisible(true);
+            HomePage.getInstance().Remove();
+            HomePage.getInstance().Add(InvoiceHistory.getInstance());
+
         };
     }
 
     private static ActionListener ImportAction() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                HomePage.getInstance().Remove();
-                HomePage homePage = HomePage.getInstance();
+        return e -> {
+            HomePage.getInstance().Remove();
+            HomePage homePage = HomePage.getInstance();
 
-                if (e.getActionCommand().equals("Import Management")) {
-                    homePage.Add(ImportHistory.getInstance());
-                } else if (e.getActionCommand().equals("Add Import")) {
-                    homePage.Add(ImportAdd.getInstance());
-                }
+            if (e.getActionCommand().equals("Import Management")) {
+                homePage.Add(ImportHistory.getInstance());
+            } else if (e.getActionCommand().equals("Add Import")) {
+                homePage.Add(ImportAdd.getInstance());
             }
+
         };
     }
 
     private static ActionListener CustomerAction() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                HomePage.getInstance().Remove();
-                HomePage homePage = HomePage.getInstance();
-                if (e.getActionCommand().equals("Customer Management")) {
-                    homePage.Add(Customers.getInstance());
-                } else if (e.getActionCommand().equals("Add Customer")) {
-                }
+        return e -> {
+            HomePage.getInstance().Remove();
+            if (e.getActionCommand().equals("Customer Management")) {
+                HomePage.getInstance().Add(Customers.getInstance());
+            } else if (e.getActionCommand().equals("Add Customer")) {
             }
         };
+    }
+
+    private static ActionListener EmployeeAction() {
+        return null;
     }
 
     private static ActionListener RevenueAction() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                HomePage.getInstance().Remove();
-                HomePage.getInstance().Add(Revenue.getInstance());
-            }
+        return e -> {
+            HomePage.getInstance().Remove();
+            HomePage.getInstance().Add(Revenue.getInstance());
         };
+
     }
 
     private static ActionListener LogoutAction() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int option = JOptionPane.showConfirmDialog(
-                        null,
-                        "Are you sure you want to logout?",
-                        "Logout",
-                        JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
-                    Authentication.logout();
-                    HomePage.getInstance().dispose();
-                    HomePage.getInstance().setVisible(false);
-                    Login.getInstance().setVisible(true);
-                }
+        return e -> {
+            int option = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to logout?",
+                    "Logout",
+                    JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                Authentication.logout();
+                HomePage.getInstance().dispose();
+                HomePage.getInstance().setVisible(false);
+                Login.getInstance().setVisible(true);
             }
-
         };
     }
 }
