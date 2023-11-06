@@ -26,10 +26,7 @@ public class Product extends JPanel {
 
   public Product(ImportItemsModel importItemsModel, int i) {
     productModel = ProductBUS.getInstance().getModelById(importItemsModel.getProduct_id());
-    java.util.List<SizeItemModel> sizeItemModelList = SizeItemBUS.getInstance()
-        .searchModel(String.valueOf(productModel.getId()), new String[] { "product_id" });
-    SizeItemModel sizeItemModel = SizeItemBUS.getInstance().getModelById(sizeItemModelList.get(0).getId());
-    SizeModel sizeModel = SizeBUS.getInstance().getModelById(sizeItemModel.getSizeId());
+    SizeModel sizeModel = SizeBUS.getInstance().getModelById(importItemsModel.getSize_id());
     data = new String[] {
         productModel.getName(),
         String.valueOf(i),
