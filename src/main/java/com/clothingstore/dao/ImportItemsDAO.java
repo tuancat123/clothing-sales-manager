@@ -24,9 +24,10 @@ public class ImportItemsDAO implements IDAO<ImportItemsModel> {
     int id = rs.getInt("id");
     int importId = rs.getInt("import_id");
     int productId = rs.getInt("product_id");
+    int size_id = rs.getInt("size_id");
     int quantity = rs.getInt("quantity");
     double price = rs.getDouble("price");
-    return new ImportItemsModel(id, importId, productId, quantity, price);
+    return new ImportItemsModel(id, importId, productId, size_id, quantity, price);
   }
 
   @Override
@@ -46,10 +47,11 @@ public class ImportItemsDAO implements IDAO<ImportItemsModel> {
 
   @Override
   public int insert(ImportItemsModel ImportItemsModel) {
-    String insertSql = "INSERT INTO import_items (import_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+    String insertSql = "INSERT INTO import_items (import_id, product_id, size_id, quantity, price) VALUES (?, ?, ?, ?, ?)";
     Object[] args = {
         ImportItemsModel.getImport_id(),
         ImportItemsModel.getProduct_id(),
+        ImportItemsModel.getSize_id(),
         ImportItemsModel.getQuantity(),
         ImportItemsModel.getPrice()
     };
@@ -63,10 +65,11 @@ public class ImportItemsDAO implements IDAO<ImportItemsModel> {
 
   @Override
   public int update(ImportItemsModel ImportItemsModel) {
-    String updateSql = "UPDATE import_items SET import_id = ?, product_id = ?, quantity = ?, price = ? WHERE id = ?";
+    String updateSql = "UPDATE import_items SET import_id = ?, product_id = ?, size_id = ?, quantity = ?, price = ? WHERE id = ?";
     Object[] args = {
         ImportItemsModel.getImport_id(),
         ImportItemsModel.getProduct_id(),
+        ImportItemsModel.getSize_id(),
         ImportItemsModel.getQuantity(),
         ImportItemsModel.getPrice(),
         ImportItemsModel.getId()
@@ -99,13 +102,13 @@ public class ImportItemsDAO implements IDAO<ImportItemsModel> {
 
     String query;
     if (columnNames == null || columnNames.length == 0) {
-      query = "SELECT * FROM import_items WHERE CONCAT(id, import_id, product_id, quantity, price) LIKE ?";
+      query = "SELECT * FROM import_items WHERE CONCAT(id, import_id, product_id, size_id, quantity, price) LIKE ?";
     } else if (columnNames.length == 1) {
       String column = columnNames[0];
       query = "SELECT * FROM import_items WHERE " + column + " LIKE ?";
     } else {
       String columns = String.join(",", columnNames);
-      query = "SELECT id, import_id, product_id, quantity, price FROM import_items WHERE CONCAT(" + columns
+      query = "SELECT id, import_id, product_id, size_id, quantity, price FROM import_items WHERE CONCAT(" + columns
           + ") LIKE ?";
     }
 
