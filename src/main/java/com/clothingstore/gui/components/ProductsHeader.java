@@ -71,6 +71,15 @@ public class ProductsHeader extends JPanel {
     ButtonDelete.setText("Delete");
 
     ButtonAdd.setText("Add");
+    ButtonAdd.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        AddProduct addProduct = new AddProduct();
+        addProduct.setVisible(true);
+      }
+      
+    });
 
     ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/config/icon/menu.png")));
     ButtonMenu.setBackground(color);

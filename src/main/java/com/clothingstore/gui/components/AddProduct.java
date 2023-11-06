@@ -3,6 +3,10 @@ package com.clothingstore.gui.components;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.io.File;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -32,7 +36,7 @@ public class AddProduct extends JFrame {
     ButtonSave = new JButton("Save");
     ChooseImage = new JPanel();
     LinkImage = new JTextField();
-    Choose = new JButton();
+    ButtonImage = new JButton();
     SizePanel = new JPanel();
     Size = new JComboBox<>();
     QuantityPanel = new JPanel();
@@ -53,14 +57,16 @@ public class AddProduct extends JFrame {
       Panel.setBorder(BorderFactory.createEmptyBorder(5, 40, 15, 45));
 
       JLabel Name = new JLabel(name[i]);
+      JLabel Invalid = new JLabel("No");
+      JTextField Value = new JTextField();
+
       Name.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 45));
       Panel.add(Name, BorderLayout.NORTH);
 
-      JTextField Value = new JTextField();
       Value.setPreferredSize(new Dimension(150, 35));
       Panel.add(Value, BorderLayout.CENTER);
+      Value.addFocusListener(CheckInvalid(i,Invalid));
 
-      JLabel Invalid = new JLabel("No");
       Invalid.setForeground(Color.RED);
       Panel.add(Invalid, BorderLayout.SOUTH);
 
@@ -82,17 +88,21 @@ public class AddProduct extends JFrame {
     add(Scroll, BorderLayout.CENTER);
 
     ImagePanel.setLayout(new BorderLayout());
-    ImagePanel.setPreferredSize(new Dimension(250, 250));
+    ImagePanel.setPreferredSize(new Dimension(250, 480));
     ImagePanel.setBorder(BorderFactory.createEmptyBorder(25, 15, 5, 15));
 
-    Image.setIcon(new ImageIcon(getClass().getResource("/config/image/Ao/Nam/Hoodie/AoHoodieA.png")));
-    Image.setBackground(Color.RED);
-    Image.setPreferredSize(new Dimension(180, 300));
+    ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/image/Ao/Nam/Hoodie/AoHoodieB.png"));
+    Image originalImage = originalIcon.getImage();
+    Image scaledImage = originalImage.getScaledInstance(220, 290, java.awt.Image.SCALE_SMOOTH);
+    ImageIcon scaledIcon = new ImageIcon(scaledImage);
+    Image.setIcon(scaledIcon);
     ImagePanel.add(Image, BorderLayout.NORTH);
+
+    ButtonImage.addActionListener(ChooseImageAction);
 
     ChooseImage.setLayout(new BorderLayout());
     ChooseImage.add(LinkImage, BorderLayout.CENTER);
-    ChooseImage.add(Choose, BorderLayout.EAST);
+    ChooseImage.add(ButtonImage, BorderLayout.EAST);
     ImagePanel.add(ChooseImage, BorderLayout.SOUTH);
 
     add(ImagePanel, BorderLayout.WEST);
@@ -119,10 +129,12 @@ public class AddProduct extends JFrame {
   private JButton ButtonSave;
   private JPanel ChooseImage;
   private JTextField LinkImage;
-  private JButton Choose;
+  private JButton ButtonImage;
   private JComboBox<String> Size;
   private JPanel QuantityPanel;
 
+
+  // choose size
   public ActionListener ChooseSizeAction = new ActionListener() {
 
     @Override
@@ -151,7 +163,7 @@ public class AddProduct extends JFrame {
             sizeQuantity[0] = 0;
             repaint();
             revalidate();
-            SizeQuantity.getDocument().addDocumentListener(SaveValueAction(0, SizeQuantity));
+            SizeQuantity.getDocument().addDocumentListener(SizeValueAction(0, SizeQuantity));
           }
           break;
         case "M":
@@ -160,7 +172,7 @@ public class AddProduct extends JFrame {
             QuantityPanel.add(Panel, gbc);
             repaint();
             revalidate();
-            SizeQuantity.getDocument().addDocumentListener(SaveValueAction(1, SizeQuantity));
+            SizeQuantity.getDocument().addDocumentListener(SizeValueAction(1, SizeQuantity));
           }
           break;
         case "L":
@@ -169,7 +181,7 @@ public class AddProduct extends JFrame {
             QuantityPanel.add(Panel, gbc);
             repaint();
             revalidate();
-            SizeQuantity.getDocument().addDocumentListener(SaveValueAction(2, SizeQuantity));
+            SizeQuantity.getDocument().addDocumentListener(SizeValueAction(2, SizeQuantity));
           }
           break;
         case "XL":
@@ -178,7 +190,7 @@ public class AddProduct extends JFrame {
             QuantityPanel.add(Panel, gbc);
             repaint();
             revalidate();
-            SizeQuantity.getDocument().addDocumentListener(SaveValueAction(3, SizeQuantity));
+            SizeQuantity.getDocument().addDocumentListener(SizeValueAction(3, SizeQuantity));
           }
           break;
         case "XXL":
@@ -187,7 +199,7 @@ public class AddProduct extends JFrame {
             QuantityPanel.add(Panel, gbc);
             repaint();
             revalidate();
-            SizeQuantity.getDocument().addDocumentListener(SaveValueAction(4, SizeQuantity));
+            SizeQuantity.getDocument().addDocumentListener(SizeValueAction(4, SizeQuantity));
           }
           break;
         default:
@@ -197,7 +209,33 @@ public class AddProduct extends JFrame {
     }
 
   };
+  // choose image 
+  private ActionListener ChooseImageAction = new ActionListener() {
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      JFrame frame = new JFrame("File Explorer Example");
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setSize(400, 200);
+      JFileChooser fileChooser = new JFileChooser();
+      int result = fileChooser.showOpenDialog(frame);
+                
+      if (result == JFileChooser.APPROVE_OPTION) {
+          File selectedFile = fileChooser.getSelectedFile();
+          // ex: set image in panel
+          ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/image/Ao/Nam/Hoodie/AoHoodieA.png"));
+          Image originalImage = originalIcon.getImage();
+          Image scaledImage = originalImage.getScaledInstance(220, 290, java.awt.Image.SCALE_SMOOTH);
+          ImageIcon scaledIcon = new ImageIcon(scaledImage);
+          Image.setIcon(scaledIcon);
+        }
+        revalidate();
+        repaint();
+    }
+    
+  };
+
+  // save
   private ActionListener SaveAction = new ActionListener() {
 
     @Override
@@ -209,7 +247,8 @@ public class AddProduct extends JFrame {
 
   };
 
-  private DocumentListener SaveValueAction(final int value, final JTextField text) {
+  // save size quantity
+  private DocumentListener SizeValueAction(final int value, final JTextField text) {
     return new DocumentListener() {
       @Override
       public void insertUpdate(DocumentEvent e) {
@@ -224,5 +263,51 @@ public class AddProduct extends JFrame {
       public void changedUpdate(DocumentEvent e) {
       }
     };
+  }
+
+  // check invalid 
+  private FocusListener CheckInvalid(int i, JLabel invLabel){
+    return new FocusListener() {
+
+      @Override
+      public void focusGained(FocusEvent e) {
+      }
+
+      @Override
+      public void focusLost(FocusEvent e) {
+        switch (i) {
+          case 0:
+            // check name and set text for Invalid
+            invLabel.setText("ok");
+            revalidate();
+            repaint();
+            break;
+          case 1:
+            //check category
+            break;
+          case 2:
+            //check gender
+            break;
+          case 3:
+            //check price
+            break;
+          case 4:
+            //check origin price
+            break;
+          case 5:
+            // check description
+            break;
+          default:
+            break;
+        }
+      }
+    };
+  }
+
+
+
+  public static void main(String[] args) {
+    AddProduct addProduct = new AddProduct();
+    addProduct.setVisible(true);
   }
 }
