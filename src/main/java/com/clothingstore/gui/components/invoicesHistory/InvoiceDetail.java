@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import com.clothingstore.gui.components.invoiceDetail.Product;
 import com.clothingstore.bus.CustomerBUS;
-import com.clothingstore.bus.OrderBUS;
 import com.clothingstore.bus.OrderItemBUS;
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.gui.components.invoiceDetail.HeaderInvoice;

@@ -2,9 +2,6 @@ package com.clothingstore.gui.components.customerList;
 
 import javax.swing.*;
 
-import com.clothingstore.gui.components.customerList.Invoice;
-import com.clothingstore.gui.components.invoiceDetail.Product;
-
 import java.awt.*;
 import java.util.ArrayList;
 

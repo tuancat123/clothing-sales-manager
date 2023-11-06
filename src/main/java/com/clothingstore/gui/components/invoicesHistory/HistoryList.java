@@ -2,21 +2,15 @@ package com.clothingstore.gui.components.invoicesHistory;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
 import javax.swing.*;
 
-import com.clothingstore.bus.CustomerBUS;
 import com.clothingstore.bus.OrderBUS;
-// import com.clothingstore.dao.OrderDAO;
-import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderModel;
 import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JTextFieldDateEditor;
 
 public class HistoryList extends JPanel {
 
@@ -45,7 +39,6 @@ public class HistoryList extends JPanel {
     SearchValue = new JTextField();
     Invoices = new JPanel();
     Scroll = new JScrollPane();
-    ChooseDate = new JPanel();
     fillPanel = new JPanel();
 
     Color color = new Color(179, 209, 255);
@@ -122,29 +115,6 @@ public class HistoryList extends JPanel {
 
     Invoices.setLayout(new GridLayout(0, 1));
     Invoices.setBackground(color);
-    // List<OrderModel> orderList = new ArrayList<>();
-    // orderList.addAll(OrderBUS.getInstance().getAllModels());
-    // List<CustomerModel> customerList = new ArrayList<>();
-    // customerList.addAll(CustomerBUS.getInstance().getAllModels());
-
-    // Map<Integer, CustomerModel> customerMap = new HashMap<>();
-
-    // for (CustomerModel customer : customerList) {
-    // customerMap.put(customer.getId(), customer);
-    // }
-
-    // Iterator<OrderModel> orderIterator = orderList.iterator();
-    // while (orderIterator.hasNext()) {
-    // OrderModel orderModel = orderIterator.next();
-    // int customerId = orderModel.getCustomerId();
-    // CustomerModel customerModel = customerMap.get(customerId);
-
-    // if (customerModel != null) {
-    // Invoice invoice = new Invoice(orderModel, customerModel);
-    // Invoices.add(invoice);
-    // InvoiceDetail invoiceDetail = new InvoiceDetail(orderModel, customerModel);
-    // }
-    // }
     List<OrderModel> orderList = OrderBUS.getInstance().getAllModels();
     for (OrderModel orderModel : orderList) {
       Invoice invoice = new Invoice(orderModel);
@@ -239,7 +209,6 @@ public class HistoryList extends JPanel {
   private JTextField SearchValue;
   private JPanel Panel;
   private JScrollPane Scroll;
-  private JPanel ChooseDate;
   private JDateChooser startDate;
   private JDateChooser endDate;
   private JPanel fillPanel;

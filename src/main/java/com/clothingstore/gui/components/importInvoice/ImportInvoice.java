@@ -3,7 +3,6 @@ package com.clothingstore.gui.components.importInvoice;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 
 import javax.swing.*;
@@ -11,9 +10,7 @@ import javax.swing.*;
 import com.clothingstore.models.ImportModel;
 
 public class ImportInvoice extends JPanel {
-    private static ImportInvoice instance;
     private ImportModel importModel;
-
     private JLabel idInvoiceLabel;
     private JLabel priceLabel;
     private JLabel dateLabel;

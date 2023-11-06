@@ -2,7 +2,6 @@ package com.clothingstore.gui.components;
 
 import javax.swing.*;
 
-import com.clothingstore.gui.admin.dashboard.Dashboard;
 import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.gui.employee.Navigation;
 import com.clothingstore.gui.models.MenuData;

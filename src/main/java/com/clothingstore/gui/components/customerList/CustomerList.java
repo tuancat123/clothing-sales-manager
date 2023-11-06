@@ -2,9 +2,7 @@ package com.clothingstore.gui.components.customerList;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
-import services.Authentication;
 
 public class CustomerList extends JPanel {
 
