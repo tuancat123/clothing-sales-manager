@@ -90,6 +90,7 @@ CREATE TABLE
         `id` INT NOT NULL AUTO_INCREMENT,
         `order_id` INT,
         `product_id` INT,
+        `size_id` INT,
         `quantity` INT,
         `price` DOUBLE NOT NULL,
         PRIMARY KEY (`id`)
