@@ -152,7 +152,7 @@ public class OrderBUS implements IBUS<OrderModel> {
     return results;
   }
 
-  public static List<OrderModel> searchDateToDate(String fromDate, String toDate) {
+  public List<OrderModel> searchDateToDate(String fromDate, String toDate) {
     List<OrderModel> results = new ArrayList<>();
     results = OrderDAO.getInstance().searchDatetoDate(fromDate, toDate);
     return results;

@@ -24,6 +24,7 @@ public class Product extends JPanel {
   DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
   String[] data;
 
+  //TODO: Fix appearing Size problem
   public Product(ImportItemsModel importItemsModel) {
     if (importItemsModel != null) {
       productModel = ProductBUS.getInstance().getModelById(importItemsModel.getProduct_id());
@@ -31,7 +32,7 @@ public class Product extends JPanel {
           productModel.getName(),
           "01",
           String.valueOf(importItemsModel.getQuantity()),
-          String.valueOf(SizeBUS.getInstance().getModelById(importItemsModel.getSize_id()).getSize()),
+          //String.valueOf(SizeBUS.getInstance().getModelById(importItemsModel.getSize_id()).getSize()),
           String.valueOf(importItemsModel.getPrice()),
           decimalFormat.format(importItemsModel.getPrice() * importItemsModel.getQuantity()),
       };

@@ -77,8 +77,6 @@ public class HistoryList extends JPanel {
     ButtonSearch.setBackground(Color.WHITE);
     Panel.add(ButtonSearch, BorderLayout.WEST);
 
-    // ...
-
     SearchValue.setBackground(new Color(242, 242, 242));
     SearchValue.setFont(new Font("Segoe UI", 0, 14)); // NOI18N
     SearchValue.setText("Tìm theo mã hóa đơn");
@@ -184,7 +182,7 @@ public class HistoryList extends JPanel {
         String fromDateStr = (fromDate != null) ? sdf.format(fromDate) : null;
         String toDateStr = (toDate != null) ? sdf.format(toDate) : null;
 
-        List<OrderModel> filteredOrders = OrderBUS.searchDateToDate(fromDateStr, toDateStr);
+        List<OrderModel> filteredOrders = OrderBUS.getInstance().searchDateToDate(fromDateStr, toDateStr);
 
         if (filteredOrders.isEmpty()) {
           JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn trong khoảng thời gian đã chọn.", "Thông báo",
