@@ -24,20 +24,20 @@ public class Product extends JPanel {
   DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
   String[] data;
 
-  //TODO: Fix appearing Size problem
   public Product(ImportItemsModel importItemsModel) {
-    if (importItemsModel != null) {
-      productModel = ProductBUS.getInstance().getModelById(importItemsModel.getProduct_id());
-      data = new String[] {
-          productModel.getName(),
-          "01",
-          String.valueOf(importItemsModel.getQuantity()),
-          //String.valueOf(SizeBUS.getInstance().getModelById(importItemsModel.getSize_id()).getSize()),
-          String.valueOf(importItemsModel.getPrice()),
-          decimalFormat.format(importItemsModel.getPrice() * importItemsModel.getQuantity()),
-      };
-
-    }
+    productModel = ProductBUS.getInstance().getModelById(importItemsModel.getProduct_id());
+    java.util.List<SizeItemModel> sizeItemModelList = SizeItemBUS.getInstance()
+        .searchModel(String.valueOf(productModel.getId()), new String[] { "product_id" });
+    SizeItemModel sizeItemModel = SizeItemBUS.getInstance().getModelById(sizeItemModelList.get(0).getId());
+    SizeModel sizeModel = SizeBUS.getInstance().getModelById(sizeItemModel.getSizeId());
+    data = new String[] {
+        productModel.getName(),
+        "01", // TODO: What does this number do?
+        String.valueOf(importItemsModel.getQuantity()),
+        String.valueOf(sizeModel.getSize()),
+        String.valueOf(importItemsModel.getPrice()),
+        decimalFormat.format(importItemsModel.getPrice() * importItemsModel.getQuantity()),
+    };
     initComponents(data);
   }
 
@@ -46,8 +46,9 @@ public class Product extends JPanel {
     orderModel = OrderBUS.getInstance().getModelById(orderModel.getId());
     orderItemModel = OrderItemBUS.getInstance().getModelById(orderItemModel.getId());
 
-    java.util.List<SizeItemModel> sizeItemModel = SizeItemBUS.getInstance().searchModel(String.valueOf(orderItemModel.getProductId()), new String[] {"product_id"});
-    SizeModel sizeModel =  SizeBUS.getInstance().getModelById(sizeItemModel.get(0).getSizeId());
+    java.util.List<SizeItemModel> sizeItemModel = SizeItemBUS.getInstance()
+        .searchModel(String.valueOf(orderItemModel.getProductId()), new String[] { "product_id" });
+    SizeModel sizeModel = SizeBUS.getInstance().getModelById(sizeItemModel.get(0).getSizeId());
 
     data = new String[] {
         String.valueOf(orderItemModel.getProductId()),
