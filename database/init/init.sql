@@ -218,6 +218,10 @@ ALTER TABLE `order_items`
 ADD
     FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
 
+ALTER TABLE `order_items`
+ADD
+    FOREIGN KEY (`size_id`) REFERENCES `sizes` (`id`);
+
 ALTER TABLE `payments`
 ADD
     FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
