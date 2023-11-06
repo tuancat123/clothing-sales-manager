@@ -19,7 +19,7 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
         return instance;
     }
 
-     private OrderItemBUS() {
+    private OrderItemBUS() {
         this.orderItemList.addAll(OrderItemDAO.getInstance().readDatabase());
     }
 
@@ -55,15 +55,17 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
         to.setId(from.getId());
         to.setOrderId(from.getOrderId());
         to.setProductId(from.getProductId());
+        to.setSizeId(from.getSizeId());
         to.setQuantity(from.getQuantity());
         to.setPrice(from.getPrice());
     }
 
     @Override
     public int addModel(OrderItemModel model) {
-        if (model == null || model.getOrderId() <= 0 || model.getProductId() <= 0 || model.getQuantity() <= 0 || model.getPrice() <= 0) {
+        if (model == null || model.getOrderId() <= 0 || model.getProductId() <= 0 || model.getQuantity() <= 0
+                || model.getPrice() <= 0) {
             throw new IllegalArgumentException(
-                "There may be errors in required fields, please check your input and try again.");
+                    "There may be errors in required fields, please check your input and try again.");
         }
         int id = OrderItemDAO.getInstance().insert(mapToEntity(model));
         orderItemList.add(model);
@@ -87,7 +89,7 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
         OrderItemModel orderItem = getModelById(id);
         if (orderItem == null) {
             throw new IllegalArgumentException(
-                "OrderItem with ID: " + id + " doesn't exist.");
+                    "OrderItem with ID: " + id + " doesn't exist.");
         }
         int deletedRows = OrderItemDAO.getInstance().delete(id);
         if (deletedRows > 0) {
@@ -97,9 +99,9 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
     }
 
     private boolean checkFilter(
-        OrderItemModel orderItem,
-        String value,
-        String[] columns) {
+            OrderItemModel orderItem,
+            String value,
+            String[] columns) {
         for (String column : columns) {
             switch (column.toLowerCase()) {
                 case "id" -> {
@@ -114,6 +116,11 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
                 }
                 case "product_id" -> {
                     if (Integer.parseInt(value) == orderItem.getProductId()) {
+                        return true;
+                    }
+                }
+                case "size_id" -> {
+                    if (Integer.parseInt(value) == orderItem.getSizeId()) {
                         return true;
                     }
                 }
@@ -141,6 +148,7 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
         return (orderItem.getId() == Integer.parseInt(value) ||
                 orderItem.getOrderId() == Integer.parseInt(value) ||
                 orderItem.getProductId() == Integer.parseInt(value) ||
+                orderItem.getSizeId() == Integer.parseInt(value) ||
                 orderItem.getQuantity() == Integer.parseInt(value) ||
                 Double.valueOf(orderItem.getPrice()).equals(Double.valueOf(value)));
     }

@@ -4,16 +4,18 @@ public class OrderItemModel {
   private int id;
   private int orderId;
   private int productId;
+  private int sizeId;
   private int quantity;
   private double price;
 
   public OrderItemModel() {
   }
 
-  public OrderItemModel(int id, int orderId, int productId, int quantity, double price) {
+  public OrderItemModel(int id, int orderId, int productId, int sizeId, int quantity, double price) {
     this.id = id;
     this.orderId = orderId;
     this.productId = productId;
+    this.sizeId = sizeId;
     this.quantity = quantity;
     this.price = price;
   }
@@ -40,6 +42,14 @@ public class OrderItemModel {
 
   public void setProductId(int productId) {
     this.productId = productId;
+  }
+
+  public int getSizeId() {
+    return sizeId;
+  }
+
+  public void setSizeId(int sizeId) {
+    this.sizeId = sizeId;
   }
 
   public int getQuantity() {

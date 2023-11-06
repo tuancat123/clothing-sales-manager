@@ -26,9 +26,10 @@ public class OrderItemDAO implements IDAO<OrderItemModel> {
     int id = rs.getInt("id");
     int orderId = rs.getInt("order_id");
     int productId = rs.getInt("product_id");
+    int sizeId = rs.getInt("size_id");
     int quantity = rs.getInt("quantity");
     int price = rs.getInt("price");
-    return new OrderItemModel(id, orderId, productId, quantity, price);
+    return new OrderItemModel(id, orderId, productId, sizeId, quantity, price);
   }
 
   @Override
@@ -48,10 +49,11 @@ public class OrderItemDAO implements IDAO<OrderItemModel> {
 
   @Override
   public int insert(OrderItemModel orderItem) {
-    String insertSql = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+    String insertSql = "INSERT INTO order_items (order_id, product_id, size_id, quantity, price) VALUES (?, ?, ? ,? ?, ?)";
     Object[] args = {
         orderItem.getOrderId(),
         orderItem.getProductId(),
+        orderItem.getSizeId(),
         orderItem.getQuantity(),
         orderItem.getPrice()
     };
@@ -65,10 +67,11 @@ public class OrderItemDAO implements IDAO<OrderItemModel> {
 
   @Override
   public int update(OrderItemModel orderItem) {
-    String updateSql = "UPDATE order_items SET order_id = ?, product_id = ?, quantity = ?, price = ? WHERE id = ?";
+    String updateSql = "UPDATE order_items SET order_id = ?, product_id = ?, size_id = ?, quantity = ?, price = ? WHERE id = ?";
     Object[] args = {
         orderItem.getOrderId(),
         orderItem.getProductId(),
+        orderItem.getSizeId(),
         orderItem.getQuantity(),
         orderItem.getPrice(),
         orderItem.getId()
