@@ -3,8 +3,6 @@ package com.clothingstore.gui.components;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,14 +21,12 @@ import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
 import com.clothingstore.models.SizeModel;
 import com.clothingstore.gui.employee.Invoice;
-import com.clothingstore.gui.utilities.ImageUtil;
 
 public class ProductDetail extends JFrame {
 
   HomePage homePage = HomePage.getInstance();
   Color color = new Color(230, 240, 255);
   int selectedSizeId = -1;
-  // List<OrderItemModel> cartItems = new ArrayList<>();
 
   public ProductDetail(ProductModel productModel) {
     setAlwaysOnTop(true);
@@ -77,7 +73,6 @@ public class ProductDetail extends JFrame {
     }
 
     ImagePanel = new JPanel();
-    Image = new JLabel();
     Name = new JTextField();
     Rating = new JLabel();
     OriPrice = new JLabel();
@@ -328,7 +323,6 @@ public class ProductDetail extends JFrame {
     });
     getContentPane().add(ButtonExit, new AbsoluteConstraints(200, 320, -1, -1));
 
-    // TODO: Hoàn thành nút Add to cart
     ButtonAdd.setText("Add To Cart");
     ButtonAdd.setPreferredSize(new Dimension(94, 28));
     ButtonAdd.addActionListener(new ActionListener() {
@@ -336,7 +330,6 @@ public class ProductDetail extends JFrame {
       public void actionPerformed(ActionEvent e) {
         if (selectedProductId != -1 && selectedSizeId != -1) {
           int quantity = (int) spinner.getValue();
-          // Tạo một mục hóa đơn mới
           OrderItemModel orderItem = new OrderItemModel();
           orderItem.setProductId(selectedProductId);
           orderItem.setSizeId(selectedSizeId);
@@ -364,7 +357,6 @@ public class ProductDetail extends JFrame {
   private JLabel Gender;
   private JLabel GenderText;
   private JLabel Id;
-  private JLabel Image;
   private JPanel ImagePanel;
   private JTextField Name;
   private JLabel OriPrice;
