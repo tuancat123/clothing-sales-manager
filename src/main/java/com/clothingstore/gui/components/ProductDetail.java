@@ -20,10 +20,16 @@ import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
 import com.clothingstore.models.SizeModel;
+import com.clothingstore.models.UserModel;
+
+import services.Authentication;
+
 import com.clothingstore.gui.employee.Invoice;
 
 public class ProductDetail extends JFrame {
 
+  public Authentication authentication;
+  static UserModel currentUser = Authentication.getCurrentUser();
   HomePage homePage = HomePage.getInstance();
   Color color = new Color(230, 240, 255);
   int selectedSizeId = -1;
@@ -89,6 +95,7 @@ public class ProductDetail extends JFrame {
     SizePanel = new JPanel();
     ButtonExit = new JButton();
     ButtonAdd = new JButton();
+    buttonDelete = new JButton();
     Remaining = new JLabel();
 
     ImagePanel.setLayout(new GridBagLayout());
@@ -323,26 +330,42 @@ public class ProductDetail extends JFrame {
     });
     getContentPane().add(ButtonExit, new AbsoluteConstraints(200, 320, -1, -1));
 
-    ButtonAdd.setText("Add To Cart");
-    ButtonAdd.setPreferredSize(new Dimension(94, 28));
-    ButtonAdd.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (selectedProductId != -1 && selectedSizeId != -1) {
-          int quantity = (int) spinner.getValue();
-          OrderItemModel orderItem = new OrderItemModel();
-          orderItem.setProductId(selectedProductId);
-          orderItem.setSizeId(selectedSizeId);
-          orderItem.setQuantity(quantity);
-          Product.cartItems.add(orderItem);
-          Invoice invoice = new Invoice(Product.cartItems);
-          homePage.add(invoice, BorderLayout.EAST);
-          homePage.setVisible(true);
+    if (currentUser.getRoleId() == 3) {
+      System.out.println(currentUser.getRoleId());
+      ButtonAdd.setText("Add To Cart");
+      ButtonAdd.setPreferredSize(new Dimension(94, 28));
+      ButtonAdd.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          if (selectedProductId != -1 && selectedSizeId != -1) {
+            int quantity = (int) spinner.getValue();
+            OrderItemModel orderItem = new OrderItemModel();
+            orderItem.setProductId(selectedProductId);
+            orderItem.setSizeId(selectedSizeId);
+            orderItem.setQuantity(quantity);
+            Product.cartItems.add(orderItem);
+            Invoice invoice = new Invoice(Product.cartItems);
+            homePage.add(invoice, BorderLayout.EAST);
+            homePage.setVisible(true);
+          }
         }
-      }
 
-    });
-    getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 320, -1, -1));
+      });
+      getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 320, -1, -1));
+    } else {
+      System.out.println(currentUser.getRoleId());
+      buttonDelete.setText("Delete");
+      buttonDelete.setPreferredSize(new Dimension(94, 28));
+      buttonDelete.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          JOptionPane.showMessageDialog(this, "Do you want to delete this product?", "Notification",
+              JOptionPane.ERROR_MESSAGE);
+        }
+
+      });
+      getContentPane().add(buttonDelete, new AbsoluteConstraints(380, 320, -1, -1));
+    }
 
     pack();
   }
@@ -350,6 +373,7 @@ public class ProductDetail extends JFrame {
   private JLabel AmountText;
   private JButton ButtonAdd;
   private JButton ButtonExit;
+  private JButton buttonDelete;
   private JLabel Category;
   private JLabel CategoryText;
   private JTextPane Describe;
