@@ -10,16 +10,27 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.clothingstore.bus.RoleBUS;
+import com.clothingstore.bus.UserBUS;
+import com.clothingstore.enums.UserStatus;
+import com.clothingstore.models.RoleModel;
+import com.clothingstore.models.UserModel;
+
 public class Edit extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private JTextField textField_id;
-    private JTextField textField_phone;
-    private JTextField textField_username;
-    private JTextField textField_password;
-    private JTextField textField_email;
-    private JTextField textField_name;
-    private JTextField textField_address;
+    public JTextField textField_id;
+    public JTextField textField_phone;
+    public JTextField textField_username;
+    public JTextField textField_password;
+    public JTextField textField_email;
+    public JTextField textField_name;
+    public JTextField textField_address;
+    public JComboBox comboBox_role;
+    public JComboBox comboBox_gender;
+    private RoleBUS roleBus = RoleBUS.getInstance();
+    private UserBUS userBus = UserBUS.getInstance();
+    public JLabel lbl_img;
 
     public Edit(){
         initComponents();
@@ -120,14 +131,15 @@ public class Edit extends JFrame {
         gbc_lbl_Gender.gridy = 2;
         panel_3.add(lbl_Gender, gbc_lbl_Gender);
 
-        JComboBox<String> comboBox_role = new JComboBox<>();
-        comboBox_role.setModel(new DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+        comboBox_gender = new JComboBox();
+        comboBox_gender.setModel(new DefaultComboBoxModel(new String[] {"Male", "Female"}));
         GridBagConstraints gbc_comboBox_role = new GridBagConstraints();
         gbc_comboBox_role.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_role.fill = GridBagConstraints.BOTH;
         gbc_comboBox_role.gridx = 4;
         gbc_comboBox_role.gridy = 2;
-        panel_3.add(comboBox_role, gbc_comboBox_role);
+        panel_3.add(comboBox_gender, gbc_comboBox_role);
+
 
         JLabel lbl_Password = new JLabel("Password");
         lbl_Password.setForeground(new Color(0, 0, 0));
@@ -154,13 +166,16 @@ public class Edit extends JFrame {
         gbc_lbl_Role.gridy = 3;
         panel_3.add(lbl_Role, gbc_lbl_Role);
 
-        JComboBox<String> comboBox_1 = new JComboBox<>();
+        comboBox_role= new JComboBox();
         GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
         gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_1.fill = GridBagConstraints.BOTH;
         gbc_comboBox_1.gridx = 4;
         gbc_comboBox_1.gridy = 3;
-        panel_3.add(comboBox_1, gbc_comboBox_1);
+        panel_3.add(comboBox_role, gbc_comboBox_1);
+        for (RoleModel role : roleBus.getAllModels()) {
+            comboBox_role.addItem(role.getId());
+        }
 
         JLabel lbl_Email = new JLabel("Email");
         lbl_Email.setForeground(new Color(0, 0, 0));
@@ -232,7 +247,7 @@ public class Edit extends JFrame {
         panel_3.add(panel_image, gbc_panel_image);
         panel_image.setLayout(new GridLayout(0, 1, 0, 0));
 
-        JLabel lbl_img = new JLabel("");
+        lbl_img = new JLabel("");
         lbl_img.setHorizontalAlignment(SwingConstants.CENTER);
         panel_image.add(lbl_img);
 
@@ -269,6 +284,7 @@ public class Edit extends JFrame {
         btnAdd.setPreferredSize(new Dimension(100,30));
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                updateEmployee();
             }
         });
         panel_Model.add(btnAdd);
@@ -277,6 +293,7 @@ public class Edit extends JFrame {
         btnReset.setPreferredSize(new Dimension(100,30));
         btnReset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                clearForm();
             }
         });
         panel_Model.add(btnReset);
@@ -297,4 +314,40 @@ public class Edit extends JFrame {
         panel_Model.add(panel_4);
         panel_4.setLayout(new GridLayout(1, 0, 0, 0));
     }
+
+       public void clearForm() {
+		textField_id.setText("");
+		textField_username.setText("");
+		textField_password.setText("");
+		textField_email.setText("");
+		textField_name.setText("");
+		textField_phone.setText("");
+		comboBox_gender.setSelectedItem("Male");
+		comboBox_role.setSelectedIndex(-1);
+		textField_address.setText("");
+		lbl_img.setIcon(null);
+	}
+	
+	public void updateEmployee() {
+		int id = Integer.parseInt(textField_id.getText()+"");
+		String username = textField_username.getText()+"";
+		String password = textField_password.getText()+"";
+		String email = textField_email.getText()+"";
+		String name = textField_name.getText()+"";
+		String phone = textField_phone.getText()+"";
+		String genderCombobox = comboBox_gender.getSelectedItem()+"";
+		int roleID = Integer.parseInt(comboBox_role.getSelectedItem()+"");
+		String address = textField_address.getText()+"";
+		String image = this.lbl_img.getIcon().toString();
+		
+		int gender = genderCombobox.equals("Male") ? 1 : 0;
+		
+		UserModel userModel = new UserModel(id,username, password, email, name, phone, address, gender, image, roleID, UserStatus.ACTIVE);
+		int updatedRows = userBus.updateModel(userModel);
+		if(updatedRows > 0) {
+			JOptionPane.showMessageDialog(null, "Update thành công");
+		}else {
+			JOptionPane.showMessageDialog(null, "Update thất bại");
+		}
+	}
 }

@@ -163,7 +163,7 @@ public class UserDAO implements IDAO<UserModel> {
         query = "SELECT * FROM users WHERE " + column + " LIKE ?";
       } else {
         // Search specific columns in users table
-        query = "SELECT id, username, status, name, email, phone, created_at, updated_at, role FROM users WHERE CONCAT("
+        query = "SELECT id, username, password, email, image, name, phone, address, gender, role_id, status, created_at, updated_at FROM users WHERE CONCAT("
             +
             String.join(", ", columnNames) +
             ") LIKE ?";

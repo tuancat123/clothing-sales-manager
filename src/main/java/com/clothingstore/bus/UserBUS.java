@@ -158,11 +158,14 @@ public class UserBUS implements IBUS<UserModel> {
     to.setId(from.getId());
     to.setUsername(from.getUsername());
     to.setPassword(from.getPassword());
-    to.setUserStatus(from.getUserStatus());
-    to.setName(from.getName());
     to.setEmail(from.getEmail());
+    to.setName(from.getName());
     to.setPhone(from.getPhone());
+    to.setGender(from.getGender());
+    to.setImage(from.getImage());
     to.setRoleId(from.getRoleId());
+    to.setAddress(from.getAddress());
+    to.setUserStatus(from.getUserStatus());
   }
 
   private boolean checkFilter(
