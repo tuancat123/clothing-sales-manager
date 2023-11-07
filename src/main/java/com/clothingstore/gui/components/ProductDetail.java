@@ -30,7 +30,7 @@ public class ProductDetail extends JFrame {
   HomePage homePage = HomePage.getInstance();
   Color color = new Color(230, 240, 255);
   int selectedSizeId = -1;
-  List<OrderItemModel> cartItems = new ArrayList<>();
+  // List<OrderItemModel> cartItems = new ArrayList<>();
 
   public ProductDetail(ProductModel productModel) {
     setAlwaysOnTop(true);
@@ -341,8 +341,8 @@ public class ProductDetail extends JFrame {
           orderItem.setProductId(selectedProductId);
           orderItem.setSizeId(selectedSizeId);
           orderItem.setQuantity(quantity);
-          cartItems.add(orderItem);
-          Invoice invoice = new Invoice(cartItems);
+          Product.cartItems.add(orderItem);
+          Invoice invoice = new Invoice(Product.cartItems);
           homePage.add(invoice, BorderLayout.EAST);
           homePage.setVisible(true);
         }
