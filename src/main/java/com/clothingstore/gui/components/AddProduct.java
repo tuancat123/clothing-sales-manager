@@ -1,21 +1,20 @@
 package com.clothingstore.gui.components;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.event.*;
 
 public class AddProduct extends JFrame {
 
   String[] name = { "Name", "Category", "Gender", "Price", "Origin Price", "Description" };
-  String[] size = { "S", "M", "L", "XL", "XXL" };
-  static int[] sizeQuantity = { -1, -1, -1, -1, -1 };
+  String[] size = {"S", "M", "L", "XL", "XXL"};
+  ArrayList<String> sizeName = new ArrayList<>(Arrays.asList( "S", "M", "L", "XL", "XXL" ));
+  ArrayList<Integer> sizeQuantity = new ArrayList<>(Arrays.asList(-1, -1, -1, -1, -1));
 
   public AddProduct() {
     initComponents();
@@ -28,7 +27,7 @@ public class AddProduct extends JFrame {
     Scroll = new JScrollPane();
     Panel = new JPanel();
     Content = new JPanel();
-    NameFrame = new JLabel("New Product");
+    NameLabel = new JLabel("New Product");
     ImagePanel = new JPanel();
     Image = new JLabel();
     Buttons = new JPanel();
@@ -38,51 +37,56 @@ public class AddProduct extends JFrame {
     LinkImage = new JTextField();
     ButtonImage = new JButton();
     SizePanel = new JPanel();
-    Size = new JComboBox<>();
+    SizeChoose = new JComboBox<>();
     QuantityPanel = new JPanel();
+    ButtonNewSize = new JButton("New");
 
     setSize(800, 500);
     setPreferredSize(new Dimension(800, 500));
     setLayout(new BorderLayout());
 
-    add(NameFrame, BorderLayout.NORTH);
+    add(NameLabel, BorderLayout.NORTH);
 
     Panel.setLayout(new BorderLayout());
 
     Content.setLayout(new GridLayout(0, 1));
     for (int i = 0; i < 6; i++) {
-      JPanel Panel = new JPanel();
-      Panel.setLayout(new BorderLayout());
-      Panel.setPreferredSize(new Dimension(40, 80));
-      Panel.setBorder(BorderFactory.createEmptyBorder(5, 40, 15, 45));
+      JPanel IndexPanel = new JPanel();
+      IndexPanel.setLayout(new BorderLayout());
+      IndexPanel.setPreferredSize(new Dimension(40, 80));
+      IndexPanel.setBorder(BorderFactory.createEmptyBorder(5, 40, 15, 45));
 
       JLabel Name = new JLabel(name[i]);
       JLabel Invalid = new JLabel("No");
       JTextField Value = new JTextField();
 
       Name.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 45));
-      Panel.add(Name, BorderLayout.NORTH);
+      IndexPanel.add(Name, BorderLayout.NORTH);
 
       Value.setPreferredSize(new Dimension(150, 35));
-      Panel.add(Value, BorderLayout.CENTER);
+      IndexPanel.add(Value, BorderLayout.CENTER);
       Value.addFocusListener(CheckInvalid(i,Invalid));
 
       Invalid.setForeground(Color.RED);
-      Panel.add(Invalid, BorderLayout.SOUTH);
+      IndexPanel.add(Invalid, BorderLayout.SOUTH);
 
-      Content.add(Panel);
+      Content.add(IndexPanel);
     }
     Panel.add(Content, BorderLayout.CENTER);
 
     SizePanel.setLayout(new GridBagLayout());
 
-    Size.setModel(new DefaultComboBoxModel<>(size));
-    Size.addActionListener(ChooseSizeAction);
-    SizePanel.add(Size);
-    Panel.add(SizePanel, BorderLayout.SOUTH);
+    SizeChoose.setModel(new DefaultComboBoxModel<>(size));
+    SizeChoose.addActionListener(ChooseSizeAction);
+    SizePanel.add(SizeChoose);
 
+    ButtonNewSize.addActionListener(ChooseNewSize);
+    SizePanel.add(ButtonNewSize);
+    
     QuantityPanel.setLayout(new GridLayout(0, 1));
     SizePanel.add(QuantityPanel);
+    
+    Panel.add(SizePanel, BorderLayout.SOUTH);
 
     Scroll.setViewportView(Panel);
     add(Scroll, BorderLayout.CENTER);
@@ -121,7 +125,7 @@ public class AddProduct extends JFrame {
   private JPanel Panel;
   private JPanel SizePanel;
   private JPanel Content;
-  private JLabel NameFrame;
+  private JLabel NameLabel;
   private JPanel ImagePanel;
   private JLabel Image;
   private JPanel Buttons;
@@ -130,8 +134,9 @@ public class AddProduct extends JFrame {
   private JPanel ChooseImage;
   private JTextField LinkImage;
   private JButton ButtonImage;
-  private JComboBox<String> Size;
+  private JComboBox<String> SizeChoose;
   private JPanel QuantityPanel;
+  private JButton ButtonNewSize;
 
 
   // choose size
@@ -141,13 +146,13 @@ public class AddProduct extends JFrame {
     public void actionPerformed(ActionEvent e) {
       JPanel Panel = new JPanel();
       Panel.setLayout(new GridBagLayout());
-      Panel.setPreferredSize(new Dimension(150, 35));
+      Panel.setPreferredSize(new Dimension(170, 35));
 
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.ipadx = 20;
       gbc.fill = GridBagConstraints.LINE_START;
 
-      JLabel SizeName = new JLabel(Size.getSelectedItem().toString() + ": amount is");
+      JLabel SizeName = new JLabel(SizeChoose.getSelectedItem().toString() + ": amount is");
       SizeName.setFont(new Font("Segoe UI", 0, 14));
       Panel.add(SizeName, gbc);
 
@@ -156,19 +161,19 @@ public class AddProduct extends JFrame {
       SizeQuantity.setText("0");
       Panel.add(SizeQuantity);
 
-      switch (Size.getSelectedItem().toString()) {
+      switch (SizeChoose.getSelectedItem().toString()) {
         case "S":
-          if (sizeQuantity[0] == -1) {
+          if (sizeQuantity.get(0) == -1) {
             QuantityPanel.add(Panel, gbc);
-            sizeQuantity[0] = 0;
+            sizeQuantity.set(0, 0);
             repaint();
             revalidate();
             SizeQuantity.getDocument().addDocumentListener(SizeValueAction(0, SizeQuantity));
           }
           break;
         case "M":
-          if (sizeQuantity[1] == -1) {
-            sizeQuantity[1] = 0;
+          if (sizeQuantity.get(1) == -1) {
+            sizeQuantity.set(1, 0);
             QuantityPanel.add(Panel, gbc);
             repaint();
             revalidate();
@@ -176,8 +181,8 @@ public class AddProduct extends JFrame {
           }
           break;
         case "L":
-          if (sizeQuantity[2] == -1) {
-            sizeQuantity[2] = 0;
+          if (sizeQuantity.get(2) == -1) {
+            sizeQuantity.set(2, 0);
             QuantityPanel.add(Panel, gbc);
             repaint();
             revalidate();
@@ -185,8 +190,8 @@ public class AddProduct extends JFrame {
           }
           break;
         case "XL":
-          if (sizeQuantity[3] == -1) {
-            sizeQuantity[3] = 0;
+          if (sizeQuantity.get(3)== -1) {
+            sizeQuantity.set(3, 0);
             QuantityPanel.add(Panel, gbc);
             repaint();
             revalidate();
@@ -194,8 +199,8 @@ public class AddProduct extends JFrame {
           }
           break;
         case "XXL":
-          if (sizeQuantity[4] == -1) {
-            sizeQuantity[4] = 0;
+          if (sizeQuantity.get(4) == -1) {
+            sizeQuantity.set(4, 0);
             QuantityPanel.add(Panel, gbc);
             repaint();
             revalidate();
@@ -208,6 +213,57 @@ public class AddProduct extends JFrame {
 
     }
 
+  };
+
+  // choose new size
+  private ActionListener ChooseNewSize = new ActionListener() {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      JFrame frame = new JFrame("New Size");
+      frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      frame.setLocationRelativeTo(null);
+      frame.setSize(350, 120);
+      frame.setLayout(new GridBagLayout());
+      JTextField Name = new JTextField();
+      Name.setPreferredSize(new Dimension(50,20));
+
+      JButton Button = new JButton("Save");
+      Button.addActionListener(new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          JPanel Panel = new JPanel();
+          Panel.setLayout(new GridBagLayout());
+          Panel.setPreferredSize(new Dimension(170, 35));
+
+          GridBagConstraints gbc = new GridBagConstraints();
+          gbc.ipadx = 20;
+          gbc.fill = GridBagConstraints.LINE_START;
+
+          JLabel SizeName = new JLabel( Name.getText()+ ": amount is");
+          SizeName.setFont(new Font("Segoe UI", 0, 14));
+          Panel.add(SizeName, gbc);
+
+          JTextField SizeQuantity = new JTextField();
+          SizeQuantity.setPreferredSize(new Dimension(35, 25));
+          SizeQuantity.setText("0");
+          Panel.add(SizeQuantity);
+          QuantityPanel.add(Panel, gbc);
+          sizeQuantity.add(0);
+          sizeName.add(Name.getText());
+          revalidate();
+          repaint();
+          frame.dispose();
+        }
+        
+      });
+      frame.add(Name);
+      frame.add(Button);
+
+      frame.setVisible(true);
+    }
+    
   };
   // choose image 
   private ActionListener ChooseImageAction = new ActionListener() {
@@ -240,8 +296,9 @@ public class AddProduct extends JFrame {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      for (int i = 0; i < sizeQuantity.length; i++) {
-        System.out.println(sizeQuantity[i]);
+      for (int i = 0; i < sizeQuantity.size(); i++) {
+        System.out.println(sizeName.get(i));
+        System.out.println(sizeQuantity.get(i));
       }
     }
 
@@ -252,7 +309,7 @@ public class AddProduct extends JFrame {
     return new DocumentListener() {
       @Override
       public void insertUpdate(DocumentEvent e) {
-        sizeQuantity[value] = Integer.parseInt(text.getText().toString());
+        sizeQuantity.set(value, Integer.parseInt(text.getText().toString()));
       }
 
       @Override
@@ -302,12 +359,5 @@ public class AddProduct extends JFrame {
         }
       }
     };
-  }
-
-
-
-  public static void main(String[] args) {
-    AddProduct addProduct = new AddProduct();
-    addProduct.setVisible(true);
   }
 }
