@@ -48,8 +48,8 @@ public class Product extends JPanel {
     SizeModel sizeModel = SizeBUS.getInstance().getModelById(sizeItemModel.get(0).getSizeId());
 
     data = new String[] {
-        String.valueOf(orderItemModel.getProductId()),
         String.valueOf(productModel.getName()),
+        String.valueOf("0"),
         String.valueOf(orderItemModel.getQuantity()),
         String.valueOf(sizeModel.getSize()),
         String.valueOf(productModel.getPrice() * orderItemModel.getQuantity()),

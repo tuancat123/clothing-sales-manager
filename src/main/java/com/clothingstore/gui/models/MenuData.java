@@ -9,7 +9,7 @@ import com.clothingstore.gui.admin.employees.Employees;
 import com.clothingstore.gui.components.HomePage;
 import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.components.customerList.Customers;
-import com.clothingstore.gui.components.importInvoice.ImportAdd;
+import com.clothingstore.gui.components.importInvoice.AddImport;
 import com.clothingstore.gui.components.importInvoice.ImportHistory;
 import com.clothingstore.gui.components.invoicesHistory.HistoryList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
@@ -203,7 +203,8 @@ public class MenuData {
             if (e.getActionCommand().equals("Import Management")) {
                 homePage.Add(ImportHistory.getInstance());
             } else if (e.getActionCommand().equals("Add Import")) {
-                homePage.Add(ImportAdd.getInstance());
+                AddImport addImport = new AddImport();
+                addImport.setVisible(true);
             }
 
         };
