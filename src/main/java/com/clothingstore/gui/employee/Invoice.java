@@ -72,6 +72,7 @@ public class Invoice extends JPanel {
       for (OrderItemModel orderItemModels : orderItemModel) {
         InvoiceProduct invoiceProduct = new InvoiceProduct(orderItemModels);
         System.out.println("tao thanh cong invoid pro");
+        invoiceProduct.setVisible(true);
         Invoices.add(invoiceProduct);
         System.out.println("add thanh cong invoid pro");
         Invoices.setVisible(true);

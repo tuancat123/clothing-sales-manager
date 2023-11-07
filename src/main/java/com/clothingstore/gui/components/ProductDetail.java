@@ -27,8 +27,10 @@ import com.clothingstore.gui.utilities.ImageUtil;
 
 public class ProductDetail extends JFrame {
 
+  HomePage homePage = HomePage.getInstance();
   Color color = new Color(230, 240, 255);
   int selectedSizeId = -1;
+  List<OrderItemModel> cartItems = new ArrayList<>();
 
   public ProductDetail(ProductModel productModel) {
     setAlwaysOnTop(true);
@@ -52,7 +54,6 @@ public class ProductDetail extends JFrame {
     List<ProductModel> productModels = new ArrayList<>();
     List<SizeItemModel> sizeItemModels = new ArrayList<>();
     List<SizeModel> sizeModels = new ArrayList<>();
-    List<OrderItemModel> cartItems = new ArrayList<>();
 
     importItemsModels.addAll(ImportItemsBUS.getInstance().getAllModels());
     productModels.addAll(ProductBUS.getInstance().getAllModels());
@@ -335,7 +336,6 @@ public class ProductDetail extends JFrame {
       public void actionPerformed(ActionEvent e) {
         if (selectedProductId != -1 && selectedSizeId != -1) {
           int quantity = (int) spinner.getValue();
-
           // Tạo một mục hóa đơn mới
           OrderItemModel orderItem = new OrderItemModel();
           orderItem.setProductId(selectedProductId);
@@ -343,9 +343,8 @@ public class ProductDetail extends JFrame {
           orderItem.setQuantity(quantity);
           cartItems.add(orderItem);
           Invoice invoice = new Invoice(cartItems);
-          // invoice.updateCartUI(cartItems);
-          invoice.setVisible(true);
-          System.out.println("1 2 3");
+          homePage.add(invoice, BorderLayout.EAST);
+          homePage.setVisible(true);
         }
       }
 
