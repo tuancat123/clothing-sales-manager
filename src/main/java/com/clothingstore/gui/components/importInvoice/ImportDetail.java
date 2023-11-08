@@ -3,8 +3,8 @@ package com.clothingstore.gui.components.importInvoice;
 import javax.swing.*;
 
 import com.clothingstore.bus.ImportItemsBUS;
+import com.clothingstore.gui.components.InvoiceProduct;
 import com.clothingstore.gui.components.invoiceDetail.HeaderInvoice;
-import com.clothingstore.gui.components.invoiceDetail.Product;
 import com.clothingstore.models.ImportItemsModel;
 import com.clothingstore.models.ImportModel;
 
@@ -101,7 +101,7 @@ public class ImportDetail extends JPanel {
 
     int i = 0;
     for (ImportItemsModel importItemsModel : importItemsList) {
-      Product product = new Product(importItemsModel, i += 1);
+      InvoiceProduct product = new InvoiceProduct(importItemsModel, i += 1);
       Product.add(product);
     }
     Products.add(HeaderProducts, BorderLayout.NORTH);

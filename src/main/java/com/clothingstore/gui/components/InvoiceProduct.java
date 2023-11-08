@@ -1,4 +1,4 @@
-package com.clothingstore.gui.components.invoiceDetail;
+package com.clothingstore.gui.components;
 
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
@@ -18,13 +18,13 @@ import com.clothingstore.models.SizeModel;
 import java.awt.*;
 import java.text.DecimalFormat;
 
-public class Product extends JPanel {
+public class InvoiceProduct extends JPanel {
   private ProductModel productModel;
 
   DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
   String[] data;
 
-  public Product(ImportItemsModel importItemsModel, int i) {
+  public InvoiceProduct(ImportItemsModel importItemsModel, int i) {
     productModel = ProductBUS.getInstance().getModelById(importItemsModel.getProduct_id());
     SizeModel sizeModel = SizeBUS.getInstance().getModelById(importItemsModel.getSize_id());
     data = new String[] {
@@ -38,7 +38,7 @@ public class Product extends JPanel {
     initComponents(data);
   }
 
-  public Product(OrderModel orderModel, OrderItemModel orderItemModel) {
+  public InvoiceProduct(OrderModel orderModel, OrderItemModel orderItemModel) {
     productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
     orderModel = OrderBUS.getInstance().getModelById(orderModel.getId());
     orderItemModel = OrderItemBUS.getInstance().getModelById(orderItemModel.getId());
@@ -58,7 +58,7 @@ public class Product extends JPanel {
     initComponents(data);
   }
 
-  public Product(OrderItemModel orderItemModel) {
+  public InvoiceProduct(OrderItemModel orderItemModel) {
     productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
     java.util.List<SizeItemModel> sizeItemModel = SizeItemBUS.getInstance()
         .searchModel(String.valueOf(orderItemModel.getProductId()), new String[] { "product_id" });
