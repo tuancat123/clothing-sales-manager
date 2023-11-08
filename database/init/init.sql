@@ -1,4 +1,4 @@
--- Active: 1698378821566@@127.0.0.1@3306@clothingstore
+-- Active: 1695036225563@@127.0.0.1@3306@clothingstore
 
 DROP DATABASE IF EXISTS clothingstore;
 
@@ -121,7 +121,7 @@ CREATE TABLE
         `image` LONGTEXT NOT NULL,
         `gender` INT NOT NULL,
         `price` DOUBLE NOT NULL,
-        `status` ENUM ('0', '1', '2') NOT NULL DEFAULT "1",
+        `status` ENUM ('0', '1') NOT NULL DEFAULT "1",
         PRIMARY KEY (`id`)
     );
 
