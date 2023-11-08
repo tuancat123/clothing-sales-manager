@@ -1,9 +1,13 @@
 package com.clothingstore.gui.employee;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
+import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.models.OrderItemModel;
 
 public class InvoiceProduct extends JPanel {
@@ -13,10 +17,9 @@ public class InvoiceProduct extends JPanel {
   }
 
   private void initComponents(OrderItemModel orderItemModel) {
-    IndexText = new JLabel();
     Name = new JLabel();
     Size = new JLabel();
-    Prince = new JLabel();
+    Price = new JLabel();
     ButtonDel = new JButton();
 
     setBorder(BorderFactory.createEtchedBorder());
@@ -25,12 +28,8 @@ public class InvoiceProduct extends JPanel {
     setLayout(new AbsoluteLayout());
     setBackground(new Color(179, 209, 255));
 
-    IndexText.setFont(new Font("Segoe UI", 0, 14));
-    IndexText.setText("01");
-    add(IndexText, new AbsoluteConstraints(8, 20, -1, 30));
-
     Name.setFont(new Font("Segoe UI", 3, 14));
-    Name.setText("ch co");
+    Name.setText("" + ProductBUS.getInstance().getModelById(orderItemModel.getProductId()).getName());
 
     add(Name, new AbsoluteConstraints(32, 6, 150, 30));
 
@@ -55,10 +54,12 @@ public class InvoiceProduct extends JPanel {
     spinner.setBackground(new Color(255, 204, 204));
     add(spinner, new AbsoluteConstraints(90, 34, 55, 20));
 
-    Prince.setFont(new Font("Segoe UI", 0, 15));
-    Prince.setForeground(new Color(255, 0, 0));
-    Prince.setText("340.333");
-    add(Prince, new AbsoluteConstraints(160, 28, 90, 28));
+    Price.setFont(new Font("Segoe UI", 0, 15));
+    Price.setForeground(new Color(255, 0, 0));
+
+    double totalPrice = orderItemModel.getPrice() * (int) spinner.getValue();
+    Price.setText("" + totalPrice);
+    add(Price, new AbsoluteConstraints(160, 28, 90, 28));
 
     ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/icon/delete.png"));
     Image originalImage = originalIcon.getImage();
@@ -67,11 +68,16 @@ public class InvoiceProduct extends JPanel {
 
     ButtonDel.setIcon(scaledIcon);
     add(ButtonDel, new AbsoluteConstraints(240, 22, 25, 25));
+    ButtonDel.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        //JOptionPane.showConfirmDialog("Bạn có muốn xóa sản phẩm này không?", e);
+      }
+      
+    });
   }
-
-  private JLabel IndexText;
   private JLabel Name;
-  private JLabel Prince;
+  private JLabel Price;
   private JLabel Size;
   private JButton ButtonDel;
 }

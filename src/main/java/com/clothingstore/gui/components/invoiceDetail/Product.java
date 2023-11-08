@@ -58,6 +58,23 @@ public class Product extends JPanel {
     initComponents(data);
   }
 
+  public Product(OrderItemModel orderItemModel) {
+    productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
+    java.util.List<SizeItemModel> sizeItemModel = SizeItemBUS.getInstance()
+        .searchModel(String.valueOf(orderItemModel.getProductId()), new String[] { "product_id" });
+    SizeModel sizeModel = SizeBUS.getInstance().getModelById(sizeItemModel.get(0).getSizeId());
+
+    data = new String[] {
+      String.valueOf(productModel.getId()),
+      String.valueOf(productModel.getName()),
+      String.valueOf(orderItemModel.getQuantity()),
+      String.valueOf(sizeModel.getSize()),
+      String.valueOf(productModel.getPrice() * orderItemModel.getQuantity()),
+      String.valueOf(orderItemModel.getQuantity())
+    };
+    initComponents(data);
+  }
+
   public void initComponents(String[] data) {
     Header = new JPanel();
     Sr = new JLabel();

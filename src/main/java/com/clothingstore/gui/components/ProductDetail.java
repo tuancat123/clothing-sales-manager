@@ -21,7 +21,6 @@ import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
 import com.clothingstore.models.SizeModel;
 import com.clothingstore.models.UserModel;
-
 import services.Authentication;
 
 import com.clothingstore.gui.employee.Invoice;
@@ -343,13 +342,24 @@ public class ProductDetail extends JFrame {
             orderItem.setProductId(selectedProductId);
             orderItem.setSizeId(selectedSizeId);
             orderItem.setQuantity(quantity);
+            List<ProductModel> productModels = ProductBUS.getInstance().searchModel(String.valueOf(selectedProductId),
+                new String[] { "id" });
+            orderItem.setPrice(productModels.get(0).getPrice());
+            //TODO: Fix trùng lặp trong giỏ hàng, đoạn code đã note dưới gây ra crash ứng dụng.
+            // if (Product.cartItems != null && !Product.cartItems.isEmpty()) {
+            //   for (OrderItemModel orderItemModel : Product.cartItems) {
+            //     if (selectedProductId == orderItemModel.getProductId()
+            //         && selectedSizeId == orderItemModel.getSizeId()) {
+            //       JOptionPane.showMessageDialog(null, "Sản phẩm này với size bạn chọn đã có trong giỏ hàng của bạn!");
+            //     }
+            //   }
+            // }
             Product.cartItems.add(orderItem);
             Invoice invoice = new Invoice(Product.cartItems);
             homePage.add(invoice, BorderLayout.EAST);
             homePage.setVisible(true);
           }
         }
-
       });
       getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 320, -1, -1));
     } else {
@@ -359,10 +369,9 @@ public class ProductDetail extends JFrame {
       buttonDelete.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          JOptionPane.showMessageDialog(this, "Do you want to delete this product?", "Notification",
+          JOptionPane.showMessageDialog(null, "Do you want to delete this product?", "Notification",
               JOptionPane.ERROR_MESSAGE);
         }
-
       });
       getContentPane().add(buttonDelete, new AbsoluteConstraints(380, 320, -1, -1));
     }

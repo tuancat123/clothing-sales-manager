@@ -27,7 +27,6 @@ public class Invoice extends JPanel {
   }
 
   private void initComponents(List<OrderItemModel> orderItemModel) {
-
     Header = new JPanel();
     Index = new JLabel();
     None = new JLabel();
@@ -71,14 +70,14 @@ public class Invoice extends JPanel {
     if (orderItemModel != null) {
       for (OrderItemModel orderItemModels : orderItemModel) {
         InvoiceProduct invoiceProduct = new InvoiceProduct(orderItemModels);
-        System.out.println("tao thanh cong invoid pro");
+        System.out.println("tao thanh cong invoice pro");
         invoiceProduct.setVisible(true);
         Invoices.add(invoiceProduct);
-        System.out.println("add thanh cong invoid pro");
+        System.out.println("add thanh cong invoice pro");
         Invoices.setVisible(true);
       }
     } else {
-      System.out.println("ddang null");
+      System.out.println("dang null");
     }
 
     // InvoiceProduct invoiceProduct = new InvoiceProduct();
@@ -99,10 +98,32 @@ public class Invoice extends JPanel {
     Value.setFont(new Font("Segoe UI", 0, 18));
     Value.setForeground(new Color(255, 51, 51));
     Value.setHorizontalAlignment(SwingConstants.CENTER);
-    Value.setText("3.000.000");
+    double totalPrice = 0;
+    if (orderItemModel != null && !orderItemModel.isEmpty()) {
+      for (OrderItemModel order : orderItemModel) {
+        totalPrice += order.getPrice();
+      }
+    }
+    Value.setText("" + totalPrice);
 
     ButtonCancel.setText("Hủy");
     ButtonCancel.setBackground(Color.BLUE);
+    ButtonCancel.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa toàn bộ sản phẩm khỏi giỏ hàng?",
+            "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+          System.out.println(" " + orderItemModel.size());
+          orderItemModel.clear();
+          revalidate();
+          repaint();
+        } else {
+          return;
+        }
+      }
+    });
+
     ButtonCancel.setPreferredSize(new Dimension(72, 20));
 
     ButtonPay.setFont(new Font("Segoe UI", 0, 10));
@@ -110,13 +131,11 @@ public class Invoice extends JPanel {
     ButtonPay.setBackground(Color.BLUE);
     ButtonPay.setPreferredSize(new Dimension(72, 20));
     ButtonPay.addActionListener(new ActionListener() {
-
       @Override
       public void actionPerformed(ActionEvent arg0) {
         InvoiceDetail invoiceDetail = new InvoiceDetail();
         invoiceDetail.setVisible(true);
       }
-
     });
 
     ButtonPrint.setIcon(new ImageIcon(getClass().getResource("/config/icon/printer.png")));
