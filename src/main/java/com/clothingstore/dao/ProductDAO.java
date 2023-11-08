@@ -27,7 +27,8 @@ public class ProductDAO implements IDAO<ProductModel> {
         rs.getInt("category_id"),
         rs.getString("image"),
         rs.getString("gender"),
-        rs.getFloat("price"));
+        rs.getFloat("price"),
+        rs.getInt("status"));
   }
 
   @Override
@@ -47,13 +48,14 @@ public class ProductDAO implements IDAO<ProductModel> {
 
   @Override
   public int insert(ProductModel product) {
-    String insertSql = "INSERT INTO products(name, category_id, image, gender, price) VALUES(?, ?, ?, ?, ?, ?)";
+    String insertSql = "INSERT INTO products(name, category_id, image, gender, price, status) VALUES(?, ?, ?, ?, ?, ?, ?)";
     Object[] args = {
         product.getName(),
         product.getCategoryId(),
         product.getImage(),
         product.getGender(),
-        product.getPrice()
+        product.getPrice(),
+        product.getStatus()
     };
     try {
       return DatabaseConnection.executeUpdate(insertSql, args);
@@ -65,13 +67,14 @@ public class ProductDAO implements IDAO<ProductModel> {
 
   @Override
   public int update(ProductModel product) {
-    String updateSql = "UPDATE products SET name = ?, category_id = ?, image = ?, gender = ?, price = ? WHERE id = ?";
+    String updateSql = "UPDATE products SET name = ?, category_id = ?, image = ?, gender = ?, price = ?, status = ? WHERE id = ?";
     Object[] args = {
         product.getName(),
         product.getCategoryId(),
         product.getImage(),
         product.getGender(),
-        product.getId()
+        product.getId(),
+        product.getStatus()
     };
     try {
       return DatabaseConnection.executeUpdate(updateSql, args);

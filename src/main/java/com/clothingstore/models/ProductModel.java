@@ -6,17 +6,19 @@ public class ProductModel {
   private int categoryId;
   private String image, gender;
   private double price;
+  private int status;
 
   public ProductModel() {
   }
 
-  public ProductModel(int id, String name, int categoryId, String image, String gender, double price) {
+  public ProductModel(int id, String name, int categoryId, String image, String gender, double price, int status) {
     this.id = id;
     this.name = name;
     this.categoryId = categoryId;
     this.image = image;
     this.gender = gender;
     this.price = price;
+    this.status = status;
   }
 
   public int getId() {
@@ -65,6 +67,14 @@ public class ProductModel {
 
   public void setPrice(double price) {
     this.price = price;
+  }
+
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int status) {
+    this.status = status;
   }
 
 }

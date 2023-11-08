@@ -58,6 +58,7 @@ public class ProductBUS implements IBUS<ProductModel> {
     to.setImage(from.getImage());
     to.setGender(from.getGender());
     to.setPrice(from.getPrice());
+    to.setStatus(from.getStatus());
   }
 
   @Override

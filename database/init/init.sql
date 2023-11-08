@@ -121,6 +121,7 @@ CREATE TABLE
         `image` LONGTEXT NOT NULL,
         `gender` INT NOT NULL,
         `price` DOUBLE NOT NULL,
+        `status` ENUM ('0', '1') NOT NULL DEFAULT "1",
         PRIMARY KEY (`id`)
     );
 

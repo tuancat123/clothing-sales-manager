@@ -345,14 +345,16 @@ public class ProductDetail extends JFrame {
             List<ProductModel> productModels = ProductBUS.getInstance().searchModel(String.valueOf(selectedProductId),
                 new String[] { "id" });
             orderItem.setPrice(productModels.get(0).getPrice());
-            //TODO: Fix trùng lặp trong giỏ hàng, đoạn code đã note dưới gây ra crash ứng dụng.
+            // TODO: Fix trùng lặp trong giỏ hàng, đoạn code đã note dưới gây ra crash ứng
+            // dụng.
             // if (Product.cartItems != null && !Product.cartItems.isEmpty()) {
-            //   for (OrderItemModel orderItemModel : Product.cartItems) {
-            //     if (selectedProductId == orderItemModel.getProductId()
-            //         && selectedSizeId == orderItemModel.getSizeId()) {
-            //       JOptionPane.showMessageDialog(null, "Sản phẩm này với size bạn chọn đã có trong giỏ hàng của bạn!");
-            //     }
-            //   }
+            // for (OrderItemModel orderItemModel : Product.cartItems) {
+            // if (selectedProductId == orderItemModel.getProductId()
+            // && selectedSizeId == orderItemModel.getSizeId()) {
+            // JOptionPane.showMessageDialog(null, "Sản phẩm này với size bạn chọn đã có
+            // trong giỏ hàng của bạn!");
+            // }
+            // }
             // }
             Product.cartItems.add(orderItem);
             Invoice invoice = new Invoice(Product.cartItems);
@@ -363,19 +365,24 @@ public class ProductDetail extends JFrame {
       });
       getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 320, -1, -1));
     } else {
-      System.out.println(currentUser.getRoleId());
       buttonDelete.setText("Delete");
       buttonDelete.setPreferredSize(new Dimension(94, 28));
       buttonDelete.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          JOptionPane.showMessageDialog(null, "Do you want to delete this product?", "Notification",
-              JOptionPane.ERROR_MESSAGE);
+          JFrame jf = new JFrame();
+          jf.setAlwaysOnTop(true);
+          int choice = JOptionPane.showConfirmDialog(jf, "Do you want to delete this product?",
+              "Confirmation",
+              JOptionPane.YES_NO_OPTION);
+          if (choice == JOptionPane.YES_OPTION) {
+            // Xử lý xóa sản phẩm ở đây
+            // Sau khi xóa cập nhật giao diện người dùng
+          }
         }
       });
       getContentPane().add(buttonDelete, new AbsoluteConstraints(380, 320, -1, -1));
     }
-
     pack();
   }
 
