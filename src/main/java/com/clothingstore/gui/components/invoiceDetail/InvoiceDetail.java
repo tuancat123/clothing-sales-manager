@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import org.netbeans.lib.awtextra.*;
 
+import com.clothingstore.gui.components.InvoiceProduct;
 import com.clothingstore.models.OrderItemModel;
 
 import services.PDFWriter;
@@ -84,7 +85,7 @@ public class InvoiceDetail extends JFrame {
     double totalInvoice = 0;
     for (OrderItemModel orderItemModel : orderItemModel) {
       totalInvoice += orderItemModel.getPrice();
-      Product product = new Product(orderItemModel);
+      InvoiceProduct product = new InvoiceProduct(orderItemModel);
       product.setBackground(Color.WHITE);
       Products.add(product);
     }

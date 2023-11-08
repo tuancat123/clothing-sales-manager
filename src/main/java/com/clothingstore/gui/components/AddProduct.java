@@ -12,7 +12,6 @@ import javax.swing.event.*;
 public class AddProduct extends JFrame {
 
   String[] name = { "Name", "Category", "Gender", "Price", "Origin Price", "Description" };
-  String[] size = {"S", "M", "L", "XL", "XXL"};
   ArrayList<String> sizeName = new ArrayList<>(Arrays.asList( "S", "M", "L", "XL", "XXL" ));
   ArrayList<Integer> sizeQuantity = new ArrayList<>(Arrays.asList(-1, -1, -1, -1, -1));
 
@@ -76,7 +75,7 @@ public class AddProduct extends JFrame {
 
     SizePanel.setLayout(new GridBagLayout());
 
-    SizeChoose.setModel(new DefaultComboBoxModel<>(size));
+    SizeChoose.setModel(new DefaultComboBoxModel<>(new String[]{"S", "M", "L", "XL", "XXL"}));
     SizeChoose.addActionListener(ChooseSizeAction);
     SizePanel.add(SizeChoose);
 

@@ -2,19 +2,23 @@ package com.clothingstore.gui.components.importInvoice;
 
 import javax.swing.*;
 
-import com.clothingstore.bus.OrderBUS;
-import com.clothingstore.bus.OrderItemBUS;
+import com.clothingstore.bus.ImportBUS;
+import com.clothingstore.bus.ImportItemsBUS;
+import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.gui.components.invoiceDetail.HeaderInvoice;
-import com.clothingstore.gui.components.invoiceDetail.Product;
-import com.google.protobuf.Value;
+import com.clothingstore.models.ImportItemsModel;
+import com.clothingstore.models.ImportModel;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.jar.Attributes.Name;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddImport extends JFrame {
 
     String[] title = {"Employee Name", "Employee Id"};
+
+    List<ImportItemsModel> importList = new ArrayList<>();
 
     public AddImport() {
         initComponents();
@@ -55,6 +59,7 @@ public class AddImport extends JFrame {
         c.gridwidth = 2;
         c.ipady = 30;
         c.gridx = 0;
+        NameFrame.setFont(new Font("Segoe UI", 1, 18));
         EmployeeInfo.add(NameFrame, c);
 
         c.gridy = 1;
@@ -96,31 +101,41 @@ public class AddImport extends JFrame {
         // info new product
 
         JPanel Panel2 = new JPanel();
-        Panel2.setLayout(new GridBagLayout());
 
-        Panel2.add(NameProduct);
-        Panel2.add(IdProduct);
-        Panel2.add(Size);
-        Panel2.add(Quantity);
-        Panel2.add(ButtonSave);
+        Panel2.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        Panel2.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
+        gbc.insets.left = 15;
+
+        NameProduct.setPreferredSize(new Dimension(190,25));
+        NameProduct.setText("Ao aoa oa aoa");
+        Panel2.add(NameProduct, gbc);
+
+        IdProduct.setPreferredSize(new Dimension(90,25));
+        IdProduct.setText("3534545454");
+        Panel2.add(IdProduct, gbc);
+
+        Size.setModel(new DefaultComboBoxModel<>(new String[]{"S", "M", "L", "XL", "XXL"}));
+        Panel2.add(Size, gbc);
+
+        Quantity.setPreferredSize(new Dimension(50,25));
+        Panel2.add(Quantity, gbc);
+
+        ButtonSave.addActionListener(SaveProductAction);
+        Panel2.add(ButtonSave, gbc);
         Header.add(Panel2,BorderLayout.SOUTH);
 
         // products
-        Products.setLayout(new GridLayout(0,1));
-        HeaderInvoice EmployeeInfoInvoice = new HeaderInvoice();
-        EmployeeInfoInvoice.setPreferredSize(new Dimension(30,60));
-        Products.add(EmployeeInfoInvoice);
-        for(int i =0; i<9;i++){
-            Product product = new Product(OrderBUS.getInstance().getModelById(1), OrderItemBUS.getInstance().getModelById(1));
-            product.setPreferredSize(new Dimension(30,60));
-            Products.add(product);
-        }
+        Products.setLayout(new GridLayout(5,1));
+        HeaderInvoice EmployeeInfoHeader = new HeaderInvoice();
+        EmployeeInfoHeader.setPreferredSize(new Dimension(30,60));
+        Products.add(EmployeeInfoHeader);
+
         Scroll.setViewportView(Products);
         Content.add(Scroll, BorderLayout.CENTER);
 
         add(Header, BorderLayout.NORTH);
         add(Content, BorderLayout.CENTER);
-        
         
     }
     private JPanel Content;
@@ -140,6 +155,24 @@ public class AddImport extends JFrame {
     private JButton ButtonSave;
     private JScrollPane Scroll;
     private JPanel Products;
+
+    private ActionListener SaveProductAction = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ImportModel importModel = new ImportModel(4, 5, null, 45.0);
+            ImportItemsModel importItemsModel = new ImportItemsModel(1, importModel.getId(), 5, 1, 1, 45.6);
+
+            Product product = new Product(importItemsModel, 1);
+            product.setPreferredSize(new Dimension(30,40));
+            Products.add(product);
+            importList.add(importItemsModel);
+            revalidate();
+            repaint();
+            System.out.println(importList.get(0).getQuantity());
+        }
+        
+    };
 
     public static void main(String[] args) {
         AddImport addImport = new AddImport();

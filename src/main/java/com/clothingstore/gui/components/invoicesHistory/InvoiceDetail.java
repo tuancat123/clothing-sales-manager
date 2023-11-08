@@ -2,10 +2,10 @@ package com.clothingstore.gui.components.invoicesHistory;
 
 import javax.swing.*;
 
-import com.clothingstore.gui.components.invoiceDetail.Product;
 import com.clothingstore.bus.CustomerBUS;
 import com.clothingstore.bus.OrderItemBUS;
 import com.clothingstore.bus.UserBUS;
+import com.clothingstore.gui.components.InvoiceProduct;
 import com.clothingstore.gui.components.invoiceDetail.HeaderInvoice;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
@@ -103,7 +103,7 @@ public class InvoiceDetail extends JPanel {
 
     Product.setLayout(new GridLayout(5, 1));
     for (int i = 0; i < orderItemModels.size(); i++) {
-      Product product = new Product(orderModel, orderItemModels.get(i));
+      InvoiceProduct product = new InvoiceProduct(orderModel, orderItemModels.get(i));
       Product.add(product);
     }
 
