@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale.Category;
+
 import javax.swing.*;
 
 import org.netbeans.lib.awtextra.*;
@@ -94,7 +96,7 @@ public class ProductDetail extends JFrame {
     SizePanel = new JPanel();
     ButtonExit = new JButton();
     ButtonAdd = new JButton();
-    buttonDelete = new JButton();
+    buttonDiscontinued = new JButton();
     Remaining = new JLabel();
 
     ImagePanel.setLayout(new GridBagLayout());
@@ -365,31 +367,40 @@ public class ProductDetail extends JFrame {
       });
       getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 320, -1, -1));
     } else {
-      buttonDelete.setText("Delete");
-      buttonDelete.setPreferredSize(new Dimension(94, 28));
-      buttonDelete.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          JFrame jf = new JFrame();
-          jf.setAlwaysOnTop(true);
-          int choice = JOptionPane.showConfirmDialog(jf, "Do you want to delete this product?",
-              "Confirmation",
-              JOptionPane.YES_NO_OPTION);
-          if (choice == JOptionPane.YES_OPTION) {
-            // Xử lý xóa sản phẩm ở đây
-            // Sau khi xóa cập nhật giao diện người dùng
-          }
+      if (productModel.getStatus() != 0) {
+        buttonDiscontinued.setText("Discontinued"); // ngừng kinh doanh tương tự như xóa , khác cái là đổi status = 0
+        buttonDiscontinued.setPreferredSize(new Dimension(94, 28));
+        getContentPane().add(buttonDiscontinued, new AbsoluteConstraints(380, 320, -1, -1));
+        buttonDiscontinued.addActionListener(actionDiscontinued);
+        if (productModel.getStatus() == 1) {
+          // trong này sẽ thêm nút tạm ngừng kinh doanh và xử lý sự kiên để status về 2
+        } else {
+          // trong này sẽ thêm nút kinh doanh và xử lý sự kiên để status về 1
         }
-      });
-      getContentPane().add(buttonDelete, new AbsoluteConstraints(380, 320, -1, -1));
+      }
     }
+
     pack();
   }
+
+  public ActionListener actionDiscontinued = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      JFrame jf = new JFrame();
+      jf.setAlwaysOnTop(true);
+      int choice = JOptionPane.showConfirmDialog(jf, "Do you want to delete this product?", "Confirmation",
+          JOptionPane.YES_NO_OPTION);
+      if (choice == JOptionPane.YES_OPTION) {
+        // Xử lý chuyển status về 0 cái này là ngừng kinh doanh hẳn.
+        // Sau khi xóa cập nhật giao diện người dùng
+      }
+    }
+  };
 
   private JLabel AmountText;
   private JButton ButtonAdd;
   private JButton ButtonExit;
-  private JButton buttonDelete;
+  private JButton buttonDiscontinued;
   private JLabel Category;
   private JLabel CategoryText;
   private JTextPane Describe;

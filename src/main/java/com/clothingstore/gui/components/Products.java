@@ -48,9 +48,11 @@ public class Products extends JPanel {
     Products.setBackground(new Color(170, 205, 239));
 
     for (ProductModel products : productList) {
-      Product product = new Product(products);
-      product.setBackground(new Color(170, 205, 239));
-      Products.add(product);
+      if (products.getStatus() == 1) {
+        Product product = new Product(products);
+        product.setBackground(new Color(170, 205, 239));
+        Products.add(product);
+      }
     }
     Scroll.setViewportView(Products);
     add(ProductsHeader.getInstance(), BorderLayout.NORTH);
