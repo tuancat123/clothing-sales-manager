@@ -101,7 +101,8 @@ public class Invoice extends JPanel {
     double totalPrice = 0;
     if (orderItemModel != null && !orderItemModel.isEmpty()) {
       for (OrderItemModel order : orderItemModel) {
-        totalPrice += order.getPrice();
+        double amount = order.getPrice() * order.getQuantity();
+        totalPrice += amount;
       }
     }
     Value.setText("" + totalPrice);

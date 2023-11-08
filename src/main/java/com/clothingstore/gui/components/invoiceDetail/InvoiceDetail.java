@@ -2,19 +2,34 @@ package com.clothingstore.gui.components.invoiceDetail;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.netbeans.lib.awtextra.*;
 
+import com.clothingstore.bus.CustomerBUS;
+import com.clothingstore.bus.OrderBUS;
+import com.clothingstore.bus.OrderItemBUS;
+import com.clothingstore.bus.ProductBUS;
+import com.clothingstore.bus.SizeItemBUS;
 import com.clothingstore.gui.components.InvoiceProduct;
+import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderItemModel;
+import com.clothingstore.models.OrderModel;
+import com.clothingstore.models.ProductModel;
+import com.clothingstore.models.SizeItemModel;
 
+import services.Authentication;
 import services.PDFWriter;
 
 public class InvoiceDetail extends JFrame {
   java.util.List<OrderItemModel> orderItemModel = new ArrayList<>();
+  int totalInvoice = 0;
 
   public InvoiceDetail() {
     initComponents();
@@ -82,9 +97,10 @@ public class InvoiceDetail extends JFrame {
     Products.setLayout(new GridLayout(0, 1));
     orderItemModel.addAll(com.clothingstore.gui.components.Product.cartItems);
     System.out.println("" + orderItemModel.size());
-    double totalInvoice = 0;
+
     for (OrderItemModel orderItemModel : orderItemModel) {
-      totalInvoice += orderItemModel.getPrice();
+      double amount = orderItemModel.getPrice() * orderItemModel.getQuantity();
+      totalInvoice += amount;
       InvoiceProduct product = new InvoiceProduct(orderItemModel);
       product.setBackground(Color.WHITE);
       Products.add(product);
@@ -170,7 +186,7 @@ public class InvoiceDetail extends JFrame {
 
     Total.setFont(new Font("Segoe UI", 0, 15));
     Total.setForeground(new Color(255, 51, 51));
-    Total.setText("30.000.000");
+    Total.setText("30000000");
 
     TotalInvoice.setFont(new Font("Segoe UI", 0, 14));
     TotalInvoice.setText("" + String.valueOf(totalInvoice));
@@ -211,28 +227,72 @@ public class InvoiceDetail extends JFrame {
     Change.setFont(new Font("Segoe UI", 0, 14));
     Change.setForeground(new Color(255, 51, 255));
 
-    // ButtonPay.addActionListener(new ActionListener() {
-    //   @Override
-    //   public void actionPerformed(ActionEvent e) {
-    //     boolean isSelected = CashCheckBox.isSelected();
-    //     boolean isCreditSelected = CreditCheckBox.isSelected();
-    //     if (isSelected) {
-    //       double change = 0;
-    //       if (!CusPaying.getText().isBlank() && !CusPaying.getText().isEmpty()) {
-    //         change = Double.parseDouble(CusPaying.getText()) - Double.parseDouble(Total.getText());
-    //       }
-    //       if (change >= 0) {
-    //         JOptionPane.showMessageDialog(null, "Thanh toán thành công và số tiền cần phải thối là " + change);
-    //         int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xuất hóa đơn không?");
-    //         if (choice == JOptionPane.YES_OPTION) {
-    //           for (int i=0; i<orderItemModel.size(); i++) {
-    //           PDFWriter.getInstance().exportReceiptToPDF(orderItemModel.get(i), );
-    //         }
-    //       }
-    //       }
-    //     }
-    //   }
-    // });
+    ButtonPay.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        boolean isCashSelected = CashCheckBox.isSelected();
+        boolean isCreditSelected = CreditCheckBox.isSelected();
+        //boolean isRegularcustomer = RegularCus.isSelected();
+
+        if (isCashSelected) {
+          double change = 0;
+          if (!CusPaying.getText().isBlank() && !CusPaying.getText().isEmpty()) {
+            double cusPaying = Double.parseDouble(CusPaying.getText());
+            double totalReceipt = Double.parseDouble(Total.getText());
+            change = cusPaying - totalReceipt;
+          }
+          if (change >= 0) {
+            JOptionPane.showMessageDialog(null, "Thanh toán thành công và số tiền cần phải thối là " + change + " đ");
+            OrderModel orderModel = new OrderModel();
+            //TODO: Stackoverflow error
+            // if (isRegularcustomer) {
+            //   revalidate();
+            //   java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()),
+            //       new String[] { "phone" });
+            //   orderModel.setCustomerId(customerModel.get(0).getId());
+            // }
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            orderModel.setUserId(Authentication.getCurrentUser().getId());
+            orderModel.setOrderDate(currentTime);
+            orderModel.setTotalPrice(totalInvoice);
+            OrderBUS.getInstance().addModel(orderModel);
+            for (OrderItemModel orderItemModel : orderItemModel) {
+              ProductModel productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
+              List<SizeItemModel> sizeItemModels = SizeItemBUS.getInstance().searchModel(String.valueOf(productModel.getId()), new String[] {"product_id"});
+              for (SizeItemModel sizeItemModel : sizeItemModels) {
+                if (orderItemModel.getSizeId() == sizeItemModel.getSizeId()) {
+                  sizeItemModel.setQuantity(sizeItemModel.getQuantity() - orderItemModel.getQuantity());
+                  SizeItemBUS.getInstance().updateModel(sizeItemModel);
+                  break;
+                }
+              }
+              OrderItemBUS.getInstance().addModel(orderItemModel);
+            }
+            int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xuất hóa đơn không?");
+            if (choice == JOptionPane.YES_OPTION) {
+              JFileChooser fileChooser = new JFileChooser();
+              fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+              FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
+              fileChooser.setFileFilter(filter);
+              int result = fileChooser.showSaveDialog(null);
+              if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                String filePath = selectedFile.getAbsolutePath();
+                if (!filePath.toLowerCase().endsWith(".pdf")) {
+                  filePath += ".pdf";
+                }
+                PDFWriter.getInstance().exportReceiptToPDF(orderModel, filePath);
+              }
+            } else {
+              return;
+            }
+          } else {
+            JOptionPane.showMessageDialog(null, "Số tiền khách trả ít hơn số tiền ở hóa đơn. Vui lòng kiểm tra lại.");
+            return;
+          }
+        }
+      }
+    });
 
     Header.add(NameFrame, new AbsoluteConstraints(10, 0, 410, 30));
     Header.add(Id, new AbsoluteConstraints(10, 30, 160, 20));

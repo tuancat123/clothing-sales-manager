@@ -62,11 +62,6 @@ public class OrderItemBUS implements IBUS<OrderItemModel> {
 
     @Override
     public int addModel(OrderItemModel model) {
-        if (model == null || model.getOrderId() <= 0 || model.getProductId() <= 0 || model.getQuantity() <= 0
-                || model.getPrice() <= 0) {
-            throw new IllegalArgumentException(
-                    "There may be errors in required fields, please check your input and try again.");
-        }
         int id = OrderItemDAO.getInstance().insert(mapToEntity(model));
         orderItemList.add(model);
         return id;

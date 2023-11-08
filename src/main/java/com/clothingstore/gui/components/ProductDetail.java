@@ -347,8 +347,7 @@ public class ProductDetail extends JFrame {
             List<ProductModel> productModels = ProductBUS.getInstance().searchModel(String.valueOf(selectedProductId),
                 new String[] { "id" });
             orderItem.setPrice(productModels.get(0).getPrice());
-            // TODO: Fix trùng lặp trong giỏ hàng, đoạn code đã note dưới gây ra crash ứng
-            // dụng.
+            // TODO: Fix trùng lặp trong giỏ hàng, đoạn code đã note dưới gây ra crash ứng dụng.
             // if (Product.cartItems != null && !Product.cartItems.isEmpty()) {
             // for (OrderItemModel orderItemModel : Product.cartItems) {
             // if (selectedProductId == orderItemModel.getProductId()

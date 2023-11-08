@@ -338,7 +338,6 @@ public class PDFWriter {
       // Add product Information
       String[] columnNames = {
           "ID",
-          "Image",
           "Name",
           "Price",
           "Quantity",
@@ -352,16 +351,10 @@ public class PDFWriter {
             .getModelById(orderItemModel.getProductId());
         double itemTotalPrice = orderItemModel.getQuantity() * product.getPrice();
         data[i][0] = product.getId();
-        try {
-          BufferedImage originalImage = ImageUtil.fromBase64(product.getImage());
-          data[i][1] = originalImage;
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-        data[i][2] = product.getName();
-        data[i][3] = product.getPrice();
-        data[i][4] = orderItemModel.getQuantity();
-        data[i][5] = currencyFormatter.format(itemTotalPrice);
+        data[i][1] = product.getName();
+        data[i][2] = product.getPrice();
+        data[i][3] = orderItemModel.getQuantity();
+        data[i][4] = currencyFormatter.format(itemTotalPrice);
       }
       JTable table = new JTable(data, columnNames);
       writeTable(table);

@@ -61,7 +61,7 @@ public class OrderBUS implements IBUS<OrderModel> {
 
   @Override
   public int addModel(OrderModel model) {
-    if (model == null || model.getCustomerId() <= 0 || model.getUserId() <= 0 || model.getTotalPrice() <= 0) {
+    if (model == null || model.getUserId() <= 0 || model.getTotalPrice() <= 0) {
       throw new IllegalArgumentException(
           "There may be errors in required fields, please check your input and try again.");
     }
