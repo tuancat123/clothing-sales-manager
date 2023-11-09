@@ -30,7 +30,9 @@ import services.PDFWriter;
 
 public class InvoiceDetail extends JFrame {
   java.util.List<OrderItemModel> orderItemModel = new ArrayList<>();
-  double totalInvoice = 0;
+  private double totalInvoice = 0;
+  private double change = 0;
+  private double finalPrice = 0;
 
   public InvoiceDetail(List<OrderItemModel> orderList) {
     initComponents(orderList);
@@ -136,7 +138,7 @@ public class InvoiceDetail extends JFrame {
 
     UsePoint.setFont(new Font("Segoe UI", 0, 14));
     UsePoint.setHorizontalAlignment(JTextField.RIGHT);
-
+    UsePoint.addFocusListener(LostFocusUsePoint);
     Slogan.setFont(new Font("Segoe UI", 2, 13));
 
     Buttons.setBorder(BorderFactory.createEtchedBorder());
@@ -180,7 +182,9 @@ public class InvoiceDetail extends JFrame {
 
     Total.setFont(new Font("Segoe UI", 0, 15));
     Total.setForeground(new Color(255, 51, 51));
-    Total.setText("3000000");
+    //TODO: Fix this shit.
+    //finalPrice = totalInvoice - Double.parseDouble(UsePoint.getText());
+    Total.setText("" + finalPrice);
 
     TotalInvoice.setFont(new Font("Segoe UI", 0, 14));
     for (OrderItemModel orderItemModel : orderList) {
@@ -212,11 +216,6 @@ public class InvoiceDetail extends JFrame {
     CusPaying.setForeground(new Color(255, 51, 255));
     CusPaying.addFocusListener(LostFocusCustomerPay);
 
-    // if (Double.parseDouble(CusPaying.getText()) < totalInvoice) {
-    // JOptionPane.showMessageDialog(null, "Tiền khách hàng đưa ít hơn tiền hóa
-    // đơn.");
-    // }
-
     ChangeText.setFont(new Font("Segoe UI", 3, 14));
     ChangeText.setForeground(new Color(51, 51, 255));
     ChangeText.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -224,6 +223,7 @@ public class InvoiceDetail extends JFrame {
 
     Change.setFont(new Font("Segoe UI", 0, 14));
     Change.setForeground(new Color(255, 51, 255));
+    Change.setEditable(false);
 
     ButtonPay.addActionListener(new ActionListener() {
       @Override
@@ -231,16 +231,9 @@ public class InvoiceDetail extends JFrame {
         boolean isCashSelected = CashCheckBox.isSelected();
         boolean isCreditSelected = CreditCheckBox.isSelected();
         boolean isRegularCustomer = RegularCus.isSelected();
-
         if (isCashSelected) {
-          double change = 0;
-          if (!CusPaying.getText().isBlank() && !CusPaying.getText().isEmpty()) {
-            double cusPaying = Double.parseDouble(CusPaying.getText());
-            double totalReceipt = Double.parseDouble(Total.getText());
-            change = cusPaying - totalReceipt;
-          }
           if (change >= 0) {
-            JOptionPane.showMessageDialog(null, "Thanh toán thành công và số tiền cần phải thối là " + change + " đ");
+            JOptionPane.showMessageDialog(null, "Thanh toán thành công");
             OrderModel orderModel = new OrderModel();
             if (isRegularCustomer) {
               java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(
@@ -433,6 +426,7 @@ public class InvoiceDetail extends JFrame {
 
     @Override
     public void focusLost(FocusEvent e) {
+      boolean isPointCheckboxSelected = Point.isSelected();
       List<CustomerModel> customerList = CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()),
           new String[] { "phone" });
       if (customerList != null) {
@@ -443,6 +437,11 @@ public class InvoiceDetail extends JFrame {
         Point.setText(
             PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" })
                 .get(0).getPointsEarned() + " Point");
+        if (isPointCheckboxSelected) {
+          UsePoint.setText("" + PointBUS.getInstance()
+              .searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" })
+              .get(0).getPointsEarned());
+        }
         revalidate();
         repaint();
       }
@@ -456,9 +455,28 @@ public class InvoiceDetail extends JFrame {
 
     @Override
     public void focusLost(FocusEvent e) {
-      boolean isWalkingCustomerSelected = WalkInCus.isSelected();
-      if (isWalkingCustomerSelected) {
-        Discount.setText("0");
+      if (!CusPaying.getText().isBlank() && !CusPaying.getText().isEmpty()) {
+        double cusPaying = Double.parseDouble(CusPaying.getText());
+        double totalReceipt = Double.parseDouble(Total.getText());
+        change = cusPaying - totalReceipt;
+        Change.setText("" + change);
+      }
+    }
+  };
+  //TODO: Not done yet
+  public FocusListener LostFocusUsePoint = new FocusListener() {
+    @Override
+    public void focusGained(FocusEvent e) {
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+      if (!UsePoint.getText().isEmpty() && !UsePoint.getText().isBlank()) {
+        if (Double.parseDouble(UsePoint.getText()) > Double.parseDouble(PointText.getText())) {
+          JOptionPane.showMessageDialog(null,
+              "Điểm tích lũy bạn vừa nhập không thể lớn hơn điểm tích lũy của khách hàng.");
+          UsePoint.setText("0");
+        }
       }
     }
   };
