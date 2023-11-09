@@ -32,7 +32,7 @@ public class InvoiceDetail extends JFrame {
   java.util.List<OrderItemModel> orderItemModel = new ArrayList<>();
   double totalInvoice = 0;
 
-  public InvoiceDetail(List<OrderItemModel> orderList ) {
+  public InvoiceDetail(List<OrderItemModel> orderList) {
     initComponents(orderList);
     setAlwaysOnTop(true);
     setLocationRelativeTo(null);
@@ -94,7 +94,7 @@ public class InvoiceDetail extends JFrame {
 
     int sr = 1;
     for (OrderItemModel orderItemModel : orderList) {
-      InvoiceProduct product = new InvoiceProduct(orderItemModel,sr );
+      InvoiceProduct product = new InvoiceProduct(orderItemModel, sr);
       sr++;
       product.setBackground(Color.WHITE);
       Products.add(product);
@@ -180,11 +180,11 @@ public class InvoiceDetail extends JFrame {
 
     Total.setFont(new Font("Segoe UI", 0, 15));
     Total.setForeground(new Color(255, 51, 51));
-    Total.setText("30000000");
+    Total.setText("3000000");
 
     TotalInvoice.setFont(new Font("Segoe UI", 0, 14));
-    for(OrderItemModel orderItemModel : orderList){
-      totalInvoice = totalInvoice + orderItemModel.getPrice()* orderItemModel.getQuantity();
+    for (OrderItemModel orderItemModel : orderList) {
+      totalInvoice = totalInvoice + orderItemModel.getPrice() * orderItemModel.getQuantity();
     }
     TotalInvoice.setText("" + String.valueOf(totalInvoice));
 
@@ -210,6 +210,7 @@ public class InvoiceDetail extends JFrame {
 
     CusPaying.setFont(new Font("Segoe UI", 0, 14));
     CusPaying.setForeground(new Color(255, 51, 255));
+    CusPaying.addFocusListener(LostFocusCustomerPay);
 
     // if (Double.parseDouble(CusPaying.getText()) < totalInvoice) {
     // JOptionPane.showMessageDialog(null, "Tiền khách hàng đưa ít hơn tiền hóa
@@ -229,7 +230,7 @@ public class InvoiceDetail extends JFrame {
       public void actionPerformed(ActionEvent e) {
         boolean isCashSelected = CashCheckBox.isSelected();
         boolean isCreditSelected = CreditCheckBox.isSelected();
-        //boolean isRegularcustomer = RegularCus.isSelected();
+        boolean isRegularCustomer = RegularCus.isSelected();
 
         if (isCashSelected) {
           double change = 0;
@@ -241,12 +242,12 @@ public class InvoiceDetail extends JFrame {
           if (change >= 0) {
             JOptionPane.showMessageDialog(null, "Thanh toán thành công và số tiền cần phải thối là " + change + " đ");
             OrderModel orderModel = new OrderModel();
-            // if (isRegularcustomer) {
-            //   revalidate();
-            //   java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()),
-            //       new String[] { "phone" });
-            //   orderModel.setCustomerId(customerModel.get(0).getId());
-            // }
+            if (isRegularCustomer) {
+              java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(
+                  String.valueOf(Phone.getText()),
+                  new String[] { "phone" });
+              orderModel.setCustomerId(customerModel.get(0).getId());
+            }
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             orderModel.setUserId(Authentication.getCurrentUser().getId());
             orderModel.setOrderDate(currentTime);
@@ -254,7 +255,8 @@ public class InvoiceDetail extends JFrame {
             OrderBUS.getInstance().addModel(orderModel);
             for (OrderItemModel orderItemModel : orderItemModel) {
               ProductModel productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
-              List<SizeItemModel> sizeItemModels = SizeItemBUS.getInstance().searchModel(String.valueOf(productModel.getId()), new String[] {"product_id"});
+              List<SizeItemModel> sizeItemModels = SizeItemBUS.getInstance()
+                  .searchModel(String.valueOf(productModel.getId()), new String[] { "product_id" });
               for (SizeItemModel sizeItemModel : sizeItemModels) {
                 if (orderItemModel.getSizeId() == sizeItemModel.getSizeId()) {
                   sizeItemModel.setQuantity(sizeItemModel.getQuantity() - orderItemModel.getQuantity());
@@ -375,7 +377,6 @@ public class InvoiceDetail extends JFrame {
     public void actionPerformed(ActionEvent arg0) {
       if (WalkInCus.isSelected()) {
         RegularCus.setSelected(false);
-        PointText.setVisible(false);
         UsePoint.setVisible(false);
         CustomerInfo.setVisible(false);
         Slogan.setVisible(true);
@@ -427,20 +428,38 @@ public class InvoiceDetail extends JFrame {
   public FocusListener LostFocusPhone = new FocusListener() {
 
     @Override
-    public void focusGained(FocusEvent e) {}
+    public void focusGained(FocusEvent e) {
+    }
 
     @Override
     public void focusLost(FocusEvent e) {
-        List<CustomerModel> customerList = CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()),new String[] { "phone" });
-        if(customerList != null){
-          CustomerModel customerModel = customerList.get(0);
-          Name.setText(customerModel.getCustomerName());
-          System.out.println(PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}));
-          Point.setText(PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).get(0).getPointsEarned() + " Point");
-          revalidate();
-          repaint();
-        }
+      List<CustomerModel> customerList = CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()),
+          new String[] { "phone" });
+      if (customerList != null) {
+        CustomerModel customerModel = customerList.get(0);
+        Name.setText(customerModel.getCustomerName());
+        // System.out.println(PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()),
+        // new String[]{"customer_id"}));
+        Point.setText(
+            PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" })
+                .get(0).getPointsEarned() + " Point");
+        revalidate();
+        repaint();
       }
-    
+    }
+
+  };
+  public FocusListener LostFocusCustomerPay = new FocusListener() {
+    @Override
+    public void focusGained(FocusEvent e) {
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+      boolean isWalkingCustomerSelected = WalkInCus.isSelected();
+      if (isWalkingCustomerSelected) {
+        Discount.setText("0");
+      }
+    }
   };
 }

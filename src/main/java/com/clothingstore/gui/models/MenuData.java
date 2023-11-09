@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import com.clothingstore.gui.admin.employees.Employees;
 import com.clothingstore.gui.components.HomePage;
 import com.clothingstore.gui.components.Products;
+import com.clothingstore.gui.components.customerList.CustomerList;
 import com.clothingstore.gui.components.customerList.Customers;
 import com.clothingstore.gui.components.importInvoice.AddImport;
 import com.clothingstore.gui.components.importInvoice.AddNewImport;
@@ -76,7 +78,7 @@ public class MenuData {
                 "Customers",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Customer Management", CustomerAction()));
+                        add(new MenuItemData("Customer List", CustomerAction()));
                     }
                 },
                 null));
@@ -115,7 +117,7 @@ public class MenuData {
                 new ArrayList<MenuItemData>() {
                     {
                         add(new MenuItemData("Employees List", EmployeeAction()));
-                        add(new MenuItemData("Add Employee", null));
+                        add(new MenuItemData("Add Employee", EmployeeAction()));
 
                     }
                 },
@@ -212,7 +214,7 @@ public class MenuData {
     private static ActionListener CustomerAction() {
         return e -> {
             HomePage.getInstance().Remove();
-            if (e.getActionCommand().equals("Customer Management")) {
+            if (e.getActionCommand().equals("Customers List")) {
                 HomePage.getInstance().Add(Customers.getInstance());
             } else if (e.getActionCommand().equals("Add Customer")) {
             }
@@ -220,7 +222,13 @@ public class MenuData {
     }
 
     private static ActionListener EmployeeAction() {
-        return null;
+        return e -> {
+            HomePage.getInstance().Remove();
+            if (e.getActionCommand().equals("Employees List")) {
+                HomePage.getInstance().Add(Employees.getInstance());
+            } else if (e.getActionCommand().equals("Add Customer")) {
+            }
+        };
     }
 
     private static ActionListener RevenueAction() {
