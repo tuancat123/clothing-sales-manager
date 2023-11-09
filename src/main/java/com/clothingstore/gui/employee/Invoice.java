@@ -3,30 +3,35 @@ package com.clothingstore.gui.employee;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
+import services.Authentication;
 
-import com.clothingstore.gui.components.invoiceDetail.InvoiceDetail;
+import com.clothingstore.gui.employee.invoiceDetail.InvoiceDetail;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
+import com.clothingstore.models.ProductModel;
 
 public class Invoice extends JPanel {
   private static Invoice instance;
+  List<OrderItemModel> orderItemList = new ArrayList<>();
 
   public static Invoice getInstance() {
     if (instance == null) {
-      instance = new Invoice(null);
+      instance = new Invoice();
     }
     return instance;
   }
 
-  public Invoice(List<OrderItemModel> orderItemModel) {
-    initComponents(orderItemModel);
+  public Invoice() {
+    initComponents();
     // updateCartUI(orderItemModel);
   }
 
-  private void initComponents(List<OrderItemModel> orderItemModel) {
+  private void initComponents() {
     Header = new JPanel();
     Index = new JLabel();
     None = new JLabel();
@@ -67,23 +72,19 @@ public class Invoice extends JPanel {
 
     Invoices.setBackground(new Color(255, 255, 255));
     Invoices.setLayout(new GridLayout(10, 1));
-    if (orderItemModel != null) {
-      for (OrderItemModel orderItemModels : orderItemModel) {
-        InvoiceProduct invoiceProduct = new InvoiceProduct(orderItemModels);
-        System.out.println("tao thanh cong invoice pro");
-        invoiceProduct.setVisible(true);
-        Invoices.add(invoiceProduct);
-        System.out.println("add thanh cong invoice pro");
-        Invoices.setVisible(true);
-      }
-    } else {
-      System.out.println("dang null");
-    }
+    // if (orderItemModel != null) {
+    //   for (OrderItemModel orderItemModels : orderItemModel) {
+    //     InvoiceProduct invoiceProduct = new InvoiceProduct(orderItemModels);
+    //     System.out.println("tao thanh cong invoice pro");
+    //     invoiceProduct.setVisible(true);
+    //     Invoices.add(invoiceProduct);
+    //     System.out.println("add thanh cong invoice pro");
+    //     Invoices.setVisible(true);
+    //   }
+    // } else {
+    //   System.out.println("dang null");
+    // }
 
-    // InvoiceProduct invoiceProduct = new InvoiceProduct();
-    // Invoices.add(invoiceProduct);
-    // InvoiceProduct invoiceProduct2 = new InvoiceProduct();
-    // Invoices.add(invoiceProduct2);
 
     Scroll.setViewportView(Invoices);
 
@@ -99,31 +100,31 @@ public class Invoice extends JPanel {
     Value.setForeground(new Color(255, 51, 51));
     Value.setHorizontalAlignment(SwingConstants.CENTER);
     double totalPrice = 0;
-    if (orderItemModel != null && !orderItemModel.isEmpty()) {
-      for (OrderItemModel order : orderItemModel) {
-        double amount = order.getPrice() * order.getQuantity();
-        totalPrice += amount;
-      }
-    }
+    // if (orderItemModel != null && !orderItemModel.isEmpty()) {
+    //   for (OrderItemModel order : orderItemModel) {
+    //     double amount = order.getPrice() * order.getQuantity();
+    //     totalPrice += amount;
+    //   }
+    // }
     Value.setText("" + totalPrice);
 
     ButtonCancel.setText("Hủy");
     ButtonCancel.setBackground(Color.BLUE);
-    ButtonCancel.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa toàn bộ sản phẩm khỏi giỏ hàng?",
-            "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-        if (choice == JOptionPane.YES_OPTION) {
-          System.out.println(" " + orderItemModel.size());
-          orderItemModel.clear();
-          revalidate();
-          repaint();
-        } else {
-          return;
-        }
-      }
-    });
+    // ButtonCancel.addActionListener(new ActionListener() {
+    //   @Override
+    //   public void actionPerformed(ActionEvent e) {
+    //     int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa toàn bộ sản phẩm khỏi giỏ hàng?",
+    //         "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+    //     if (choice == JOptionPane.YES_OPTION) {
+    //       System.out.println(" " + orderItemModel.size());
+    //       orderItemModel.clear();
+    //       revalidate();
+    //       repaint();
+    //     } else {
+    //       return;
+    //     }
+    //   }
+    // });
 
     ButtonCancel.setPreferredSize(new Dimension(72, 20));
 
@@ -131,13 +132,7 @@ public class Invoice extends JPanel {
     ButtonPay.setText("Thanh Toán");
     ButtonPay.setBackground(Color.BLUE);
     ButtonPay.setPreferredSize(new Dimension(72, 20));
-    ButtonPay.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        InvoiceDetail invoiceDetail = new InvoiceDetail();
-        invoiceDetail.setVisible(true);
-      }
-    });
+    ButtonPay.addActionListener(PayAction);
 
     ButtonPrint.setIcon(new ImageIcon(getClass().getResource("/config/icon/printer.png")));
 
@@ -187,4 +182,27 @@ public class Invoice extends JPanel {
   private JScrollPane Scroll;
   private JLabel TextSum;
   private JLabel Value;
+
+  public void addToCart(ProductModel productModel, int size, int quantity){
+
+    OrderItemModel orderItemModel = new OrderItemModel(0, 0, productModel.getId(), size, quantity, productModel.getPrice() * quantity);
+    orderItemList.add(orderItemModel);
+
+    InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, size,quantity);
+    Invoices.add(invoiceProduct);
+    revalidate();
+    repaint();
+  }
+
+
+  private ActionListener PayAction = new ActionListener() {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      InvoiceDetail invoiceDetail = new InvoiceDetail(orderItemList);
+      invoiceDetail.setVisible(true);
+    }
+    
+  };
+
 }

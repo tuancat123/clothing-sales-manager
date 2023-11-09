@@ -8,15 +8,17 @@ import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
 import com.clothingstore.bus.ProductBUS;
+import com.clothingstore.bus.SizeBUS;
 import com.clothingstore.models.OrderItemModel;
+import com.clothingstore.models.ProductModel;
 
 public class InvoiceProduct extends JPanel {
 
-  public InvoiceProduct(OrderItemModel orderItemModel) {
-    initComponents(orderItemModel);
+  public InvoiceProduct(ProductModel productModel, int size, int quantity) {
+    initComponents(productModel, size, quantity);
   }
 
-  private void initComponents(OrderItemModel orderItemModel) {
+  private void initComponents(ProductModel productModel, int size, int quantity) {
     Name = new JLabel();
     Size = new JLabel();
     Price = new JLabel();
@@ -29,14 +31,12 @@ public class InvoiceProduct extends JPanel {
     setBackground(new Color(179, 209, 255));
 
     Name.setFont(new Font("Segoe UI", 3, 14));
-    Name.setText("" + ProductBUS.getInstance().getModelById(orderItemModel.getProductId()).getName());
+    Name.setText("" + productModel.getName());
 
-    add(Name, new AbsoluteConstraints(32, 6, 150, 30));
+    add(Name, new AbsoluteConstraints(5, 6, 230, 30));
 
     Size.setFont(new Font("Segoe UI", 1, 14));
     Size.setForeground(Color.BLUE);
-    int size = orderItemModel.getSizeId();
-    System.out.println("size " + size);
     if (size == 1) {
       Size.setText("( S )");
     } else if (size == 2) {
@@ -50,14 +50,14 @@ public class InvoiceProduct extends JPanel {
     }
     add(Size, new AbsoluteConstraints(45, 28, 45, 30));
 
-    JSpinner spinner = new JSpinner(new SpinnerNumberModel(orderItemModel.getQuantity(), 1, null, 1));
+    JSpinner spinner = new JSpinner(new SpinnerNumberModel(quantity, 1, null, 1));
     spinner.setBackground(new Color(255, 204, 204));
     add(spinner, new AbsoluteConstraints(90, 34, 55, 20));
 
     Price.setFont(new Font("Segoe UI", 0, 15));
     Price.setForeground(new Color(255, 0, 0));
 
-    double totalPrice = orderItemModel.getPrice() * (int) spinner.getValue();
+    double totalPrice = ProductBUS.getInstance().getModelById(productModel.getId()).getPrice() * (int) spinner.getValue();
     Price.setText("" + totalPrice);
     add(Price, new AbsoluteConstraints(160, 28, 90, 28));
 

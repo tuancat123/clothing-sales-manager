@@ -17,15 +17,13 @@ import com.clothingstore.bus.ImportItemsBUS;
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.SizeBUS;
 import com.clothingstore.bus.SizeItemBUS;
+import com.clothingstore.gui.employee.Invoice;
 import com.clothingstore.models.ImportItemsModel;
-import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
 import com.clothingstore.models.SizeModel;
 import com.clothingstore.models.UserModel;
 import services.Authentication;
-
-import com.clothingstore.gui.employee.Invoice;
 
 public class ProductDetail extends JFrame {
 
@@ -34,6 +32,7 @@ public class ProductDetail extends JFrame {
   HomePage homePage = HomePage.getInstance();
   Color color = new Color(230, 240, 255);
   int selectedSizeId = -1;
+  ProductModel productModel;
 
   public ProductDetail(ProductModel productModel) {
     setAlwaysOnTop(true);
@@ -52,6 +51,7 @@ public class ProductDetail extends JFrame {
   SizeModel sizeModel = null;
 
   private void initComponents(ProductModel productModel) {
+    this.productModel = productModel;
     int selectedProductId = productModel.getId();
     List<ImportItemsModel> importItemsModels = new ArrayList<>();
     List<ProductModel> productModels = new ArrayList<>();
@@ -332,36 +332,35 @@ public class ProductDetail extends JFrame {
     getContentPane().add(ButtonExit, new AbsoluteConstraints(200, 320, -1, -1));
 
     if (currentUser.getRoleId() == 3) {
-      System.out.println(currentUser.getRoleId());
       ButtonAdd.setText("Add To Cart");
       ButtonAdd.setPreferredSize(new Dimension(94, 28));
       ButtonAdd.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          if (selectedProductId != -1 && selectedSizeId != -1) {
-            int quantity = (int) spinner.getValue();
-            OrderItemModel orderItem = new OrderItemModel();
-            orderItem.setProductId(selectedProductId);
-            orderItem.setSizeId(selectedSizeId);
-            orderItem.setQuantity(quantity);
-            List<ProductModel> productModels = ProductBUS.getInstance().searchModel(String.valueOf(selectedProductId),
-                new String[] { "id" });
-            orderItem.setPrice(productModels.get(0).getPrice());
-            // TODO: Fix trùng lặp trong giỏ hàng, đoạn code đã note dưới gây ra crash ứng dụng.
-            // if (Product.cartItems != null && !Product.cartItems.isEmpty()) {
-            // for (OrderItemModel orderItemModel : Product.cartItems) {
-            // if (selectedProductId == orderItemModel.getProductId()
-            // && selectedSizeId == orderItemModel.getSizeId()) {
-            // JOptionPane.showMessageDialog(null, "Sản phẩm này với size bạn chọn đã có
-            // trong giỏ hàng của bạn!");
-            // }
-            // }
-            // }
-            Product.cartItems.add(orderItem);
-            Invoice invoice = new Invoice(Product.cartItems);
-            homePage.add(invoice, BorderLayout.EAST);
-            homePage.setVisible(true);
-          }
+          // if (selectedProductId != -1 && selectedSizeId != -1) {
+          //   int quantity = (int) spinner.getValue();
+          //   OrderItemModel orderItem = new OrderItemModel();
+          //   orderItem.setProductId(selectedProductId);
+          //   orderItem.setSizeId(selectedSizeId);
+          //   orderItem.setQuantity(quantity);
+          //   List<ProductModel> productModels = ProductBUS.getInstance().searchModel(String.valueOf(selectedProductId),
+          //       new String[] { "id" });
+          //   orderItem.setPrice(productModels.get(0).getPrice());
+          //   // TODO: Fix trùng lặp trong giỏ hàng, đoạn code đã note dưới gây ra crash ứng dụng.
+          //   if (Product.cartItems != null && !Product.cartItems.isEmpty()) {
+          //   for (OrderItemModel orderItemModel : Product.cartItems) {
+          //   if (selectedProductId == orderItemModel.getProductId()
+          //   && selectedSizeId == orderItemModel.getSizeId()) {
+          //   JOptionPane.showMessageDialog(null, "Sản phẩm này với size bạn chọn đã có trong giỏ hàng của bạn!");
+          //   }
+          //   }
+          //   }
+          //   Product.cartItems.add(orderItem);
+          //   Invoice invoice = new Invoice(Product.cartItems);
+          //   homePage.add(invoice, BorderLayout.EAST);
+          //   homePage.setVisible(true);
+          // }
+          Invoice.getInstance().addToCart(productModel, selectedSizeId ,(int) spinner.getValue());
         }
       });
       getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 320, -1, -1));

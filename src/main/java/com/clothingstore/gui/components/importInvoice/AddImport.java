@@ -2,12 +2,11 @@ package com.clothingstore.gui.components.importInvoice;
 
 import javax.swing.*;
 
-import com.clothingstore.bus.ImportBUS;
-import com.clothingstore.bus.ImportItemsBUS;
 import com.clothingstore.bus.ProductBUS;
-import com.clothingstore.gui.components.invoiceDetail.HeaderInvoice;
+import com.clothingstore.gui.employee.invoiceDetail.HeaderInvoice;
 import com.clothingstore.models.ImportItemsModel;
 import com.clothingstore.models.ImportModel;
+import com.clothingstore.models.ProductModel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -94,6 +93,7 @@ public class AddImport extends JFrame {
 
         ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/config/icon/search.png")));
         ButtonSearch.setPreferredSize(new Dimension(25,25));
+        ButtonSearch.addActionListener(SearchProductAction);
         Panel.add(ButtonSearch);
 
         Header.add(Panel, BorderLayout.CENTER);
@@ -108,21 +108,16 @@ public class AddImport extends JFrame {
         gbc.insets.left = 15;
 
         NameProduct.setPreferredSize(new Dimension(190,25));
-        NameProduct.setText("Ao aoa oa aoa");
         Panel2.add(NameProduct, gbc);
 
         IdProduct.setPreferredSize(new Dimension(90,25));
-        IdProduct.setText("3534545454");
         Panel2.add(IdProduct, gbc);
 
-        Size.setModel(new DefaultComboBoxModel<>(new String[]{"S", "M", "L", "XL", "XXL"}));
-        Panel2.add(Size, gbc);
+        // Size.setModel(new DefaultComboBoxModel<>(new String[]{"S", "M", "L", "XL", "XXL"}));
 
         Quantity.setPreferredSize(new Dimension(50,25));
-        Panel2.add(Quantity, gbc);
 
         ButtonSave.addActionListener(SaveProductAction);
-        Panel2.add(ButtonSave, gbc);
         Header.add(Panel2,BorderLayout.SOUTH);
 
         // products
@@ -170,6 +165,15 @@ public class AddImport extends JFrame {
             revalidate();
             repaint();
             System.out.println(importList.get(0).getQuantity());
+        }
+        
+    };
+    private ActionListener SearchProductAction = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            List<ProductModel> list = ProductBUS.getInstance().searchModel(ValueSearch.getText(), new String[]{"id","name"});
+            System.out.println(list);
         }
         
     };

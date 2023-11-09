@@ -1,4 +1,4 @@
-package com.clothingstore.gui.components.invoiceDetail;
+package com.clothingstore.gui.employee.invoiceDetail;
 
 import java.awt.*;
 import javax.swing.*;

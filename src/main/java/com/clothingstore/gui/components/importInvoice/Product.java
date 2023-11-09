@@ -7,7 +7,6 @@ import javax.swing.event.ChangeListener;
 import org.netbeans.lib.awtextra.*;
 
 import com.clothingstore.models.ImportItemsModel;
-import com.clothingstore.models.ProductModel;
 
 
 import java.awt.*;

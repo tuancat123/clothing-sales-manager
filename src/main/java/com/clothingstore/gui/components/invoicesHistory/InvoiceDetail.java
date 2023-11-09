@@ -6,7 +6,7 @@ import com.clothingstore.bus.CustomerBUS;
 import com.clothingstore.bus.OrderItemBUS;
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.gui.components.InvoiceProduct;
-import com.clothingstore.gui.components.invoiceDetail.HeaderInvoice;
+import com.clothingstore.gui.employee.invoiceDetail.HeaderInvoice;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
 import java.awt.*;

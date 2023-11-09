@@ -125,7 +125,7 @@ public class CustomerBUS implements IBUS<CustomerModel> {
           }
         }
         case "phone" -> {
-          if (value.contains(CustomerModel.getPhone())) {
+          if (value.equals(CustomerModel.getPhone())) {
             return true;
           }
         }
@@ -154,7 +154,7 @@ public class CustomerBUS implements IBUS<CustomerModel> {
   @Override
   public List<CustomerModel> searchModel(String value, String[] columns) {
     List<CustomerModel> results = new ArrayList<>();
-    List<CustomerModel> entities = CustomerBUS.getInstance().searchModel(value, columns);
+    List<CustomerModel> entities = CustomerDAO.getInstance().search(value, columns);
     for (CustomerModel entity : entities) {
       CustomerModel model = mapToEntity(entity);
       if (checkFilter(model, value, columns)) {
