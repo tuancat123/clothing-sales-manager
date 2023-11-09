@@ -11,6 +11,7 @@ import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.components.customerList.CustomerList;
 import com.clothingstore.gui.components.customerList.Customers;
 import com.clothingstore.gui.components.importInvoice.AddImport;
+import com.clothingstore.gui.components.importInvoice.AddNewImport;
 import com.clothingstore.gui.components.importInvoice.ImportHistory;
 import com.clothingstore.gui.components.invoicesHistory.HistoryList;
 import com.clothingstore.gui.components.invoicesHistory.InvoiceHistory;
@@ -204,8 +205,7 @@ public class MenuData {
             if (e.getActionCommand().equals("Import Management")) {
                 homePage.Add(ImportHistory.getInstance());
             } else if (e.getActionCommand().equals("Add Import")) {
-                AddImport addImport = new AddImport();
-                addImport.setVisible(true);
+                homePage.Add(AddNewImport.getInstance());
             }
 
         };
