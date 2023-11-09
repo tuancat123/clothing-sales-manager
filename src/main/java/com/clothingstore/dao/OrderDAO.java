@@ -48,7 +48,8 @@ public class OrderDAO implements IDAO<OrderModel> {
 
   @Override
   public int insert(OrderModel orderModel) {
-    String insertSql = "INSERT INTO orders (customer_id, user_id, order_date, total_amount) VALUES (?, ?, ?, ?)";
+    String insertSql = "INSERT INTO orders (customer_id, user_id, order_date, total_amount)"+
+    "VALUES (?, ?, ?, ?)";
     Object[] args = {
         orderModel.getCustomerId(),
         orderModel.getUserId(),

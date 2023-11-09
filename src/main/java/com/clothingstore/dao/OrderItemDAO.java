@@ -49,7 +49,7 @@ public class OrderItemDAO implements IDAO<OrderItemModel> {
 
   @Override
   public int insert(OrderItemModel orderItem) {
-    String insertSql = "INSERT INTO order_items (order_id, product_id, size_id, quantity, price) VALUES (?, ?, ? ,? ?, ?)";
+    String insertSql = "INSERT INTO order_items (order_id, product_id, size_id, quantity, price) VALUES (?, ?, ?, ?, ?)";
     Object[] args = {
         orderItem.getOrderId(),
         orderItem.getProductId(),

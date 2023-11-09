@@ -96,7 +96,6 @@ public class InvoiceDetail extends JFrame {
     Products.setBackground(new Color(255, 255, 255));
     Products.setLayout(new GridLayout(0, 1));
     orderItemModel.addAll(com.clothingstore.gui.components.Product.cartItems);
-    System.out.println("" + orderItemModel.size());
 
     for (OrderItemModel orderItemModel : orderItemModel) {
       double amount = orderItemModel.getPrice() * orderItemModel.getQuantity();
@@ -232,7 +231,8 @@ public class InvoiceDetail extends JFrame {
       public void actionPerformed(ActionEvent e) {
         boolean isCashSelected = CashCheckBox.isSelected();
         boolean isCreditSelected = CreditCheckBox.isSelected();
-        //boolean isRegularcustomer = RegularCus.isSelected();
+        boolean isRegularcustomer = RegularCus.isSelected();
+        boolean isWalkinCustomer = WalkInCus.isSelected();
 
         if (isCashSelected) {
           double change = 0;
@@ -244,19 +244,27 @@ public class InvoiceDetail extends JFrame {
           if (change >= 0) {
             JOptionPane.showMessageDialog(null, "Thanh toán thành công và số tiền cần phải thối là " + change + " đ");
             OrderModel orderModel = new OrderModel();
-            //TODO: Stackoverflow error
-            // if (isRegularcustomer) {
-            //   revalidate();
-            //   java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()),
-            //       new String[] { "phone" });
-            //   orderModel.setCustomerId(customerModel.get(0).getId());
-            // }
-            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            if (isRegularcustomer) {
+              revalidate();
+              java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()),
+                  new String[] { "phone" });
+              orderModel.setCustomerId(customerModel.get(0).getId());
+            } else if (isWalkinCustomer) {
+              CustomerModel customerModel = new CustomerModel();
+              customerModel.setId(0);
+              customerModel.setCustomerName("Guest");
+              customerModel.setPhone("0912345678");
+              CustomerBUS.getInstance().addModel(customerModel);
+              orderModel.setCustomerId(customerModel.getId());
+            }
             orderModel.setUserId(Authentication.getCurrentUser().getId());
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             orderModel.setOrderDate(currentTime);
             orderModel.setTotalPrice(totalInvoice);
             OrderBUS.getInstance().addModel(orderModel);
+            //TODO: Fix lỗi ràng buộc khóa sau 1 lần lặp.
             for (OrderItemModel orderItemModel : orderItemModel) {
+              orderItemModel.setOrderId(orderModel.getId());
               ProductModel productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
               List<SizeItemModel> sizeItemModels = SizeItemBUS.getInstance().searchModel(String.valueOf(productModel.getId()), new String[] {"product_id"});
               for (SizeItemModel sizeItemModel : sizeItemModels) {
