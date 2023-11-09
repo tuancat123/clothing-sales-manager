@@ -241,7 +241,6 @@ public class InvoiceDetail extends JFrame {
           if (change >= 0) {
             JOptionPane.showMessageDialog(null, "Thanh toán thành công và số tiền cần phải thối là " + change + " đ");
             OrderModel orderModel = new OrderModel();
-            //TODO: Stackoverflow error
             // if (isRegularcustomer) {
             //   revalidate();
             //   java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()),
