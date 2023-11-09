@@ -1,24 +1,37 @@
 package com.clothingstore.gui.components.customerList;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
+import com.clothingstore.models.CustomerModel;
 
 public class Customer extends JPanel {
 
-  public Customer() {
-    initComponents();
+  public Customer(CustomerModel customerModel) {
+    initComponents(customerModel);
+    this.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+          CustomerDetail customerDetail = new CustomerDetail(customerModel);
+          Customers.getInstance().Remove();
+          Customers.getInstance().add(customerDetail, BorderLayout.CENTER);
+          Customers.getInstance().revalidate();
+          Customers.getInstance().repaint(); 
+      }
+  });
   }
 
-  private void initComponents() {
+  private void initComponents(CustomerModel customerModel) {
 
     Icon = new JLabel();
     Detail = new JPanel();
     Panel = new JPanel();
     Name = new JLabel();
     Id = new JLabel();
-    Time = new JPanel();
-    Date = new JLabel();
-    TimeHour = new JLabel();
+    PhonePanel = new JPanel();
+    Phone = new JLabel();
 
     Color color = new Color(204, 224, 255);
 
@@ -39,13 +52,13 @@ public class Customer extends JPanel {
     Panel.setBackground(color);
 
     Name.setHorizontalAlignment(SwingConstants.CENTER);
-    Name.setText("Bành Văn A");
+    Name.setText(customerModel.getCustomerName());
     Name.setFont(new Font("Segoe UI", 0, 14));
     Name.setForeground(Color.RED);
     Panel.add(Name);
 
     Id.setHorizontalAlignment(SwingConstants.CENTER);
-    Id.setText("64747374");
+    Id.setText(""+customerModel.getId());
     Id.setForeground(new Color(0, 128, 0));
     Panel.add(Id);
 
@@ -53,30 +66,23 @@ public class Customer extends JPanel {
 
     add(Detail, BorderLayout.CENTER);
 
-    Time.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-    Time.setLayout(new GridLayout(2, 1));
-    Time.setBackground(color);
+    PhonePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    PhonePanel.setLayout(new GridLayout(2, 1));
+    PhonePanel.setBackground(color);
 
-    Date.setText("05/10/2022");
-    Date.setFont(new Font("Segoe UI", 0, 13));
-    Date.setForeground(new Color(102, 0, 51));
-    Time.add(Date);
+    Phone.setText(""+customerModel.getPhone());
+    Phone.setFont(new Font("Segoe UI", 0, 13));
+    Phone.setForeground(new Color(102, 0, 51));
+    PhonePanel.add(Phone);
 
-    TimeHour.setHorizontalAlignment(SwingConstants.CENTER);
-    TimeHour.setText("16h30");
-    TimeHour.setForeground(new Color(0, 0, 102));
-    TimeHour.setFont(new Font("Segoe UI", 0, 12));
-    Time.add(TimeHour);
-
-    add(Time, BorderLayout.EAST);
+    add(PhonePanel, BorderLayout.EAST);
   }
 
-  private JLabel Date;
+  private JLabel Phone;
   private JPanel Detail;
   private JLabel Icon;
   private JLabel Id;
   private JPanel Panel;
   private JLabel Name;
-  private JPanel Time;
-  private JLabel TimeHour;
+  private JPanel PhonePanel;
 }
