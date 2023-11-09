@@ -394,7 +394,7 @@ public class ImportItemProduct extends JPanel {
         }
 
         private boolean isNumeric(String text) {
-            return Pattern.matches("[1-9]\\d*", text);
+            return Pattern.matches("[0-9]\\d*", text);
         }
 
     }
