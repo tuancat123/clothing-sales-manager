@@ -2,6 +2,11 @@ package com.clothingstore.gui.components.customerList;
 
 import javax.swing.*;
 
+import com.clothingstore.bus.OrderBUS;
+import com.clothingstore.bus.PointBUS;
+import com.clothingstore.models.CustomerModel;
+import com.clothingstore.models.PointModel;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -10,17 +15,13 @@ public class CustomerDetail extends JPanel {
 
     private String name;
     private String value;
+    CustomerModel customerModel;
+    PointModel pointModel;
 
-    private static CustomerDetail instance;
-
-    public static CustomerDetail getInstance() {
-        if (instance == null) {
-            instance = new CustomerDetail();
-        }
-        return instance;
-    }
-
-    public CustomerDetail(){
+    public CustomerDetail(CustomerModel customerModel){
+        this.customerModel= customerModel;
+        // lỗi logic data base
+        // this.pointModel = PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).get(0);
         initComponents();
     }
     
@@ -29,16 +30,15 @@ public class CustomerDetail extends JPanel {
         this.value = value;
     }
 
-    public static ArrayList<CustomerDetail> getData() {
+    public  ArrayList<CustomerDetail> getData() {
         ArrayList<CustomerDetail> data = new ArrayList<CustomerDetail>() {{
-            add(new CustomerDetail("Invoice Id", "0936622"));
-            add(new CustomerDetail("Customer Name", "Huỳnh Ngọc Triều"));
-            add(new CustomerDetail("Phone", "0123456789"));
-            add(new CustomerDetail("Email", "null"));
-            add(new CustomerDetail("Create Date", "30/3/2012"));
-            add(new CustomerDetail("Point Earned", "36622"));
-            add(new CustomerDetail("Point Used", "322"));
-            add(new CustomerDetail("Invoice Quantity", "2"));
+            add(new CustomerDetail("Invoice Id",String.valueOf(customerModel.getId())));
+            add(new CustomerDetail("Customer Name", customerModel.getCustomerName()));
+            add(new CustomerDetail("Phone", customerModel.getPhone()));
+            add(new CustomerDetail("Email",customerModel.getEmail() ));
+            add(new CustomerDetail("Point Earned", String.valueOf(4)));
+            add(new CustomerDetail("Point Used", String.valueOf(5)));
+            add(new CustomerDetail("Invoice Quantity", String.valueOf(OrderBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).size())));
         }};
         return data;
     }

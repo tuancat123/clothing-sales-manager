@@ -2,7 +2,14 @@ package com.clothingstore.gui.components.customerList;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.swing.*;
+
+import com.clothingstore.bus.CustomerBUS;
+import com.clothingstore.models.CustomerModel;
 
 public class CustomerList extends JPanel {
 
@@ -95,8 +102,11 @@ public class CustomerList extends JPanel {
 
         Customers.setLayout(new GridLayout(0, 1));
         Customers.setBackground(color);
-        for (int i = 0; i < 10; i++) {
-            Customer customer = new Customer();
+        
+        List<CustomerModel> customerList = new ArrayList<>(CustomerBUS.getInstance().getAllModels());        
+        Collections.reverse(customerList);
+        for (CustomerModel customerModel : customerList) {
+            Customer customer = new Customer(customerModel);
             Customers.add(customer);
         }
 

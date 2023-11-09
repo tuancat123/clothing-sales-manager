@@ -27,7 +27,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.util.List;
 
-public class Employees extends JFrame {
+public class Employees extends JPanel {
     private static Employees instance;
     private JTextField textField;
     private JPanel employeePanel;
@@ -55,17 +55,6 @@ public class Employees extends JFrame {
         return instance;
     }
 
-     public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                Employees frame = new Employees();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
     private JButton btnSearch;
 
     public Employees(){
@@ -85,10 +74,6 @@ public class Employees extends JFrame {
 
         employeePanel.setLayout(new BorderLayout());
         add(employeePanel, BorderLayout.CENTER);
-
-        ArrayList<MenuData> data = MenuData.getDataAdmin();
-        Menu.getInstance(data).setPreferredSize(new Dimension(150,150));
-        add(Menu.getInstance(data), BorderLayout.WEST);
 
         topPanel = new JPanel();
         topPanel.setPreferredSize(new Dimension(1000, 120));
