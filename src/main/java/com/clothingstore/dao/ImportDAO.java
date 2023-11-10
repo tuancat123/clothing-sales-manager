@@ -96,13 +96,13 @@ public class ImportDAO implements IDAO<ImportModel> {
 
     String query;
     if (columnNames == null || columnNames.length == 0) {
-      query = "SELECT * FROM imports WHERE CONCAT(id, import_date, total_price) LIKE ?";
+      query = "SELECT * FROM imports WHERE CONCAT(id, user_id, import_date, total_price) LIKE ?";
     } else if (columnNames.length == 1) {
       String column = columnNames[0];
       query = "SELECT * FROM imports WHERE " + column + " LIKE ?";
     } else {
       String columns = String.join(",", columnNames);
-      query = "SELECT id, import_date, total_price FROM imports WHERE CONCAT(" + columns + ") LIKE ?";
+      query = "SELECT id, user_id, import_date, total_price FROM imports WHERE CONCAT(" + columns + ") LIKE ?";
     }
 
     try (PreparedStatement pst = DatabaseConnection.getPreparedStatement(query, "%" + condition + "%")) {
