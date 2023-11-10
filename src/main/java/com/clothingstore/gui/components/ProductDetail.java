@@ -98,6 +98,7 @@ public class ProductDetail extends JFrame {
     ButtonAdd = new JButton();
     buttonDiscontinued = new JButton();
     Remaining = new JLabel();
+    spinner= new JSpinner();
 
     ImagePanel.setLayout(new GridBagLayout());
 
@@ -188,7 +189,7 @@ public class ProductDetail extends JFrame {
     DescribeText.setText("Describe:");
     getContentPane().add(DescribeText, new AbsoluteConstraints(240, 160, 60, 20));
 
-    JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
+    spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
     spinner.setBackground(new Color(255, 204, 204));
     getContentPane().add(spinner, new AbsoluteConstraints(320, 240, 60, 20));
 
@@ -334,35 +335,7 @@ public class ProductDetail extends JFrame {
     if (currentUser.getRoleId() == 3) {
       ButtonAdd.setText("Add To Cart");
       ButtonAdd.setPreferredSize(new Dimension(94, 28));
-      ButtonAdd.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          // if (selectedProductId != -1 && selectedSizeId != -1) {
-          //   int quantity = (int) spinner.getValue();
-          //   OrderItemModel orderItem = new OrderItemModel();
-          //   orderItem.setProductId(selectedProductId);
-          //   orderItem.setSizeId(selectedSizeId);
-          //   orderItem.setQuantity(quantity);
-          //   List<ProductModel> productModels = ProductBUS.getInstance().searchModel(String.valueOf(selectedProductId),
-          //       new String[] { "id" });
-          //   orderItem.setPrice(productModels.get(0).getPrice());
-          //   // TODO: Fix trùng lặp trong giỏ hàng, đoạn code đã note dưới gây ra crash ứng dụng.
-          //   if (Product.cartItems != null && !Product.cartItems.isEmpty()) {
-          //   for (OrderItemModel orderItemModel : Product.cartItems) {
-          //   if (selectedProductId == orderItemModel.getProductId()
-          //   && selectedSizeId == orderItemModel.getSizeId()) {
-          //   JOptionPane.showMessageDialog(null, "Sản phẩm này với size bạn chọn đã có trong giỏ hàng của bạn!");
-          //   }
-          //   }
-          //   }
-          //   Product.cartItems.add(orderItem);
-          //   Invoice invoice = new Invoice(Product.cartItems);
-          //   homePage.add(invoice, BorderLayout.EAST);
-          //   homePage.setVisible(true);
-          // }
-          Invoice.getInstance().addToCart(productModel, selectedSizeId ,(int) spinner.getValue());
-        }
-      });
+      ButtonAdd.addActionListener(AddToCartAction);
       getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 320, -1, -1));
     } else {
       if (productModel.getStatus() != 0) {
@@ -414,4 +387,14 @@ public class ProductDetail extends JFrame {
   private JLabel Remaining;
   private JScrollPane Scroll;
   private JPanel SizePanel;
+  private JSpinner spinner;
+
+  private ActionListener AddToCartAction= new ActionListener() {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      //đưa dữ liệu sản phẩm số lượng và size qua invoice
+      Invoice.getInstance().addToCart(productModel, selectedSizeId ,(int) spinner.getValue());
+    }
+  };
 }

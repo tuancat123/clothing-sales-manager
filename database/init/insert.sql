@@ -1257,6 +1257,7 @@ VALUES (1, 1, 1, 50, 300000),
        (9, 168, 5, 50, 250000),
        (9, 169, 5, 50, 250000);
 INSERT INTO `customers` (`name`, `phone`, `email`) VALUES
+('Walk in customer', '0000000000', 'null@gmail.com'),
 ('Nguyen Van A', '0987654321', '111@gmail.com'),
 ('Nguyen Thi B', '0987654322', '222@gmail.com'),
 ('Pham Van C', '0987654323', '333@gmail.com'),

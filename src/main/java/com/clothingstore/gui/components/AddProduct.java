@@ -313,12 +313,10 @@ public class AddProduct extends JFrame {
       }
 
       @Override
-      public void removeUpdate(DocumentEvent e) {
-      }
+      public void removeUpdate(DocumentEvent e) {}
 
       @Override
-      public void changedUpdate(DocumentEvent e) {
-      }
+      public void changedUpdate(DocumentEvent e) {}
     };
   }
 

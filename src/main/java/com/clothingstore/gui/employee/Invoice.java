@@ -146,12 +146,13 @@ public class Invoice extends JPanel {
   private double totalPrice;
 
   public void addToCart(ProductModel productModel, int size, int quantity) {
-
-    OrderItemModel orderItemModel = new OrderItemModel(0, 0, productModel.getId(), size, quantity,
+    //tạo các orderitem với id 0 nhưng không tạo order
+    OrderItemModel orderItemModel = new OrderItemModel(0, 1, productModel.getId(), size, quantity,
         productModel.getPrice() * quantity);
     orderItemList.add(orderItemModel);
     totalPrice += productModel.getPrice() * quantity;
     Value.setText(totalPrice + "");
+    // thực hiện hiện UI
     InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, size, quantity);
     Invoices.add(invoiceProduct);
     revalidate();
@@ -162,6 +163,7 @@ public class Invoice extends JPanel {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+      //đưa orderitem list vào invoice detail
       InvoiceDetail invoiceDetail = new InvoiceDetail(orderItemList);
       invoiceDetail.setVisible(true);
     }

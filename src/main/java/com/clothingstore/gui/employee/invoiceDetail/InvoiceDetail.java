@@ -15,6 +15,7 @@ import org.netbeans.lib.awtextra.*;
 import com.clothingstore.bus.CustomerBUS;
 import com.clothingstore.bus.OrderBUS;
 import com.clothingstore.bus.OrderItemBUS;
+import com.clothingstore.bus.PaymentBUS;
 import com.clothingstore.bus.PointBUS;
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.SizeItemBUS;
@@ -22,6 +23,8 @@ import com.clothingstore.gui.components.InvoiceProduct;
 import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
+import com.clothingstore.models.PaymentModel;
+import com.clothingstore.models.PointModel;
 import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
 
@@ -238,36 +241,49 @@ public class InvoiceDetail extends JFrame {
     ButtonPay.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        boolean isCashSelected = CashCheckBox.isSelected();
-        boolean isCreditSelected = CreditCheckBox.isSelected();
         boolean isRegularCustomer = RegularCus.isSelected();
-        if (isCashSelected) {
           if (change >= 0) {
             JOptionPane.showMessageDialog(null, "Thanh toán thành công");
-            OrderModel orderModel = new OrderModel();
+            int idCustomer = 1;
+            //check customer có lưu thông tin hay không
             if (isRegularCustomer) {
               java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(
-                  String.valueOf(Phone.getText()),
-                  new String[] { "phone" });
-              orderModel.setCustomerId(customerModel.get(0).getId());
-            }
+                String.valueOf(Phone.getText()),
+                new String[] { "phone" });
+                idCustomer = customerModel.get(0).getId();
+              }
+            // create order model
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            orderModel.setUserId(Authentication.getCurrentUser().getId());
-            orderModel.setOrderDate(currentTime);
-            orderModel.setTotalPrice(0);
+            OrderModel orderModel = new OrderModel(0, idCustomer,Authentication.getCurrentUser().getId(),currentTime, totalInvoice);
             OrderBUS.getInstance().addModel(orderModel);
-            for (OrderItemModel orderItemModel : orderItemModel) {
+            OrderBUS.getInstance().refreshData();
+
+            for (OrderItemModel orderItemModel : orderList) {
               ProductModel productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
               List<SizeItemModel> sizeItemModels = SizeItemBUS.getInstance()
                   .searchModel(String.valueOf(productModel.getId()), new String[] { "product_id" });
               for (SizeItemModel sizeItemModel : sizeItemModels) {
+                //update quantity size
                 if (orderItemModel.getSizeId() == sizeItemModel.getSizeId()) {
                   sizeItemModel.setQuantity(sizeItemModel.getQuantity() - orderItemModel.getQuantity());
                   SizeItemBUS.getInstance().updateModel(sizeItemModel);
                   break;
                 }
               }
+              int idOrder = OrderBUS.getInstance().getAllModels().get(OrderBUS.getInstance().getAllModels().size()-1).getId();
+              //create payment method for order
+              int idPayment = 1;
+              if(CashCheckBox.isSelected())
+                idPayment = 2;
+              PaymentModel paymentModel = new PaymentModel(0, idOrder, idPayment, currentTime, totalInvoice);
+              PaymentBUS.getInstance().addModel(paymentModel);
+              // update id order for orderitem
+              orderItemModel.setOrderId(idOrder);
               OrderItemBUS.getInstance().addModel(orderItemModel);
+              //update point for customer
+              PointModel pointModel = PointBUS.getInstance().searchModel(String.valueOf(idCustomer), new String[] {"customer_id"}).get(0);
+              pointModel.setPointsEarned(pointModel.getPointsEarned() + (int)totalInvoice/100);
+              PointBUS.getInstance().updateModel(pointModel);
             }
             int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xuất hóa đơn không?");
             if (choice == JOptionPane.YES_OPTION) {
@@ -291,7 +307,6 @@ public class InvoiceDetail extends JFrame {
             JOptionPane.showMessageDialog(null, "Số tiền khách trả ít hơn số tiền ở hóa đơn. Vui lòng kiểm tra lại.");
             return;
           }
-        }
       }
     });
 
