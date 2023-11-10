@@ -3,20 +3,14 @@ package com.clothingstore.gui.components.importInvoice;
 import javax.swing.*;
 
 import com.clothingstore.bus.ImportBUS;
-import com.clothingstore.bus.ImportItemsBUS;
 import com.clothingstore.bus.ProductBUS;
-import com.clothingstore.dao.ProductDAO;
 import com.clothingstore.models.ImportItemsModel;
 import com.clothingstore.models.ImportModel;
 import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
-import com.toedter.calendar.JDateChooser;
 
 import java.awt.*;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class AddNewImport extends JPanel {
 
@@ -35,8 +29,6 @@ public class AddNewImport extends JPanel {
     private JLabel idProductLabel;
     private JTextField idProductTextField;
     private JTextField idTextField;
-    private JLabel importDateLabel;
-    private JDateChooser importDateChooser;
 
     private JButton newImportButton;
     private JScrollPane listImportItemScrollPane;
@@ -73,20 +65,11 @@ public class AddNewImport extends JPanel {
             totalPrice += importItemModel.getPrice() * importItemModel.getQuantity();
         }
 
-        Date selectedDate = importDateChooser.getDate();
-
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(selectedDate.toInstant(), ZoneId.systemDefault());
-
-        importModel = new ImportModel(0, Integer.parseInt(idEmpTextField.getText()), localDateTime, totalPrice);
-        // importModel.setUserId(Integer.parseInt(idEmpTextField.getText()));
-        // importModel.setTotalPrice(totalPrice);
-        // importModel.setImportDate(localDateTime);
-
-        int importId = ImportBUS.getInstance().addModel(importModel);
+        importModel = new ImportModel(0, Integer.parseInt(idEmpTextField.getText()), null, totalPrice);
+        ImportBUS.getInstance().addModel(importModel);
         ImportBUS.getInstance().refreshData();
-        System.out.println(importId);
         java.util.List<ImportModel> importList = ImportBUS.getInstance().getAllModels();
-        ImportModel importModel = importList.get(importList.size()-1);
+        ImportModel importModel = importList.get(importList.size() - 1);
         System.out.println(importModel.getId());
     }
 
@@ -135,8 +118,6 @@ public class AddNewImport extends JPanel {
         idTextField = new JTextField();
         idEmpLabel = new JLabel();
         idEmpTextField = new JTextField();
-        importDateLabel = new JLabel();
-        importDateChooser = new JDateChooser();
         footerPanel = new JPanel();
         footerTopPanel = new JPanel();
         idProductLabel = new JLabel();
@@ -190,17 +171,6 @@ public class AddNewImport extends JPanel {
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         contentPanel.add(idEmpTextField, gbc);
-
-        importDateLabel.setText("Import date");
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        contentPanel.add(importDateLabel, gbc);
-
-        importDateChooser = new JDateChooser();
-        importDateChooser.setPreferredSize(new Dimension(125, 20));
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        contentPanel.add(importDateChooser, gbc);
 
         add(contentPanel, BorderLayout.CENTER);
 

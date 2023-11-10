@@ -46,10 +46,9 @@ public class ImportDAO implements IDAO<ImportModel> {
 
   @Override
   public int insert(ImportModel importModel) {
-    String insertSql = "INSERT INTO imports (user_id, import_date, total_price) VALUES (?, ?, ?)";
+    String insertSql = "INSERT INTO imports (user_id, import_date, total_price) VALUES (?, CURRENT_TIMESTAMP, ?)";
     Object[] args = {
         importModel.getUserId(),
-        importModel.getImportDate(),
         importModel.getTotalPrice()
     };
     try {

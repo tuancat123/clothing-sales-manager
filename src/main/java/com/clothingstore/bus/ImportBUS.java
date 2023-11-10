@@ -61,7 +61,7 @@ public class ImportBUS implements IBUS<ImportModel> {
     @Override
     public int addModel(ImportModel model) {
         if (model == null ||
-                model.getImportDate() == null ||
+                // model.getImportDate() == null ||
                 model.getTotalPrice() <= 0) {
             throw new IllegalArgumentException(
                     "There may be errors in required fields, please check your input and try again.");
