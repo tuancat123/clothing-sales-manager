@@ -136,9 +136,12 @@ public class InvoiceDetail extends JFrame {
     Phone.addFocusListener(LostFocusPhone);
     Phone.setHorizontalAlignment(JTextField.RIGHT);
 
+    Name.addFocusListener(nameFocusListener);
+
     UsePoint.setFont(new Font("Segoe UI", 0, 14));
     UsePoint.setHorizontalAlignment(JTextField.RIGHT);
     UsePoint.addFocusListener(LostFocusUsePoint);
+    UsePoint.setEditable(false);
     Slogan.setFont(new Font("Segoe UI", 2, 13));
 
     Buttons.setBorder(BorderFactory.createEtchedBorder());
@@ -182,19 +185,18 @@ public class InvoiceDetail extends JFrame {
 
     Total.setFont(new Font("Segoe UI", 0, 15));
     Total.setForeground(new Color(255, 51, 51));
-    //TODO: Fix this shit.
-    //finalPrice = totalInvoice - Double.parseDouble(UsePoint.getText());
-    Total.setText("" + finalPrice);
+    Total.setEditable(false);
 
     TotalInvoice.setFont(new Font("Segoe UI", 0, 14));
     for (OrderItemModel orderItemModel : orderList) {
       totalInvoice = totalInvoice + orderItemModel.getPrice() * orderItemModel.getQuantity();
     }
     TotalInvoice.setText("" + String.valueOf(totalInvoice));
+    TotalInvoice.setEditable(false);
 
     Discount.setFont(new Font("Segoe UI", 0, 14));
     Discount.setForeground(new Color(153, 0, 51));
-    Discount.setText("3000");
+    Discount.setText("");
 
     CashCheckBox.setFont(new Font("Segoe UI", 1, 15));
     CashCheckBox.setForeground(new Color(0, 102, 102));
@@ -225,6 +227,14 @@ public class InvoiceDetail extends JFrame {
     Change.setForeground(new Color(255, 51, 255));
     Change.setEditable(false);
 
+    if (!Discount.getText().isBlank() || !Discount.getText().isEmpty()) {
+      finalPrice = totalInvoice - Double.parseDouble(Discount.getText());
+      Total.setText("" + finalPrice);
+    } else {
+      finalPrice = totalInvoice;
+      Total.setText("" + finalPrice);
+    }
+    //TODO: fix can't add into order table/order_items table
     ButtonPay.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -426,19 +436,20 @@ public class InvoiceDetail extends JFrame {
 
     @Override
     public void focusLost(FocusEvent e) {
+      revalidate();
+      repaint();
       boolean isPointCheckboxSelected = Point.isSelected();
-      List<CustomerModel> customerList = CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()),
-          new String[] { "phone" });
-      if (customerList != null) {
+      List<CustomerModel> customerList = new ArrayList<>();
+      customerList
+          .addAll(CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()), new String[] { "phone" }));
+      if (customerList != null && !customerList.isEmpty()) {
         CustomerModel customerModel = customerList.get(0);
         Name.setText(customerModel.getCustomerName());
-        // System.out.println(PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()),
-        // new String[]{"customer_id"}));
         Point.setText(
             PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" })
                 .get(0).getPointsEarned() + " Point");
         if (isPointCheckboxSelected) {
-          UsePoint.setText("" + PointBUS.getInstance()
+          Discount.setText("" + PointBUS.getInstance()
               .searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" })
               .get(0).getPointsEarned());
         }
@@ -446,8 +457,8 @@ public class InvoiceDetail extends JFrame {
         repaint();
       }
     }
-
   };
+
   public FocusListener LostFocusCustomerPay = new FocusListener() {
     @Override
     public void focusGained(FocusEvent e) {
@@ -463,7 +474,7 @@ public class InvoiceDetail extends JFrame {
       }
     }
   };
-  //TODO: Not done yet
+  // TODO: Not done yet
   public FocusListener LostFocusUsePoint = new FocusListener() {
     @Override
     public void focusGained(FocusEvent e) {
@@ -471,13 +482,48 @@ public class InvoiceDetail extends JFrame {
 
     @Override
     public void focusLost(FocusEvent e) {
-      if (!UsePoint.getText().isEmpty() && !UsePoint.getText().isBlank()) {
-        if (Double.parseDouble(UsePoint.getText()) > Double.parseDouble(PointText.getText())) {
+      if (!Discount.getText().isEmpty() && !Discount.getText().isBlank()) {
+        String point = Point.getText();
+        String[] words = point.split(" ");
+        if (Double.parseDouble(Discount.getText()) > Double.parseDouble(words[0])) {
           JOptionPane.showMessageDialog(null,
               "Điểm tích lũy bạn vừa nhập không thể lớn hơn điểm tích lũy của khách hàng.");
-          UsePoint.setText("0");
+          Discount.setText("0");
         }
       }
     }
   };
+
+  public FocusListener nameFocusListener = new FocusListener() {
+
+    @Override
+    public void focusGained(FocusEvent e) {
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+      revalidate();
+      repaint();
+      List<CustomerModel> customerList = new ArrayList<>();
+      customerList
+          .addAll(CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()), new String[] { "phone" }));
+      if (customerList == null || customerList.isEmpty()) {
+        int choice = JOptionPane.showConfirmDialog(null,
+            "Số điện thoại không tìm thấy. Bạn có muốn thêm vào khách hàng mới không?");
+        if (choice == JOptionPane.YES_OPTION) {
+          CustomerModel customerModel = new CustomerModel(0, Name.getText(), Phone.getText(), null);
+          CustomerBUS.getInstance().addModel(customerModel);
+          JOptionPane.showMessageDialog(null, "Đã thêm 1 khách hàng mới thành công.");
+          revalidate();
+          repaint();
+        } else if (choice == JOptionPane.NO_OPTION) {
+          RegularCus.setSelected(false);
+          UsePoint.setVisible(false);
+          CustomerInfo.setVisible(false);
+          Slogan.setVisible(true);
+        }
+      }
+    }
+  };
+
 }
