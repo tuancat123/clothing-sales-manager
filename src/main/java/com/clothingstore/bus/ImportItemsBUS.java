@@ -62,19 +62,35 @@ public class ImportItemsBUS implements IBUS<ImportItemsModel> {
 
   @Override
   public int addModel(ImportItemsModel model) {
-    if (model == null ||
-        model.getImport_id() <= 0 ||
-        model.getProduct_id() <= 0 ||
-        model.getSize_id() <= 0 ||
-        model.getQuantity() <= 0 ||
-        model.getPrice() <= 0) {
-      throw new IllegalArgumentException(
-          "There may be errors in required fields, please check your input and try again.");
-    }
-    int id = ImportItemsDAO.getInstance().insert(mapToEntity(model));
-    importItemsList.add(model);
-    return id;
+      if (model == null) {
+          throw new IllegalArgumentException("Input model is null.");
+      }
+  
+      if (model.getImport_id() <= 0) {
+          throw new IllegalArgumentException("Import ID must be greater than 0.");
+      }
+  
+      if (model.getProduct_id() <= 0) {
+          throw new IllegalArgumentException("Product ID must be greater than 0.");
+      }
+  
+      if (model.getSize_id() <= 0) {
+          throw new IllegalArgumentException("Size ID must be greater than 0.");
+      }
+  
+      if (model.getQuantity() <= 0) {
+          throw new IllegalArgumentException("Quantity must be greater than 0.");
+      }
+  
+      if (model.getPrice() <= 0) {
+          throw new IllegalArgumentException("Price must be greater than 0.");
+      }
+  
+      int id = ImportItemsDAO.getInstance().insert(mapToEntity(model));
+      importItemsList.add(model);
+      return id;
   }
+  
 
   @Override
   public int updateModel(ImportItemsModel model) {

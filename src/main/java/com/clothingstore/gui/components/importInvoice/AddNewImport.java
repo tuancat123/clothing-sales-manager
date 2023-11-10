@@ -3,7 +3,9 @@ package com.clothingstore.gui.components.importInvoice;
 import javax.swing.*;
 
 import com.clothingstore.bus.ImportBUS;
+import com.clothingstore.bus.ImportItemsBUS;
 import com.clothingstore.bus.ProductBUS;
+import com.clothingstore.bus.SizeItemBUS;
 import com.clothingstore.models.ImportItemsModel;
 import com.clothingstore.models.ImportModel;
 import com.clothingstore.models.ProductModel;
@@ -25,10 +27,8 @@ public class AddNewImport extends JPanel {
     private JPanel headerPanel;
     private JLabel idEmpLabel;
     private JTextField idEmpTextField;
-    private JLabel idLabel;
     private JLabel idProductLabel;
     private JTextField idProductTextField;
-    private JTextField idTextField;
 
     private JButton newImportButton;
     private JScrollPane listImportItemScrollPane;
@@ -60,6 +60,13 @@ public class AddNewImport extends JPanel {
     }
 
     private void addNewImport() {
+
+        String idEmpText = idEmpTextField.getText().trim();
+        if (idEmpText.isEmpty()) {
+            JOptionPane.showMessageDialog(idEmpTextField, "Id Employee cannot be empty");
+            return;
+        }
+
         int totalPrice = 0;
         for (ImportItemsModel importItemModel : importItemList) {
             totalPrice += importItemModel.getPrice() * importItemModel.getQuantity();
@@ -70,7 +77,13 @@ public class AddNewImport extends JPanel {
         ImportBUS.getInstance().refreshData();
         java.util.List<ImportModel> importList = ImportBUS.getInstance().getAllModels();
         ImportModel importModel = importList.get(importList.size() - 1);
-        System.out.println(importModel.getId());
+        for (ImportItemsModel importItemsModel : importItemList) {
+            importItemsModel.setImport_id(importModel.getId());
+            ImportItemsBUS.getInstance().addModel(importItemsModel);
+        }
+        for (SizeItemModel sizeItemModel : sizeItemList) {
+            SizeItemBUS.getInstance().addModel(sizeItemModel);
+        }
     }
 
     private void addNewProduct() {
@@ -114,8 +127,6 @@ public class AddNewImport extends JPanel {
         newImportButton = new JButton();
         cancelImportButton = new JButton();
         contentPanel = new JPanel();
-        idLabel = new JLabel();
-        idTextField = new JTextField();
         idEmpLabel = new JLabel();
         idEmpTextField = new JTextField();
         footerPanel = new JPanel();
@@ -142,40 +153,21 @@ public class AddNewImport extends JPanel {
         headerPanel.add(newImportButton);
 
         cancelImportButton.setText("Cancel ");
-        // headerPanel.add(cancelImportButton);
 
         add(headerPanel, BorderLayout.PAGE_START);
 
         contentPanel.setLayout(new GridBagLayout());
-
+        contentPanel.setPreferredSize(new Dimension(300, 10));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.EAST;
 
-        idLabel.setText("Id import  ");
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        contentPanel.add(idLabel, gbc);
-
-        idTextField.setColumns(10);
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        contentPanel.add(idTextField, gbc);
-
-        idEmpLabel.setText("Id Employee");
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        contentPanel.add(idEmpLabel, gbc);
-
-        idEmpTextField.setColumns(10);
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        contentPanel.add(idEmpTextField, gbc);
-
-        add(contentPanel, BorderLayout.CENTER);
-
         footerPanel.setLayout(new BoxLayout(footerPanel, BoxLayout.Y_AXIS));
 
+        idEmpLabel.setText("Id Employee");
+        footerTopPanel.add(idEmpLabel);
+        idEmpTextField.setColumns(10);
+        footerTopPanel.add(idEmpTextField);
         idProductLabel.setText("Id product");
         footerTopPanel.add(idProductLabel);
         footerTopPanel.add(idProductTextField);
@@ -204,7 +196,7 @@ public class AddNewImport extends JPanel {
         groupButton.add(saveButton);
         footerPanel.add(groupButton);
 
-        add(footerPanel, BorderLayout.PAGE_END);
+        add(footerPanel, BorderLayout.CENTER);
     }
 
     public static java.util.List<ImportItemsModel> getImportItemList() {

@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 
+import java.util.Iterator;
+
 public class ImportItemProduct extends JPanel {
     private JButton deleteButton;
     private JPanel groupSizePanel;
@@ -151,11 +153,25 @@ public class ImportItemProduct extends JPanel {
                 importItemsModel.setSize_id(1);
                 sizeItemModel.setQuantity(quantityS);
                 importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
+                importItemsModel.setQuantity(quantityS);
                 importItemList.add(importItemsModel);
             }
 
-            AddNewImport.setSizeItemList(sizeItemList);
-            AddNewImport.setImportItemList(importItemList);
+        } else {
+            Iterator<ImportItemsModel> iterator = importItemList.iterator();
+            while (iterator.hasNext()) {
+                ImportItemsModel importItemsModel = iterator.next();
+                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 1) {
+                    iterator.remove();
+                }
+            }
+            Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
+            while (iteratorSize.hasNext()) {
+                SizeItemModel sizeItemModel = iteratorSize.next();
+                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 1) {
+                    iteratorSize.remove();
+                }
+            }
         }
         if (sizeMRadioButton.isSelected()) {
             int quantityM = (int) sizeMQuantitySpinner.getValue();
@@ -185,12 +201,26 @@ public class ImportItemProduct extends JPanel {
                 importItemsModel.setProduct_id(productModel.getId());
                 importItemsModel.setSize_id(2);
                 sizeItemModel.setQuantity(quantityM);
+                importItemsModel.setQuantity(quantityM);
                 importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
                 importItemList.add(importItemsModel);
             }
+        } else {
+            Iterator<ImportItemsModel> iterator = importItemList.iterator();
+            while (iterator.hasNext()) {
+                ImportItemsModel importItemsModel = iterator.next();
+                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 2) {
+                    iterator.remove();
+                }
+            }
 
-            AddNewImport.setSizeItemList(sizeItemList);
-            AddNewImport.setImportItemList(importItemList);
+            Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
+            while (iteratorSize.hasNext()) {
+                SizeItemModel sizeItemModel = iteratorSize.next();
+                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 2) {
+                    iteratorSize.remove();
+                }
+            }
         }
         if (sizeLRadioButton.isSelected()) {
             int quantityL = (int) sizeLQuantitySpinner.getValue();
@@ -220,12 +250,25 @@ public class ImportItemProduct extends JPanel {
                 importItemsModel.setProduct_id(productModel.getId());
                 importItemsModel.setSize_id(3);
                 sizeItemModel.setQuantity(quantityL);
+                importItemsModel.setQuantity(quantityL);
                 importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
                 importItemList.add(importItemsModel);
             }
-
-            AddNewImport.setSizeItemList(sizeItemList);
-            AddNewImport.setImportItemList(importItemList);
+        } else {
+            Iterator<ImportItemsModel> iterator = importItemList.iterator();
+            while (iterator.hasNext()) {
+                ImportItemsModel importItemsModel = iterator.next();
+                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 3) {
+                    iterator.remove();
+                }
+            }
+            Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
+            while (iteratorSize.hasNext()) {
+                SizeItemModel sizeItemModel = iteratorSize.next();
+                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 3) {
+                    iteratorSize.remove();
+                }
+            }
         }
         if (sizeXLRadioButton.isSelected()) {
             int quantityXL = (int) sizeXLQuantitySpinner.getValue();
@@ -255,12 +298,26 @@ public class ImportItemProduct extends JPanel {
                 importItemsModel.setProduct_id(productModel.getId());
                 importItemsModel.setSize_id(4);
                 sizeItemModel.setQuantity(quantityXL);
+                importItemsModel.setQuantity(quantityXL);
                 importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
                 importItemList.add(importItemsModel);
             }
+        } else {
+            Iterator<ImportItemsModel> iterator = importItemList.iterator();
+            while (iterator.hasNext()) {
+                ImportItemsModel importItemsModel = iterator.next();
+                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 4) {
+                    iterator.remove();
+                }
+            }
 
-            AddNewImport.setSizeItemList(sizeItemList);
-            AddNewImport.setImportItemList(importItemList);
+            Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
+            while (iteratorSize.hasNext()) {
+                SizeItemModel sizeItemModel = iteratorSize.next();
+                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 4) {
+                    iteratorSize.remove();
+                }
+            }
         }
         if (sizeXXLRadioButton.isSelected()) {
             int quantityXXL = (int) sizeXXLQuantitySpinner.getValue();
@@ -290,13 +347,30 @@ public class ImportItemProduct extends JPanel {
                 importItemsModel.setProduct_id(productModel.getId());
                 importItemsModel.setSize_id(5);
                 sizeItemModel.setQuantity(quantityXXL);
+                importItemsModel.setQuantity(quantityXXL);
                 importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
                 importItemList.add(importItemsModel);
             }
+        } else {
+            Iterator<ImportItemsModel> iterator = importItemList.iterator();
+            while (iterator.hasNext()) {
+                ImportItemsModel importItemsModel = iterator.next();
+                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 5) {
+                    iterator.remove();
+                }
+            }
 
-            AddNewImport.setSizeItemList(sizeItemList);
-            AddNewImport.setImportItemList(importItemList);
+            Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
+            while (iteratorSize.hasNext()) {
+                SizeItemModel sizeItemModel = iteratorSize.next();
+                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 5) {
+                    iteratorSize.remove();
+                }
+            }
         }
+
+        AddNewImport.setSizeItemList(sizeItemList);
+        AddNewImport.setImportItemList(importItemList);
 
         try {
             double price = Double.parseDouble(priceTextField.getText());
