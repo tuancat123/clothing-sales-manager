@@ -27,8 +27,8 @@ public class OrderDAO implements IDAO<OrderModel> {
     int customerId = rs.getInt("customer_id");
     int userId = rs.getInt("user_id");
     Timestamp orderDate = rs.getTimestamp("order_date");
-    int totalAmount = rs.getInt("total_amount");
-    return new OrderModel(id, customerId, userId, orderDate, totalAmount);
+    double totalPrice = rs.getDouble("total_amount");
+    return new OrderModel(id, customerId, userId, orderDate, totalPrice);
   }
 
   @Override
