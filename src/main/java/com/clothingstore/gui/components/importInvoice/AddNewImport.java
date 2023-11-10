@@ -77,18 +77,17 @@ public class AddNewImport extends JPanel {
 
         LocalDateTime localDateTime = LocalDateTime.ofInstant(selectedDate.toInstant(), ZoneId.systemDefault());
 
-        importModel = new ImportModel();
-        importModel.setUserId(Integer.parseInt(idEmpTextField.getText()));
-        importModel.setTotalPrice(totalPrice);
-        importModel.setImportDate(localDateTime);
+        importModel = new ImportModel(0, Integer.parseInt(idEmpTextField.getText()), localDateTime, totalPrice);
+        // importModel.setUserId(Integer.parseInt(idEmpTextField.getText()));
+        // importModel.setTotalPrice(totalPrice);
+        // importModel.setImportDate(localDateTime);
+
         int importId = ImportBUS.getInstance().addModel(importModel);
         ImportBUS.getInstance().refreshData();
         System.out.println(importId);
-        java.util.List<ImportModel> importList = ImportBUS.getInstance().searchModel(
-                String.valueOf(localDateTime),
-                new String[] { "import_date" });
-        importModel = importList.get(0);
-        System.out.println(importModel);
+        java.util.List<ImportModel> importList = ImportBUS.getInstance().getAllModels();
+        ImportModel importModel = importList.get(importList.size()-1);
+        System.out.println(importModel.getId());
     }
 
     private void addNewProduct() {

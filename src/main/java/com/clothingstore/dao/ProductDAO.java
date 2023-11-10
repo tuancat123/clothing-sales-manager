@@ -104,13 +104,13 @@ public class ProductDAO implements IDAO<ProductModel> {
 
     String query;
     if (columnNames == null || columnNames.length == 0) {
-      query = "SELECT * FROM products WHERE CONCAT(id, name, category_id, image, gender, price) LIKE ?";
+      query = "SELECT * FROM products WHERE CONCAT(id, name, category_id, image, gender, price, status) LIKE ?";
     } else if (columnNames.length == 1) {
       String column = columnNames[0];
       query = "SELECT * FROM products WHERE " + column + " LIKE ?";
     } else {
       String columns = String.join(",", columnNames);
-      query = "SELECT id, name, category_id, image, gender, price FROM products WHERE CONCAT(" + columns + ") LIKE ?";
+      query = "SELECT id, name, category_id, image, gender, price, status FROM products WHERE CONCAT(" + columns + ") LIKE ?";
     }
 
     try (PreparedStatement pst = DatabaseConnection.getPreparedStatement(query, "%" + condition + "%")) {

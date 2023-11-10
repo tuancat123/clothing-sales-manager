@@ -56,18 +56,19 @@ public class AddProduct extends JFrame {
       IndexPanel.setBorder(BorderFactory.createEmptyBorder(5, 40, 15, 45));
 
       JLabel Name = new JLabel(name[i]);
-      JLabel Invalid = new JLabel("No");
+      JLabel Invalid = new JLabel();
       JTextField Value = new JTextField();
 
       Name.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 45));
+      Name.setFont(new Font("Segoe UI", 1, 15)); // NOI18N
       IndexPanel.add(Name, BorderLayout.NORTH);
 
       Value.setPreferredSize(new Dimension(150, 35));
       IndexPanel.add(Value, BorderLayout.CENTER);
-      Value.addFocusListener(CheckInvalid(i,Invalid));
+      Value.addFocusListener(CheckInvalid(Value,i,Invalid));
 
-      Invalid.setForeground(Color.RED);
       IndexPanel.add(Invalid, BorderLayout.SOUTH);
+      Invalid.setForeground(Color.RED);
 
       Content.add(IndexPanel);
     }
@@ -322,7 +323,7 @@ public class AddProduct extends JFrame {
   }
 
   // check invalid 
-  private FocusListener CheckInvalid(int i, JLabel invLabel){
+  private FocusListener CheckInvalid(JTextField value,int i, JLabel invLabel){
     return new FocusListener() {
 
       @Override
@@ -334,7 +335,10 @@ public class AddProduct extends JFrame {
         switch (i) {
           case 0:
             // check name and set text for Invalid
-            invLabel.setText("ok");
+            if(value.getText().isEmpty())
+              invLabel.setText("Name product is not null !");
+            else 
+              invLabel.setText("");
             revalidate();
             repaint();
             break;

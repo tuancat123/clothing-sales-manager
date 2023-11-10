@@ -173,7 +173,7 @@ public class AddImport extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             List<ProductModel> list = ProductBUS.getInstance().searchModel(ValueSearch.getText(), new String[]{"id","name"});
-            System.out.println(list);
+            ProductModel productModel = list.get(0);
         }
         
     };

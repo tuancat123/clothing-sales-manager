@@ -13,7 +13,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 
-public class RoleManagement extends JFrame {
+public class RoleManagement extends JPanel {
     private static RoleManagement instance;
     private JTextField textField;
     private JPanel employeePanel;
@@ -49,18 +49,14 @@ public class RoleManagement extends JFrame {
 
         employeePanel = new JPanel();
 
-        getContentPane().setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
         setSize(new Dimension(1130, 628));
         employeePanel.setBackground(new Color(0, 38, 77));
         employeePanel.setBorder(BorderFactory.createEmptyBorder(1, 20, 1, 5));
-        getContentPane().setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
 
         employeePanel.setLayout(new BorderLayout());
-        getContentPane().add(employeePanel, BorderLayout.CENTER);
-
-        ArrayList<MenuData> data = MenuData.getDataAdmin();
-        Menu.getInstance(data).setPreferredSize(new Dimension(150,150));
-        add(Menu.getInstance(data), BorderLayout.WEST);
+        add(employeePanel, BorderLayout.CENTER);
 
         topPanel = new JPanel();
         topPanel.setPreferredSize(new Dimension(1000, 120));
@@ -184,16 +180,5 @@ public class RoleManagement extends JFrame {
    
 
 
-    }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-            	RoleManagement frame = new RoleManagement();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
     }
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import com.clothingstore.gui.admin.employees.Employees;
+import com.clothingstore.gui.admin.roleManagement.RoleManagement;
 import com.clothingstore.gui.components.HomePage;
 import com.clothingstore.gui.components.Products;
 import com.clothingstore.gui.components.customerList.CustomerList;
@@ -92,16 +93,6 @@ public class MenuData {
 
         data.add(new MenuData("Products", null, ProductAction()));
         data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction()));
-        // data.add(new MenuData(
-        // "Sales Manager",
-        // new ArrayList<MenuItemData>() {
-        // {
-        // add(new MenuItemData("Add Invoice", null));
-        // add(new MenuItemData("Invoice History", InvoiceHistoryAction()));
-
-        // }
-        // },
-        // null));
         data.add(new MenuData(
                 "Inventory Management",
                 new ArrayList<MenuItemData>() {
@@ -132,18 +123,8 @@ public class MenuData {
                     }
                 },
                 null));
-        data.add(new MenuData(
-                "statistical",
-                new ArrayList<MenuItemData>() {
-                    {
-                        add(new MenuItemData("revenue statistics", RevenueAction()));
-                        add(new MenuItemData("operating costs", null));
-                        add(new MenuItemData("profit statistics", null));
-
-                    }
-                },
-                null));
-        data.add(new MenuData("Role management", null, null));
+        data.add(new MenuData("Revenue Statistics",null,RevenueAction()));
+        data.add(new MenuData("Role management", null, RoleAction()));
         data.add(new MenuData("Logout", null, LogoutAction()));
         return data;
     }
@@ -228,6 +209,13 @@ public class MenuData {
                 HomePage.getInstance().Add(Employees.getInstance());
             } else if (e.getActionCommand().equals("Add Customer")) {
             }
+        };
+    }
+
+    private static ActionListener RoleAction() {
+        return e -> {
+            HomePage.getInstance().Remove();
+            HomePage.getInstance().Add(RoleManagement.getInstance());
         };
     }
 

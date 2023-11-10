@@ -33,7 +33,6 @@ public class ProductsHeader extends JPanel {
     Panel = new JPanel();
     Value = new JTextField();
     ButtonSearch = new JButton();
-    ButtonDelete = new JButton();
     ButtonAdd = new JButton();
     ButtonMenu = new JButton();
     Color color = new Color(153, 194, 255);
@@ -63,12 +62,10 @@ public class ProductsHeader extends JPanel {
         }
       }
     });
-    Panel.add(Value, new AbsoluteConstraints(120, 10, 170, 30));
+    Panel.add(Value, new AbsoluteConstraints(210, 10, 170, 30));
 
     ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/config/icon/search.png")));
-    Panel.add(ButtonSearch, new AbsoluteConstraints(288, 10, 30, 30));
-
-    ButtonDelete.setText("Delete");
+    Panel.add(ButtonSearch, new AbsoluteConstraints(380, 10, 30, 30));
 
     ButtonAdd.setText("Add");
     ButtonAdd.addActionListener(new ActionListener() {
@@ -87,7 +84,6 @@ public class ProductsHeader extends JPanel {
     ButtonMenu.addActionListener(NavData.MenuAction());
 
     if (currentUser.getRoleId() != 3) {
-      Panel.add(ButtonDelete, new AbsoluteConstraints(350, 10, 80, 30));
       add(ButtonMenu, BorderLayout.WEST);
       Panel.add(ButtonAdd, new AbsoluteConstraints(440, 10, 80, 30));
     }
@@ -96,7 +92,6 @@ public class ProductsHeader extends JPanel {
   }
 
   private JButton ButtonAdd;
-  private JButton ButtonDelete;
   private JButton ButtonSearch;
   private JButton ButtonMenu;
   private JPanel Panel;
