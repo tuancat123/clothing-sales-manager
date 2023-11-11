@@ -3,19 +3,45 @@ package com.clothingstore.gui.admin.roleManagement;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.clothingstore.bus.PermissionBUS;
+import com.clothingstore.bus.RoleBUS;
+import com.clothingstore.bus.RolePermissionBUS;
+import com.clothingstore.bus.UserBUS;
+import com.clothingstore.models.PermissionModel;
+import com.clothingstore.models.RoleModel;
+import com.clothingstore.models.RolePermissionModel;
+import com.clothingstore.models.UserModel;
+
+
 
 public class Add extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextField textField_id;
-
+	private JComboBox comboBox_role;
+	private JComboBox comboBox_permission;
+	private RolePermissionBUS rolePermissionBus = RolePermissionBUS.getInstance();
+	private PermissionBUS permissionBUS = PermissionBUS.getInstance();
+	private RoleManagement roleManagement = new RoleManagement();
 
     public Add(){
         initComponents();
+        addWindowListener((WindowListener) new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                handleFormClosed();
+            }
+        });
     }
 
     public void initComponents() {
@@ -78,7 +104,10 @@ public class Add extends JFrame {
         gbc_lbl_username.gridy = 2;
         panel_3.add(lbl_username, gbc_lbl_username);
         
-        JComboBox comboBox_role = new JComboBox();
+        comboBox_role = new JComboBox();
+        for (RoleModel role : RoleBUS.getInstance().getAllModels()) {
+			comboBox_role.addItem(role.getId());
+		}
         GridBagConstraints gbc_comboBox_role = new GridBagConstraints();
         gbc_comboBox_role.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_role.fill = GridBagConstraints.BOTH;
@@ -93,13 +122,16 @@ public class Add extends JFrame {
         gbc_lbl_password.gridy = 3;
         panel_3.add(lbl_password, gbc_lbl_password);
         
-        JTextArea textArea_permission = new JTextArea();
+        comboBox_permission = new JComboBox();
+        for (PermissionModel permission : PermissionBUS.getInstance().getAllModels()) {
+        	comboBox_permission.addItem(permission.getPermissionName());
+		}
         GridBagConstraints gbc_textArea_permission = new GridBagConstraints();
         gbc_textArea_permission.insets = new Insets(0, 0, 5, 5);
         gbc_textArea_permission.fill = GridBagConstraints.BOTH;
         gbc_textArea_permission.gridx = 1;
         gbc_textArea_permission.gridy = 3;
-        panel_3.add(textArea_permission, gbc_textArea_permission);
+        panel_3.add(comboBox_permission, gbc_textArea_permission);
 
         JPanel panel_Model = new JPanel();
         panel_Model.setPreferredSize(new Dimension(500,100));
@@ -111,6 +143,8 @@ public class Add extends JFrame {
         btnAdd.setPreferredSize(new Dimension(100,30));
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+        		addRole();
+        		
             }
         });
         panel_Model.add(btnAdd);
@@ -119,6 +153,8 @@ public class Add extends JFrame {
         btnReset.setPreferredSize(new Dimension(100,30));
         btnReset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	comboBox_role.setSelectedIndex(0);
+            	comboBox_permission.setSelectedItem("Quản Lý Sản Phẩm");
             }
         });
         panel_Model.add(btnReset);
@@ -130,6 +166,7 @@ public class Add extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Window window = SwingUtilities.getWindowAncestor((Component)e.getSource());
                 if (window != null) {
+                	handleFormClosed();
                     window.dispose();
                 }
             }
@@ -138,6 +175,34 @@ public class Add extends JFrame {
         JPanel panel_4 = new JPanel();
         panel_Model.add(panel_4);
         panel_4.setLayout(new GridLayout(1, 0, 0, 0));
+    }
+    
+    public void clearForm() {
+    	comboBox_role.setSelectedIndex(1);
+    }
+
+    public void addRole() {
+		int roleID = Integer.parseInt(comboBox_role.getSelectedItem()+"");
+		int permissionID = 0;
+		String permissionName = comboBox_permission.getSelectedItem()+"";
+		for (PermissionModel permission : permissionBUS.getAllModels()) {
+			if(permissionName.equals(permission.getPermissionName())) {
+				permissionID = permission.getId();
+			}
+		}
+	
+		RolePermissionModel rolePermission = new RolePermissionModel();
+		rolePermission.setId(rolePermissionBus.getInstance().getNewID());
+		rolePermission.setRoleId(roleID);
+		rolePermission.setPermissionId(permissionID);
+		
+		int newRole = rolePermissionBus.addModel(rolePermission);
+		System.out.println("test id: "+newRole);
+
+	}
+    
+    private void handleFormClosed() {
+    	roleManagement.updateRoleFromList();
     }
 
 }

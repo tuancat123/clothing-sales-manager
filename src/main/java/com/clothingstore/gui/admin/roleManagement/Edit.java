@@ -3,15 +3,33 @@ package com.clothingstore.gui.admin.roleManagement;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.clothingstore.bus.PermissionBUS;
+import com.clothingstore.bus.RoleBUS;
+import com.clothingstore.bus.RolePermissionBUS;
+import com.clothingstore.models.PermissionModel;
+import com.clothingstore.models.RoleModel;
+import com.clothingstore.models.RolePermissionModel;
+
+
 
 public class Edit extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private JTextField textField_id;
+    public JTextField textField_id;
+	public JComboBox comboBox_role;
+	public JComboBox comboBox_permission;
+	private RolePermissionBUS rolePermissionBus = RolePermissionBUS.getInstance();
+	private PermissionBUS permissionBUS = PermissionBUS.getInstance();
+	private RoleManagement roleManagement = new RoleManagement();
+	
 
 
     public Edit(){
@@ -78,7 +96,10 @@ public class Edit extends JFrame {
         gbc_lbl_permission.gridy = 2;
         panel_3.add(lbl_permission, gbc_lbl_permission);
         
-        JComboBox comboBox_role = new JComboBox();
+        comboBox_role = new JComboBox();
+        for (RoleModel role : RoleBUS.getInstance().getAllModels()) {
+			comboBox_role.addItem(role.getId());
+		}
         GridBagConstraints gbc_comboBox_role = new GridBagConstraints();
         gbc_comboBox_role.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_role.fill = GridBagConstraints.BOTH;
@@ -93,13 +114,16 @@ public class Edit extends JFrame {
         gbc_lbl_password.gridy = 3;
         panel_3.add(lbl_password, gbc_lbl_password);
         
-        JTextArea textArea_permission = new JTextArea();
+        comboBox_permission = new JComboBox();
+        for (PermissionModel permission : PermissionBUS.getInstance().getAllModels()) {
+        	comboBox_permission.addItem(permission.getPermissionName());
+		}
         GridBagConstraints gbc_textArea_permission = new GridBagConstraints();
         gbc_textArea_permission.insets = new Insets(0, 0, 5, 5);
         gbc_textArea_permission.fill = GridBagConstraints.BOTH;
         gbc_textArea_permission.gridx = 1;
         gbc_textArea_permission.gridy = 3;
-        panel_3.add(textArea_permission, gbc_textArea_permission);
+        panel_3.add(comboBox_permission, gbc_textArea_permission);
 
         JPanel panel_Model = new JPanel();
         panel_Model.setPreferredSize(new Dimension(500,100));
@@ -111,6 +135,8 @@ public class Edit extends JFrame {
         btnEdit.setPreferredSize(new Dimension(100,30));
         btnEdit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	updateRole();
+            	
             }
         });
         panel_Model.add(btnEdit);
@@ -119,6 +145,8 @@ public class Edit extends JFrame {
         btnReset.setPreferredSize(new Dimension(100,30));
         btnReset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	comboBox_role.setSelectedIndex(1);
+            	comboBox_permission.setSelectedItem("Quản Lý Sản Phẩm");
             }
         });
         panel_Model.add(btnReset);
@@ -139,5 +167,29 @@ public class Edit extends JFrame {
         panel_Model.add(panel_4);
         panel_4.setLayout(new GridLayout(1, 0, 0, 0));
     }
+    
+    
+    public void updateRole() {
+		int id = Integer.parseInt(textField_id.getText()+"");
+		int permissionID = 0;
+		int roleID = Integer.parseInt(comboBox_role.getSelectedItem()+"");
+		String permissionName = comboBox_permission.getSelectedItem()+"";
+		for (PermissionModel permission : permissionBUS.getAllModels()) {
+			if(permission.getPermissionName().equals(permissionName)) {
+				permissionID = permission.getId();
+				break;
+			}
+		}
+		
+		RolePermissionModel rolePermission = new RolePermissionModel(id,roleID,permissionID);
+		int updatedRows = rolePermissionBus.updateModel(rolePermission);
+		if(updatedRows > 0) {
+			JOptionPane.showMessageDialog(null, "Update thành công");
+			roleManagement.updateRoleFromList();
+		}else {
+			JOptionPane.showMessageDialog(null, "Update thất bại");
+		}
+	}
+    
 
 }

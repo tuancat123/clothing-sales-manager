@@ -61,8 +61,8 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
 
   @Override
   public int update(RolePermissionModel rolePermission) {
-    String updateSql = "UPDATE role_permissions SET permission_id = ? WHERE role_id = ?";
-    Object[] args = { rolePermission.getPermissionId(), rolePermission.getRoleId() };
+	  String updateSql = "UPDATE role_permissions SET permission_id = ?, role_id = ? WHERE id = ?";
+    Object[] args = { rolePermission.getPermissionId(), rolePermission.getRoleId() ,rolePermission.getId()};
     try {
       return DatabaseConnection.executeUpdate(updateSql, args);
     } catch (SQLException e) {
@@ -73,7 +73,7 @@ public class RolePermissionDAO implements IDAO<RolePermissionModel> {
 
   @Override
   public int delete(int roleId) {
-    String deleteSql = "DELETE FROM role_permissions WHERE role_id = ?";
+    String deleteSql = "DELETE FROM role_permissions WHERE id = ?";
     Object[] args = { roleId };
     try {
       return DatabaseConnection.executeUpdate(deleteSql, args);

@@ -45,6 +45,10 @@ public class RolePermissionBUS implements IBUS<RolePermissionModel> {
     return null;
   }
 
+  public int getNewID() {
+	  return rolePermissionList.size() + 1;
+  }
+
   private RolePermissionModel mapToEntity(RolePermissionModel from) {
     RolePermissionModel to = new RolePermissionModel();
     updateEntityFields(from, to);
@@ -63,6 +67,13 @@ public class RolePermissionBUS implements IBUS<RolePermissionModel> {
       throw new IllegalArgumentException(
           "There may be errors in required fields, please check your input and try again.");
     }
+    ArrayList<RolePermissionModel> roleList = RolePermissionDAO.getInstance().readDatabase();
+    for (RolePermissionModel rolePermissionModel : roleList) {
+		if(model.getRoleId() == rolePermissionModel.getRoleId() && model.getPermissionId() == rolePermissionModel.getPermissionId()) {
+			throw new IllegalArgumentException("RoleId & PermissionId is exist");
+		}
+	}
+    
     int id = RolePermissionDAO.getInstance().insert(mapToEntity(model));
     rolePermissionList.add(model);
     return id;
@@ -70,15 +81,25 @@ public class RolePermissionBUS implements IBUS<RolePermissionModel> {
 
   @Override
   public int updateModel(RolePermissionModel model) {
-    int updatedRows = RolePermissionDAO.getInstance().update(model);
-    if (updatedRows > 0) {
-      int index = rolePermissionList.indexOf(model);
-      if (index != -1) {
-        rolePermissionList.set(index, model);
-      }
-    }
-    return updatedRows;
-  }
+	    ArrayList<RolePermissionModel> roleList = RolePermissionDAO.getInstance().readDatabase();
+	    
+	    for (RolePermissionModel model2 : roleList) {
+	        if (model.getRoleId() == model2.getRoleId() && model.getPermissionId() == model2.getPermissionId()) {
+	            throw new IllegalArgumentException("RoleId & PermissionId is exist");
+	        }
+	    }
+
+	    int updatedRows = RolePermissionDAO.getInstance().update(model);
+	    
+	    if (updatedRows > 0) {
+	        int index = rolePermissionList.indexOf(model);
+	        if (index != -1) {
+	            rolePermissionList.set(index, model);
+	        }
+	    }
+	    
+	    return updatedRows;
+	}
 
   @Override
   public int deleteModel(int id) {
