@@ -13,6 +13,7 @@ import com.clothingstore.models.SizeItemModel;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddNewImport extends JPanel {
 
@@ -36,6 +37,7 @@ public class AddNewImport extends JPanel {
     private JPanel listImportItemPanel;
     private JButton saveButton;
     private JPanel groupButton;
+    private List<ImportItemProduct> importItemProducts = new ArrayList<>();
 
     private int quantityImportItem = 1;
     private static java.util.List<ImportItemsModel> importItemList = new ArrayList<>();
@@ -60,7 +62,6 @@ public class AddNewImport extends JPanel {
     }
 
     private void addNewImport() {
-
         String idEmpText = idEmpTextField.getText().trim();
         if (idEmpText.isEmpty()) {
             JOptionPane.showMessageDialog(idEmpTextField, "Id Employee cannot be empty");
@@ -73,16 +74,33 @@ public class AddNewImport extends JPanel {
         }
 
         importModel = new ImportModel(0, Integer.parseInt(idEmpTextField.getText()), null, totalPrice);
-        ImportBUS.getInstance().addModel(importModel);
-        ImportBUS.getInstance().refreshData();
-        java.util.List<ImportModel> importList = ImportBUS.getInstance().getAllModels();
-        ImportModel importModel = importList.get(importList.size() - 1);
-        for (ImportItemsModel importItemsModel : importItemList) {
-            importItemsModel.setImport_id(importModel.getId());
-            ImportItemsBUS.getInstance().addModel(importItemsModel);
-        }
-        for (SizeItemModel sizeItemModel : sizeItemList) {
-            SizeItemBUS.getInstance().addModel(sizeItemModel);
+
+        int confirmation = JOptionPane.showConfirmDialog(null, "Do you want to save this import?", "Confirmation",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirmation == JOptionPane.YES_OPTION) {
+            ImportBUS.getInstance().addModel(importModel);
+            ImportBUS.getInstance().refreshData();
+            java.util.List<ImportModel> importList = ImportBUS.getInstance().getAllModels();
+            ImportModel latestImportModel = importList.get(importList.size() - 1);
+
+            for (ImportItemsModel importItemsModel : importItemList) {
+                importItemsModel.setImport_id(latestImportModel.getId());
+                ImportItemsBUS.getInstance().addModel(importItemsModel);
+            }
+
+            for (SizeItemModel sizeItemModel : sizeItemList) {
+                SizeItemBUS.getInstance().addModel(sizeItemModel);
+            }
+
+            idEmpTextField.setText("");
+            sizeItemList.clear();
+            importItemList.clear();
+            listImportItemPanel.removeAll();
+            listImportItemPanel.repaint();
+            JOptionPane.showMessageDialog(null, "Create import successfully");
+        } else {
+            JOptionPane.showMessageDialog(null, "Create import canceled");
         }
     }
 
@@ -105,7 +123,9 @@ public class AddNewImport extends JPanel {
                 }
                 if (check) {
                     SwingUtilities.invokeLater(() -> {
-                        listImportItemPanel.add(new ImportItemProduct(productModel, quantityImportItem));
+                        ImportItemProduct newItem = new ImportItemProduct(productModel, quantityImportItem, this);
+                        importItemProducts.add(newItem);
+                        listImportItemPanel.add(newItem);
                         listImportItemScrollPane.setViewportView(listImportItemPanel);
                         quantityImportItem++;
                         idProductTextField.setText("");
@@ -113,11 +133,24 @@ public class AddNewImport extends JPanel {
                         repaint();
                     });
                 }
+
             }
         } catch (NumberFormatException e) {
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(idProductTextField,
                     "Invalid idProduct. Please enter a valid integer."));
         }
+    }
+
+    private void updateQuantityImportItem() {
+        quantityImportItem = importItemProducts.size() + 1;
+    }
+
+    public void removeImportItem(ImportItemProduct importItemProduct) {
+        listImportItemPanel.remove(importItemProduct);
+        importItemProducts.remove(importItemProduct);
+        listImportItemPanel.revalidate();
+        listImportItemPanel.repaint();
+        updateQuantityImportItem();
     }
 
     private void initComponents() {
@@ -225,6 +258,21 @@ public class AddNewImport extends JPanel {
         frame.add(addNewImportPanel);
 
         frame.setVisible(true);
+    }
+
+    public void updateSequenceNumbers(int deletedIndex) {
+        Component[] components = listImportItemPanel.getComponents();
+
+        for (int i = deletedIndex; i < components.length; i++) {
+            if (i >= 0) {
+                ImportItemProduct importItem = (ImportItemProduct) components[i];
+                importItem.updateSequenceNumber(i + 1);
+            }
+        }
+    }
+
+    public List<ImportItemProduct> getListImportItemProducts() {
+        return importItemProducts;
     }
 
 }

@@ -8,8 +8,6 @@ import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 
 import java.util.Iterator;
@@ -33,338 +31,169 @@ public class ImportItemProduct extends JPanel {
     private JLabel sttLabel;
     private JLabel totalPriceTextField;
     private int quantity = 0;
+    private JRadioButton[] sizeRadioButtons;
 
     private ProductModel productModel;
+    private java.util.List<SizeItemModel> sizeItemList = AddNewImport.getSizeItemList();
+    private java.util.List<ImportItemsModel> importItemList = AddNewImport.getImportItemList();
+    private AddNewImport addNewImportPanel;
 
-    public ImportItemProduct(ProductModel productModel, int i) {
+    public ImportItemProduct(ProductModel productModel, int i, AddNewImport addNewImportPanel) {
         this.productModel = productModel;
+        this.addNewImportPanel = addNewImportPanel;
         initComponents(productModel, i);
-        // updateData();
         handleEvent();
+        updateDataForSize(1, 1);
     }
 
     private void handleEvent() {
-        sizeSQuantitySpinner.setEnabled(false);
-        sizeMQuantitySpinner.setEnabled(false);
-        sizeLQuantitySpinner.setEnabled(false);
-        sizeXLQuantitySpinner.setEnabled(false);
-        sizeXXLQuantitySpinner.setEnabled(false);
-        sizeSQuantitySpinner.setValue(1);
-        sizeMQuantitySpinner.setValue(1);
-        sizeLQuantitySpinner.setValue(1);
-        sizeXLQuantitySpinner.setValue(1);
-        sizeXXLQuantitySpinner.setValue(1);
+        initializeSpinners();
+        addActionListeners();
+        addChangeListeners();
+        deleteButton.addActionListener(e -> hanleDelete());
+        priceTextField.addActionListener(e -> updateData());
+    }
 
-        sizeSRadioButton.addActionListener(e -> updateQuantity());
-        sizeMRadioButton.addActionListener(e -> updateQuantity());
-        sizeLRadioButton.addActionListener(e -> updateQuantity());
-        sizeXLRadioButton.addActionListener(e -> updateQuantity());
-        sizeXXLRadioButton.addActionListener(e -> updateQuantity());
-
-        sizeSQuantitySpinner.addChangeListener(e -> {
-            int value = (int) sizeSQuantitySpinner.getValue();
-            if (value < 1) {
-                sizeSQuantitySpinner.setValue(1);
+    private void hanleDelete() {
+        Iterator<ImportItemsModel> importIterator = importItemList.iterator();
+        while (importIterator.hasNext()) {
+            ImportItemsModel importItemsModel = importIterator.next();
+            if (importItemsModel.getProduct_id() == productModel.getId()) {
+                importIterator.remove();
             }
-            updateData();
-        });
-
-        sizeMQuantitySpinner.addChangeListener(e -> {
-            int value = (int) sizeMQuantitySpinner.getValue();
-            if (value < 1) {
-                sizeMQuantitySpinner.setValue(1);
+        }
+    
+        Iterator<SizeItemModel> sizeIterator = sizeItemList.iterator();
+        while (sizeIterator.hasNext()) {
+            SizeItemModel sizeItemModel = sizeIterator.next();
+            if (sizeItemModel.getProductId() == productModel.getId()) {
+                sizeIterator.remove();
             }
-            updateData();
-        });
+        }
+    
+        AddNewImport.setImportItemList(importItemList);
+        AddNewImport.setSizeItemList(sizeItemList);
+        addNewImportPanel.removeImportItem(this);
+    
+        // Get the index of the removed panel and update sequence numbers
+        int removedIndex = addNewImportPanel.getListImportItemProducts().indexOf(this);
+        addNewImportPanel.updateSequenceNumbers(removedIndex);
+    }
+    
+    private void initializeSpinners() {
+        JSpinner[] sizeQuantitySpinners = { sizeSQuantitySpinner, sizeMQuantitySpinner, sizeLQuantitySpinner,
+                sizeXLQuantitySpinner, sizeXXLQuantitySpinner };
 
-        sizeLQuantitySpinner.addChangeListener(e -> {
-            int value = (int) sizeLQuantitySpinner.getValue();
-            if (value < 1) {
-                sizeLQuantitySpinner.setValue(1);
-            }
-            updateData();
-        });
+        for (JSpinner spinner : sizeQuantitySpinners) {
+            spinner.setEnabled(false);
+            spinner.setValue(1);
+        }
+    }
 
-        sizeXLQuantitySpinner.addChangeListener(e -> {
-            int value = (int) sizeXLQuantitySpinner.getValue();
-            if (value < 1) {
-                sizeXLQuantitySpinner.setValue(1);
-            }
-            updateData();
-        });
+    private void addActionListeners() {
+        sizeRadioButtons = new JRadioButton[] { sizeSRadioButton, sizeMRadioButton, sizeLRadioButton,
+                sizeXLRadioButton, sizeXXLRadioButton };
 
-        sizeXXLQuantitySpinner.addChangeListener(e -> {
-            int value = (int) sizeXXLQuantitySpinner.getValue();
-            if (value < 1) {
-                sizeXXLQuantitySpinner.setValue(1);
-            }
-            updateData();
-        });
+        for (JRadioButton radioButton : sizeRadioButtons) {
+            radioButton.addActionListener(e -> updateQuantity());
+        }
+    }
 
-        priceTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
+    private void addChangeListeners() {
+        JSpinner[] sizeQuantitySpinners = { sizeSQuantitySpinner, sizeMQuantitySpinner, sizeLQuantitySpinner,
+                sizeXLQuantitySpinner, sizeXXLQuantitySpinner };
+
+        for (JSpinner spinner : sizeQuantitySpinners) {
+            spinner.addChangeListener(e -> {
+                int value = (int) spinner.getValue();
+                if (value < 1) {
+                    spinner.setValue(1);
+                }
                 updateData();
-            }
-        });
-
+            });
+        }
     }
 
     private void updateQuantity() {
         updateData();
-        sizeSQuantitySpinner.setEnabled(sizeSRadioButton.isSelected());
-        sizeMQuantitySpinner.setEnabled(sizeMRadioButton.isSelected());
-        sizeLQuantitySpinner.setEnabled(sizeLRadioButton.isSelected());
-        sizeXLQuantitySpinner.setEnabled(sizeXLRadioButton.isSelected());
-        sizeXXLQuantitySpinner.setEnabled(sizeXXLRadioButton.isSelected());
+        JSpinner[] sizeQuantitySpinners = { sizeSQuantitySpinner, sizeMQuantitySpinner, sizeLQuantitySpinner,
+                sizeXLQuantitySpinner, sizeXXLQuantitySpinner };
+
+        for (int i = 0; i < sizeQuantitySpinners.length; i++) {
+            sizeQuantitySpinners[i].setEnabled(sizeRadioButtons[i].isSelected());
+        }
+    }
+
+    private void updateDataForSize(int sizeId, int quantitySize) {
+        quantity += quantitySize;
+
+        boolean checkExist = false;
+        Iterator<SizeItemModel> sizeIterator = sizeItemList.iterator();
+        Iterator<ImportItemsModel> importIterator = importItemList.iterator();
+
+        while (sizeIterator.hasNext() && importIterator.hasNext()) {
+            SizeItemModel sizeItemModel = sizeIterator.next();
+            ImportItemsModel importItemsModel = importIterator.next();
+
+            if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == sizeId) {
+                sizeItemModel.setQuantity(quantitySize);
+                checkExist = true;
+            }
+
+            if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == sizeId) {
+                importItemsModel.setQuantity(quantitySize);
+                importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
+                checkExist = true;
+            }
+        }
+
+        if (!checkExist) {
+            SizeItemModel sizeItemModel = new SizeItemModel();
+            sizeItemModel.setProductId(productModel.getId());
+            sizeItemModel.setQuantity(quantitySize);
+            sizeItemModel.setSizeId(sizeId);
+            sizeItemList.add(sizeItemModel);
+
+            ImportItemsModel importItemsModel = new ImportItemsModel();
+            importItemsModel.setProduct_id(productModel.getId());
+            importItemsModel.setSize_id(sizeId);
+            sizeItemModel.setQuantity(quantitySize);
+            importItemsModel.setQuantity(quantitySize);
+            importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
+            importItemList.add(importItemsModel);
+        }
+        AddNewImport.setImportItemList(importItemList);
+        AddNewImport.setSizeItemList(sizeItemList);
     }
 
     private void updateData() {
         quantity = 0;
-        java.util.List<SizeItemModel> sizeItemList = AddNewImport.getSizeItemList();
-        java.util.List<ImportItemsModel> importItemList = AddNewImport.getImportItemList();
 
-        if (sizeSRadioButton.isSelected()) {
-            int quantityS = (int) sizeSQuantitySpinner.getValue();
-            quantity += quantityS;
-            boolean checkExist = false;
-            for (SizeItemModel sizeItemModel : sizeItemList) {
-                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 1) {
-                    sizeItemModel.setQuantity(quantityS);
-                    checkExist = true;
-                }
-            }
-            for (ImportItemsModel importItemsModel : importItemList) {
-                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 1) {
-                    importItemsModel.setQuantity(quantityS);
-                    importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
-                    checkExist = true;
-                }
-            }
-            if (!checkExist) {
-                SizeItemModel sizeItemModel = new SizeItemModel();
-                sizeItemModel.setProductId(productModel.getId());
-                sizeItemModel.setQuantity(quantityS);
-                sizeItemModel.setSizeId(1);
-                sizeItemList.add(sizeItemModel);
+        int[] sizeIds = { 1, 2, 3, 4, 5 };
+        JSpinner[] sizeQuantitySpinners = { sizeSQuantitySpinner, sizeMQuantitySpinner, sizeLQuantitySpinner,
+                sizeXLQuantitySpinner, sizeXXLQuantitySpinner };
 
-                ImportItemsModel importItemsModel = new ImportItemsModel();
-                importItemsModel.setProduct_id(productModel.getId());
-                importItemsModel.setSize_id(1);
-                sizeItemModel.setQuantity(quantityS);
-                importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
-                importItemsModel.setQuantity(quantityS);
-                importItemList.add(importItemsModel);
-            }
+        for (int i = 0; i < sizeIds.length; i++) {
+            if (sizeRadioButtons[i].isSelected()) {
+                int quantitySize = (int) sizeQuantitySpinners[i].getValue();
+                updateDataForSize(sizeIds[i], quantitySize);
+            } else {
+                Iterator<ImportItemsModel> iterator = importItemList.iterator();
+                Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
 
-        } else {
-            Iterator<ImportItemsModel> iterator = importItemList.iterator();
-            while (iterator.hasNext()) {
-                ImportItemsModel importItemsModel = iterator.next();
-                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 1) {
-                    iterator.remove();
-                }
-            }
-            Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
-            while (iteratorSize.hasNext()) {
-                SizeItemModel sizeItemModel = iteratorSize.next();
-                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 1) {
-                    iteratorSize.remove();
-                }
-            }
-        }
-        if (sizeMRadioButton.isSelected()) {
-            int quantityM = (int) sizeMQuantitySpinner.getValue();
-            quantity += quantityM;
-            boolean checkExist = false;
-            for (SizeItemModel sizeItemModel : sizeItemList) {
-                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 2) {
-                    sizeItemModel.setQuantity(quantityM);
-                    checkExist = true;
-                }
-            }
-            for (ImportItemsModel importItemsModel : importItemList) {
-                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 2) {
-                    importItemsModel.setQuantity(quantityM);
-                    importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
-                    checkExist = true;
-                }
-            }
-            if (!checkExist) {
-                SizeItemModel sizeItemModel = new SizeItemModel();
-                sizeItemModel.setProductId(productModel.getId());
-                sizeItemModel.setQuantity(quantityM);
-                sizeItemModel.setSizeId(2);
-                sizeItemList.add(sizeItemModel);
+                while (iterator.hasNext() && iteratorSize.hasNext()) {
+                    ImportItemsModel importItemsModel = iterator.next();
+                    SizeItemModel sizeItemModel = iteratorSize.next();
 
-                ImportItemsModel importItemsModel = new ImportItemsModel();
-                importItemsModel.setProduct_id(productModel.getId());
-                importItemsModel.setSize_id(2);
-                sizeItemModel.setQuantity(quantityM);
-                importItemsModel.setQuantity(quantityM);
-                importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
-                importItemList.add(importItemsModel);
-            }
-        } else {
-            Iterator<ImportItemsModel> iterator = importItemList.iterator();
-            while (iterator.hasNext()) {
-                ImportItemsModel importItemsModel = iterator.next();
-                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 2) {
-                    iterator.remove();
-                }
-            }
+                    if (importItemsModel.getProduct_id() == productModel.getId()
+                            && importItemsModel.getSize_id() == sizeIds[i]) {
+                        iterator.remove();
+                    }
 
-            Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
-            while (iteratorSize.hasNext()) {
-                SizeItemModel sizeItemModel = iteratorSize.next();
-                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 2) {
-                    iteratorSize.remove();
-                }
-            }
-        }
-        if (sizeLRadioButton.isSelected()) {
-            int quantityL = (int) sizeLQuantitySpinner.getValue();
-            quantity += quantityL;
-            boolean checkExist = false;
-            for (SizeItemModel sizeItemModel : sizeItemList) {
-                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 3) {
-                    sizeItemModel.setQuantity(quantityL);
-                    checkExist = true;
-                }
-            }
-            for (ImportItemsModel importItemsModel : importItemList) {
-                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 3) {
-                    importItemsModel.setQuantity(quantityL);
-                    importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
-                    checkExist = true;
-                }
-            }
-            if (!checkExist) {
-                SizeItemModel sizeItemModel = new SizeItemModel();
-                sizeItemModel.setProductId(productModel.getId());
-                sizeItemModel.setQuantity(quantityL);
-                sizeItemModel.setSizeId(3);
-                sizeItemList.add(sizeItemModel);
-
-                ImportItemsModel importItemsModel = new ImportItemsModel();
-                importItemsModel.setProduct_id(productModel.getId());
-                importItemsModel.setSize_id(3);
-                sizeItemModel.setQuantity(quantityL);
-                importItemsModel.setQuantity(quantityL);
-                importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
-                importItemList.add(importItemsModel);
-            }
-        } else {
-            Iterator<ImportItemsModel> iterator = importItemList.iterator();
-            while (iterator.hasNext()) {
-                ImportItemsModel importItemsModel = iterator.next();
-                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 3) {
-                    iterator.remove();
-                }
-            }
-            Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
-            while (iteratorSize.hasNext()) {
-                SizeItemModel sizeItemModel = iteratorSize.next();
-                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 3) {
-                    iteratorSize.remove();
-                }
-            }
-        }
-        if (sizeXLRadioButton.isSelected()) {
-            int quantityXL = (int) sizeXLQuantitySpinner.getValue();
-            quantity += quantityXL;
-            boolean checkExist = false;
-            for (SizeItemModel sizeItemModel : sizeItemList) {
-                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 4) {
-                    sizeItemModel.setQuantity(quantityXL);
-                    checkExist = true;
-                }
-            }
-            for (ImportItemsModel importItemsModel : importItemList) {
-                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 4) {
-                    importItemsModel.setQuantity(quantityXL);
-                    importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
-                    checkExist = true;
-                }
-            }
-            if (!checkExist) {
-                SizeItemModel sizeItemModel = new SizeItemModel();
-                sizeItemModel.setProductId(productModel.getId());
-                sizeItemModel.setQuantity(quantityXL);
-                sizeItemModel.setSizeId(4);
-                sizeItemList.add(sizeItemModel);
-
-                ImportItemsModel importItemsModel = new ImportItemsModel();
-                importItemsModel.setProduct_id(productModel.getId());
-                importItemsModel.setSize_id(4);
-                sizeItemModel.setQuantity(quantityXL);
-                importItemsModel.setQuantity(quantityXL);
-                importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
-                importItemList.add(importItemsModel);
-            }
-        } else {
-            Iterator<ImportItemsModel> iterator = importItemList.iterator();
-            while (iterator.hasNext()) {
-                ImportItemsModel importItemsModel = iterator.next();
-                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 4) {
-                    iterator.remove();
-                }
-            }
-
-            Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
-            while (iteratorSize.hasNext()) {
-                SizeItemModel sizeItemModel = iteratorSize.next();
-                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 4) {
-                    iteratorSize.remove();
-                }
-            }
-        }
-        if (sizeXXLRadioButton.isSelected()) {
-            int quantityXXL = (int) sizeXXLQuantitySpinner.getValue();
-            quantity += quantityXXL;
-            boolean checkExist = false;
-            for (SizeItemModel sizeItemModel : sizeItemList) {
-                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 5) {
-                    sizeItemModel.setQuantity(quantityXXL);
-                    checkExist = true;
-                }
-            }
-            for (ImportItemsModel importItemsModel : importItemList) {
-                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 5) {
-                    importItemsModel.setQuantity(quantityXXL);
-                    importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
-                    checkExist = true;
-                }
-            }
-            if (!checkExist) {
-                SizeItemModel sizeItemModel = new SizeItemModel();
-                sizeItemModel.setProductId(productModel.getId());
-                sizeItemModel.setQuantity(quantityXXL);
-                sizeItemModel.setSizeId(5);
-                sizeItemList.add(sizeItemModel);
-
-                ImportItemsModel importItemsModel = new ImportItemsModel();
-                importItemsModel.setProduct_id(productModel.getId());
-                importItemsModel.setSize_id(5);
-                sizeItemModel.setQuantity(quantityXXL);
-                importItemsModel.setQuantity(quantityXXL);
-                importItemsModel.setPrice(Integer.parseInt(priceTextField.getText()));
-                importItemList.add(importItemsModel);
-            }
-        } else {
-            Iterator<ImportItemsModel> iterator = importItemList.iterator();
-            while (iterator.hasNext()) {
-                ImportItemsModel importItemsModel = iterator.next();
-                if (importItemsModel.getProduct_id() == productModel.getId() && importItemsModel.getSize_id() == 5) {
-                    iterator.remove();
-                }
-            }
-
-            Iterator<SizeItemModel> iteratorSize = sizeItemList.iterator();
-            while (iteratorSize.hasNext()) {
-                SizeItemModel sizeItemModel = iteratorSize.next();
-                if (sizeItemModel.getProductId() == productModel.getId() && sizeItemModel.getSizeId() == 5) {
-                    iteratorSize.remove();
+                    if (sizeItemModel.getProductId() == productModel.getId()
+                            && sizeItemModel.getSizeId() == sizeIds[i]) {
+                        iteratorSize.remove();
+                    }
                 }
             }
         }
@@ -404,7 +233,6 @@ public class ImportItemProduct extends JPanel {
         ImageIcon deleteIcon = new ImageIcon(getClass().getResource("/resources/icons/delete_icon.png"));
         deleteButton.setIcon(deleteIcon);
         deleteButton.setPreferredSize(new Dimension(20, 20));
-
         setLayout(new FlowLayout(FlowLayout.CENTER, 35, 5));
 
         sttLabel.setText("" + i);
@@ -470,6 +298,9 @@ public class ImportItemProduct extends JPanel {
         private boolean isNumeric(String text) {
             return Pattern.matches("[0-9]\\d*", text);
         }
+    }
 
+    public void updateSequenceNumber(int newNumber) {
+        sttLabel.setText("" + newNumber);
     }
 }
