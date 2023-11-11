@@ -4,6 +4,7 @@ import java.awt.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -125,16 +126,15 @@ public class Revenue extends JPanel {
         for (OrderModel order : OrderBUS.getInstance().getAllModels()) {
             LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             currentOrderID = order.getId();
-            for(OrderItemModel orderItem : OrderItemBUS.getInstance().getAllModels()) {
-                if(orderItem.getOrderId() == currentOrderID && orderDate.getMonthValue() == now.getMonthValue() && orderDate.getYear() == now.getYear()) {
+            for (OrderItemModel orderItem : OrderItemBUS.getInstance().getAllModels()) {
+                if (orderItem.getOrderId() == currentOrderID && orderDate.getMonthValue() == now.getMonthValue() && orderDate.getYear() == now.getYear()) {
                     totalSold += orderItem.getQuantity();
-                }else {
-                    totalSold = 0;
                 }
             }
         }
         return totalSold;
     }
+
 
     public int getTotalPointsUsedCurrentMonth() {
         LocalDate now = LocalDate.now();
@@ -149,10 +149,10 @@ public class Revenue extends JPanel {
         return totalUsed;
     }
 
-    public int getPercentTotalOrder() {
+    public double getPercentTotalOrder() {
         int totalOrdersCurrentMonth = 0;
         int totalOrdersPreviousMonth = 0;
-        int percentTotal = 0;
+        double percentTotal = 0;
         LocalDate orderDateCurrent = LocalDate.now();
         LocalDate orderDatePreviousMonth = orderDateCurrent.minusMonths(1);
 
@@ -164,17 +164,15 @@ public class Revenue extends JPanel {
                 totalOrdersPreviousMonth++;
             }
         }
-        percentTotal = (totalOrdersCurrentMonth - totalOrdersPreviousMonth) * 100;
-        if (percentTotal > 100) {
-            return 100;
-        }
+        percentTotal = ((totalOrdersCurrentMonth - totalOrdersPreviousMonth)/totalOrdersPreviousMonth) * 100;
+
         return percentTotal;
     }
 
-    public int getPercentTotalRevenue() {
+    public double getPercentTotalRevenue() {
         int totalRevenueCurrentMonth = 0;
         int totalRevenuePreviousMonth = 0;
-        int percentTotal = 0;
+        double percentTotal = 0;
         LocalDate orderDateCurrent = LocalDate.now();
         LocalDate orderDatePreviousMonth = orderDateCurrent.minusMonths(1);
 
@@ -186,50 +184,44 @@ public class Revenue extends JPanel {
                 totalRevenuePreviousMonth += order.getTotalPrice();
             }
         }
-        percentTotal = (totalRevenueCurrentMonth - totalRevenuePreviousMonth) * 100;
-        if (percentTotal > 100) {
-            return 100;
-        }
+        percentTotal = ((totalRevenueCurrentMonth - totalRevenuePreviousMonth)/totalRevenuePreviousMonth) * 100;
+
+
         return percentTotal;
     }
 
-    public int getPercentTotalProductSold() {
-        int totalCurrent = 0;
-        int totalPrevious = 0;
+    public double getPercentTotalProductSold() {
+        double totalCurrent = 0;
+        double totalPrevious = 0;
         LocalDate orderDateCurrent = LocalDate.now();
         LocalDate orderDatePreviousMonth = orderDateCurrent.minusMonths(1);
+        List<OrderModel> list = OrderBUS.getInstance().getAllModels();
+        List<OrderItemModel> listItem = OrderItemBUS.getInstance().getAllModels();
         int currentOrderID = 0;
 
-
-        for(OrderModel order : OrderBUS.getInstance().getAllModels()) {
+        for (OrderModel order : list) {
             LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             if(orderDateCurrent.getMonth() == orderDate.getMonth() && orderDateCurrent.getYear() == orderDate.getYear()) {
                 currentOrderID = order.getId();
-                for(OrderItemModel orderItem : OrderItemBUS.getInstance().getAllModels()) {
-                    if(orderItem.getOrderId() == currentOrderID) {
+                for (OrderItemModel orderItem  : listItem) {
+                    if(currentOrderID == orderItem.getOrderId()) {
                         totalCurrent += orderItem.getQuantity();
-                    }else {
-                        totalCurrent = 0;
                     }
                 }
             }else if(orderDate.getMonth() == orderDatePreviousMonth.getMonth() && orderDate.getYear() == orderDatePreviousMonth.getYear()) {
-                for(OrderItemModel orderItem : OrderItemBUS.getInstance().getAllModels()) {
-                    totalPrevious += orderItem.getQuantity();
-                }
-                break;
+                totalPrevious += listItem.get(order.getId()-1).getQuantity();
             }
         }
-        int total = (totalCurrent - totalPrevious) * 100;
-        if (total > 100) {
-            return 100;
-        }
+
+        double total = ((totalCurrent - totalPrevious)/totalPrevious) * 100;
+
         return total;
     }
 
-    public int getPercentTotalPointsUsed() {
+    public double getPercentTotalPointsUsed() {
         int totalPointsCurrentMonth = 0;
         int totalPointsPreviousMonth = 0;
-        int percentTotal = 0;
+        double percentTotal = 0;
         LocalDate orderDateCurrent = LocalDate.now();
         LocalDate orderDatePreviousMonth = orderDateCurrent.minusMonths(1);
 
@@ -242,12 +234,7 @@ public class Revenue extends JPanel {
             }
         }
 
-        percentTotal = (totalPointsCurrentMonth - totalPointsPreviousMonth) * 100;
-        if (percentTotal > 100) {
-            return 100;
-        } else if (percentTotal < 0) {
-            return 0;
-        }
+        percentTotal = ((totalPointsCurrentMonth - totalPointsPreviousMonth)/totalPointsPreviousMonth) * 100;
         return percentTotal;
     }
 
