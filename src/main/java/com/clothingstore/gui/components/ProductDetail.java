@@ -97,8 +97,9 @@ public class ProductDetail extends JFrame {
     ButtonExit = new JButton();
     ButtonAdd = new JButton();
     buttonDiscontinued = new JButton();
+    buttonContinued = new JButton();
     Remaining = new JLabel();
-    spinner= new JSpinner();
+    spinner = new JSpinner();
 
     ImagePanel.setLayout(new GridBagLayout());
 
@@ -339,15 +340,15 @@ public class ProductDetail extends JFrame {
       getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 320, -1, -1));
     } else {
       if (productModel.getStatus() != 0) {
-        buttonDiscontinued.setText("Discontinued"); // ngừng kinh doanh tương tự như xóa , khác cái là đổi status = 0
+        buttonDiscontinued.setText("Discontinued");
         buttonDiscontinued.setPreferredSize(new Dimension(94, 28));
         getContentPane().add(buttonDiscontinued, new AbsoluteConstraints(380, 320, -1, -1));
         buttonDiscontinued.addActionListener(actionDiscontinued);
-        if (productModel.getStatus() == 1) {
-          // trong này sẽ thêm nút tạm ngừng kinh doanh và xử lý sự kiên để status về 2
-        } else {
-          // trong này sẽ thêm nút kinh doanh và xử lý sự kiên để status về 1
-        }
+      } else {
+        buttonContinued.setText("Continued");
+        buttonContinued.setPreferredSize(new Dimension(94, 28));
+        getContentPane().add(buttonContinued, new AbsoluteConstraints(380, 320, -1, -1));
+        buttonContinued.addActionListener(actionContinued);
       }
     }
 
@@ -359,11 +360,27 @@ public class ProductDetail extends JFrame {
     public void actionPerformed(ActionEvent e) {
       JFrame jf = new JFrame();
       jf.setAlwaysOnTop(true);
-      int choice = JOptionPane.showConfirmDialog(jf, "Do you want to delete this product?", "Confirmation",
+      int choice = JOptionPane.showConfirmDialog(jf, "Do you want to discontinued this product?", "Confirmation",
           JOptionPane.YES_NO_OPTION);
       if (choice == JOptionPane.YES_OPTION) {
-        // Xử lý chuyển status về 0 cái này là ngừng kinh doanh hẳn.
-        // Sau khi xóa cập nhật giao diện người dùng
+        productModel.setStatus(0);
+        ProductBUS.getInstance().updateModel(productModel);
+        setVisible(false);
+      }
+    }
+  };
+
+  public ActionListener actionContinued = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      JFrame jf = new JFrame();
+      jf.setAlwaysOnTop(true);
+      int choice = JOptionPane.showConfirmDialog(jf, "Do you want to Continued this product?", "Confirmation",
+          JOptionPane.YES_NO_OPTION);
+      if (choice == JOptionPane.YES_OPTION) {
+        productModel.setStatus(1);
+        ProductBUS.getInstance().updateModel(productModel);
+        setVisible(false);
       }
     }
   };
@@ -372,6 +389,7 @@ public class ProductDetail extends JFrame {
   private JButton ButtonAdd;
   private JButton ButtonExit;
   private JButton buttonDiscontinued;
+  private JButton buttonContinued;
   private JLabel Category;
   private JLabel CategoryText;
   private JTextPane Describe;
@@ -389,12 +407,12 @@ public class ProductDetail extends JFrame {
   private JPanel SizePanel;
   private JSpinner spinner;
 
-  private ActionListener AddToCartAction= new ActionListener() {
+  private ActionListener AddToCartAction = new ActionListener() {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      //đưa dữ liệu sản phẩm số lượng và size qua invoice
-      Invoice.getInstance().addToCart(productModel, selectedSizeId ,(int) spinner.getValue());
+      // đưa dữ liệu sản phẩm số lượng và size qua invoice
+      Invoice.getInstance().addToCart(productModel, selectedSizeId, (int) spinner.getValue());
     }
   };
 }

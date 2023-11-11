@@ -73,8 +73,9 @@ public class ProductDAO implements IDAO<ProductModel> {
         product.getCategoryId(),
         product.getImage(),
         product.getGender(),
+        product.getPrice(),
+        product.getStatus(),
         product.getId(),
-        product.getStatus()
     };
     try {
       return DatabaseConnection.executeUpdate(updateSql, args);
@@ -110,7 +111,8 @@ public class ProductDAO implements IDAO<ProductModel> {
       query = "SELECT * FROM products WHERE " + column + " LIKE ?";
     } else {
       String columns = String.join(",", columnNames);
-      query = "SELECT id, name, category_id, image, gender, price, status FROM products WHERE CONCAT(" + columns + ") LIKE ?";
+      query = "SELECT id, name, category_id, image, gender, price, status FROM products WHERE CONCAT(" + columns
+          + ") LIKE ?";
     }
 
     try (PreparedStatement pst = DatabaseConnection.getPreparedStatement(query, "%" + condition + "%")) {
