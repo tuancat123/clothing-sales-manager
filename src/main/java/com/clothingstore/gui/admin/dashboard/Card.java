@@ -5,12 +5,13 @@ import javax.swing.*;
 
 public class Card extends JPanel {
 
-    
-    public Card( String icon, String name, int value, Color color, int percent) {
+
+    public Card( String icon, String name, int value, Color color, double percent) {
         initComponents(icon, name, value, color , percent);
     }
 
-    private void initComponents(String icon, String name, int value, Color color, int percent) {
+
+	private void initComponents(String icon, String name, int value, Color color, double percent) {
 
         Icon = new JLabel();
         MainPanel = new JPanel();
@@ -23,7 +24,7 @@ public class Card extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setLayout(new BorderLayout());
         setBackground(color);
-        
+
         Icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/"+icon)));
         Icon.setHorizontalAlignment(SwingConstants.RIGHT);
         add(Icon, BorderLayout.PAGE_START);
@@ -40,7 +41,9 @@ public class Card extends JPanel {
         Panel.setBackground(color);
         Panel.setBorder(BorderFactory.createEmptyBorder(7,5,5,7));
 
-        ProgressBar.setValue(percent);
+
+        int progressBarValue = (int) Math.round(Math.min(Math.max(percent, 0), 100));
+        ProgressBar.setValue(progressBarValue);
         ProgressBar.setStringPainted(true);
         Panel.add(ProgressBar, BorderLayout.CENTER);
         MainPanel.add(Panel);
@@ -58,5 +61,5 @@ public class Card extends JPanel {
     private JLabel Value;
     private JPanel Panel;
     private JProgressBar ProgressBar;
-    
+
 }
