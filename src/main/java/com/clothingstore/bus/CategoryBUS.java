@@ -106,4 +106,14 @@ public class CategoryBUS {
         }
         return false;
     }
+
+    public int getCategoryIdByName(String categoryName) {
+        List<CategoryModel> categories = getAllCategories();
+        for (CategoryModel category : categories) {
+            if (category.getCategoryName().equals(categoryName)) {
+                return category.getId();
+            }
+        }
+        return -1;
+    }
 }

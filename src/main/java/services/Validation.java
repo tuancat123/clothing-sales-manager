@@ -30,4 +30,9 @@ public class Validation {
     return isMatch(email, regex);
   }
 
+  public static boolean isValidPrice(String input) {
+    String regex = "^\\d+(\\.\\d+)?$";
+    return input.matches(regex);
+  }
+
 }
