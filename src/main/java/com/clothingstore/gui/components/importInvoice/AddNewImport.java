@@ -6,6 +6,7 @@ import com.clothingstore.bus.ImportBUS;
 import com.clothingstore.bus.ImportItemsBUS;
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.SizeItemBUS;
+import com.clothingstore.gui.components.AddProduct;
 import com.clothingstore.models.ImportItemsModel;
 import com.clothingstore.models.ImportModel;
 import com.clothingstore.models.ProductModel;
@@ -31,7 +32,7 @@ public class AddNewImport extends JPanel {
     private JLabel idProductLabel;
     private JTextField idProductTextField;
 
-    private JButton newImportButton;
+    private JButton refreshImportButton;
     private JScrollPane listImportItemScrollPane;
     private JLabel titleLabel;
     private JPanel listImportItemPanel;
@@ -57,8 +58,39 @@ public class AddNewImport extends JPanel {
     }
 
     private void handleEvent() {
-        idProductTextField.addActionListener(e -> addNewProduct());
+        idProductTextField.addActionListener(e -> addNewItemProduct());
         saveButton.addActionListener(e -> addNewImport());
+        addNewProductButton.addActionListener(e -> addNewProduct());
+        refreshImportButton.addActionListener(e -> refreshNewImport());
+    }
+
+    private void refreshNewImport() {
+        int confirmation = JOptionPane.showConfirmDialog(
+                this,
+                "Do you want to refresh the import?",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION
+        );
+    
+        if (confirmation == JOptionPane.YES_OPTION) {
+            importItemProducts.clear();
+            listImportItemPanel.removeAll();
+            listImportItemPanel.revalidate();
+            listImportItemPanel.repaint();
+            
+            quantityImportItem = 1;
+    
+    
+            revalidate();
+            repaint();
+    
+            JOptionPane.showMessageDialog(null, "Import refreshed successfully");
+        }
+    }
+    
+
+    private void addNewProduct() {
+        new AddProduct();
     }
 
     private void addNewImport() {
@@ -104,7 +136,7 @@ public class AddNewImport extends JPanel {
         }
     }
 
-    private void addNewProduct() {
+    private void addNewItemProduct() {
         try {
             int idProduct = Integer.parseInt(idProductTextField.getText());
             ProductModel productModel = ProductBUS.getInstance().getModelById(idProduct);
@@ -157,7 +189,7 @@ public class AddNewImport extends JPanel {
 
         headerPanel = new JPanel();
         titleLabel = new JLabel();
-        newImportButton = new JButton();
+        refreshImportButton = new JButton();
         cancelImportButton = new JButton();
         contentPanel = new JPanel();
         idEmpLabel = new JLabel();
@@ -182,8 +214,8 @@ public class AddNewImport extends JPanel {
         headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 300, 20));
         headerPanel.add(titleLabel);
 
-        newImportButton.setText("New Import");
-        headerPanel.add(newImportButton);
+        refreshImportButton.setText("Refresh Import");
+        headerPanel.add(refreshImportButton);
 
         cancelImportButton.setText("Cancel ");
 

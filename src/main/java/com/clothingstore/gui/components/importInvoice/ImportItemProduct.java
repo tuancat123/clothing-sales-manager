@@ -44,6 +44,8 @@ public class ImportItemProduct extends JPanel {
         initComponents(productModel, i);
         handleEvent();
         updateDataForSize(1, 1);
+        sizeSRadioButton.setSelected(true);
+        sizeSQuantitySpinner.setEnabled(true);
     }
 
     private void handleEvent() {
