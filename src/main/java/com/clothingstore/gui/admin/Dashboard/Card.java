@@ -1,4 +1,4 @@
-package com.clothingstore.gui.admin.dashboard;
+package com.clothingstore.gui.admin.Dashboard;
 
 import java.awt.*;
 import javax.swing.*;
@@ -6,11 +6,11 @@ import javax.swing.*;
 public class Card extends JPanel {
 
     
-    public Card( String icon, String name, String value, Color color, int percent) {
+    public Card( String icon, String name, int value, Color color, int percent) {
         initComponents(icon, name, value, color , percent);
     }
 
-    private void initComponents(String icon, String name, String value, Color color, int percent) {
+    private void initComponents(String icon, String name, int value, Color color, int percent) {
 
         Icon = new JLabel();
         MainPanel = new JPanel();
@@ -46,7 +46,7 @@ public class Card extends JPanel {
         MainPanel.add(Panel);
 
         Value.setFont(new Font("Segoe UI", 3, 16)); // NOI18N
-        Value.setText(value);
+        Value.setText(value+"");
         MainPanel.add(Value);
 
         add(MainPanel, BorderLayout.CENTER);

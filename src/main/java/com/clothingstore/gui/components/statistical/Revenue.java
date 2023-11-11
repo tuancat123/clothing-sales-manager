@@ -1,11 +1,22 @@
 package com.clothingstore.gui.components.statistical;
 
 import java.awt.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import javax.swing.*;
 
-import com.clothingstore.gui.admin.dashboard.Card;
+import com.clothingstore.bus.OrderBUS;
+import com.clothingstore.bus.OrderItemBUS;
+import com.clothingstore.bus.PointBUS;
+import com.clothingstore.bus.PointTransactionBUS;
+import com.clothingstore.gui.admin.Dashboard.Card;
 import com.clothingstore.gui.components.customerList.Invoice;
+import com.clothingstore.models.OrderItemModel;
+import com.clothingstore.models.OrderModel;
+import com.clothingstore.models.PointModel;
+import com.clothingstore.models.PointTransactionModel;
 
 public class Revenue extends JPanel {
     private static Revenue instance;
@@ -40,27 +51,39 @@ public class Revenue extends JPanel {
         CardPanel.setBorder(BorderFactory.createEmptyBorder(15,5,15,5));
         CardPanel.setPreferredSize(new Dimension(90,150));
 
-        Card card1 = new Card("cart.png", "Total Order","34", new Color(0, 230, 230), 30);
+        Card card1 = new Card("cart.png", "Total Order",getTotalOrderCurrentMonth(), new Color(0, 230, 230), getPercentTotalOrder());
         CardPanel.add(card1);
 
-        Card card2 = new Card("coin.png", "Total Revenue","340.000"+"$", new Color(255, 77, 77), 34);
+        Card card2 = new Card("coin.png", "Total Revenue",getTotalRevenueCurrentMonth(), new Color(255, 77, 77), getPercentTotalRevenue());
         CardPanel.add(card2);
 
-        Card card3 = new Card("clothing.png", "Products Sold","33", new Color(255, 128, 0), 33);
+        Card card3 = new Card("clothing.png", "Products Sold",getTotalProductSoldCurrentMonth(), new Color(255, 128, 0), getPercentTotalProductSold());
         CardPanel.add(card3);
 
-        Card card4 = new Card("coin.png", "Points Earned","3000", new Color(153, 51, 255), 77);
+        Card card4 = new Card("coin.png", "Points Earned",getTotalPointsUsedCurrentMonth(), new Color(153, 51, 255), getPercentTotalPointsUsed());
         CardPanel.add(card4);
 
         Invoice.setLayout(new GridLayout(0,1));
-        Invoice invoiceHeader = new Invoice("Id", "Customer Id", "Quantity", "Total");
+        Invoice invoiceHeader = new Invoice("Id", "Customer Id", "Date", "Total");
         Invoice.add(invoiceHeader);
 
-        for(int i = 0; i< 10; i++){
-            Invoice invoice = new Invoice("001","002","5","3000.000");
-            invoice.setPreferredSize(new Dimension(35,35));
-            Invoice.add(invoice);
+//        for(int i = 0; i< 10; i++){
+//            Invoice invoice = new Invoice("001","002","5","3000.000");
+//            invoice.setPreferredSize(new Dimension(35,35));
+//            Invoice.add(invoice);
+//        }
+
+//        LocalDate now = LocalDate.of(2023, 10, 16);
+        LocalDate now = LocalDate.now();
+        for(OrderModel order : OrderBUS.getInstance().getAllModels()) {
+            LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if(now.equals(orderDate)) {
+                Invoice invoice = new Invoice(String.valueOf(order.getId()),String.valueOf(order.getCustomerId()),String.valueOf(order.getOrderDate()), String.valueOf(order.getTotalPrice()));
+                invoice.setPreferredSize(new Dimension(35,35));
+                Invoice.add(invoice);
+            }
         }
+
         Scroll.setViewportView(Invoice);
 
         NamePanel.setFont(new Font("Segoe UI", 1, 17));
@@ -69,8 +92,170 @@ public class Revenue extends JPanel {
         add(CardPanel, BorderLayout.NORTH);
         add(ChartPanel, BorderLayout.WEST);
         add(Scroll, BorderLayout.CENTER);
-        
     }
+
+    public int getTotalOrderCurrentMonth() {
+        LocalDate now = LocalDate.now();
+        int totalOrders = 0;
+
+        for (OrderModel order : OrderBUS.getInstance().getAllModels()) {
+            LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if (orderDate.getMonthValue() == now.getMonthValue() && orderDate.getYear() == now.getYear()) {
+                totalOrders++;
+            }
+        }
+        return totalOrders;
+    }
+
+    public int getTotalRevenueCurrentMonth() {
+        LocalDate now = LocalDate.now();
+        int totalOrders = 0;
+
+        for (OrderModel order : OrderBUS.getInstance().getAllModels()) {
+            LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if (orderDate.getMonthValue() == now.getMonthValue() && orderDate.getYear() == now.getYear()) {
+                totalOrders += order.getTotalPrice();
+            }
+        }
+        return totalOrders;
+    }
+
+    public int getTotalProductSoldCurrentMonth() {
+        LocalDate now = LocalDate.now();
+        int totalSold = 0;
+        int currentOrderID = 0;
+        for (OrderModel order : OrderBUS.getInstance().getAllModels()) {
+            LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            currentOrderID = order.getId();
+            for(OrderItemModel orderItem : OrderItemBUS.getInstance().getAllModels()) {
+                if(orderItem.getOrderId() == currentOrderID && orderDate.getMonthValue() == now.getMonthValue() && orderDate.getYear() == now.getYear()) {
+                    totalSold += orderItem.getQuantity();
+                }else {
+                    totalSold = 0;
+                }
+            }
+        }
+        return totalSold;
+    }
+
+    public int getTotalPointsUsedCurrentMonth() {
+        LocalDate now = LocalDate.now();
+        int totalUsed = 0;
+
+        for (PointTransactionModel point : PointTransactionBUS.getInstance().getAllModels()) {
+            LocalDate orderDate = Instant.ofEpochMilli(point.getTransactionDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if (orderDate.getMonthValue() == now.getMonthValue() && orderDate.getYear() == now.getYear()) {
+                totalUsed += point.getPointsUsed();
+            }
+        }
+        return totalUsed;
+    }
+
+    public int getPercentTotalOrder() {
+        int totalOrdersCurrentMonth = 0;
+        int totalOrdersPreviousMonth = 0;
+        int percentTotal = 0;
+        LocalDate orderDateCurrent = LocalDate.now();
+        LocalDate orderDatePreviousMonth = orderDateCurrent.minusMonths(1);
+
+        for (OrderModel order : OrderBUS.getInstance().getAllModels()) {
+            LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if (orderDate.getMonth() == orderDateCurrent.getMonth() && orderDate.getYear() == orderDateCurrent.getYear()) {
+                totalOrdersCurrentMonth++;
+            } else if (orderDate.getMonth() == orderDatePreviousMonth.getMonth() && orderDate.getYear() == orderDatePreviousMonth.getYear()) {
+                totalOrdersPreviousMonth++;
+            }
+        }
+        percentTotal = (totalOrdersCurrentMonth - totalOrdersPreviousMonth) * 100;
+        if (percentTotal > 100) {
+            return 100;
+        }
+        return percentTotal;
+    }
+
+    public int getPercentTotalRevenue() {
+        int totalRevenueCurrentMonth = 0;
+        int totalRevenuePreviousMonth = 0;
+        int percentTotal = 0;
+        LocalDate orderDateCurrent = LocalDate.now();
+        LocalDate orderDatePreviousMonth = orderDateCurrent.minusMonths(1);
+
+        for (OrderModel order : OrderBUS.getInstance().getAllModels()) {
+            LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if (orderDate.getMonth() == orderDateCurrent.getMonth() && orderDate.getYear() == orderDateCurrent.getYear()) {
+                totalRevenueCurrentMonth += order.getTotalPrice();
+            } else if (orderDate.getMonth() == orderDatePreviousMonth.getMonth() && orderDate.getYear() == orderDatePreviousMonth.getYear()) {
+                totalRevenuePreviousMonth += order.getTotalPrice();
+            }
+        }
+        percentTotal = (totalRevenueCurrentMonth - totalRevenuePreviousMonth) * 100;
+        if (percentTotal > 100) {
+            return 100;
+        }
+        return percentTotal;
+    }
+
+    public int getPercentTotalProductSold() {
+        int totalCurrent = 0;
+        int totalPrevious = 0;
+        LocalDate orderDateCurrent = LocalDate.now();
+        LocalDate orderDatePreviousMonth = orderDateCurrent.minusMonths(1);
+        int currentOrderID = 0;
+
+
+        for(OrderModel order : OrderBUS.getInstance().getAllModels()) {
+            LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if(orderDateCurrent.getMonth() == orderDate.getMonth() && orderDateCurrent.getYear() == orderDate.getYear()) {
+                currentOrderID = order.getId();
+                for(OrderItemModel orderItem : OrderItemBUS.getInstance().getAllModels()) {
+                    if(orderItem.getOrderId() == currentOrderID) {
+                        totalCurrent += orderItem.getQuantity();
+                    }else {
+                        totalCurrent = 0;
+                    }
+                }
+            }else if(orderDate.getMonth() == orderDatePreviousMonth.getMonth() && orderDate.getYear() == orderDatePreviousMonth.getYear()) {
+                for(OrderItemModel orderItem : OrderItemBUS.getInstance().getAllModels()) {
+                    totalPrevious += orderItem.getQuantity();
+                }
+                break;
+            }
+        }
+        int total = (totalCurrent - totalPrevious) * 100;
+        if (total > 100) {
+            return 100;
+        }
+        return total;
+    }
+
+    public int getPercentTotalPointsUsed() {
+        int totalPointsCurrentMonth = 0;
+        int totalPointsPreviousMonth = 0;
+        int percentTotal = 0;
+        LocalDate orderDateCurrent = LocalDate.now();
+        LocalDate orderDatePreviousMonth = orderDateCurrent.minusMonths(1);
+
+        for (PointTransactionModel point : PointTransactionBUS.getInstance().getAllModels()) {
+            LocalDate orderDate = Instant.ofEpochMilli(point.getTransactionDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+            if (orderDate.getMonth() == orderDateCurrent.getMonth() && orderDate.getYear() == orderDateCurrent.getYear()) {
+                totalPointsCurrentMonth += point.getPointsUsed();
+            } else if (orderDate.getMonth() == orderDatePreviousMonth.getMonth() && orderDate.getYear() == orderDatePreviousMonth.getYear()) {
+                totalPointsPreviousMonth += point.getPointsUsed();
+            }
+        }
+
+        percentTotal = (totalPointsCurrentMonth - totalPointsPreviousMonth) * 100;
+        if (percentTotal > 100) {
+            return 100;
+        } else if (percentTotal < 0) {
+            return 0;
+        }
+        return percentTotal;
+    }
+
+
+
+
     private JLabel NamePanel;
     private JPanel CardPanel;
     private JPanel ChartPanel;
