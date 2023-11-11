@@ -40,7 +40,6 @@ public class Invoice extends JPanel {
     Value = new JLabel();
     ButtonCancel = new JButton();
     ButtonPay = new JButton();
-    ButtonPrint = new JLabel();
 
     Color color = new Color(128, 179, 255);
 
@@ -111,7 +110,6 @@ public class Invoice extends JPanel {
     ButtonPay.setPreferredSize(new Dimension(72, 20));
     ButtonPay.addActionListener(PayAction);
 
-    ButtonPrint.setIcon(new ImageIcon(getClass().getResource("/config/icon/printer.png")));
 
     Header.add(Index, BorderLayout.LINE_START);
     Header.add(None, BorderLayout.LINE_END);
@@ -125,14 +123,12 @@ public class Invoice extends JPanel {
     Footer.add(Value, new AbsoluteConstraints(0, 40, 120, 30));
     Footer.add(ButtonCancel, new AbsoluteConstraints(40, 80, 90, 30));
     Footer.add(ButtonPay, new AbsoluteConstraints(170, 80, 90, 30));
-    Footer.add(ButtonPrint, new AbsoluteConstraints(250, 30, -1, -1));
     add(Footer, BorderLayout.SOUTH);
 
   }
 
   private JButton ButtonCancel;
   private JButton ButtonPay;
-  private JLabel ButtonPrint;
   private JPanel Content;
   private JPanel Footer;
   private JPanel Header;

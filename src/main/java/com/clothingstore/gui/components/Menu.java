@@ -5,14 +5,26 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import com.clothingstore.bus.RoleBUS;
+import com.clothingstore.bus.UserBUS;
 import com.clothingstore.gui.models.MenuData;
 import com.clothingstore.gui.models.MenuItemData;
+import com.clothingstore.models.UserModel;
+
+import services.Authentication;
 
 public class Menu extends JPanel {
     private static Menu instance;
 
+    private JPanel Panel;
+    private JPanel Header;
+    private JLabel NameUser;
+    private JLabel RoleUser;
+    private JLabel Icon;
+
     JPopupMenu popupMenu;
     JMenuItem menuItem;
+    UserModel currentUser = Authentication.getCurrentUser();
 
     public static Menu getInstance(ArrayList<MenuData> data) {
         if (instance == null) {
@@ -26,21 +38,31 @@ public class Menu extends JPanel {
     }
 
     public void initComponents(ArrayList<MenuData> data) {
-        setLayout(new GridLayout(10, 1, 10, 5));
+        Panel = new JPanel();
+        Header = new JPanel();
+        NameUser = new JLabel();
+        RoleUser = new JLabel();
+        Icon = new JLabel();
         setPreferredSize(new Dimension(0,150));
-        setBackground(new Color(0, 26, 51));
+        setLayout(new BorderLayout());
+        
+        Panel.setBackground(new Color(0, 26, 51));
+        Panel.setLayout(new GridLayout(10, 1, 10, 5));
+
         for (MenuData menuData : data) {
 
             ArrayList<MenuItemData> dataMenuItem = menuData.getItemData();
 
             JButton menuButton = new JButton(menuData.getName());
             menuButton.addActionListener(menuData.getActionListener());
-
+            menuButton.setFont(new Font("Segoe UI", 0, 13));
             menuButton.setPreferredSize(new Dimension(50, 50));
             menuButton.setBackground(new Color(153, 153, 255));
-            menuButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            menuButton.setBorder(BorderFactory.createEmptyBorder(5,32,5,5));
             menuButton.setBorderPainted(false);
             menuButton.setOpaque(true);
+            menuButton.setIcon(new ImageIcon(getClass().getResource("/config/icon/menu/"+menuData.getIcon()+".png")));
+            menuButton.setHorizontalAlignment(SwingConstants.LEFT);
 
             JPopupMenu popupMenu = new JPopupMenu();
 
@@ -65,7 +87,28 @@ public class Menu extends JPanel {
                     popupMenu.show(menuButton, menuButton.getWidth(), 0);
                 }
             });
-            add(menuButton);
+            Panel.add(menuButton);
         }
+        add(Panel, BorderLayout.CENTER);
+
+        Header.setPreferredSize(new Dimension(70,75));
+        Header.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));
+        Header.setLayout(new BorderLayout());
+        Header.setBackground(new Color(102, 102, 255));
+
+        NameUser.setText(currentUser.getName());
+        NameUser.setFont(new Font("Segoe UI", 1, 15));
+        NameUser.setHorizontalAlignment(SwingConstants.CENTER);
+        Header.add(NameUser, BorderLayout.CENTER);
+
+        RoleUser.setText(RoleBUS.getInstance().getModelById(currentUser.getRoleId()).getName());
+        RoleUser.setFont(new Font("Segoe UI", 2, 13));
+        RoleUser.setForeground(Color.DARK_GRAY);
+        RoleUser.setHorizontalAlignment(SwingConstants.RIGHT);
+        Header.add(RoleUser, BorderLayout.SOUTH);
+
+        Icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/menu/user.png")));
+        Header.add(Icon, BorderLayout.WEST);
+        add(Header, BorderLayout.NORTH);
     }
 }

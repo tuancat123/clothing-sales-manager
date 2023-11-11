@@ -51,16 +51,16 @@ public class NavData {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Timer timer;
-                if (menuWidth > 0 && menuWidth < 150) {
+                if (menuWidth > 0 && menuWidth < 200) {
                     return;
                 } else {
                     if (isExpanding) {
                         timer = new Timer(10, new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                if (menuWidth <= 150) {
+                                if (menuWidth <= 200) {
                                     menuWidth += 10;
-                                    menu.setPreferredSize(new Dimension(menuWidth, 150));
+                                    menu.setPreferredSize(new Dimension(menuWidth, 200));
                                     menu.repaint();
                                     menu.revalidate();
                                 } else {

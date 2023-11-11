@@ -27,6 +27,7 @@ public class MenuData {
     private String name;
     private ActionListener actionListener;
     private ArrayList<MenuItemData> menuItemData;
+    private String icon;
     public Authentication authentication;
     static UserModel currentUser = Authentication.getCurrentUser();
 
@@ -34,10 +35,11 @@ public class MenuData {
 
     }
 
-    public MenuData(String name, ArrayList<MenuItemData> menuItemData, ActionListener actionListener) {
+    public MenuData(String name, ArrayList<MenuItemData> menuItemData, ActionListener actionListener, String icon) {
         this.name = name;
         this.actionListener = actionListener;
         this.menuItemData = menuItemData;
+        this.icon = icon;
     }
 
     public String getName() {
@@ -50,6 +52,10 @@ public class MenuData {
 
     public ArrayList<MenuItemData> getItemData() {
         return menuItemData;
+    }
+
+    public String getIcon() {
+        return icon;
     }
 
     public static ArrayList<MenuData> getDataMenu() {
@@ -73,8 +79,8 @@ public class MenuData {
     public static ArrayList<MenuData> getDataEmployee() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, ProductAction()));
-        data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction()));
+        data.add(new MenuData("Products", null, ProductAction(), "products"));
+        data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction(),"invoice"));
         data.add(new MenuData(
                 "Customers",
                 new ArrayList<MenuItemData>() {
@@ -82,8 +88,8 @@ public class MenuData {
                         add(new MenuItemData("Customer List", CustomerAction()));
                     }
                 },
-                null));
-        data.add(new MenuData("Logout", null, LogoutAction()));
+                null,"customer"));
+        data.add(new MenuData("Logout", null, LogoutAction(), "logout"));
 
         return data;
     }
@@ -91,18 +97,18 @@ public class MenuData {
     public static ArrayList<MenuData> getDataAdmin() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, ProductAction()));
-        data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction()));
+        data.add(new MenuData("Products", null, ProductAction(), "products"));
+        data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction(),"invoice"));
         data.add(new MenuData(
                 "Inventory Management",
                 new ArrayList<MenuItemData>() {
                     {
                         add(new MenuItemData("Add Import", ImportAction()));
-                        add(new MenuItemData("Import Management", ImportAction()));
+                        add(new MenuItemData("Import List", ImportAction()));
 
                     }
                 },
-                null));
+                null, "import"));
         data.add(new MenuData(
                 "Employees Management",
                 new ArrayList<MenuItemData>() {
@@ -112,7 +118,7 @@ public class MenuData {
 
                     }
                 },
-                null));
+                null, "employee"));
         data.add(new MenuData(
                 "Customers Management",
                 new ArrayList<MenuItemData>() {
@@ -122,18 +128,18 @@ public class MenuData {
 
                     }
                 },
-                null));
-        data.add(new MenuData("Revenue Statistics",null,RevenueAction()));
-        data.add(new MenuData("Role management", null, RoleAction()));
-        data.add(new MenuData("Logout", null, LogoutAction()));
+                null, "customer"));
+        data.add(new MenuData("Revenue Statistics",null,RevenueAction(), "revenue"));
+        data.add(new MenuData("Role management", null, RoleAction(), "role"));
+        data.add(new MenuData("Logout", null, LogoutAction(), "logout"));
         return data;
     }
 
     public static ArrayList<MenuData> getDataManager() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, ProductAction()));
-        data.add(new MenuData("Invoice history", null, InvoiceHistoryAction()));
+        data.add(new MenuData("Products", null, ProductAction(), "products"));
+        data.add(new MenuData("Invoice history", null, InvoiceHistoryAction(), "products"));
         data.add(new MenuData(
                 "Inventory Management",
                 new ArrayList<MenuItemData>() {
@@ -143,7 +149,7 @@ public class MenuData {
 
                     }
                 },
-                null));
+                null, "products"));
         data.add(new MenuData(
                 "Customer Management",
                 new ArrayList<MenuItemData>() {
@@ -153,8 +159,8 @@ public class MenuData {
 
                     }
                 },
-                null));
-        data.add(new MenuData("Logout", null, LogoutAction()));
+                null, "products"));
+        data.add(new MenuData("Logout", null, LogoutAction(), "products"));
         return data;
     }
 

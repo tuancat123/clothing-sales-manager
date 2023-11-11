@@ -32,7 +32,7 @@ public class HomePage extends JFrame {
   }
 
   public void initComponent() {
-    setSize(new Dimension(1130, 628));
+    setSize(new Dimension(1200, 628));
     setLayout(new BorderLayout());
     setBackground(Color.BLACK);
     switch (currentUser.getRoleId()) {

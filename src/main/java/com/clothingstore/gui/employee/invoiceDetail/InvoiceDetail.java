@@ -284,6 +284,7 @@ public class InvoiceDetail extends JFrame {
               PointModel pointModel = PointBUS.getInstance().searchModel(String.valueOf(idCustomer), new String[] {"customer_id"}).get(0);
               pointModel.setPointsEarned(pointModel.getPointsEarned() + (int)totalInvoice/100);
               PointBUS.getInstance().updateModel(pointModel);
+              System.out.println(pointModel.getPointsEarned());
             }
             int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xuất hóa đơn không?");
             if (choice == JOptionPane.YES_OPTION) {
