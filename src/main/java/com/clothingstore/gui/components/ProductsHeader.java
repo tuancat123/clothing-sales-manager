@@ -72,10 +72,10 @@ public class ProductsHeader extends JPanel {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        AddProduct addProduct = new AddProduct();
+        AddNewProduct addProduct = new AddNewProduct();
         addProduct.setVisible(true);
       }
-      
+
     });
 
     ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));

@@ -19,11 +19,6 @@ import com.clothingstore.models.ProductModel;
 import services.Validation;
 
 public class AddNewProduct extends JFrame {
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new AddNewProduct();
-        });
-    }
 
     private ProductModel productModel;
 
@@ -116,6 +111,12 @@ public class AddNewProduct extends JFrame {
         jPanelButton = new JPanel();
         jPanelButton.setLayout(new FlowLayout());
         buttonCancel.setPreferredSize(new java.awt.Dimension(100, 50));
+        buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
         buttonSave.setPreferredSize(new java.awt.Dimension(100, 50));
         buttonSave.addActionListener(saveButtonAction);
         jPanelButton.add(buttonSave);
@@ -325,6 +326,5 @@ public class AddNewProduct extends JFrame {
     private int selectedGenderId = -1;
     private String imagePath;
     private JLabel cancelUpload;
-    // private static int isvalid;
 
 }
