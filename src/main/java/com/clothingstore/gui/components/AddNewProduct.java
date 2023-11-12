@@ -304,7 +304,15 @@ public class AddNewProduct extends JFrame {
                     productModel.setPrice(Double.parseDouble(jTextFieldPrice.getText()));
                     productModel.setStatus(0);
                     productModel.setImage(imagePath);
-                    ProductBUS.getInstance().addModel(productModel);
+                    int resuilt = ProductBUS.getInstance().addModel(productModel);
+                    if (resuilt == 1) {
+                        JOptionPane.showMessageDialog(null, "Product added successfully", "Success",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "An error occurred. Please try again.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         }
