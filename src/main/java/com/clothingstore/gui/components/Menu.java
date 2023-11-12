@@ -61,7 +61,7 @@ public class Menu extends JPanel {
             menuButton.setBorder(BorderFactory.createEmptyBorder(5,32,5,5));
             menuButton.setBorderPainted(false);
             menuButton.setOpaque(true);
-            menuButton.setIcon(new ImageIcon(getClass().getResource("/config/icon/menu/"+menuData.getIcon()+".png")));
+            menuButton.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu/"+menuData.getIcon()+".png")));
             menuButton.setHorizontalAlignment(SwingConstants.LEFT);
 
             JPopupMenu popupMenu = new JPopupMenu();
@@ -107,7 +107,7 @@ public class Menu extends JPanel {
         RoleUser.setHorizontalAlignment(SwingConstants.RIGHT);
         Header.add(RoleUser, BorderLayout.SOUTH);
 
-        Icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/menu/user.png")));
+        Icon.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu/user.png")));
         Header.add(Icon, BorderLayout.WEST);
         add(Header, BorderLayout.NORTH);
     }

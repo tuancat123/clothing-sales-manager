@@ -61,7 +61,7 @@ public class InvoiceProduct extends JPanel {
     Price.setText("" + totalPrice);
     add(Price, new AbsoluteConstraints(160, 28, 90, 28));
 
-    ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/icon/delete.png"));
+    ImageIcon originalIcon = new ImageIcon(getClass().getResource("/resources/icons/delete.png"));
     Image originalImage = originalIcon.getImage();
     Image scaledImage = originalImage.getScaledInstance(17, 17, java.awt.Image.SCALE_REPLICATE);
     ImageIcon scaledIcon = new ImageIcon(scaledImage);

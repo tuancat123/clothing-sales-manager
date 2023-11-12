@@ -69,7 +69,7 @@ public class Invoice extends JPanel {
     setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
     setBackground(color);
 
-    Icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/coin.png")));
+    Icon.setIcon(new ImageIcon(getClass().getResource("/resources/icons/coin.png")));
     Icon.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
     add(Icon, BorderLayout.LINE_START);
 

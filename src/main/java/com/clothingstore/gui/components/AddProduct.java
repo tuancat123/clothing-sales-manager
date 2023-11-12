@@ -11,7 +11,7 @@ import javax.swing.event.*;
 
 public class AddProduct extends JFrame {
 
-  String[] name = { "Name", "Category", "Gender", "Price", "Origin Price", "Description" };
+  String[] name = { "Name", "Category", "Gender", "Price", "Description" };
   ArrayList<String> sizeName = new ArrayList<>(Arrays.asList( "S", "M", "L", "XL", "XXL" ));
   ArrayList<Integer> sizeQuantity = new ArrayList<>(Arrays.asList(-1, -1, -1, -1, -1));
 
@@ -49,7 +49,7 @@ public class AddProduct extends JFrame {
     Panel.setLayout(new BorderLayout());
 
     Content.setLayout(new GridLayout(0, 1));
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < name.length; i++) {
       JPanel IndexPanel = new JPanel();
       IndexPanel.setLayout(new BorderLayout());
       IndexPanel.setPreferredSize(new Dimension(40, 80));
@@ -95,7 +95,7 @@ public class AddProduct extends JFrame {
     ImagePanel.setPreferredSize(new Dimension(250, 480));
     ImagePanel.setBorder(BorderFactory.createEmptyBorder(25, 15, 5, 15));
 
-    ImageIcon originalIcon = new ImageIcon(getClass().getResource("/config/image/Ao/Nam/Hoodie/AoHoodieB.png"));
+    ImageIcon originalIcon = new ImageIcon(getClass().getResource("resources/images/upload_image.png"));
     Image originalImage = originalIcon.getImage();
     Image scaledImage = originalImage.getScaledInstance(220, 290, java.awt.Image.SCALE_SMOOTH);
     ImageIcon scaledIcon = new ImageIcon(scaledImage);

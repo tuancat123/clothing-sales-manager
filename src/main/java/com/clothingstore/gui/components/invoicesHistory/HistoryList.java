@@ -62,7 +62,7 @@ public class HistoryList extends JPanel {
     NameHeader.add(NamePanel, BorderLayout.CENTER);
 
     ButtonBack.setBackground(new Color(242, 242, 242));
-    ButtonBack.setIcon(new ImageIcon(getClass().getResource("/config/icon/back.png"))); // NOI18N
+    ButtonBack.setIcon(new ImageIcon(getClass().getResource("/resources/icons/back.png"))); // NOI18N
     ButtonBack.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
     NameHeader.add(ButtonBack, BorderLayout.LINE_START);
     ButtonBack.addActionListener(closeHistoryList);
@@ -73,7 +73,7 @@ public class HistoryList extends JPanel {
     Panel.setLayout(new BorderLayout());
     Panel.setBackground(color);
 
-    ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/config/icon/search.png"))); // NOI18N
+    ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/resources/icons/search.png"))); // NOI18N
     ButtonSearch.setBorder(null);
     ButtonSearch.setBackground(Color.WHITE);
     Panel.add(ButtonSearch, BorderLayout.WEST);

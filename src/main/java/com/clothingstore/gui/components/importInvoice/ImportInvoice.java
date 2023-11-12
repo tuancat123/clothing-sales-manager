@@ -46,7 +46,7 @@ public class ImportInvoice extends JPanel {
         setBackground(new Color(204, 224, 255));
 
         JLabel icon = new JLabel();
-        icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/coin.png")));
+        icon.setIcon(new ImageIcon(getClass().getResource("/resources/icons/coin.png")));
         icon.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
         add(icon, BorderLayout.LINE_START);
 

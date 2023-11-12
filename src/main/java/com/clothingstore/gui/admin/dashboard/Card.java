@@ -25,7 +25,7 @@ public class Card extends JPanel {
         setLayout(new BorderLayout());
         setBackground(color);
 
-        Icon.setIcon(new ImageIcon(getClass().getResource("/config/icon/"+icon)));
+        Icon.setIcon(new ImageIcon(getClass().getResource("/resources/icons/"+icon)));
         Icon.setHorizontalAlignment(SwingConstants.RIGHT);
         add(Icon, BorderLayout.PAGE_START);
 

@@ -64,7 +64,7 @@ public class ProductsHeader extends JPanel {
     });
     Panel.add(Value, new AbsoluteConstraints(210, 10, 170, 30));
 
-    ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/config/icon/search.png")));
+    ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/resources/icons/search.png")));
     Panel.add(ButtonSearch, new AbsoluteConstraints(380, 10, 30, 30));
 
     ButtonAdd.setText("Add");
@@ -78,7 +78,7 @@ public class ProductsHeader extends JPanel {
       
     });
 
-    ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/config/icon/menu.png")));
+    ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
     ButtonMenu.setBackground(color);
     ButtonMenu.setBorder(null);
     ButtonMenu.addActionListener(NavData.MenuAction());

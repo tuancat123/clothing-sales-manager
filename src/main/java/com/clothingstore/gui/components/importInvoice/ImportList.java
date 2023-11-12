@@ -56,7 +56,7 @@ public class ImportList extends JPanel {
         NameHeader.add(NamePanel, BorderLayout.CENTER);
 
         ButtonBack.setBackground(new Color(242, 242, 242));
-        ButtonBack.setIcon(new ImageIcon(getClass().getResource("/config/icon/back.png")));
+        ButtonBack.setIcon(new ImageIcon(getClass().getResource("/resources/icons/back.png")));
         ButtonBack.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
         NameHeader.add(ButtonBack, BorderLayout.LINE_START);
 
@@ -66,7 +66,7 @@ public class ImportList extends JPanel {
         Panel.setLayout(new BorderLayout());
         Panel.setBackground(color);
 
-        ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/config/icon/search.png")));
+        ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/resources/icons/search.png")));
         ButtonSearch.setBorder(null);
         ButtonSearch.setBackground(Color.WHITE);
         Panel.add(ButtonSearch, BorderLayout.WEST);

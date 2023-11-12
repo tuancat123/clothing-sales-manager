@@ -48,7 +48,7 @@ public class Header extends JPanel {
         Value.setBorder(null);
         SearchPanel.add(Value, BorderLayout.CENTER);
         
-        ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/config/icon/search.png"))); 
+        ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/resources/icons/search.png"))); 
         ButtonSearch.setBorder(null);
         ButtonSearch.setBackground(Color.WHITE);
         SearchPanel.add(ButtonSearch, BorderLayout.EAST);
@@ -60,7 +60,7 @@ public class Header extends JPanel {
         ProfilePanel.setLayout(new BorderLayout());
 
         // Profile.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        Profile.setModel(new DefaultComboBoxModel<>(new Icon[]{(new ImageIcon(getClass().getResource("/config/icon/search.png")))}));
+        Profile.setModel(new DefaultComboBoxModel<>(new Icon[]{(new ImageIcon(getClass().getResource("/resources/icons/search.png")))}));
         ProfilePanel.add(Profile, BorderLayout.CENTER);
 
         Panel.add(ProfilePanel);

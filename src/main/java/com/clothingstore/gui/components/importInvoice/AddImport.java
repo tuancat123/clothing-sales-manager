@@ -91,7 +91,7 @@ public class AddImport extends JFrame {
         ValueSearch.setPreferredSize(new Dimension(130,25));
         Panel.add(ValueSearch);
 
-        ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/config/icon/search.png")));
+        ButtonSearch.setIcon(new ImageIcon(getClass().getResource("/resources/icons/search.png")));
         ButtonSearch.setPreferredSize(new Dimension(25,25));
         ButtonSearch.addActionListener(SearchProductAction);
         Panel.add(ButtonSearch);
