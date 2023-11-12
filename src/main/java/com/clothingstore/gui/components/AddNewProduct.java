@@ -197,14 +197,15 @@ public class AddNewProduct extends JFrame {
 
                     ImageIcon scaledIcon = new ImageIcon(scaledImage);
                     iconUploadLabel.setIcon(scaledIcon);
-                    cancelUpload.addMouseListener(actionCancelImage);
-                    northPanel.add(cancelUpload);
-                    jPanelImage.add(northPanel, BorderLayout.NORTH);
-                    pack();
+
                 } else {
                     // Nếu ảnh không cần giảm kích thước, hiển thị nguyên bản
                     iconUploadLabel.setIcon(originalIcon);
                 }
+                cancelUpload.addMouseListener(actionCancelImage);
+                northPanel.add(cancelUpload);
+                jPanelImage.add(northPanel, BorderLayout.NORTH);
+                pack();
             }
         }
 
