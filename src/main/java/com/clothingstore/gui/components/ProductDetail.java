@@ -158,7 +158,7 @@ public class ProductDetail extends JFrame {
     getContentPane().add(CategoryText, new AbsoluteConstraints(240, 110, 70, -1));
 
     Gender.setFont(new Font("Segoe UI", 0, 16));
-    if (productModel.getGender().equals("1")) {
+    if (productModel.getGender() == 1) {
       Gender.setText("Nam");
     } else {
       Gender.setText("Nữ");

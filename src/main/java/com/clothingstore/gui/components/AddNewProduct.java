@@ -7,10 +7,16 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.clothingstore.bus.CategoryBUS;
+import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.models.CategoryModel;
+import com.clothingstore.models.ProductModel;
+
+import services.Validation;
 
 public class AddNewProduct extends JFrame {
     public static void main(String[] args) {
@@ -18,6 +24,8 @@ public class AddNewProduct extends JFrame {
             new AddNewProduct();
         });
     }
+
+    private ProductModel productModel;
 
     public AddNewProduct() {
         this.setBackground(Color.RED);
@@ -32,14 +40,14 @@ public class AddNewProduct extends JFrame {
     public void initComponents() {
         jTextFieldName = new JTextField();
         jTextFieldPrice = new JTextField();
-        String[] genders = { "Gender", "Male", "Female" };
+        String[] genders = { "Gender *", "Male", "Female" };
         comboBoxCategory = new JComboBox<>();
         comboBoxGender = new JComboBox<>(genders);
         buttonCancel = new JButton("Cancel");
         buttonSave = new JButton("Save");
         jLabelTitle = new JLabel("Add New Product");
         jLabelTitle.setFont(new Font("Arial", Font.BOLD, 20));
-        jLabelTitle.setSize(800, 100);
+        jLabelTitle.setSize(910, 100);
         int margin = 20;
         jLabelTitle.setBorder(BorderFactory.createEmptyBorder(margin, margin, margin, margin));
         jLabelTitle.setOpaque(true);
@@ -47,7 +55,9 @@ public class AddNewProduct extends JFrame {
 
         jPanelImage = new JPanel();
         jPanelImage.setPreferredSize(new java.awt.Dimension(400, 400));
+        jPanelImage.setBorder(new EmptyBorder(20, 30, 30, 30));
         iconUploadLabel = new JLabel(new ImageIcon("src/main/java/resources/images/upload_image.png"));
+        iconUploadLabel.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
         iconUploadLabel.setOpaque(true);
         iconUploadLabel.addMouseListener(actionUploadImage);
         jPanelImage.setLayout(new BorderLayout());
@@ -55,12 +65,15 @@ public class AddNewProduct extends JFrame {
 
         jPanelInforProduct = new JPanel();
         jPanelInforProduct.setLayout(new BorderLayout());
+        jPanelInforProduct.setBorder(new EmptyBorder(30, 30, 30, 30));
 
         jPanelInfor = new JPanel();
         jPanelInfor.setLayout(new BoxLayout(jPanelInfor, BoxLayout.Y_AXIS));
         jTextFieldName.setPreferredSize(new java.awt.Dimension(300, 40));
+        jTextFieldName.setBorder(null);
         addPlaceholder(jTextFieldName, " Product Name *");
         jTextFieldPrice.setPreferredSize(new java.awt.Dimension(300, 40));
+        jTextFieldPrice.setBorder(null);
         addPlaceholder(jTextFieldPrice, " Price *");
         comboBoxGender.setPreferredSize(new java.awt.Dimension(300, 40));
         comboBoxGender.addActionListener(new ActionListener() {
@@ -95,7 +108,8 @@ public class AddNewProduct extends JFrame {
         jPanelInfor.add(comboBoxGender);
         jPanelInfor.add(Box.createVerticalStrut(10));
         jPanelInfor.add(comboBoxCategory);
-        jPanelInfor.add(Box.createVerticalStrut(150));
+        jPanelInfor.add(Box.createVerticalStrut(80));
+        jPanelInfor.setBackground(new java.awt.Color(173, 216, 230));
 
         jPanelInforProduct.add(jPanelInfor, BorderLayout.CENTER);
 
@@ -106,13 +120,16 @@ public class AddNewProduct extends JFrame {
         buttonSave.addActionListener(saveButtonAction);
         jPanelButton.add(buttonSave);
         jPanelButton.add(buttonCancel);
+        jPanelButton.setBackground(new java.awt.Color(173, 216, 230));
 
         jPanelInforProduct.add(jPanelButton, BorderLayout.SOUTH);
+        jPanelInforProduct.setBackground(new java.awt.Color(173, 216, 230));
 
         this.setLayout(new BorderLayout());
         this.add(jLabelTitle, BorderLayout.PAGE_START);
         add(jPanelImage, BorderLayout.WEST);
         add(jPanelInforProduct, BorderLayout.CENTER);
+        pack();
     }
 
     private static void addPlaceholder(JTextField textField, String placeholder) {
@@ -124,6 +141,7 @@ public class AddNewProduct extends JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (textField.getText().equals(placeholder)) {
                     textField.setText("");
+                    // textField.setBorder(null);
                     textField.setForeground(Color.BLACK);
                 }
             }
@@ -153,7 +171,6 @@ public class AddNewProduct extends JFrame {
             fileChooser.addChoosableFileFilter(imageFilter);
             int result = fileChooser.showOpenDialog(frame);
 
-            // Xử lý khi người dùng chọn tệp
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 imagePath = selectedFile.getAbsolutePath();
@@ -177,13 +194,12 @@ public class AddNewProduct extends JFrame {
                     Image scaledImage = originalIcon.getImage().getScaledInstance((int) (originalWidth * scale),
                             (int) (originalHeight * scale), Image.SCALE_SMOOTH);
 
-                    // Tạo ImageIcon mới từ ảnh đã giảm kích thước
-                    // iconUploadLabel.setBorder(BorderFactory.createEmptyBorder(40, 20, 40, 20));
                     ImageIcon scaledIcon = new ImageIcon(scaledImage);
                     iconUploadLabel.setIcon(scaledIcon);
                     cancelUpload.addMouseListener(actionCancelImage);
                     northPanel.add(cancelUpload);
                     jPanelImage.add(northPanel, BorderLayout.NORTH);
+                    pack();
                 } else {
                     // Nếu ảnh không cần giảm kích thước, hiển thị nguyên bản
                     iconUploadLabel.setIcon(originalIcon);
@@ -215,7 +231,7 @@ public class AddNewProduct extends JFrame {
     private void updateCategoryComboBox() {
         List<CategoryModel> categories = CategoryBUS.getInstance().getAllCategories();
         comboBoxCategory.removeAllItems();
-        comboBoxCategory.addItem("Category");
+        comboBoxCategory.addItem("Category *");
         for (CategoryModel category : categories) {
             comboBoxCategory.addItem(category.getCategoryName());
         }
@@ -226,6 +242,7 @@ public class AddNewProduct extends JFrame {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
             iconUploadLabel.setIcon(new ImageIcon("src/main/java/resources/images/upload_image.png"));
+            cancelUpload.setVisible(false);
         }
 
         @Override
@@ -249,10 +266,45 @@ public class AddNewProduct extends JFrame {
     };
 
     private ActionListener saveButtonAction = new ActionListener() {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Kiểm tra input sau đó add vào database
+            jTextFieldName.setBorder(null);
+            jTextFieldPrice.setBorder(null);
+            System.out.println("click");
+            System.out.println("Name: " + jTextFieldName.getText());
+            System.out.println("Price: " + jTextFieldPrice.getText());
+            System.out.println("Selected Gender ID: " + selectedGenderId);
+            System.out.println("Selected Category ID: " + selectedCategoryId);
+            System.out.println("image: " + imagePath);
+            if (jTextFieldName.getText().trim().isEmpty() || jTextFieldPrice.getText().trim().isEmpty()
+                    || selectedGenderId == -1 || selectedCategoryId == -1
+                    || jTextFieldName.getText().equals(" Product Name *")
+                    || jTextFieldPrice.getText().equals(" Price *")
+                    || imagePath == null) {
+                JOptionPane.showMessageDialog(null, "Please fill in all required fields.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (Validation.isValidPrice(jTextFieldName.getText())) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid Name Product!", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    jTextFieldName.setBorder(BorderFactory.createLineBorder(Color.RED));
+                    jTextFieldName.setText(null);
+                } else if (!Validation.isValidPrice(jTextFieldPrice.getText())) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid Price!", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    jTextFieldPrice.setBorder(BorderFactory.createLineBorder(Color.RED));
+                    jTextFieldPrice.setText(null);
+                } else {
+                    productModel = new ProductModel();
+                    productModel.setName(jTextFieldName.getText());
+                    productModel.setGender(selectedGenderId);
+                    productModel.setCategoryId(selectedCategoryId);
+                    productModel.setPrice(Double.parseDouble(jTextFieldPrice.getText()));
+                    productModel.setStatus(0);
+                    productModel.setImage(imagePath);
+                    ProductBUS.getInstance().addModel(productModel);
+                }
+            }
         }
 
     };
@@ -269,9 +321,10 @@ public class AddNewProduct extends JFrame {
     private JButton buttonSave;
     private JButton buttonCancel;
     private JLabel iconUploadLabel;
-    private int selectedCategoryId;
-    private int selectedGenderId;
+    private int selectedCategoryId = -1;
+    private int selectedGenderId = -1;
     private String imagePath;
     private JLabel cancelUpload;
+    // private static int isvalid;
 
 }
