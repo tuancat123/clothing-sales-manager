@@ -4,14 +4,14 @@ public class ProductModel {
   private int id;
   private String name;
   private int categoryId;
-  private String image, gender;
+  private String image;
   private double price;
-  private int status;
+  private int status, gender;
 
   public ProductModel() {
   }
 
-  public ProductModel(int id, String name, int categoryId, String image, String gender, double price, int status) {
+  public ProductModel(int id, String name, int categoryId, String image, int gender, double price, int status) {
     this.id = id;
     this.name = name;
     this.categoryId = categoryId;
@@ -53,11 +53,11 @@ public class ProductModel {
     this.image = image;
   }
 
-  public String getGender() {
+  public int getGender() {
     return gender;
   }
 
-  public void setGender(String gender) {
+  public void setGender(int gender) {
     this.gender = gender;
   }
 

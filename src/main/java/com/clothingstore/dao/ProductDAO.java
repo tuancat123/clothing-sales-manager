@@ -26,8 +26,8 @@ public class ProductDAO implements IDAO<ProductModel> {
         rs.getString("name"),
         rs.getInt("category_id"),
         rs.getString("image"),
-        rs.getString("gender"),
-        rs.getFloat("price"),
+        rs.getInt("gender"),
+        rs.getDouble("price"),
         rs.getInt("status"));
   }
 
@@ -48,7 +48,7 @@ public class ProductDAO implements IDAO<ProductModel> {
 
   @Override
   public int insert(ProductModel product) {
-    String insertSql = "INSERT INTO products(name, category_id, image, gender, price, status) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    String insertSql = "INSERT INTO products(name, category_id, image, gender, price, status) VALUES(?, ?, ?, ?, ?, ?)";
     Object[] args = {
         product.getName(),
         product.getCategoryId(),
