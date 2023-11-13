@@ -3,7 +3,6 @@ package com.clothingstore.gui.components;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-import java.util.Iterator;
 import java.util.List;
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
@@ -29,6 +28,7 @@ public class ProductDetail extends JFrame {
   Color color = new Color(230, 240, 255);
   int selectedSizeId = -1;
   ProductModel productModel;
+  int totalProduct = 0;
 
   public ProductDetail(ProductModel productModel) {
     setAlwaysOnTop(true);
@@ -73,6 +73,9 @@ public class ProductDetail extends JFrame {
       if (sizeItemModel.getProductId() != productModel.getId()) {
         sizeItemIterator.remove();
       }
+      else{
+        totalProduct += sizeItemModel.getQuantity();
+      }
     }
 
     ImagePanel = new JPanel();
@@ -90,7 +93,7 @@ public class ProductDetail extends JFrame {
     buttonDiscontinued = new JButton();
     buttonContinued = new JButton();
     Remaining = new JLabel();
-    spinner = new JSpinner();
+    Spinner = new JSpinner();
 
     ImagePanel.setLayout(new GridBagLayout());
     ImagePanel.setBackground(Color.red);
@@ -160,9 +163,9 @@ public class ProductDetail extends JFrame {
     getContentPane().add(GenderText, new AbsoluteConstraints(240, 130, 60, 30));
 
 
-    spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
-    spinner.setBackground(new Color(255, 204, 204));
-    getContentPane().add(spinner, new AbsoluteConstraints(320, 165, 60, 20));
+    SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, null, 1);
+    Spinner = new JSpinner(spinnerModel);
+    Spinner.setBackground(new Color(255, 204, 204));
 
     SizePanel.setBackground(new Color(204, 255, 204));
     SizePanel.setLayout(new java.awt.GridBagLayout());
@@ -170,21 +173,18 @@ public class ProductDetail extends JFrame {
     gbc.insets = new Insets(0, 0, 0, 10);
 
     ButtonGroup sizeGroup = new ButtonGroup();
+    Remaining.setFont(new Font("Segoe UI", 0, 15));
+    Remaining.setForeground(new Color(102, 102, 102));
+
     JRadioButton sizeS = new JRadioButton("S");
     sizeS.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 1;
-        int spinnerValue = (int) spinner.getValue();
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 1) {
-            Remaining.setFont(new Font("Segoe UI", 0, 15));
-            Remaining.setForeground(new Color(102, 102, 102));
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
-            getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
-            if (spinnerValue >= sizeItemModels.get(i).getQuantity()) {
-              spinner.setValue(sizeItemModels.get(i).getQuantity());
-            }
+            spinnerModel.setMaximum(sizeItemModels.get(i).getQuantity());
             break;
           }
         }
@@ -197,16 +197,10 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 2;
-        int spinnerValue = (int) spinner.getValue();
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 2) {
-            Remaining.setFont(new Font("Segoe UI", 0, 15));
-            Remaining.setForeground(new Color(102, 102, 102));
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
-            getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
-            if (spinnerValue >= sizeItemModels.get(i).getQuantity()) {
-              spinner.setValue(sizeItemModels.get(i).getQuantity());
-            }
+            spinnerModel.setMaximum(sizeItemModels.get(i).getQuantity());
             break;
           }
         }
@@ -219,16 +213,10 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 3;
-        int spinnerValue = (int) spinner.getValue();
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 3) {
-            Remaining.setFont(new Font("Segoe UI", 0, 15));
-            Remaining.setForeground(new Color(102, 102, 102));
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
-            getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
-            if (spinnerValue >= sizeItemModels.get(i).getQuantity()) {
-              spinner.setValue(sizeItemModels.get(i).getQuantity());
-            }
+            spinnerModel.setMaximum(sizeItemModels.get(i).getQuantity());
             break;
           }
         }
@@ -241,16 +229,10 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 4;
-        int spinnerValue = (int) spinner.getValue();
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 4) {
-            Remaining.setFont(new Font("Segoe UI", 0, 15));
-            Remaining.setForeground(new Color(102, 102, 102));
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
-            getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
-            if (spinnerValue >= sizeItemModels.get(i).getQuantity()) {
-              spinner.setValue(sizeItemModels.get(i).getQuantity());
-            }
+            spinnerModel.setMaximum(sizeItemModels.get(i).getQuantity());
             break;
           }
         }
@@ -263,16 +245,10 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 5;
-        int spinnerValue = (int) spinner.getValue();
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 5) {
-            Remaining.setFont(new Font("Segoe UI", 0, 15));
-            Remaining.setForeground(new Color(102, 102, 102));
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
-            getContentPane().add(Remaining, new AbsoluteConstraints(440, 240, 170, 17));
-            if (spinnerValue >= sizeItemModels.get(i).getQuantity()) {
-              spinner.setValue(sizeItemModels.get(i).getQuantity());
-            }
+            spinnerModel.setMaximum(sizeItemModels.get(i).getQuantity());
             break;
           }
         }
@@ -291,6 +267,7 @@ public class ProductDetail extends JFrame {
     SizePanel.add(sizeL);
     SizePanel.add(sizeXL);
     SizePanel.add(sizeXXL);
+    
     getContentPane().add(SizePanel, new AbsoluteConstraints(250, 200, 250, 20));
 
     ButtonExit.setText("Exit");
@@ -308,17 +285,29 @@ public class ProductDetail extends JFrame {
       ButtonAdd.setPreferredSize(new Dimension(94, 28));
       ButtonAdd.addActionListener(AddToCartAction);
       getContentPane().add(ButtonAdd, new AbsoluteConstraints(380, 250, -1, -1));
-    } else {
+
+      getContentPane().add(Spinner, new AbsoluteConstraints(320, 165, 60, 20));
+
+      getContentPane().add(Remaining, new AbsoluteConstraints(440, 165, 170, 17));
+    } 
+    else {
+      JLabel Total = new JLabel("( "+String.valueOf(totalProduct)+" )");
+      Total.setFont(new Font("Segoe UI", 0, 15));
+      Total.setForeground(new Color(102, 102, 102));
+      getContentPane().add(Total, new AbsoluteConstraints(460, 165, 170, 17));
+      sizeS.doClick();
+      getContentPane().add(Remaining, new AbsoluteConstraints(320, 165, 170, 17));
+
       if (productModel.getStatus() != 0) {
         buttonDiscontinued.setText("Discontinued");
         buttonDiscontinued.setPreferredSize(new Dimension(94, 28));
-        getContentPane().add(buttonDiscontinued, new AbsoluteConstraints(380, 250, -1, -1));
         buttonDiscontinued.addActionListener(actionDiscontinued);
+        getContentPane().add(buttonDiscontinued, new AbsoluteConstraints(380, 250, -1, -1));
       } else {
         buttonContinued.setText("Continued");
         buttonContinued.setPreferredSize(new Dimension(94, 28));
-        getContentPane().add(buttonContinued, new AbsoluteConstraints(380, 250, -1, -1));
         buttonContinued.addActionListener(actionContinued);
+        getContentPane().add(buttonContinued, new AbsoluteConstraints(380, 250, -1, -1));
       }
     }
 
@@ -370,14 +359,14 @@ public class ProductDetail extends JFrame {
   private JLabel Price;
   private JLabel Remaining;
   private JPanel SizePanel;
-  private JSpinner spinner;
+  private JSpinner Spinner;
 
   private ActionListener AddToCartAction = new ActionListener() {
 
     @Override
     public void actionPerformed(ActionEvent e) {
       // đưa dữ liệu sản phẩm số lượng và size qua invoice
-      Invoice.getInstance().addToCart(productModel, selectedSizeId, (int) spinner.getValue());
+      Invoice.getInstance().addToCart(productModel, selectedSizeId, (int) Spinner.getValue());
     }
   };
 }
