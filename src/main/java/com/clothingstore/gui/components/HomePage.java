@@ -10,6 +10,10 @@ import com.clothingstore.models.UserModel;
 import services.Authentication;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.util.ArrayList;
 
 public class HomePage extends JFrame {
@@ -29,6 +33,8 @@ public class HomePage extends JFrame {
     initComponent();
     setLocationRelativeTo(null);
     this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    this.addWindowStateListener(windowStateListener);
+    this.addComponentListener(componentListener);
   }
 
   public void initComponent() {
@@ -99,4 +105,30 @@ public class HomePage extends JFrame {
     revalidate();
     repaint();
   }
+
+  WindowStateListener windowStateListener = new WindowStateListener() {
+
+    @Override
+    public void windowStateChanged(WindowEvent arg0) {
+      int column = (int)HomePage.getInstance().getSize().getWidth() / 280;
+      Products.getInstance().ChangeLayout(column);
+      revalidate();
+      repaint();
+    }
+    
+  };
+
+  ComponentAdapter componentListener = new ComponentAdapter() {
+    @Override
+    public void componentResized(ComponentEvent e) {
+      int column =(int) HomePage.getInstance().getSize().getWidth() / 280 ;
+      double width = HomePage.getInstance().getSize().getWidth() / 280;
+      if( width - (int)width > 0.5 ){
+        column = (int)width + 1 ;
+      }
+      Products.getInstance().ChangeLayout(column);
+      revalidate();
+      repaint();
+    }
+  };
 }

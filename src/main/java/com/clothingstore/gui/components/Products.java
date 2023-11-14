@@ -20,6 +20,8 @@ public class Products extends JPanel {
   Boolean Visible = false;
   private static Products instance;
 
+  int currentColumn = 4;
+
   public static Products getInstance() {
     if (instance == null) {
       instance = new Products();
@@ -29,14 +31,17 @@ public class Products extends JPanel {
 
   public Products() {
     initComponents();
-    MenuOn(Visible);
   }
 
-  public void MenuOn(Boolean Visible) {
-    if (!Visible)
-      Products.setLayout(new GridLayout(0, 4));
+  public void ChangeLayout(int column) {
+      Products.setLayout(new GridLayout(0, column));
+      currentColumn = column;
+  }
+  public void MenuOn(Boolean isVisible){
+    if(isVisible)
+      Products.setLayout(new GridLayout(0, currentColumn-1));
     else
-      Products.setLayout(new GridLayout(0, 3));
+      Products.setLayout(new GridLayout(0, currentColumn));
   }
 
   private void initComponents() {
@@ -45,6 +50,7 @@ public class Products extends JPanel {
     Products = new JPanel();
 
     setLayout(new BorderLayout());
+    Products.setLayout(new GridLayout(0, currentColumn));
     Products.setBackground(new Color(170, 205, 239));
 
     for (ProductModel products : productList) {

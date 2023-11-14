@@ -48,24 +48,23 @@ public class ProductDetail extends JFrame {
 
   private void initComponents(ProductModel productModel) {
     this.productModel = productModel;
-    int selectedProductId = productModel.getId();
-    List<ImportItemsModel> importItemsModels = new ArrayList<>();
-    List<ProductModel> productModels = new ArrayList<>();
+    // List<ImportItemsModel> importItemsModels = new ArrayList<>();
+    // List<ProductModel> productModels = new ArrayList<>();
     List<SizeItemModel> sizeItemModels = new ArrayList<>();
     List<SizeModel> sizeModels = new ArrayList<>();
 
-    importItemsModels.addAll(ImportItemsBUS.getInstance().getAllModels());
-    productModels.addAll(ProductBUS.getInstance().getAllModels());
+    // importItemsModels.addAll(ImportItemsBUS.getInstance().getAllModels());
+    // productModels.addAll(ProductBUS.getInstance().getAllModels());
     sizeItemModels.addAll(SizeItemBUS.getInstance().getAllModels());
     sizeModels.addAll(SizeBUS.getInstance().getAllModels());
 
-    Iterator<ImportItemsModel> importItemsIterator = importItemsModels.iterator();
-    while (importItemsIterator.hasNext()) {
-      ImportItemsModel importItemsModel = importItemsIterator.next();
-      if (importItemsModel.getProduct_id() != productModel.getId()) {
-        importItemsIterator.remove();
-      }
-    }
+    // Iterator<ImportItemsModel> importItemsIterator = importItemsModels.iterator();
+    // while (importItemsIterator.hasNext()) {
+    //   ImportItemsModel importItemsModel = importItemsIterator.next();
+    //   if (importItemsModel.getProduct_id() != productModel.getId()) {
+    //     importItemsIterator.remove();
+    //   }
+    // }
 
     Iterator<SizeItemModel> sizeItemIterator = sizeItemModels.iterator();
     while (sizeItemIterator.hasNext()) {
@@ -77,6 +76,7 @@ public class ProductDetail extends JFrame {
         totalProduct += sizeItemModel.getQuantity();
       }
     }
+    System.out.println(sizeItemModels.size());
 
     ImagePanel = new JPanel();
     Name = new JTextField();
@@ -119,7 +119,6 @@ public class ProductDetail extends JFrame {
     Name.setAutoscrolls(false);
     getContentPane().add(Name, new AbsoluteConstraints(240, 20, 340, 40));
 
-    // getContentPane().add(Rating, new AbsoluteConstraints(240, 60, 70, 20));
 
     Price.setFont(new Font("Segoe UI", 0, 21));
     Price.setForeground(new Color(255, 51, 51));
