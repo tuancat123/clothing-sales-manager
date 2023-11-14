@@ -6,7 +6,7 @@ import com.clothingstore.bus.ImportBUS;
 import com.clothingstore.bus.ImportItemsBUS;
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.SizeItemBUS;
-import com.clothingstore.gui.components.AddProduct;
+import com.clothingstore.gui.components.AddNewProduct;
 import com.clothingstore.models.ImportItemsModel;
 import com.clothingstore.models.ImportModel;
 import com.clothingstore.models.ProductModel;
@@ -90,7 +90,7 @@ public class AddNewImport extends JPanel {
     
 
     private void addNewProduct() {
-        new AddProduct();
+        new AddNewProduct();
     }
 
     private void addNewImport() {

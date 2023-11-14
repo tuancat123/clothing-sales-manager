@@ -104,7 +104,7 @@ public class MenuData {
                 new ArrayList<MenuItemData>() {
                     {
                         add(new MenuItemData("Add Import", ImportAction()));
-                        add(new MenuItemData("Import List", ImportAction()));
+                        add(new MenuItemData("Import Management", ImportAction()));
 
                     }
                 },
