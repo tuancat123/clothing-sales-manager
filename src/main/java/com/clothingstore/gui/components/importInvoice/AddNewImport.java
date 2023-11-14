@@ -69,34 +69,50 @@ public class AddNewImport extends JPanel {
                 this,
                 "Do you want to refresh the import?",
                 "Confirmation",
-                JOptionPane.YES_NO_OPTION
-        );
-    
+                JOptionPane.YES_NO_OPTION);
+
         if (confirmation == JOptionPane.YES_OPTION) {
             importItemProducts.clear();
             listImportItemPanel.removeAll();
             listImportItemPanel.revalidate();
             listImportItemPanel.repaint();
-            
+
             quantityImportItem = 1;
-    
-    
+
             revalidate();
             repaint();
-    
+
             JOptionPane.showMessageDialog(null, "Import refreshed successfully");
         }
     }
-    
 
     private void addNewProduct() {
         new AddNewProduct();
+    }
+
+    private boolean isNumeric(String str) {
+        try {
+            int value = Integer.parseInt(str);
+            return value > 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     private void addNewImport() {
         String idEmpText = idEmpTextField.getText().trim();
         if (idEmpText.isEmpty()) {
             JOptionPane.showMessageDialog(idEmpTextField, "Id Employee cannot be empty");
+            return;
+        }
+
+        if (!isNumeric(idEmpText)) {
+            JOptionPane.showMessageDialog(idEmpTextField, "Id Employee must be a number greater than 0");
+            return;
+        }
+
+        if (importItemList.size() <= 0) {
+            JOptionPane.showMessageDialog(null, "Import Item List is empty");
             return;
         }
 
