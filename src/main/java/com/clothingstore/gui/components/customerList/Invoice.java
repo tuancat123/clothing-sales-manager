@@ -3,6 +3,9 @@ package com.clothingstore.gui.components.customerList;
 import java.awt.*;
 import javax.swing.*;
 
+import com.clothingstore.models.OrderModel;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
+
 public class Invoice extends JPanel {
   private Color background;
 
@@ -11,9 +14,13 @@ public class Invoice extends JPanel {
     initComponents("ID", "Date", "Product Total", "Total Money");
   }
 
-  public Invoice(String id, String date, String quantity, String total) { // dành cho data
+  public Invoice(OrderModel orderModel) { // dành cho data
     background = Color.WHITE;
-    initComponents(id, date, quantity, total);
+    String id = String.valueOf(orderModel.getId());
+    String date = String.valueOf(orderModel.getOrderDate());
+    String productTotal = String.valueOf(orderModel.getCustomerId());
+    String totalPrice = String.valueOf(orderModel.getTotalPrice());
+    initComponents(id, date, productTotal, totalPrice);
   }
 
   private void initComponents(String id, String date, String quantity, String total) {

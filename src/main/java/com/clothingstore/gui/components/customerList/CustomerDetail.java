@@ -5,10 +5,12 @@ import javax.swing.*;
 import com.clothingstore.bus.OrderBUS;
 import com.clothingstore.bus.PointBUS;
 import com.clothingstore.models.CustomerModel;
+import com.clothingstore.models.OrderModel;
 import com.clothingstore.models.PointModel;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 
 public class CustomerDetail extends JPanel {
@@ -20,8 +22,7 @@ public class CustomerDetail extends JPanel {
 
     public CustomerDetail(CustomerModel customerModel){
         this.customerModel= customerModel;
-        // lỗi logic data base
-        // this.pointModel = PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).get(0);
+        this.pointModel = PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).get(0);
         initComponents();
     }
     
@@ -78,12 +79,13 @@ public class CustomerDetail extends JPanel {
 
             JLabel Name = new JLabel(CustomerDetail.name);
             Name.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-            Name.setFont(new Font("Segoe UI", 1, 14));
+            Name.setFont(new Font("Segoe UI", 1, 15));
             panel.add(Name, BorderLayout.WEST);
 
             JLabel Value = new JLabel(CustomerDetail.value);
             Value.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 19));
-            Value.setFont(new Font("Segoe UI", 0, 14));
+            Value.setFont(new Font("Segoe UI", 2, 16));
+            Value.setForeground(new Color(0, 51, 153));
             panel.add(Value, BorderLayout.EAST);
 
             Info.add(panel);
@@ -95,10 +97,13 @@ public class CustomerDetail extends JPanel {
         Invoice headerInvoice = new Invoice();
         HeaderProducts.add(headerInvoice, BorderLayout.CENTER);
 
-        Product.setLayout(new GridLayout(5,1));
-        for(int i = 0; i< 5;i++){
-            Invoice invoice = new Invoice("001", "30/4/2003", "4", "3.000.000 đ");
-            Product.add(invoice);
+        List<OrderModel> listOrder = OrderBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"});
+        Product.setLayout(new GridLayout(listOrder.size(),1));
+        if(!listOrder.isEmpty()){
+            for(OrderModel orderModel : listOrder){
+                Invoice invoice = new Invoice(orderModel);
+                Product.add(invoice);
+            }
         }
         Products.add(HeaderProducts, BorderLayout.NORTH);
         Products.add(Product, BorderLayout.CENTER);
