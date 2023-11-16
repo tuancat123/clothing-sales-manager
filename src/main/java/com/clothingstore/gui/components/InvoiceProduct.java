@@ -40,20 +40,22 @@ public class InvoiceProduct extends JPanel {
 
   public InvoiceProduct(OrderModel orderModel, OrderItemModel orderItemModel) {
     productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
+
     orderModel = OrderBUS.getInstance().getModelById(orderModel.getId());
     orderItemModel = OrderItemBUS.getInstance().getModelById(orderItemModel.getId());
 
     java.util.List<SizeItemModel> sizeItemModel = SizeItemBUS.getInstance()
         .searchModel(String.valueOf(orderItemModel.getProductId()), new String[] { "product_id" });
     SizeModel sizeModel = SizeBUS.getInstance().getModelById(sizeItemModel.get(0).getSizeId());
-
+    com.clothingstore.gui.employee.InvoiceProduct invoiceProduct = new com.clothingstore.gui.employee.InvoiceProduct(
+        productModel, sizeModel.getId(), orderItemModel.getQuantity());
     data = new String[] {
         String.valueOf(productModel.getName()),
         String.valueOf("0"),
         String.valueOf(orderItemModel.getQuantity()),
         String.valueOf(sizeModel.getSize()),
-        String.valueOf(productModel.getPrice() * orderItemModel.getQuantity()),
-        String.valueOf(orderItemModel.getQuantity())
+        String.valueOf(productModel.getPrice() * invoiceProduct.getQuantity()),
+        String.valueOf(invoiceProduct.getQuantity())
     };
     initComponents(data);
   }
@@ -65,12 +67,12 @@ public class InvoiceProduct extends JPanel {
     SizeModel sizeModel = SizeBUS.getInstance().getModelById(sizeItemModel.get(0).getSizeId());
 
     data = new String[] {
-      String.valueOf(productModel.getName()),
-      String.valueOf(i),
-      String.valueOf(orderItemModel.getQuantity()),
-      String.valueOf(sizeModel.getSize()),
-      String.valueOf(productModel.getPrice() * orderItemModel.getQuantity()),
-      String.valueOf(orderItemModel.getQuantity())
+        String.valueOf(productModel.getName()),
+        String.valueOf(i),
+        String.valueOf(orderItemModel.getQuantity()),
+        String.valueOf(sizeModel.getSize()),
+        String.valueOf(productModel.getPrice() * orderItemModel.getQuantity()),
+        String.valueOf(orderItemModel.getQuantity())
     };
     initComponents(data);
   }

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
+
+import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.gui.employee.invoiceDetail.InvoiceDetail;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.ProductModel;
@@ -14,6 +16,7 @@ import com.clothingstore.models.ProductModel;
 public class Invoice extends JPanel {
   private static Invoice instance;
   List<OrderItemModel> orderItemList = new ArrayList<>();
+  List<OrderItemModel> backupOrderItemsList;
 
   public static Invoice getInstance() {
     if (instance == null) {
@@ -24,6 +27,7 @@ public class Invoice extends JPanel {
 
   public Invoice() {
     initComponents();
+    backupOrderItemsList = new ArrayList<>(orderItemList);
     // updateCartUI(orderItemModel);
   }
 
@@ -36,8 +40,8 @@ public class Invoice extends JPanel {
     Scroll = new JScrollPane();
     Invoices = new JPanel();
     Footer = new JPanel();
-    TextSum = new JLabel();
-    Value = new JLabel();
+    // TextSum = new JLabel();
+    // Value = new JLabel();
     ButtonCancel = new JButton();
     ButtonPay = new JButton();
 
@@ -74,13 +78,13 @@ public class Invoice extends JPanel {
     Footer.setLayout(new AbsoluteLayout());
     Footer.setBackground(color);
 
-    TextSum.setFont(new Font("Segoe UI", 1, 13));
-    TextSum.setHorizontalAlignment(SwingConstants.CENTER);
-    TextSum.setText("Tổng Thanh Toán");
+    // TextSum.setFont(new Font("Segoe UI", 1, 13));
+    // TextSum.setHorizontalAlignment(SwingConstants.CENTER);
+    // TextSum.setText("Tổng Thanh Toán");
 
-    Value.setFont(new Font("Segoe UI", 0, 18));
-    Value.setForeground(new Color(255, 51, 51));
-    Value.setHorizontalAlignment(SwingConstants.CENTER);
+    // Value.setFont(new Font("Segoe UI", 0, 18));
+    // Value.setForeground(new Color(255, 51, 51));
+    // Value.setHorizontalAlignment(SwingConstants.CENTER);
 
     ButtonCancel.setText("Hủy");
     ButtonCancel.setBackground(Color.BLUE);
@@ -91,11 +95,16 @@ public class Invoice extends JPanel {
             "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {
           orderItemList.clear();
-          totalPrice = 0;
-          Value.setText("" + totalPrice);
+          // totalPrice = 0;
+          // Value.setText("" + totalPrice);
           Invoices.removeAll();
           revalidate();
           repaint();
+        } else if ((orderItemList.isEmpty() || orderItemList == null) && choice == JOptionPane.YES_OPTION) {
+          JFrame jf = new JFrame();
+          jf.setAlwaysOnTop(false);
+          JOptionPane.showMessageDialog(jf, "Bạn không có sản phẩm nào trong giỏ hàng!");
+          return;
         } else {
           return;
         }
@@ -109,7 +118,7 @@ public class Invoice extends JPanel {
     ButtonPay.setBackground(Color.BLUE);
     ButtonPay.setPreferredSize(new Dimension(72, 20));
     ButtonPay.addActionListener(PayAction);
-
+    ButtonPay.setVisible(false);
 
     Header.add(Index, BorderLayout.LINE_START);
     Header.add(None, BorderLayout.LINE_END);
@@ -119,8 +128,8 @@ public class Invoice extends JPanel {
     Content.add(Scroll, BorderLayout.CENTER);
     add(Content, BorderLayout.CENTER);
 
-    Footer.add(TextSum, new AbsoluteConstraints(0, 20, 120, 30));
-    Footer.add(Value, new AbsoluteConstraints(0, 40, 120, 30));
+    // Footer.add(TextSum, new AbsoluteConstraints(0, 20, 120, 30));
+    // Footer.add(Value, new AbsoluteConstraints(0, 40, 120, 30));
     Footer.add(ButtonCancel, new AbsoluteConstraints(40, 80, 90, 30));
     Footer.add(ButtonPay, new AbsoluteConstraints(170, 80, 90, 30));
     add(Footer, BorderLayout.SOUTH);
@@ -137,33 +146,129 @@ public class Invoice extends JPanel {
   private JTextField NameShop;
   private JLabel None;
   private JScrollPane Scroll;
-  private JLabel TextSum;
-  private JLabel Value;
-  private double totalPrice;
+  // private JLabel TextSum;
+  // private JLabel Value;
+  // private double totalPrice;
 
   public void addToCart(ProductModel productModel, int size, int quantity) {
-    //tạo các orderitem với id 0 nhưng không tạo order
+    ButtonPay.setVisible(true);
     OrderItemModel orderItemModel = new OrderItemModel(0, 1, productModel.getId(), size, quantity,
         productModel.getPrice() * quantity);
-    orderItemList.add(orderItemModel);
-    totalPrice += productModel.getPrice() * quantity;
-    Value.setText(totalPrice + "");
-    // thực hiện hiện UI
-    InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, size, quantity);
-    Invoices.add(invoiceProduct);
+    boolean found = false;
+
+    for (OrderItemModel item : orderItemList) {
+      if (item.getProductId() == orderItemModel.getProductId() && item.getSizeId() == orderItemModel.getSizeId()) {
+        found = true;
+        JFrame jf = new JFrame();
+        jf.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(jf,
+            "Sản phẩm này với size bạn chọn đã có trong giỏ hàng của bạn, vui lòng kiểm tra lại!");
+        break;
+      }
+    }
+
+    if (!found) {
+      orderItemList.add(orderItemModel);
+      InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, size, quantity);
+      Invoices.add(invoiceProduct);
+      revalidate();
+      repaint();
+    }
+
+    revalidate();
+    repaint();
+  }
+
+  public void deleteProductInCart(ProductModel productModel, int size, int quantity) {
+    OrderItemModel orderItemModel = new OrderItemModel(0, 1, productModel.getId(), size, quantity,
+        productModel.getPrice() * quantity);
+
+    for (int i = 0; i < orderItemList.size(); i++) {
+      if (orderItemList.get(i).getProductId() == orderItemModel.getProductId()
+          && orderItemList.get(i).getSizeId() == orderItemModel.getSizeId()) {
+        orderItemList.remove(i);
+
+        // Find and remove the associated InvoiceProduct from Invoices panel
+        Component[] components = Invoices.getComponents();
+        for (Component component : components) {
+          if (component instanceof InvoiceProduct) {
+            InvoiceProduct invoiceProduct = (InvoiceProduct) component;
+            if (invoiceProduct.getProductModel().getId() == productModel.getId()
+                && invoiceProduct.getSizeId() == size && invoiceProduct.getQuantity() == quantity) {
+              Invoices.remove(invoiceProduct);
+              break;
+            }
+          }
+        }
+
+        revalidate();
+        repaint();
+        break;
+      }
+    }
+  }
+
+  private boolean cartChanged() {
+    if (orderItemList.size() != backupOrderItemsList.size()) {
+      return true; // If the sizes are different, there's a change
+    }
+
+    for (OrderItemModel newItem : orderItemList) {
+      boolean found = false;
+      for (OrderItemModel oldItem : backupOrderItemsList) {
+        if (newItem.getProductId() == oldItem.getProductId() && newItem.getSizeId() == oldItem.getSizeId()) {
+          found = true;
+          if (newItem.getQuantity() != oldItem.getQuantity()) {
+            return true; // Quantity changed for an existing item
+          }
+          break;
+        }
+      }
+      if (!found) {
+        return true; // New item added
+      }
+    }
+
+    return false; // No changes found
+  }
+
+  // TODO: Fix update cart function
+  private void updateCart() {
+    Invoices.removeAll();
+
+    for (OrderItemModel orderItem : orderItemList) {
+      ProductModel productModel = ProductBUS.getInstance().getModelById(orderItem.getProductId());
+      InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, orderItem.getSizeId(), orderItem.getQuantity());
+      Invoices.add(invoiceProduct);
+    }
+
     revalidate();
     repaint();
   }
 
   private ActionListener PayAction = new ActionListener() {
-
     @Override
     public void actionPerformed(ActionEvent e) {
-      //đưa orderitem list vào invoice detail
-      InvoiceDetail invoiceDetail = new InvoiceDetail(orderItemList);
-      invoiceDetail.setVisible(true);
-    }
+      if (!orderItemList.isEmpty() && orderItemList != null) {
+        if (cartChanged()) {
+          JFrame jf = new JFrame();
+          jf.setAlwaysOnTop(true);
+          int choice = JOptionPane.showConfirmDialog(jf, "Bạn đã thay đổi giỏ hàng, bạn có muốn cập nhật không?",
+              "Xác nhận cập nhật giỏ hàng", JOptionPane.YES_NO_OPTION);
+          if (choice == JOptionPane.YES_OPTION) {
+            updateCart();
+          }
+        }
 
+        List<OrderItemModel> itemsToShow = new ArrayList<>(orderItemList);
+        InvoiceDetail invoiceDetail = new InvoiceDetail(itemsToShow);
+        invoiceDetail.setVisible(true);
+      } else {
+        JOptionPane.showMessageDialog(null, "Giỏ hàng của bạn không có sản phẩm nào, vui lòng kiểm tra lại!");
+        ButtonPay.setVisible(false);
+        return;
+      }
+    }
   };
 
 }

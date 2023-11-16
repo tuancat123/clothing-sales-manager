@@ -29,6 +29,11 @@ public class ProductDetail extends JFrame {
   int selectedSizeId = -1;
   ProductModel productModel;
   int totalProduct = 0;
+  private boolean isSizeSSelected;
+  private boolean isSizeMSelected;
+  private boolean isSizeLSelected;
+  private boolean isSizeXLSelected;
+  private boolean isSizeXXLSelected;
 
   public ProductDetail(ProductModel productModel) {
     setAlwaysOnTop(true);
@@ -58,12 +63,13 @@ public class ProductDetail extends JFrame {
     sizeItemModels.addAll(SizeItemBUS.getInstance().getAllModels());
     sizeModels.addAll(SizeBUS.getInstance().getAllModels());
 
-    // Iterator<ImportItemsModel> importItemsIterator = importItemsModels.iterator();
+    // Iterator<ImportItemsModel> importItemsIterator =
+    // importItemsModels.iterator();
     // while (importItemsIterator.hasNext()) {
-    //   ImportItemsModel importItemsModel = importItemsIterator.next();
-    //   if (importItemsModel.getProduct_id() != productModel.getId()) {
-    //     importItemsIterator.remove();
-    //   }
+    // ImportItemsModel importItemsModel = importItemsIterator.next();
+    // if (importItemsModel.getProduct_id() != productModel.getId()) {
+    // importItemsIterator.remove();
+    // }
     // }
 
     Iterator<SizeItemModel> sizeItemIterator = sizeItemModels.iterator();
@@ -71,8 +77,7 @@ public class ProductDetail extends JFrame {
       SizeItemModel sizeItemModel = sizeItemIterator.next();
       if (sizeItemModel.getProductId() != productModel.getId()) {
         sizeItemIterator.remove();
-      }
-      else{
+      } else {
         totalProduct += sizeItemModel.getQuantity();
       }
     }
@@ -119,7 +124,6 @@ public class ProductDetail extends JFrame {
     Name.setAutoscrolls(false);
     getContentPane().add(Name, new AbsoluteConstraints(240, 20, 340, 40));
 
-
     Price.setFont(new Font("Segoe UI", 0, 21));
     Price.setForeground(new Color(255, 51, 51));
     Price.setText(productModel.getPrice() + "đ");
@@ -161,10 +165,10 @@ public class ProductDetail extends JFrame {
     GenderText.setText("Gender:");
     getContentPane().add(GenderText, new AbsoluteConstraints(240, 130, 60, 30));
 
-
     SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, null, 1);
     Spinner = new JSpinner(spinnerModel);
     Spinner.setBackground(new Color(255, 204, 204));
+    Spinner.setVisible(false);
 
     SizePanel.setBackground(new Color(204, 255, 204));
     SizePanel.setLayout(new java.awt.GridBagLayout());
@@ -180,6 +184,8 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 1;
+        isSizeSSelected = sizeS.isSelected();
+        Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 1) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
@@ -196,6 +202,8 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 2;
+        isSizeMSelected = sizeM.isSelected();
+        Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 2) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
@@ -212,6 +220,8 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 3;
+        isSizeLSelected = sizeL.isSelected();
+        Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 3) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
@@ -228,6 +238,8 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 4;
+        isSizeXLSelected = sizeXL.isSelected();
+        Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 4) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
@@ -236,7 +248,6 @@ public class ProductDetail extends JFrame {
           }
         }
       }
-
     });
     JRadioButton sizeXXL = new JRadioButton("XXL");
     sizeXXL.addActionListener(new ActionListener() {
@@ -244,6 +255,8 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 5;
+        isSizeXXLSelected = sizeXXL.isSelected();
+        Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 5) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
@@ -266,7 +279,7 @@ public class ProductDetail extends JFrame {
     SizePanel.add(sizeL);
     SizePanel.add(sizeXL);
     SizePanel.add(sizeXXL);
-    
+
     getContentPane().add(SizePanel, new AbsoluteConstraints(250, 200, 250, 20));
 
     ButtonExit.setText("Exit");
@@ -288,9 +301,8 @@ public class ProductDetail extends JFrame {
       getContentPane().add(Spinner, new AbsoluteConstraints(320, 165, 60, 20));
 
       getContentPane().add(Remaining, new AbsoluteConstraints(440, 165, 170, 17));
-    } 
-    else {
-      JLabel Total = new JLabel("( "+String.valueOf(totalProduct)+" )");
+    } else {
+      JLabel Total = new JLabel("( " + String.valueOf(totalProduct) + " )");
       Total.setFont(new Font("Segoe UI", 0, 15));
       Total.setForeground(new Color(102, 102, 102));
       getContentPane().add(Total, new AbsoluteConstraints(460, 165, 170, 17));
@@ -365,7 +377,15 @@ public class ProductDetail extends JFrame {
     @Override
     public void actionPerformed(ActionEvent e) {
       // đưa dữ liệu sản phẩm số lượng và size qua invoice
-      Invoice.getInstance().addToCart(productModel, selectedSizeId, (int) Spinner.getValue());
+      if (isSizeSSelected == false && isSizeMSelected == false && isSizeLSelected == false && isSizeXLSelected == false
+          && isSizeXXLSelected == false) {
+        JFrame jf = new JFrame();
+        jf.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(jf, "Vui lòng chọn size!");
+        return;
+      } else if (isSizeSSelected || isSizeMSelected || isSizeLSelected || isSizeXLSelected || isSizeXXLSelected) {
+        Invoice.getInstance().addToCart(productModel, selectedSizeId, (int) Spinner.getValue());
+      }
     }
   };
 }

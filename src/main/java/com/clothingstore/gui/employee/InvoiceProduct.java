@@ -5,20 +5,49 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import org.netbeans.lib.awtextra.*;
 
 import com.clothingstore.bus.ProductBUS;
-import com.clothingstore.bus.SizeBUS;
-import com.clothingstore.models.OrderItemModel;
+import com.clothingstore.bus.SizeItemBUS;
 import com.clothingstore.models.ProductModel;
+import com.clothingstore.models.SizeItemModel;
 
 public class InvoiceProduct extends JPanel {
 
+  private ProductModel productModel;
+  private int sizeId;
+  private int quantity;
+
   public InvoiceProduct(ProductModel productModel, int size, int quantity) {
+    this.productModel = productModel;
+    this.sizeId = size;
+    this.quantity = quantity;
     initComponents(productModel, size, quantity);
   }
 
+  public ProductModel getProductModel() {
+    return productModel;
+  }
+
+  public int getSizeId() {
+    return sizeId;
+  }
+
+  public int getQuantity() {
+    return quantity;
+  }
+
   private void initComponents(ProductModel productModel, int size, int quantity) {
+    java.util.List<SizeItemModel> sizeItemModels = SizeItemBUS.getInstance()
+        .searchModel(String.valueOf(productModel.getId()), new String[] { "product_id" });
+    for (int i = 0; i < sizeItemModels.size(); i++) {
+      if (sizeItemModels.get(i).getSizeId() != size) {
+        sizeItemModels.remove(i);
+      }
+    }
     Name = new JLabel();
     Size = new JLabel();
     Price = new JLabel();
@@ -50,14 +79,22 @@ public class InvoiceProduct extends JPanel {
     }
     add(Size, new AbsoluteConstraints(45, 28, 45, 30));
 
-    JSpinner spinner = new JSpinner(new SpinnerNumberModel(quantity, 1, null, 1));
+    spinner = new JSpinner(new SpinnerNumberModel(quantity, 1, sizeItemModels.get(0).getQuantity(), 1));
     spinner.setBackground(new Color(255, 204, 204));
     add(spinner, new AbsoluteConstraints(90, 34, 55, 20));
-
+    //TODO: Note
+    spinner.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        double totalPrice = ProductBUS.getInstance().getModelById(productModel.getId()).getPrice()
+            * (int) spinner.getValue();
+        Price.setText("" + totalPrice);
+      }
+    });
     Price.setFont(new Font("Segoe UI", 0, 15));
     Price.setForeground(new Color(255, 0, 0));
 
-    double totalPrice = ProductBUS.getInstance().getModelById(productModel.getId()).getPrice() * (int) spinner.getValue();
+    double totalPrice = ProductBUS.getInstance().getModelById(productModel.getId()).getPrice()
+        * (int) spinner.getValue();
     Price.setText("" + totalPrice);
     add(Price, new AbsoluteConstraints(160, 28, 90, 28));
 
@@ -71,13 +108,22 @@ public class InvoiceProduct extends JPanel {
     ButtonDel.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //JOptionPane.showConfirmDialog("Bạn có muốn xóa sản phẩm này không?", e);
+        JFrame jf = new JFrame();
+        jf.setAlwaysOnTop(true);
+        int choice = JOptionPane.showConfirmDialog(jf, "Bạn có muốn xóa sản phẩm này không?");
+        if (choice == JOptionPane.YES_OPTION) {
+          Invoice.getInstance().deleteProductInCart(productModel, size, quantity);
+          revalidate();
+          repaint();
+        }
       }
-      
+
     });
   }
+
   private JLabel Name;
   private JLabel Price;
   private JLabel Size;
   private JButton ButtonDel;
+  public JSpinner spinner;
 }
