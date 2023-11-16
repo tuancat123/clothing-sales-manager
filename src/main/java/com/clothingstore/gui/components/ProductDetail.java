@@ -33,7 +33,7 @@ public class ProductDetail extends JFrame {
   private boolean isSizeMSelected;
   private boolean isSizeLSelected;
   private boolean isSizeXLSelected;
-  private boolean isSizeSXXLelected;
+  private boolean isSizeXXLSelected;
 
   public ProductDetail(ProductModel productModel) {
     setAlwaysOnTop(true);
@@ -168,6 +168,7 @@ public class ProductDetail extends JFrame {
     SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, null, 1);
     Spinner = new JSpinner(spinnerModel);
     Spinner.setBackground(new Color(255, 204, 204));
+    Spinner.setVisible(false);
 
     SizePanel.setBackground(new Color(204, 255, 204));
     SizePanel.setLayout(new java.awt.GridBagLayout());
@@ -184,6 +185,7 @@ public class ProductDetail extends JFrame {
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 1;
         isSizeSSelected = sizeS.isSelected();
+        Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 1) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
@@ -201,6 +203,7 @@ public class ProductDetail extends JFrame {
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 2;
         isSizeMSelected = sizeM.isSelected();
+        Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 2) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
@@ -218,6 +221,7 @@ public class ProductDetail extends JFrame {
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 3;
         isSizeLSelected = sizeL.isSelected();
+        Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 3) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
@@ -235,6 +239,7 @@ public class ProductDetail extends JFrame {
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 4;
         isSizeXLSelected = sizeXL.isSelected();
+        Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 4) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
@@ -250,7 +255,8 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         selectedSizeId = 5;
-        isSizeSXXLelected = sizeXXL.isSelected();
+        isSizeXXLSelected = sizeXXL.isSelected();
+        Spinner.setVisible(true);
         for (int i = 0; i < sizeItemModels.size(); i++) {
           if (sizeItemModels.get(i).getSizeId() == 5) {
             Remaining.setText(sizeItemModels.get(i).getQuantity() + " sản phẩm có sẵn.");
@@ -371,12 +377,15 @@ public class ProductDetail extends JFrame {
     @Override
     public void actionPerformed(ActionEvent e) {
       // đưa dữ liệu sản phẩm số lượng và size qua invoice
-      if (isSizeSSelected == false || isSizeMSelected == false || isSizeLSelected == false || isSizeXLSelected == false
-          || isSizeSXXLelected == false) {
-        JOptionPane.showMessageDialog(null, "Vui lòng chọn size");
+      if (isSizeSSelected == false && isSizeMSelected == false && isSizeLSelected == false && isSizeXLSelected == false
+          && isSizeXXLSelected == false) {
+        JFrame jf = new JFrame();
+        jf.setAlwaysOnTop(true);
+        JOptionPane.showMessageDialog(jf, "Vui lòng chọn size!");
         return;
+      } else if (isSizeSSelected || isSizeMSelected || isSizeLSelected || isSizeXLSelected || isSizeXXLSelected) {
+        Invoice.getInstance().addToCart(productModel, selectedSizeId, (int) Spinner.getValue());
       }
-      Invoice.getInstance().addToCart(productModel, selectedSizeId, (int) Spinner.getValue());
     }
   };
 }
