@@ -10,6 +10,7 @@ public class SizeItemModel {
     }
 
     public SizeItemModel(int id,int productId, int sizeId, int quantity) {
+        this.id = id;
         this.productId = productId;
         this.sizeId = sizeId;
         this.quantity = quantity;

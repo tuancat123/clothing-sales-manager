@@ -137,10 +137,36 @@ public class AddNewImport extends JPanel {
                 ImportItemsBUS.getInstance().addModel(importItemsModel);
             }
 
-            for (SizeItemModel sizeItemModel : sizeItemList) {
-                SizeItemBUS.getInstance().addModel(sizeItemModel);
-            }
+            java.util.List<SizeItemModel> sizeItemOldList = SizeItemBUS.getInstance().getAllModels();
 
+            for (SizeItemModel sizeItemModel : sizeItemList) {
+                boolean found = false;
+
+                for (SizeItemModel oldSizeItemModel : sizeItemOldList) {
+                    if (oldSizeItemModel.getProductId() == sizeItemModel.getProductId() &&
+                            oldSizeItemModel.getSizeId() == sizeItemModel.getSizeId()) {
+
+                        int newQuantity = oldSizeItemModel.getQuantity() + sizeItemModel.getQuantity();
+                        oldSizeItemModel.setQuantity(newQuantity);
+                        SizeItemBUS.getInstance().updateModel(oldSizeItemModel);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    SizeItemBUS.getInstance().addModel(sizeItemModel);
+                }
+            }
+            java.util.List<ProductModel> productList = ProductBUS.getInstance().getAllModels();
+            for (ImportItemsModel importItemModel : importItemList) {
+                for (ProductModel productModel : productList) {
+                    if (importItemModel.getProduct_id() == productModel.getId()) {
+                        productModel.setPrice(importItemModel.getPrice() * 0.1 + importItemModel.getPrice());
+                        ProductBUS.getInstance().updateModel(productModel);
+                    }
+                }
+            }
             idEmpTextField.setText("");
             sizeItemList.clear();
             importItemList.clear();
