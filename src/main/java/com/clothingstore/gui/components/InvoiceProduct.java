@@ -40,6 +40,7 @@ public class InvoiceProduct extends JPanel {
 
   public InvoiceProduct(OrderModel orderModel, OrderItemModel orderItemModel) {
     productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
+
     orderModel = OrderBUS.getInstance().getModelById(orderModel.getId());
     orderItemModel = OrderItemBUS.getInstance().getModelById(orderItemModel.getId());
 
@@ -58,7 +59,7 @@ public class InvoiceProduct extends JPanel {
     initComponents(data);
   }
 
-  public InvoiceProduct(OrderItemModel orderItemModel, int i, int quantity, int amount) {
+  public InvoiceProduct(OrderItemModel orderItemModel, int i) {
     productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
     java.util.List<SizeItemModel> sizeItemModel = SizeItemBUS.getInstance()
         .searchModel(String.valueOf(orderItemModel.getProductId()), new String[] { "product_id" });
