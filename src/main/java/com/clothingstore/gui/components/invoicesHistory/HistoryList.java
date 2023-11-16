@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.*;
 
 import com.clothingstore.bus.OrderBUS;
+import com.clothingstore.gui.models.NavData;
 import com.clothingstore.models.OrderModel;
 import com.toedter.calendar.JDateChooser;
 
@@ -34,7 +35,7 @@ public class HistoryList extends JPanel {
     Header = new JPanel();
     NameHeader = new JPanel();
     NamePanel = new JLabel();
-    ButtonBack = new JButton();
+    ButtonMenu = new JButton();
     Panel = new JPanel();
     ButtonSearch = new JButton();
     SearchValue = new JTextField();
@@ -61,11 +62,11 @@ public class HistoryList extends JPanel {
     NameHeader.setBackground(color);
     NameHeader.add(NamePanel, BorderLayout.CENTER);
 
-    ButtonBack.setBackground(new Color(242, 242, 242));
-    ButtonBack.setIcon(new ImageIcon(getClass().getResource("/resources/icons/back.png"))); // NOI18N
-    ButtonBack.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
-    NameHeader.add(ButtonBack, BorderLayout.LINE_START);
-    ButtonBack.addActionListener(closeHistoryList);
+    ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
+    ButtonMenu.setBackground(color);
+    ButtonMenu.setBorder(null);
+    ButtonMenu.addActionListener(NavData.MenuAction());
+    NameHeader.add(ButtonMenu, BorderLayout.LINE_START);
 
     Header.add(NameHeader, BorderLayout.NORTH);
 
@@ -218,7 +219,7 @@ public class HistoryList extends JPanel {
     }
   }
 
-  private JButton ButtonBack;
+  private JButton ButtonMenu;
   private JButton ButtonSearch;
   private JPanel Header;
   private JPanel Invoices;

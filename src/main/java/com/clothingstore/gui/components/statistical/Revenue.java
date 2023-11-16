@@ -62,8 +62,8 @@ public class Revenue extends JPanel {
         Card card4 = new Card("coin.png", "Points Earned",getTotalPointsUsedCurrentMonth(), new Color(153, 51, 255), getPercentTotalPointsUsed());
         CardPanel.add(card4);
 
-        Invoice.setLayout(new GridLayout(0,1));
-        Invoice invoiceHeader = new Invoice("Id", "Customer Id", "Date", "Total");
+        Invoice.setLayout(new GridLayout(10,1));
+        Invoice invoiceHeader = new Invoice();
         Invoice.add(invoiceHeader);
 
 //        for(int i = 0; i< 10; i++){
@@ -77,7 +77,7 @@ public class Revenue extends JPanel {
         for(OrderModel order : OrderBUS.getInstance().getAllModels()) {
             LocalDate orderDate = Instant.ofEpochMilli(order.getOrderDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             if(now.equals(orderDate)) {
-                Invoice invoice = new Invoice(String.valueOf(order.getId()),String.valueOf(order.getCustomerId()),String.valueOf(order.getOrderDate()), String.valueOf(order.getTotalPrice()));
+                Invoice invoice = new Invoice(order);
                 invoice.setPreferredSize(new Dimension(35,35));
                 Invoice.add(invoice);
             }

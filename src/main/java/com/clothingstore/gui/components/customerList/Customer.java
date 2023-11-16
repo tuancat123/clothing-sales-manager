@@ -26,11 +26,9 @@ public class Customer extends JPanel {
   private void initComponents(CustomerModel customerModel) {
 
     Icon = new JLabel();
-    Detail = new JPanel();
     Panel = new JPanel();
     Name = new JLabel();
     Id = new JLabel();
-    PhonePanel = new JPanel();
     Phone = new JLabel();
 
     Color color = new Color(204, 224, 255);
@@ -40,49 +38,40 @@ public class Customer extends JPanel {
     setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
     setBackground(color);
 
-    Icon.setIcon(new ImageIcon(getClass().getResource("/resources/icons/user.png")));
+    Icon.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu/customer.png")));
     Icon.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
     add(Icon, BorderLayout.LINE_START);
 
-    Detail.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-    Detail.setBackground(color);
-    Detail.setLayout(new BorderLayout());
-
+    
     Panel.setLayout(new GridLayout(2, 0));
+    Panel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
     Panel.setBackground(color);
 
-    Name.setHorizontalAlignment(SwingConstants.CENTER);
+    Name.setHorizontalAlignment(SwingConstants.LEFT);
     Name.setText(customerModel.getCustomerName());
-    Name.setFont(new Font("Segoe UI", 0, 14));
+    Name.setFont(new Font("Segoe UI", 0, 15));
     Name.setForeground(Color.RED);
     Panel.add(Name);
 
     Id.setHorizontalAlignment(SwingConstants.CENTER);
     Id.setText(""+customerModel.getId());
     Id.setForeground(new Color(0, 128, 0));
-    Panel.add(Id);
+    Id.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    add(Id, BorderLayout.EAST);
 
-    Detail.add(Panel, BorderLayout.LINE_START);
+    add(Panel, BorderLayout.CENTER);
 
-    add(Detail, BorderLayout.CENTER);
-
-    PhonePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-    PhonePanel.setLayout(new GridLayout(2, 1));
-    PhonePanel.setBackground(color);
 
     Phone.setText(""+customerModel.getPhone());
     Phone.setFont(new Font("Segoe UI", 0, 13));
     Phone.setForeground(new Color(102, 0, 51));
-    PhonePanel.add(Phone);
+    Panel.add(Phone);
 
-    add(PhonePanel, BorderLayout.EAST);
   }
 
   private JLabel Phone;
-  private JPanel Detail;
   private JLabel Icon;
   private JLabel Id;
   private JPanel Panel;
   private JLabel Name;
-  private JPanel PhonePanel;
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.*;
 
 import com.clothingstore.bus.CustomerBUS;
+import com.clothingstore.gui.models.NavData;
 import com.clothingstore.models.CustomerModel;
 
 public class CustomerList extends JPanel {
@@ -31,7 +32,7 @@ public class CustomerList extends JPanel {
         Header = new JPanel();
         NameHeader = new JPanel();
         NamePanel = new JLabel();
-        ButtonBack = new JButton();
+        ButtonMenu = new JButton();
         Panel = new JPanel();
         ButtonSearch = new JButton();
         SearchValue = new JTextField();
@@ -56,11 +57,12 @@ public class CustomerList extends JPanel {
         NamePanel.setText("Customer List");
         NameHeader.setBackground(color);
         NameHeader.add(NamePanel, BorderLayout.CENTER);
-
-        ButtonBack.setBackground(new Color(242, 242, 242));
-        ButtonBack.setIcon(new ImageIcon(getClass().getResource("/resources/icons/back.png"))); // NOI18N
-        ButtonBack.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 1));
-        NameHeader.add(ButtonBack, BorderLayout.LINE_START);
+        
+        ButtonMenu.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu.png")));
+        ButtonMenu.setBackground(color);
+        ButtonMenu.setBorder(null);
+        ButtonMenu.addActionListener(NavData.MenuAction());
+        NameHeader.add(ButtonMenu, BorderLayout.LINE_START);
 
         Header.add(NameHeader, BorderLayout.NORTH);
 
@@ -103,7 +105,8 @@ public class CustomerList extends JPanel {
         Customers.setLayout(new GridLayout(0, 1));
         Customers.setBackground(color);
         
-        List<CustomerModel> customerList = new ArrayList<>(CustomerBUS.getInstance().getAllModels());        
+        List<CustomerModel> customerList = new ArrayList<>(CustomerBUS.getInstance().getAllModels());
+        customerList.remove(0);       
         Collections.reverse(customerList);
         for (CustomerModel customerModel : customerList) {
             Customer customer = new Customer(customerModel);
@@ -115,7 +118,7 @@ public class CustomerList extends JPanel {
         add(Scroll, BorderLayout.CENTER);
     }
 
-    private JButton ButtonBack;
+    private JButton ButtonMenu;
     private JButton ButtonSearch;
     private JPanel Header;
     private JPanel Customers;
