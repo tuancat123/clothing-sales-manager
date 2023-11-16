@@ -110,7 +110,6 @@ public class Invoice extends JPanel {
     ButtonPay.setPreferredSize(new Dimension(72, 20));
     ButtonPay.addActionListener(PayAction);
 
-
     Header.add(Index, BorderLayout.LINE_START);
     Header.add(None, BorderLayout.LINE_END);
     Header.add(NameShop, BorderLayout.CENTER);
@@ -142,7 +141,7 @@ public class Invoice extends JPanel {
   private double totalPrice;
 
   public void addToCart(ProductModel productModel, int size, int quantity) {
-    //tạo các orderitem với id 0 nhưng không tạo order
+    // tạo các orderitem với id 0 nhưng không tạo order
     OrderItemModel orderItemModel = new OrderItemModel(0, 1, productModel.getId(), size, quantity,
         productModel.getPrice() * quantity);
     orderItemList.add(orderItemModel);
@@ -159,11 +158,14 @@ public class Invoice extends JPanel {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      //đưa orderitem list vào invoice detail
-      InvoiceDetail invoiceDetail = new InvoiceDetail(orderItemList);
-      invoiceDetail.setVisible(true);
+      // đưa orderitem list vào invoice detail
+      if (!orderItemList.isEmpty() && orderItemList != null) {
+        InvoiceDetail invoiceDetail = new InvoiceDetail(orderItemList);
+        invoiceDetail.setVisible(true);
+      } else {
+        JOptionPane.showMessageDialog(null, "Giỏ hàng của bạn không có sản phẩm nào hết, vui lòng kiểm tra lại!");
+        return;
+      }
     }
-
   };
-
 }
