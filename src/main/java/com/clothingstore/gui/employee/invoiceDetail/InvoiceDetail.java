@@ -237,77 +237,82 @@ public class InvoiceDetail extends JFrame {
       finalPrice = totalInvoice;
       Total.setText("" + finalPrice);
     }
-    //TODO: fix can't add into order table/order_items table
+    // TODO: fix can't add into order table/order_items table
     ButtonPay.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         boolean isRegularCustomer = RegularCus.isSelected();
-          if (change >= 0) {
-            JOptionPane.showMessageDialog(null, "Thanh toán thành công");
-            int idCustomer = 1;
-            //check customer có lưu thông tin hay không
-            if (isRegularCustomer) {
-              java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(
+        if (change >= 0) {
+          JFrame frame = new JFrame();
+          frame.setAlwaysOnTop(true);
+          JOptionPane.showMessageDialog(frame, "Thanh toán thành công");
+          int idCustomer = 1;
+          // check customer có lưu thông tin hay không
+          if (isRegularCustomer) {
+            java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(
                 String.valueOf(Phone.getText()),
                 new String[] { "phone" });
-                idCustomer = customerModel.get(0).getId();
-              }
-            // create order model
-            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            OrderModel orderModel = new OrderModel(0, idCustomer,Authentication.getCurrentUser().getId(),currentTime, totalInvoice);
-            OrderBUS.getInstance().addModel(orderModel);
-            OrderBUS.getInstance().refreshData();
+            idCustomer = customerModel.get(0).getId();
+          }
+          // create order model
+          Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+          OrderModel orderModel = new OrderModel(0, idCustomer, Authentication.getCurrentUser().getId(), currentTime,
+              totalInvoice);
+          OrderBUS.getInstance().addModel(orderModel);
+          OrderBUS.getInstance().refreshData();
 
-            for (OrderItemModel orderItemModel : orderList) {
-              ProductModel productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
-              List<SizeItemModel> sizeItemModels = SizeItemBUS.getInstance()
-                  .searchModel(String.valueOf(productModel.getId()), new String[] { "product_id" });
-              for (SizeItemModel sizeItemModel : sizeItemModels) {
-                //update quantity size
-                if (orderItemModel.getSizeId() == sizeItemModel.getSizeId()) {
-                  sizeItemModel.setQuantity(sizeItemModel.getQuantity() - orderItemModel.getQuantity());
-                  SizeItemBUS.getInstance().updateModel(sizeItemModel);
-                  break;
-                }
+          for (OrderItemModel orderItemModel : orderList) {
+            ProductModel productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
+            List<SizeItemModel> sizeItemModels = SizeItemBUS.getInstance()
+                .searchModel(String.valueOf(productModel.getId()), new String[] { "product_id" });
+            for (SizeItemModel sizeItemModel : sizeItemModels) {
+              // update quantity size
+              if (orderItemModel.getSizeId() == sizeItemModel.getSizeId()) {
+                sizeItemModel.setQuantity(sizeItemModel.getQuantity() - orderItemModel.getQuantity());
+                SizeItemBUS.getInstance().updateModel(sizeItemModel);
+                break;
               }
-              int idOrder = OrderBUS.getInstance().getAllModels().get(OrderBUS.getInstance().getAllModels().size()-1).getId();
-              //create payment method for order
-              int idPayment = 1;
-              if(CashCheckBox.isSelected())
-                idPayment = 2;
-              PaymentModel paymentModel = new PaymentModel(0, idOrder, idPayment, currentTime, totalInvoice);
-              PaymentBUS.getInstance().addModel(paymentModel);
-              // update id order for orderitem
-              orderItemModel.setOrderId(idOrder);
-              OrderItemBUS.getInstance().addModel(orderItemModel);
-              //update point for customer
-              PointModel pointModel = PointBUS.getInstance().searchModel(String.valueOf(idCustomer), new String[] {"customer_id"}).get(0);
-              pointModel.setPointsEarned(pointModel.getPointsEarned() + (int)totalInvoice/100);
-              PointBUS.getInstance().updateModel(pointModel);
-              System.out.println(pointModel.getPointsEarned());
             }
-            int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xuất hóa đơn không?");
-            if (choice == JOptionPane.YES_OPTION) {
-              JFileChooser fileChooser = new JFileChooser();
-              fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-              FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
-              fileChooser.setFileFilter(filter);
-              int result = fileChooser.showSaveDialog(null);
-              if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-                String filePath = selectedFile.getAbsolutePath();
-                if (!filePath.toLowerCase().endsWith(".pdf")) {
-                  filePath += ".pdf";
-                }
-                PDFWriter.getInstance().exportReceiptToPDF(orderModel, filePath);
+            int idOrder = OrderBUS.getInstance().getAllModels().get(OrderBUS.getInstance().getAllModels().size() - 1)
+                .getId();
+            // create payment method for order
+            int idPayment = 1;
+            if (CashCheckBox.isSelected())
+              idPayment = 2;
+            PaymentModel paymentModel = new PaymentModel(0, idOrder, idPayment, currentTime, totalInvoice);
+            PaymentBUS.getInstance().addModel(paymentModel);
+            // update id order for orderitem
+            orderItemModel.setOrderId(idOrder);
+            OrderItemBUS.getInstance().addModel(orderItemModel);
+            // update point for customer
+            PointModel pointModel = PointBUS.getInstance()
+                .searchModel(String.valueOf(idCustomer), new String[] { "customer_id" }).get(0);
+            pointModel.setPointsEarned(pointModel.getPointsEarned() + (int) totalInvoice / 100);
+            PointBUS.getInstance().updateModel(pointModel);
+            System.out.println(pointModel.getPointsEarned());
+          }
+          int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xuất hóa đơn không?");
+          if (choice == JOptionPane.YES_OPTION) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
+            fileChooser.setFileFilter(filter);
+            int result = fileChooser.showSaveDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+              File selectedFile = fileChooser.getSelectedFile();
+              String filePath = selectedFile.getAbsolutePath();
+              if (!filePath.toLowerCase().endsWith(".pdf")) {
+                filePath += ".pdf";
               }
-            } else {
-              return;
+              PDFWriter.getInstance().exportReceiptToPDF(orderModel, filePath);
             }
           } else {
-            JOptionPane.showMessageDialog(null, "Số tiền khách trả ít hơn số tiền ở hóa đơn. Vui lòng kiểm tra lại.");
             return;
           }
+        } else {
+          JOptionPane.showMessageDialog(null, "Số tiền khách trả ít hơn số tiền ở hóa đơn. Vui lòng kiểm tra lại.");
+          return;
+        }
       }
     });
 
