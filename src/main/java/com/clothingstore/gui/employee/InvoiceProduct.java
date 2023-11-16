@@ -8,8 +8,6 @@ import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
 import com.clothingstore.bus.ProductBUS;
-import com.clothingstore.bus.SizeBUS;
-import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.ProductModel;
 
 public class InvoiceProduct extends JPanel {
@@ -57,7 +55,8 @@ public class InvoiceProduct extends JPanel {
     Price.setFont(new Font("Segoe UI", 0, 15));
     Price.setForeground(new Color(255, 0, 0));
 
-    double totalPrice = ProductBUS.getInstance().getModelById(productModel.getId()).getPrice() * (int) spinner.getValue();
+    double totalPrice = ProductBUS.getInstance().getModelById(productModel.getId()).getPrice()
+        * (int) spinner.getValue();
     Price.setText("" + totalPrice);
     add(Price, new AbsoluteConstraints(160, 28, 90, 28));
 
@@ -71,11 +70,12 @@ public class InvoiceProduct extends JPanel {
     ButtonDel.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        //JOptionPane.showConfirmDialog("Bạn có muốn xóa sản phẩm này không?", e);
+        // JOptionPane.showConfirmDialog("Bạn có muốn xóa sản phẩm này không?", e);
       }
-      
+
     });
   }
+
   private JLabel Name;
   private JLabel Price;
   private JLabel Size;

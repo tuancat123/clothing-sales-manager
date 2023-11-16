@@ -141,21 +141,38 @@ public class Invoice extends JPanel {
   private double totalPrice;
 
   public void addToCart(ProductModel productModel, int size, int quantity) {
-    // tạo các orderitem với id 0 nhưng không tạo order
+    if (size == 0) {
+      JOptionPane.showMessageDialog(null, "Vui lòng chọn kích cỡ");
+      return;
+    }
     OrderItemModel orderItemModel = new OrderItemModel(0, 1, productModel.getId(), size, quantity,
         productModel.getPrice() * quantity);
-    orderItemList.add(orderItemModel);
-    totalPrice += productModel.getPrice() * quantity;
-    Value.setText(totalPrice + "");
-    // thực hiện hiện UI
-    InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, size, quantity);
-    Invoices.add(invoiceProduct);
+    boolean found = false;
+    if (!orderItemList.isEmpty() && orderItemList != null) {
+      for (OrderItemModel item : orderItemList) {
+        if (item.getProductId() == orderItemModel.getProductId() && item.getSizeId() == orderItemModel.getSizeId()) {
+          item.setQuantity(item.getQuantity() + quantity);
+          found = true;
+          break; // Exit loop once the item is found and updated
+        }
+      }
+    }
+
+    if (found == false) {
+      orderItemList.add(orderItemModel);
+      InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, size, quantity);
+      Invoices.add(invoiceProduct);
+      totalPrice += productModel.getPrice() * quantity;
+      Value.setText(totalPrice + "");
+    }
+
+    // Update invoice and total price outside the loop
+
     revalidate();
     repaint();
   }
 
   private ActionListener PayAction = new ActionListener() {
-
     @Override
     public void actionPerformed(ActionEvent e) {
       // đưa orderitem list vào invoice detail
