@@ -22,6 +22,8 @@ CREATE TABLE
         `role_id` INT,
         `address` VARCHAR(100) NOT NULL,
         `status` ENUM ('active', 'inactive', 'banned') NOT NULL DEFAULT "active",
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY (`id`)
     );
 

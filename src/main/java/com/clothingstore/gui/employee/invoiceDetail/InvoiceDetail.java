@@ -471,8 +471,8 @@ public class InvoiceDetail extends JFrame {
                 .get(0).getPointsEarned() + " Point");
         if (isPointCheckboxSelected) {
           Discount.setText("" + PointBUS.getInstance()
-              .searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" })
-              .get(0).getPointsEarned());
+              .searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" }).get(0)
+              .getPointsEarned());
         }
         revalidate();
         repaint();
@@ -529,12 +529,16 @@ public class InvoiceDetail extends JFrame {
       customerList
           .addAll(CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()), new String[] { "phone" }));
       if (customerList == null || customerList.isEmpty()) {
-        int choice = JOptionPane.showConfirmDialog(null,
+        JFrame fr = new JFrame();
+        fr.setAlwaysOnTop(true);
+        int choice = JOptionPane.showConfirmDialog(fr,
             "Số điện thoại không tìm thấy. Bạn có muốn thêm vào khách hàng mới không?");
         if (choice == JOptionPane.YES_OPTION) {
           CustomerModel customerModel = new CustomerModel(0, Name.getText(), Phone.getText(), null);
           CustomerBUS.getInstance().addModel(customerModel);
-          JOptionPane.showMessageDialog(null, "Đã thêm 1 khách hàng mới thành công.");
+          JFrame fr1 = new JFrame();
+          fr.setAlwaysOnTop(true);
+          JOptionPane.showMessageDialog(fr1, "Đã thêm 1 khách hàng mới thành công.");
           revalidate();
           repaint();
         } else if (choice == JOptionPane.NO_OPTION) {
