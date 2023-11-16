@@ -38,6 +38,8 @@ public class InvoiceDetail extends JFrame {
   private double finalPrice = 0;
 
   public InvoiceDetail(List<OrderItemModel> orderList) {
+    revalidate();
+    repaint();
     initComponents(orderList);
     setAlwaysOnTop(true);
     setLocationRelativeTo(null);

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
+
+import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.gui.employee.invoiceDetail.InvoiceDetail;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.ProductModel;
@@ -14,6 +16,7 @@ import com.clothingstore.models.ProductModel;
 public class Invoice extends JPanel {
   private static Invoice instance;
   List<OrderItemModel> orderItemList = new ArrayList<>();
+  List<OrderItemModel> backupOrderItemsList;
 
   public static Invoice getInstance() {
     if (instance == null) {
@@ -24,6 +27,7 @@ public class Invoice extends JPanel {
 
   public Invoice() {
     initComponents();
+    backupOrderItemsList = new ArrayList<>(orderItemList);
     // updateCartUI(orderItemModel);
   }
 
@@ -204,18 +208,67 @@ public class Invoice extends JPanel {
     }
   }
 
+  private boolean cartChanged() {
+    if (orderItemList.size() != backupOrderItemsList.size()) {
+      return true; // If the sizes are different, there's a change
+    }
+
+    for (OrderItemModel newItem : orderItemList) {
+      boolean found = false;
+      for (OrderItemModel oldItem : backupOrderItemsList) {
+        if (newItem.getProductId() == oldItem.getProductId() && newItem.getSizeId() == oldItem.getSizeId()) {
+          found = true;
+          if (newItem.getQuantity() != oldItem.getQuantity()) {
+            return true; // Quantity changed for an existing item
+          }
+          break;
+        }
+      }
+      if (!found) {
+        return true; // New item added
+      }
+    }
+
+    return false; // No changes found
+  }
+
+  // TODO: Fix update cart function
+  private void updateCart() {
+    Invoices.removeAll();
+
+    for (OrderItemModel orderItem : orderItemList) {
+      ProductModel productModel = ProductBUS.getInstance().getModelById(orderItem.getProductId());
+      InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, orderItem.getSizeId(), orderItem.getQuantity());
+      Invoices.add(invoiceProduct);
+    }
+
+    revalidate();
+    repaint();
+  }
+
   private ActionListener PayAction = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-      // đưa orderitem list vào invoice detail
       if (!orderItemList.isEmpty() && orderItemList != null) {
-        InvoiceDetail invoiceDetail = new InvoiceDetail(orderItemList);
+        if (cartChanged()) {
+          JFrame jf = new JFrame();
+          jf.setAlwaysOnTop(true);
+          int choice = JOptionPane.showConfirmDialog(jf, "Bạn đã thay đổi giỏ hàng, bạn có muốn cập nhật không?",
+              "Xác nhận cập nhật giỏ hàng", JOptionPane.YES_NO_OPTION);
+          if (choice == JOptionPane.YES_OPTION) {
+            updateCart();
+          }
+        }
+
+        List<OrderItemModel> itemsToShow = new ArrayList<>(orderItemList);
+        InvoiceDetail invoiceDetail = new InvoiceDetail(itemsToShow);
         invoiceDetail.setVisible(true);
       } else {
-        JOptionPane.showMessageDialog(null, "Giỏ hàng của bạn không có sản phẩm nào hết, vui lòng kiểm tra lại!");
+        JOptionPane.showMessageDialog(null, "Giỏ hàng của bạn không có sản phẩm nào, vui lòng kiểm tra lại!");
         ButtonPay.setVisible(false);
         return;
       }
     }
   };
+
 }

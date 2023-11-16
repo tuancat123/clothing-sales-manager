@@ -79,9 +79,10 @@ public class InvoiceProduct extends JPanel {
     }
     add(Size, new AbsoluteConstraints(45, 28, 45, 30));
 
-    JSpinner spinner = new JSpinner(new SpinnerNumberModel(quantity, 1, sizeItemModels.get(0).getQuantity(), 1));
+    spinner = new JSpinner(new SpinnerNumberModel(quantity, 1, sizeItemModels.get(0).getQuantity(), 1));
     spinner.setBackground(new Color(255, 204, 204));
     add(spinner, new AbsoluteConstraints(90, 34, 55, 20));
+    //TODO: Note
     spinner.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
         double totalPrice = ProductBUS.getInstance().getModelById(productModel.getId()).getPrice()
@@ -124,4 +125,5 @@ public class InvoiceProduct extends JPanel {
   private JLabel Price;
   private JLabel Size;
   private JButton ButtonDel;
+  public JSpinner spinner;
 }
