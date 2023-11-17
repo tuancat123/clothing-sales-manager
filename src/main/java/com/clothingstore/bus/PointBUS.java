@@ -105,7 +105,7 @@ public class PointBUS implements IBUS<PointModel> {
             return true;
           }
         }
-        case "customerid" -> {
+        case "customer_id" -> {
           if (Integer.parseInt(value) == pointModel.getCustomerId()) {
             return true;
           }

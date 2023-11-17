@@ -85,7 +85,7 @@ public class Invoice extends JPanel {
     Value.setFont(new Font("Segoe UI", 0, 18));
     Value.setForeground(new Color(255, 51, 51));
     Value.setHorizontalAlignment(SwingConstants.CENTER);
-    Value.setVisible(true);
+    Value.setText("0");
 
     ButtonCancel.setText("Hủy");
     ButtonCancel.setBackground(Color.BLUE);
@@ -95,18 +95,14 @@ public class Invoice extends JPanel {
         int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa toàn bộ sản phẩm khỏi giỏ hàng?",
             "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {
-          orderItemList.clear();
-          totalPrice = 0;
-          Value.setText("" + totalPrice);
-          Invoices.removeAll();
-          revalidate();
-          repaint();
-        } else if ((orderItemList.isEmpty() || orderItemList == null) && choice == JOptionPane.YES_OPTION) {
+          clearAllItemsInCart();
+        } else {
+          return;
+        }
+        if ((orderItemList.isEmpty() || orderItemList == null) && choice == JOptionPane.YES_OPTION) {
           JFrame jf = new JFrame();
           jf.setAlwaysOnTop(false);
           JOptionPane.showMessageDialog(jf, "Bạn không có sản phẩm nào trong giỏ hàng!");
-          return;
-        } else {
           return;
         }
       }
@@ -172,6 +168,8 @@ public class Invoice extends JPanel {
       orderItemList.add(orderItemModel);
       InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, size, quantity);
       Invoices.add(invoiceProduct);
+      totalPrice += orderItemModel.getPrice() * orderItemModel.getQuantity();
+      Value.setText(" " + totalPrice);
       revalidate();
       repaint();
     }
@@ -197,6 +195,8 @@ public class Invoice extends JPanel {
             if (invoiceProduct.getProductModel().getId() == productModel.getId()
                 && invoiceProduct.getSizeId() == size && invoiceProduct.getQuantity() == quantity) {
               Invoices.remove(invoiceProduct);
+              totalPrice = totalPrice - (productModel.getPrice() * quantity);
+              Value.setText(" " + totalPrice);
               break;
             }
           }
@@ -233,13 +233,14 @@ public class Invoice extends JPanel {
     return false; // No changes found
   }
 
-  // TODO: Fix update cart function
   private void updateCart() {
     Invoices.removeAll();
-
+    totalPrice = 0;
     for (OrderItemModel orderItem : orderItemList) {
       ProductModel productModel = ProductBUS.getInstance().getModelById(orderItem.getProductId());
       InvoiceProduct invoiceProduct = new InvoiceProduct(productModel, orderItem.getSizeId(), orderItem.getQuantity());
+      totalPrice += orderItem.getPrice() * orderItem.getQuantity();
+      Value.setText(" " + totalPrice);
       Invoices.add(invoiceProduct);
     }
 
@@ -274,4 +275,12 @@ public class Invoice extends JPanel {
     }
   };
 
+  public void clearAllItemsInCart() {
+    orderItemList.clear();
+    totalPrice = 0;
+    Value.setText("" + totalPrice);
+    Invoices.removeAll();
+    revalidate();
+    repaint();
+  }
 }

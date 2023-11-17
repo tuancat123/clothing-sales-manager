@@ -1,4 +1,4 @@
--- Active: 1695036225563@@127.0.0.1@3306@clothingstore
+-- Active: 1697292937360@@127.0.0.1@3306@clothingstore
   INSERT INTO `categories` (`name`)
 VALUES ('Polo'),
        ('Shirt'),
@@ -1258,21 +1258,15 @@ VALUES (1, 1, 1, 50, 300000),
        (9, 169, 5, 50, 250000);
 INSERT INTO `customers` (`name`, `phone`, `email`) VALUES
 ('Walk in customer', '0000000000', 'null@gmail.com'),
-('Nguyen Van A', '0987654321', '111@gmail.com'),
-('Nguyen Thi B', '0987654322', '222@gmail.com'),
-('Pham Van C', '0987654323', '333@gmail.com'),
-('Pham Quoc D', '0987654324', '444@gmail.com'),
-('Nguyen Anh E', '0987654325', '555@gmail.com'),
-('Truong Gia F', '0987654326', '666@gmail.com'),
 ('Ha Thi Thu H', '0987654327', '777@gmail.com'),
 ('Teo Van I', '0987654328', '888@gmail.com'),
 ('Hoang Van K', '0987654329', '999@gmail.com'),
-('Van Hoang L', '0987654330', '1000@gmail.com'),
+('Vo Chung Thang', '0987654330', '1000@gmail.com'),
 ('Truong Gia Thanh', '0987654331', '1111@gmail.com'),
 ('Nguyen Anh Danh', '0987654332', '2222@gmail.com'),
 ('Hoang Gia Bao', '0987654333', '3333@gmail.com'),
 ('Ho Quoc Cuong', '0987654334', '4444@gmail.com'),
-('Vo Chung Thang', '0987654335', '5555@gmail.com');
+('Van Pham Tuan Cat', '0987654335', '5555@gmail.com');
 INSERT INTO `permissions`(`name`) VALUES
 ('Quản Lý Sản Phẩm '),
 ('Quản Lý Kho Hàng'),
