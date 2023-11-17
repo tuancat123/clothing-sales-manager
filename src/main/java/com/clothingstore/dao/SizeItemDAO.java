@@ -135,4 +135,19 @@ public class SizeItemDAO implements IDAO<SizeItemModel> {
       return Collections.emptyList();
     }
   }
+
+  public List<SizeItemModel> getSizeItemsByProductId(int productId) {
+    List<SizeItemModel> sizeItems = new ArrayList<>();
+    try (
+        ResultSet rs = DatabaseConnection.executeQuery("SELECT * FROM size_items WHERE product_id = ?", productId)) {
+      while (rs.next()) {
+        SizeItemModel sizeItemModel = createSizeItemModelFromResultSet(rs);
+        sizeItems.add(sizeItemModel);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return sizeItems;
+  }
+
 }

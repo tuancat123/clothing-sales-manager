@@ -288,7 +288,7 @@ public class ProductDetail extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         dispose();
-        // gọi giao diện chỉnh sửa, truyền vào nó product model.
+        new EditProduct(productModel);
       }
     });
     getContentPane().add(buttonEdit, new AbsoluteConstraints(250, 250, -1, -1));

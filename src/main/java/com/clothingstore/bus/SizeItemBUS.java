@@ -91,6 +91,17 @@ public class SizeItemBUS implements IBUS<SizeItemModel> {
     return results;
   }
 
+  public List<SizeItemModel> getSizeItemsByProductId(int productId) {
+    String searchValue = String.valueOf(productId);
+    String[] searchColumns = { "product_id" };
+    SizeItemDAO sizeItemDAO = SizeItemDAO.getInstance();
+    if (sizeItemDAO != null) {
+      return sizeItemDAO.search(searchValue, searchColumns);
+    } else {
+      return Collections.emptyList();
+    }
+  }
+
   private boolean checkFilter(
       SizeItemModel sizeItemModel,
       String value,
