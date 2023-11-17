@@ -36,6 +36,7 @@ public class InvoiceDetail extends JFrame {
   private double totalInvoice = 0;
   private double change = 0;
   private double finalPrice = 0;
+  private double point = 0;
 
   public InvoiceDetail(List<OrderItemModel> orderList) {
     revalidate();
@@ -130,7 +131,20 @@ public class InvoiceDetail extends JFrame {
     Point.setFont(new Font("Segoe UI", 0, 14));
     Point.setForeground(new Color(255, 102, 0));
     Point.setText("0 Point");
-
+    Point.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (Point.isSelected()) {
+          Discount.setText("" + point);
+          Total.setText(totalInvoice - point + "");
+        } else {
+          revalidate();
+          repaint();
+          Discount.setText("" + 0);
+          Total.setText(totalInvoice + "");
+        }
+      }
+    });
     PhoneText.setFont(new Font("Segoe UI", 3, 14));
     PhoneText.setText("Phone: ");
 
@@ -202,6 +216,7 @@ public class InvoiceDetail extends JFrame {
     Discount.setFont(new Font("Segoe UI", 0, 14));
     Discount.setForeground(new Color(153, 0, 51));
     Discount.setText("");
+    Discount.setEditable(false);
 
     CashCheckBox.setFont(new Font("Segoe UI", 1, 15));
     CashCheckBox.setForeground(new Color(0, 102, 102));
@@ -239,7 +254,7 @@ public class InvoiceDetail extends JFrame {
       finalPrice = totalInvoice;
       Total.setText("" + finalPrice);
     }
-    // TODO: fix can't add into order table/order_items table
+    // TODO: fix logical error checking all component before adding into database
     ButtonPay.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -248,7 +263,7 @@ public class InvoiceDetail extends JFrame {
           JFrame frame = new JFrame();
           frame.setAlwaysOnTop(true);
           JOptionPane.showMessageDialog(frame, "Thanh toán thành công");
-          int idCustomer = 1;
+          int idCustomer = 0;
           // check customer có lưu thông tin hay không
           if (isRegularCustomer) {
             java.util.List<CustomerModel> customerModel = CustomerBUS.getInstance().searchModel(
@@ -261,8 +276,8 @@ public class InvoiceDetail extends JFrame {
           OrderModel orderModel = new OrderModel(0, idCustomer, Authentication.getCurrentUser().getId(), currentTime,
               totalInvoice);
           OrderBUS.getInstance().addModel(orderModel);
+          // TODO: Lỗi ràng buộc ở backend.
           OrderBUS.getInstance().refreshData();
-
           for (OrderItemModel orderItemModel : orderList) {
             ProductModel productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
             List<SizeItemModel> sizeItemModels = SizeItemBUS.getInstance()
@@ -293,7 +308,9 @@ public class InvoiceDetail extends JFrame {
             PointBUS.getInstance().updateModel(pointModel);
             System.out.println(pointModel.getPointsEarned());
           }
-          int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xuất hóa đơn không?");
+          JFrame jf = new JFrame();
+          jf.setAlwaysOnTop(true);
+          int choice = JOptionPane.showConfirmDialog(jf, "Bạn có muốn xuất hóa đơn không?");
           if (choice == JOptionPane.YES_OPTION) {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -402,6 +419,9 @@ public class InvoiceDetail extends JFrame {
     @Override
     public void actionPerformed(ActionEvent arg0) {
       if (WalkInCus.isSelected()) {
+        Point.setSelected(false);
+        Discount.setText("" + 0);
+        Total.setText(totalInvoice + "");
         RegularCus.setSelected(false);
         UsePoint.setVisible(false);
         CustomerInfo.setVisible(false);
@@ -468,9 +488,10 @@ public class InvoiceDetail extends JFrame {
       if (customerList != null && !customerList.isEmpty()) {
         CustomerModel customerModel = customerList.get(0);
         Name.setText(customerModel.getCustomerName());
-        Point.setText(
-            PointBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" })
-                .get(0).getPointsEarned() + " Point");
+        point = PointBUS.getInstance()
+            .searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" })
+            .get(0).getPointsEarned();
+        Point.setText(point + " Point");
         if (isPointCheckboxSelected) {
           Discount.setText("" + PointBUS.getInstance()
               .searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" }).get(0)
@@ -539,7 +560,7 @@ public class InvoiceDetail extends JFrame {
           CustomerModel customerModel = new CustomerModel(0, Name.getText(), Phone.getText(), null);
           CustomerBUS.getInstance().addModel(customerModel);
           JFrame fr1 = new JFrame();
-          fr.setAlwaysOnTop(true);
+          fr1.setAlwaysOnTop(true);
           JOptionPane.showMessageDialog(fr1, "Đã thêm 1 khách hàng mới thành công.");
           revalidate();
           repaint();

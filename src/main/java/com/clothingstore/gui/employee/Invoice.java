@@ -85,6 +85,7 @@ public class Invoice extends JPanel {
     Value.setFont(new Font("Segoe UI", 0, 18));
     Value.setForeground(new Color(255, 51, 51));
     Value.setHorizontalAlignment(SwingConstants.CENTER);
+    Value.setVisible(true);
 
     ButtonCancel.setText("Hủy");
     ButtonCancel.setBackground(Color.BLUE);
@@ -246,9 +247,9 @@ public class Invoice extends JPanel {
     repaint();
   }
 
-  public void updateQuantity(ProductModel productModel, int quantity){
+  public void updateQuantity(ProductModel productModel, int quantity) {
     for (OrderItemModel orderItem : orderItemList) {
-      if(orderItem.getProductId() == productModel.getId()){
+      if (orderItem.getProductId() == productModel.getId()) {
         orderItem.setQuantity(quantity);
       }
     }
