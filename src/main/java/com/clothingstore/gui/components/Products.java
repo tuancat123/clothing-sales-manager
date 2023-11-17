@@ -34,12 +34,13 @@ public class Products extends JPanel {
   }
 
   public void ChangeLayout(int column) {
-      Products.setLayout(new GridLayout(0, column));
-      currentColumn = column;
+    Products.setLayout(new GridLayout(0, column));
+    currentColumn = column;
   }
-  public void MenuOn(Boolean isVisible){
-    if(isVisible)
-      Products.setLayout(new GridLayout(0, currentColumn-1));
+
+  public void MenuOn(Boolean isVisible) {
+    if (isVisible)
+      Products.setLayout(new GridLayout(0, currentColumn - 1));
     else
       Products.setLayout(new GridLayout(0, currentColumn));
   }
@@ -67,4 +68,17 @@ public class Products extends JPanel {
 
   private JPanel Products;
   private JScrollPane Scroll;
+
+  public void showProductsFromResult(String input, List<ProductModel> productModels) {
+    Products.removeAll();
+    for (ProductModel products : productModels) {
+      if (products.getStatus() == 1) {
+        Product product = new Product(products);
+        product.setBackground(new Color(170, 205, 239));
+        Products.add(product);
+        revalidate();
+        repaint();
+      }
+    }
+  }
 }

@@ -2,11 +2,16 @@ package com.clothingstore.gui.components;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
 
 import org.netbeans.lib.awtextra.*;
 
+import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.gui.models.NavData;
+import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.UserModel;
 
 import services.Authentication;
@@ -68,7 +73,23 @@ public class ProductsHeader extends JPanel {
     ButtonSearch.setBorder(null);
     ButtonSearch.setBackground(Color.WHITE);
     Panel.add(ButtonSearch, new AbsoluteConstraints(380, 11, 28, 29));
+    ButtonSearch.addActionListener(new ActionListener() {
 
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (Value.getText().isEmpty() || Value.getText().isBlank()) {
+          JFrame jf = new JFrame();
+          jf.setAlwaysOnTop(true);
+          JOptionPane.showMessageDialog(jf, "Bạn không nhập gì hết vào ô tìm kiếm. Vui lòng kiểm tra lại");
+          return;
+        }
+        String input = Value.getText();
+        List<ProductModel> productModels = ProductBUS.getInstance().searchModel(input, new String[] { "name" });
+        Products.getInstance().showProductsFromResult(input, productModels);
+        revalidate();
+        repaint();
+      }
+    });
     ButtonAdd.setText("Add");
     ButtonAdd.addActionListener(new ActionListener() {
 

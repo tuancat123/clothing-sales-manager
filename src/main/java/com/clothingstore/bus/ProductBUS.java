@@ -119,6 +119,11 @@ public class ProductBUS implements IBUS<ProductModel> {
             return true;
           }
         }
+        case "name" -> {
+          if (product.getName().toLowerCase().contains(value)) {
+            return true;
+          }
+        }
         default -> {
           if (checkAllColumns(product, value)) {
             return true;
@@ -132,7 +137,8 @@ public class ProductBUS implements IBUS<ProductModel> {
   private boolean checkAllColumns(ProductModel product, String value) {
     return (product.getId() == Integer.parseInt(value) ||
         product.getCategoryId() == Integer.parseInt(value) ||
-        Double.valueOf(product.getPrice()).equals(Double.valueOf(value)));
+        Double.valueOf(product.getPrice()).equals(Double.valueOf(value))) ||
+        product.getName().toLowerCase().contains(value);
   }
 
   @Override
