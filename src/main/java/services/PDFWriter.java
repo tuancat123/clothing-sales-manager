@@ -243,37 +243,24 @@ public class PDFWriter {
 
   public void exportReceiptToPDF(OrderModel orderModel, String filepath) {
     // Get List products in cart items:
-    List<OrderItemModel> orderItemsList = OrderItemBUS
-        .getInstance()
-        .getAllModels();
-    List<OrderItemModel> modifiableOrderItemsList = new ArrayList<>(
-        orderItemsList);
-    modifiableOrderItemsList.removeIf(cartItem -> cartItem.getOrderId() != orderModel.getId());
+    List<OrderItemModel> orderItemsList = new ArrayList<>(OrderItemBUS.getInstance().getAllModels());
 
-    // Get product information:
-    List<ProductModel> products = ProductBUS.getInstance().getAllModels();
-    List<ProductModel> modifiableProductList = new ArrayList<>(products);
-    for (int i = modifiableOrderItemsList.size() - 1; i >= 0; i--) {
-      boolean found = false;
-      for (ProductModel product : modifiableProductList) {
-        if (modifiableOrderItemsList.get(i).getProductId() == product.getId()) {
-          found = true;
-          break;
-        }
+    for (int i = 0; i < orderItemsList.size(); i++) {
+      if (orderItemsList.get(i).getOrderId() != orderModel.getId()) {
+        orderItemsList.remove(i);
       }
-      if (!found) {
-        modifiableOrderItemsList.remove(i);
-      }
+    }
+
+    List<ProductModel> productList = new ArrayList<>();
+    for (int i = 0; i < orderItemsList.size(); i++) {
+      ProductModel productModel = ProductBUS.getInstance().getModelById(orderItemsList.get(i).getProductId());
+      productList.add(productModel);
     }
 
     // Get Customer Data
     CustomerModel customer = CustomerBUS
         .getInstance()
         .getModelById(orderModel.getCustomerId());
-    if (customer == null) {
-      customer = new CustomerModel();
-      customer.setCustomerName("Guest");
-    }
 
     // Get Employee Information
     UserModel employee = UserBUS
@@ -295,7 +282,7 @@ public class PDFWriter {
 
     // Calculate Total Price
     double totalPrice = 0;
-    for (OrderItemModel cartItem : modifiableOrderItemsList) {
+    for (OrderItemModel cartItem : orderItemsList) {
       ProductModel product = ProductBUS
           .getInstance()
           .getModelById(cartItem.getProductId());
@@ -343,9 +330,9 @@ public class PDFWriter {
           "Quantity",
           "Total Price",
       };
-      Object[][] data = new Object[modifiableOrderItemsList.size()][6];
-      for (int i = 0; i < modifiableOrderItemsList.size(); i++) {
-        OrderItemModel orderItemModel = modifiableOrderItemsList.get(i);
+      Object[][] data = new Object[orderItemsList.size()][6];
+      for (int i = 0; i < orderItemsList.size(); i++) {
+        OrderItemModel orderItemModel = orderItemsList.get(i);
         ProductModel product = ProductBUS
             .getInstance()
             .getModelById(orderItemModel.getProductId());

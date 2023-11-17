@@ -18,7 +18,6 @@ import com.clothingstore.bus.OrderItemBUS;
 import com.clothingstore.bus.PaymentBUS;
 import com.clothingstore.bus.PointBUS;
 import com.clothingstore.bus.PointTransactionBUS;
-import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.SizeItemBUS;
 import com.clothingstore.gui.components.InvoiceProduct;
 import com.clothingstore.gui.employee.Invoice;
@@ -28,10 +27,7 @@ import com.clothingstore.models.OrderModel;
 import com.clothingstore.models.PaymentModel;
 import com.clothingstore.models.PointModel;
 import com.clothingstore.models.PointTransactionModel;
-import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
-import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
-
 import services.Authentication;
 import services.PDFWriter;
 
@@ -257,7 +253,7 @@ public class InvoiceDetail extends JFrame {
       finalPrice = totalInvoice;
       Total.setText("" + finalPrice);
     }
-    // TODO: fix logical error checking all component before adding into database
+
     ButtonPay.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -301,7 +297,7 @@ public class InvoiceDetail extends JFrame {
         }
         createOrderAndPayment(orderList, idCustomer);
         updateSizeItemsAndPoints(orderList, idCustomer);
-        exportReceiptToPDF();
+        exportReceiptToPDF(orderList, idCustomer);
         disposeWindow();
       }
 
@@ -338,8 +334,8 @@ public class InvoiceDetail extends JFrame {
               orderModel.getTotalPrice());
           PaymentBUS.getInstance().addModel(paymentModel);
         }
-
         for (OrderItemModel orderItemModel : orderList) {
+          orderItemModel.setOrderId(orderModels.get(orderModels.size() - 1).getId());
           OrderItemBUS.getInstance().addModel(orderItemModel);
         }
       }
@@ -406,9 +402,34 @@ public class InvoiceDetail extends JFrame {
         }
 
       }
-
-      private void exportReceiptToPDF() {
-
+      //TODO: Lỗi nhận sai id
+      private void exportReceiptToPDF(List<OrderItemModel> orderList, int idCustomer) {
+        JFrame jf = new JFrame();
+        jf.setAlwaysOnTop(true);
+        int choice = JOptionPane.showConfirmDialog(jf, "Bạn có muốn xuất hóa đơn không?");
+        if (choice == JOptionPane.YES_OPTION) {
+          JFrame jf1 = new JFrame();
+          jf1.setAlwaysOnTop(true);
+          JFileChooser fileChooser = new JFileChooser();
+          jf1.add(fileChooser);
+          fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+          FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
+          fileChooser.setFileFilter(filter);
+          int result = fileChooser.showSaveDialog(null);
+          if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+            if (!filePath.toLowerCase().endsWith(".pdf")) {
+              filePath += ".pdf";
+            }
+            OrderBUS.getInstance().refreshData();
+            List<OrderModel> orderModels = OrderBUS.getInstance().getAllModels();
+            OrderModel orderModel = orderModels.get(orderModels.size() - 1);
+            PDFWriter.getInstance().exportReceiptToPDF(orderModel, filePath);
+          }
+        } else {
+          return;
+        }
       }
 
       private void disposeWindow() {
