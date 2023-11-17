@@ -38,7 +38,7 @@ public class InvoiceProduct extends JPanel {
     initComponents(data);
   }
 
-  public InvoiceProduct(OrderModel orderModel, OrderItemModel orderItemModel) {
+  public InvoiceProduct(OrderModel orderModel, OrderItemModel orderItemModel, int i) {
     productModel = ProductBUS.getInstance().getModelById(orderItemModel.getProductId());
 
     orderModel = OrderBUS.getInstance().getModelById(orderModel.getId());
@@ -51,7 +51,7 @@ public class InvoiceProduct extends JPanel {
         productModel, sizeModel.getId(), orderItemModel.getQuantity());
     data = new String[] {
         String.valueOf(productModel.getName()),
-        String.valueOf("0"),
+        String.valueOf(i),
         String.valueOf(orderItemModel.getQuantity()),
         String.valueOf(sizeModel.getSize()),
         String.valueOf(productModel.getPrice() * invoiceProduct.getQuantity()),

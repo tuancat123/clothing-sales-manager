@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import com.clothingstore.bus.CustomerBUS;
 import com.clothingstore.bus.OrderItemBUS;
+import com.clothingstore.bus.PaymentBUS;
+import com.clothingstore.bus.PaymentMethodBUS;
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.gui.components.InvoiceProduct;
 import com.clothingstore.gui.employee.invoiceDetail.HeaderInvoice;
@@ -37,16 +39,16 @@ public class InvoiceDetail extends JPanel {
     return new ArrayList<InvoiceDetail>() {
       {
 
-        add(new InvoiceDetail("Id Invoice", "" + orderModel.getId()));
-        add(new InvoiceDetail("Employee Name", UserBUS.getInstance().getModelById(orderModel.getUserId()).getName()));
-        add(new InvoiceDetail("Date", "" + orderModel.getOrderDate()));
-        add(new InvoiceDetail("Total", "" + orderModel.getTotalPrice()));
-        add(new InvoiceDetail("Paying", "chưa tìm ra chỗ để lấy method"));
-        add(new InvoiceDetail("Customer Name",
+        add(new InvoiceDetail("Mã hóa đơn", "" + orderModel.getId()));
+        add(new InvoiceDetail("Nhân viên phụ trách", UserBUS.getInstance().getModelById(orderModel.getUserId()).getName()));
+        add(new InvoiceDetail("Ngày tạo", "" + orderModel.getOrderDate()));
+        add(new InvoiceDetail("Tổng tiền", "" + orderModel.getTotalPrice()));
+        add(new InvoiceDetail("Phương thức thanh toán", "" + PaymentMethodBUS.getInstance().getModelById(PaymentBUS.getInstance().searchModel(String.valueOf(orderModel.getId()), new String[]{"order_id"}).get(0).getPaymentMethodId()).getMethodName()));
+        add(new InvoiceDetail("Tên khách hàng",
             CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getCustomerName()));
-        add(new InvoiceDetail("Customer Phone",
+        add(new InvoiceDetail("Số điện thoại",
             CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getPhone()));
-        add(new InvoiceDetail("Products", "" + orderItemModels.size()));
+        add(new InvoiceDetail("Số lượng sản phẩm", "" + orderItemModels.size()));
       }
     };
   }
@@ -66,10 +68,10 @@ public class InvoiceDetail extends JPanel {
     setBackground(new Color(153, 194, 255));
 
     Scroll.setViewportView(mainPanel);
-
+    Scroll.getVerticalScrollBar().setUnitIncrement(10);
     Info.setLayout(new GridLayout(0, 1));
 
-    NamePanel.setText("-- Detail --");
+    NamePanel.setText("-- Chi Tiết Hóa Đơn --");
     NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
     NamePanel.setVerticalAlignment(SwingConstants.CENTER);
     NamePanel.setFont(new Font("Segoe UI", 1, 17));
@@ -85,12 +87,12 @@ public class InvoiceDetail extends JPanel {
 
       JLabel Name = new JLabel(invoiceDetail.name);
       Name.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-      Name.setFont(new Font("Segoe UI", 1, 14));
+      Name.setFont(new Font("Segoe UI", 1, 15));
       panel.add(Name, BorderLayout.WEST);
 
       JLabel Value = new JLabel(invoiceDetail.value);
       Value.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 19));
-      Value.setFont(new Font("Segoe UI", 0, 14));
+      Value.setFont(new Font("Segoe UI", 0, 15));
       panel.add(Value, BorderLayout.EAST);
 
       Info.add(panel);
@@ -101,9 +103,9 @@ public class InvoiceDetail extends JPanel {
     HeaderProducts.setPreferredSize(new Dimension(100, 40));
     HeaderProducts.add(HeaderInvoice.getInstance(), BorderLayout.CENTER);
 
-    Product.setLayout(new GridLayout(5, 1));
+    Product.setLayout(new GridLayout(orderItemModels.size()+1, 1));
     for (int i = 0; i < orderItemModels.size(); i++) {
-      InvoiceProduct product = new InvoiceProduct(orderModel, orderItemModels.get(i));
+      InvoiceProduct product = new InvoiceProduct(orderModel, orderItemModels.get(i), i +1);
       Product.add(product);
     }
 
