@@ -85,9 +85,10 @@ public class InvoiceProduct extends JPanel {
     //TODO: Note
     spinner.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
-        double totalPrice = ProductBUS.getInstance().getModelById(productModel.getId()).getPrice()
-            * (int) spinner.getValue();
-        Price.setText("" + totalPrice);
+        // double totalPrice = ProductBUS.getInstance().getModelById(productModel.getId()).getPrice()
+        //     * (int) spinner.getValue();
+        // Price.setText("" + totalPrice);
+        Invoice.getInstance().updateQuantity(productModel, (int) spinner.getValue());
       }
     });
     Price.setFont(new Font("Segoe UI", 0, 15));
