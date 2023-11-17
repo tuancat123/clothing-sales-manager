@@ -93,7 +93,7 @@ public class ProductDetail extends JFrame {
     Category = new JLabel();
     GenderText = new JLabel();
     SizePanel = new JPanel();
-    ButtonExit = new JButton();
+    buttonEdit = new JButton();
     ButtonAdd = new JButton();
     buttonDiscontinued = new JButton();
     buttonContinued = new JButton();
@@ -137,12 +137,12 @@ public class ProductDetail extends JFrame {
     AmountText.setFont(new Font("Segoe UI", 2, 15));
     AmountText.setForeground(new Color(102, 102, 102));
     AmountText.setHorizontalAlignment(SwingConstants.RIGHT);
-    AmountText.setText("Amount:");
+    AmountText.setText("Số lượng:");
     getContentPane().add(AmountText, new AbsoluteConstraints(240, 165, 60, 20));
 
     CategoryText.setFont(new Font("Segoe UI", 2, 15));
     CategoryText.setForeground(new Color(102, 102, 102));
-    CategoryText.setText("Category:");
+    CategoryText.setText("Loại sản phẩm:");
     getContentPane().add(CategoryText, new AbsoluteConstraints(240, 105, 70, -1));
 
     Gender.setFont(new Font("Segoe UI", 0, 16));
@@ -162,7 +162,7 @@ public class ProductDetail extends JFrame {
     GenderText.setFont(new Font("Segoe UI", 2, 15));
     GenderText.setForeground(new Color(102, 102, 102));
     GenderText.setHorizontalAlignment(SwingConstants.RIGHT);
-    GenderText.setText("Gender:");
+    GenderText.setText("Giới tính:");
     getContentPane().add(GenderText, new AbsoluteConstraints(240, 130, 60, 30));
 
     SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, 1, null, 1);
@@ -282,15 +282,16 @@ public class ProductDetail extends JFrame {
 
     getContentPane().add(SizePanel, new AbsoluteConstraints(250, 200, 250, 20));
 
-    ButtonExit.setText("Exit");
-    ButtonExit.setPreferredSize(new Dimension(72, 28));
-    ButtonExit.addActionListener(new ActionListener() {
+    buttonEdit.setText("Sửa");
+    buttonEdit.setPreferredSize(new Dimension(72, 28));
+    buttonEdit.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         dispose();
+        // gọi giao diện chỉnh sửa, truyền vào nó product model.
       }
     });
-    getContentPane().add(ButtonExit, new AbsoluteConstraints(250, 250, -1, -1));
+    getContentPane().add(buttonEdit, new AbsoluteConstraints(250, 250, -1, -1));
 
     if (currentUser.getRoleId() == 3) {
       ButtonAdd.setText("Add To Cart");
@@ -357,7 +358,7 @@ public class ProductDetail extends JFrame {
 
   private JLabel AmountText;
   private JButton ButtonAdd;
-  private JButton ButtonExit;
+  private JButton buttonEdit;
   private JButton buttonDiscontinued;
   private JButton buttonContinued;
   private JLabel Category;
