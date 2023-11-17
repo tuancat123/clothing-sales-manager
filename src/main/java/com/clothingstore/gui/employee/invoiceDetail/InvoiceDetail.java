@@ -17,6 +17,7 @@ import com.clothingstore.bus.OrderBUS;
 import com.clothingstore.bus.OrderItemBUS;
 import com.clothingstore.bus.PaymentBUS;
 import com.clothingstore.bus.PointBUS;
+import com.clothingstore.bus.PointTransactionBUS;
 import com.clothingstore.bus.ProductBUS;
 import com.clothingstore.bus.SizeItemBUS;
 import com.clothingstore.gui.components.InvoiceProduct;
@@ -26,8 +27,10 @@ import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
 import com.clothingstore.models.PaymentModel;
 import com.clothingstore.models.PointModel;
+import com.clothingstore.models.PointTransactionModel;
 import com.clothingstore.models.ProductModel;
 import com.clothingstore.models.SizeItemModel;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
 import services.Authentication;
 import services.PDFWriter;
@@ -289,12 +292,12 @@ public class InvoiceDetail extends JFrame {
         JFrame jf = new JFrame();
         jf.setAlwaysOnTop(true);
         JOptionPane.showMessageDialog(jf, "Thanh toán thành công");
-        int idCustomer = 0;
+        int idCustomer = 1;
         if (isRegularCustomer) {
           // Retrieve customer data
           idCustomer = getCustomerId();
         } else if (isWalkinCustomer) {
-          idCustomer = 0;
+          idCustomer = 1;
         }
         createOrderAndPayment(orderList, idCustomer);
         updateSizeItemsAndPoints(orderList, idCustomer);
@@ -303,11 +306,16 @@ public class InvoiceDetail extends JFrame {
       }
 
       private int getCustomerId() {
-        List<CustomerModel> customerList = new ArrayList<>();
-        customerList
-            .addAll(
-                CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()), new String[] { "phone" }));
-        return customerList.get(0).getId();
+        CustomerBUS.getInstance().refreshData();
+        List<CustomerModel> customerList = new ArrayList<>(CustomerBUS.getInstance().getAllModels());
+        for (int i = 0; i < customerList.size(); i++) {
+          if (String.valueOf(Phone.getText()).equals(customerList.get(i).getPhone())) {
+            return customerList.get(i).getId();
+          } else {
+            continue;
+          }
+        }
+        return 1;
       }
 
       private void createOrderAndPayment(List<OrderItemModel> orderList, int idCustomer) {
@@ -315,9 +323,22 @@ public class InvoiceDetail extends JFrame {
         OrderModel orderModel = new OrderModel(0, idCustomer, Authentication.getCurrentUser().getId(),
             currentTime, totalInvoice);
         OrderBUS.getInstance().addModel(orderModel);
+        OrderBUS.getInstance().refreshData();
+        revalidate();
+        List<OrderModel> orderModels = OrderBUS.getInstance().getAllModels();
+        boolean isCreditSelected = CreditCheckBox.isSelected();
+        if (isCreditSelected) {
+          PaymentModel paymentModel = new PaymentModel(0, orderModels.get(orderModels.size() - 1).getId(), 2,
+              currentTime,
+              orderModel.getTotalPrice());
+          PaymentBUS.getInstance().addModel(paymentModel);
+        } else {
+          PaymentModel paymentModel = new PaymentModel(0, orderModels.get(orderModels.size() - 1).getId(), 1,
+              currentTime,
+              orderModel.getTotalPrice());
+          PaymentBUS.getInstance().addModel(paymentModel);
+        }
 
-        PaymentModel paymentModel = new PaymentModel(0, orderModel.getId(), 1, currentTime, orderModel.getTotalPrice());
-        PaymentBUS.getInstance().addModel(paymentModel);
         for (OrderItemModel orderItemModel : orderList) {
           OrderItemBUS.getInstance().addModel(orderItemModel);
         }
@@ -326,7 +347,7 @@ public class InvoiceDetail extends JFrame {
       private void updateSizeItemsAndPoints(List<OrderItemModel> orderList, int idCustomer) {
         updateSizeItemQuantity(orderList);
         // Update points for customer if available
-        if (idCustomer == 0)
+        if (idCustomer != 1)
           updateCustomerPoints(idCustomer);
       }
 
@@ -356,10 +377,34 @@ public class InvoiceDetail extends JFrame {
       }
 
       private void updateCustomerPoints(int idCustomer) {
-        PointModel pointModel = PointBUS.getInstance().searchModel(
-            String.valueOf(idCustomer), new String[] { "customer_id" }).get(0);
-        pointModel.setPointsEarned(pointModel.getPointsEarned() + (int) totalInvoice / 100);
-        PointBUS.getInstance().updateModel(pointModel);
+        CustomerBUS.getInstance().refreshData();
+        PointBUS.getInstance().refreshData();
+        PointTransactionBUS.getInstance().refreshData();
+
+        String str = Discount.getText();
+        double number = Double.parseDouble(str);
+        int integerValue = (int) number;
+        revalidate();
+        List<PointModel> pointModels = new ArrayList<>(PointBUS.getInstance().getAllModels());
+        for (int i = 0; i < pointModels.size(); i++) {
+          if (pointModels.get(i).getCustomerId() == idCustomer) {
+            if (String.valueOf(Discount.getText()) != "0" || String.valueOf(Discount.getText()) != "0.0") {
+              pointModels.get(i)
+                  .setPointsUsed(pointModels.get(i).getPointsUsed() + integerValue);
+              pointModels.get(i).setPointsEarned(0);
+            }
+            pointModels.get(i).setPointsEarned(pointModels.get(i).getPointsEarned() + (int) totalInvoice / 100);
+
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            PointTransactionModel pointTransactionModel = new PointTransactionModel(0, idCustomer, currentTime,
+                pointModels.get(i).getPointsEarned() + (int) totalInvoice / 100,
+                integerValue);
+            PointTransactionBUS.getInstance().addModel(pointTransactionModel);
+            PointBUS.getInstance().updateModel(pointModels.get(i));
+            revalidate();
+          }
+        }
+
       }
 
       private void exportReceiptToPDF() {
@@ -534,10 +579,17 @@ public class InvoiceDetail extends JFrame {
       revalidate();
       repaint();
       boolean isPointCheckboxSelected = Point.isSelected();
-      List<CustomerModel> customerList = new ArrayList<>(CustomerBUS.getInstance().searchModel(String.valueOf(Phone.getText()), new String[] { "phone" }));
+      CustomerBUS.getInstance().refreshData();
+      CustomerModel customerModel = null;
+      List<CustomerModel> customerList = new ArrayList<>(CustomerBUS.getInstance().getAllModels());
+      for (int i = 0; i < customerList.size(); i++) {
+        if (String.valueOf(Phone.getText()).equals(customerList.get(i).getPhone())) {
+          customerModel = customerList.get(i);
+        } else {
+          continue;
+        }
+      }
       if (customerList != null && !customerList.isEmpty()) {
-        CustomerModel customerModel = customerList.get(0);
-        //TODO: Lỗi id = 0
         Name.setText(customerModel.getCustomerName());
         point = PointBUS.getInstance()
             .searchModel(String.valueOf(customerModel.getId()), new String[] { "customer_id" })
