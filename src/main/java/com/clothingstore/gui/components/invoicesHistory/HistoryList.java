@@ -82,6 +82,7 @@ public class HistoryList extends JPanel {
     SearchValue.setBackground(new Color(242, 242, 242));
     SearchValue.setFont(new Font("Segoe UI", 0, 14)); // NOI18N
     SearchValue.setText("Tìm theo mã hóa đơn");
+    SearchValue.setBackground(Color.WHITE);
     SearchValue.setBorder(BorderFactory.createEmptyBorder(1, 6, 1, 1));
     SearchValue.addFocusListener(new FocusListener() {
       @Override
@@ -105,6 +106,7 @@ public class HistoryList extends JPanel {
     setEndDate();
     setFilterButton();
     setRemoveFilterButton();
+    fillPanel.setBackground(color);
     fillPanel.add(startDate, BorderLayout.WEST);
     fillPanel.add(endDate, BorderLayout.CENTER);
     fillPanel.add(filterButton, BorderLayout.EAST);
@@ -117,19 +119,19 @@ public class HistoryList extends JPanel {
 
     Invoices.setLayout(new GridLayout(0, 1));
     Invoices.setBackground(color);
-    orderList = OrderBUS.getInstance().getAllModels();
+    orderList = new ArrayList<>(OrderBUS.getInstance().getAllModels());
+    Collections.reverse(orderList);
+    CheckResponsive();
     for (OrderModel orderModel : orderList) {
       Invoice invoice = new Invoice(orderModel);
       Invoices.add(invoice);
     }
 
     Scroll.setViewportView(Invoices);
+    Scroll.getVerticalScrollBar().setUnitIncrement(10);
     add(Scroll, BorderLayout.CENTER);
   }
 
-  private ActionListener closeHistoryList = e -> {
-    setVisible(false);
-  };
 
   public void setStartDate() {
     this.startDate = new JDateChooser();
@@ -156,6 +158,7 @@ public class HistoryList extends JPanel {
         Date fromDate = startDate.getDate();
         Date toDate = endDate.getDate();
         checkDate(fromDate, toDate);
+        CheckResponsive();
       }
     });
   }
@@ -169,10 +172,13 @@ public class HistoryList extends JPanel {
         Invoices.removeAll();
         startDate.setDate(null);
         endDate.setDate(null);
+        orderList = new ArrayList<>(OrderBUS.getInstance().getAllModels());
+        Collections.reverse(orderList);
         for (OrderModel orderModel : orderList) {
           Invoice invoice = new Invoice(orderModel);
           Invoices.add(invoice);
         }
+        CheckResponsive();
       }
     });
   }
@@ -188,9 +194,6 @@ public class HistoryList extends JPanel {
       int result1 = fromDate.compareTo(currentDate);
       int result2 = fromDate.compareTo(toDate);
       if (result1 > 0) {
-        System.out.println(currentDate);
-        System.out.println(startDate);
-        System.out.println(result1);
         JOptionPane.showMessageDialog(null, "Ngày bắt đầu không thể lớn hơn ngày hiện tại.", "Lỗi",
             JOptionPane.ERROR_MESSAGE);
         startDate.setDate(null);
@@ -203,20 +206,28 @@ public class HistoryList extends JPanel {
         String fromDateStr = (fromDate != null) ? sdf.format(fromDate) : null;
         String toDateStr = (toDate != null) ? sdf.format(toDate) : null;
 
-        List<OrderModel> filteredOrders = OrderBUS.getInstance().searchDateToDate(fromDateStr, toDateStr);
-
-        if (filteredOrders.isEmpty()) {
+        orderList = new ArrayList<>(OrderBUS.getInstance().searchDateToDate(fromDateStr, toDateStr));
+        Collections.reverse(orderList);
+        if (orderList.isEmpty()) {
           JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn trong khoảng thời gian đã chọn.", "Thông báo",
               JOptionPane.INFORMATION_MESSAGE);
         } else {
           Invoices.removeAll();
-          for (OrderModel orderModel : filteredOrders) {
+          for (OrderModel orderModel : orderList) {
             Invoice invoice = new Invoice(orderModel);
             Invoices.add(invoice);
           }
         }
       }
     }
+  }
+
+  private void CheckResponsive(){
+    if(orderList.size() > 10)
+      Invoices.setLayout(new GridLayout(0, 1));
+    else 
+      Invoices.setLayout(new GridLayout(10, 1));
+
   }
 
   private JButton ButtonMenu;

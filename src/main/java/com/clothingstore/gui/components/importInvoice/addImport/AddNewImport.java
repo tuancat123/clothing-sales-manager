@@ -56,7 +56,27 @@ public class AddNewImport extends JPanel {
         initComponents();
         handleEvent();
         setBackground();
+        updateStatusTable();
     }
+
+    private void updateStatusTable() {
+        if (importItemList.size() > 0) {
+            footerBottomPanel.removeAll();
+            footerBottomPanel.repaint();
+            footerBottomPanel.add(new ImportItemAddHeader());
+        } else {
+            listImportItemPanel.removeAll();
+            listImportItemPanel.repaint();
+            footerBottomPanel.removeAll();
+            footerBottomPanel.repaint();
+            footerBottomPanel.add(new NoProduct());
+        }
+    
+        // Revalidate and repaint the components to update the UI
+        revalidate();
+        repaint();
+    }
+    
 
     private void setBackground() {
         contentPanel.setBackground(Color.WHITE);
@@ -216,6 +236,7 @@ public class AddNewImport extends JPanel {
                         idProductTextField.setText("");
                         revalidate();
                         repaint();
+                        updateStatusTable();
                     });
                 }
 
@@ -236,6 +257,7 @@ public class AddNewImport extends JPanel {
         listImportItemPanel.revalidate();
         listImportItemPanel.repaint();
         updateQuantityImportItem();
+        updateStatusTable();
     }
 
     private void initComponents() {
@@ -258,7 +280,7 @@ public class AddNewImport extends JPanel {
         saveButton = new JButton("Save");
         groupButton = new JPanel();
         groupButton.setLayout(new FlowLayout());
-        groupButton.setPreferredSize(new Dimension(100,-100));
+        groupButton.setPreferredSize(new Dimension(100, -100));
         listImportItemPanel = new JPanel();
         listImportItemPanel.setLayout(new BoxLayout(listImportItemPanel, BoxLayout.Y_AXIS));
 
@@ -287,7 +309,7 @@ public class AddNewImport extends JPanel {
         footerTopPanel.add(idEmpLabel);
         idEmpTextField.setColumns(10);
         footerTopPanel.add(idEmpTextField);
-        idProductLabel.setText("Id product");
+        idProductLabel.setText("Enter product id and press enter");
         footerTopPanel.add(idProductLabel);
         footerTopPanel.add(idProductTextField);
 
@@ -298,16 +320,14 @@ public class AddNewImport extends JPanel {
 
         footerBottomPanel.setLayout(new BoxLayout(footerBottomPanel, BoxLayout.Y_AXIS));
         footerBottomPanel.add(new ImportItemAddHeader());
-
         listImportItemScrollPane.getVerticalScrollBar().setUnitIncrement(10);
         listImportItemScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        footerPanel.add(footerBottomPanel);
+        listImportItemScrollPane.setPreferredSize(new Dimension(1000, 200));
+        listImportItemScrollPane.setMaximumSize(new Dimension(1000, 200));
         listImportItemScrollPane.setViewportView(listImportItemPanel);
+        footerPanel.add(footerBottomPanel);
         footerBottomPanel.add(listImportItemScrollPane);
 
-        listImportItemScrollPane.setPreferredSize(new Dimension(1000, 200));
-
-        listImportItemScrollPane.setMaximumSize(new Dimension(1000, 200));
 
         footerPanel.add(footerBottomPanel);
         footerPanel.add(listImportItemScrollPane);

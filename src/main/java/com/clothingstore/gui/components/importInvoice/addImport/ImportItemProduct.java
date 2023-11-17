@@ -42,10 +42,16 @@ public class ImportItemProduct extends JPanel {
         this.productModel = productModel;
         this.addNewImportPanel = addNewImportPanel;
         initComponents(productModel, i);
+        setBackground();
         handleEvent();
         updateDataForSize(1, 1);
         sizeSRadioButton.setSelected(true);
         sizeSQuantitySpinner.setEnabled(true);
+    }
+
+    private void setBackground() {
+        setBackground(Color.WHITE);
+        groupSizePanel.setBackground(Color.WHITE);
     }
 
     private void handleEvent() {
@@ -77,7 +83,6 @@ public class ImportItemProduct extends JPanel {
         AddNewImport.setSizeItemList(sizeItemList);
         addNewImportPanel.removeImportItem(this);
     
-        // Get the index of the removed panel and update sequence numbers
         int removedIndex = addNewImportPanel.getListImportItemProducts().indexOf(this);
         addNewImportPanel.updateSequenceNumbers(removedIndex);
     }
