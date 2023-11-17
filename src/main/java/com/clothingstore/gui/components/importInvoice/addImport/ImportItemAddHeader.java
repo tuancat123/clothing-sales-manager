@@ -1,4 +1,4 @@
-package com.clothingstore.gui.components.importInvoice;
+package com.clothingstore.gui.components.importInvoice.addImport;
 
 import java.awt.*;
 import javax.swing.*;
@@ -36,8 +36,8 @@ public class ImportItemAddHeader extends JPanel {
         add(idLabel);
 
         nameLabel.setText("Name");
-        nameLabel.setPreferredSize(new Dimension(100, 40));
-        nameLabel.setMaximumSize(new Dimension(100, 40));        add(nameLabel);
+        nameLabel.setPreferredSize(new Dimension(100, 20));
+        add(nameLabel);
 
         sizeLabel.setText("Size & Quantity");
         sizeLabel.setPreferredSize(new Dimension(100, 20));
@@ -52,6 +52,7 @@ public class ImportItemAddHeader extends JPanel {
         deleteLabel.setText("Delete");
         add(deleteLabel);
         setBackground(new Color(153, 179, 255));
+        setPreferredSize(new Dimension(100, -100));
     }
 
 }

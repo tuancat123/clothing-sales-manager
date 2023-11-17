@@ -1,4 +1,4 @@
-package com.clothingstore.gui.components.importInvoice;
+package com.clothingstore.gui.components.importInvoice.addImport;
 
 import javax.swing.*;
 
@@ -55,6 +55,17 @@ public class AddNewImport extends JPanel {
     public AddNewImport() {
         initComponents();
         handleEvent();
+        setBackground();
+    }
+
+    private void setBackground() {
+        contentPanel.setBackground(Color.WHITE);
+        footerBottomPanel.setBackground(Color.WHITE);
+        footerTopPanel.setBackground(Color.WHITE);
+        footerTopPanel.setBackground(Color.WHITE);
+        headerPanel.setBackground(Color.WHITE);
+        listImportItemPanel.setBackground(Color.WHITE);
+        groupButton.setBackground(Color.WHITE);
     }
 
     private void handleEvent() {
@@ -247,6 +258,7 @@ public class AddNewImport extends JPanel {
         saveButton = new JButton("Save");
         groupButton = new JPanel();
         groupButton.setLayout(new FlowLayout());
+        groupButton.setPreferredSize(new Dimension(100,-100));
         listImportItemPanel = new JPanel();
         listImportItemPanel.setLayout(new BoxLayout(listImportItemPanel, BoxLayout.Y_AXIS));
 

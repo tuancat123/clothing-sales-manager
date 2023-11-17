@@ -1,4 +1,4 @@
-package com.clothingstore.gui.components.importInvoice;
+package com.clothingstore.gui.components.importInvoice.addImport;
 
 import javax.swing.*;
 import javax.swing.text.*;
