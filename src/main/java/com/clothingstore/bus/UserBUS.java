@@ -61,13 +61,13 @@ public class UserBUS implements IBUS<UserModel> {
   @Override
   public int addModel(UserModel userModel) {
     if (userModel.getUsername() == null ||
-        userModel.getUsername().isEmpty() ||
-        userModel.getName() == null ||
-        userModel.getName().isEmpty() ||
-        userModel.getPassword() == null ||
-        userModel.getPassword().isEmpty()) {
+            userModel.getUsername().isEmpty() ||
+            userModel.getName() == null ||
+            userModel.getName().isEmpty() ||
+            userModel.getPassword() == null ||
+            userModel.getPassword().isEmpty()) {
       throw new IllegalArgumentException(
-          "Username, name and password cannot be empty. Please check the input and try again.");
+              "Username, name and password cannot be empty. Please check the input and try again.");
     }
 
     ArrayList<UserModel> userList = UserDAO.getInstance().readDatabase();
@@ -95,10 +95,11 @@ public class UserBUS implements IBUS<UserModel> {
     }
 
     // 1 is admin, 2 is manager, 3 is employee
-    userModel.setRoleId(3);
+
+    userModel.setRoleId(userModel.getRoleId());
     userModel.setPassword(PasswordUtils.hashPassword(userModel.getPassword()));
     userModel.setUserStatus(
-        userModel.getUserStatus() != null ? userModel.getUserStatus() : UserStatus.ACTIVE);
+            userModel.getUserStatus() != null ? userModel.getUserStatus() : UserStatus.ACTIVE);
     int id = UserDAO.getInstance().insert(userModel);
     userModel.setId(id);
     userList.add(userModel);
@@ -124,7 +125,7 @@ public class UserBUS implements IBUS<UserModel> {
     UserModel userModel = getModelById(id);
     if (userModel == null) {
       throw new IllegalArgumentException(
-          "User with ID " + id + " does not exist.");
+              "User with ID " + id + " does not exist.");
     }
     int deletedRows = UserDAO.getInstance().delete(id);
     if (deletedRows > 0) {
@@ -169,9 +170,9 @@ public class UserBUS implements IBUS<UserModel> {
   }
 
   private boolean checkFilter(
-      UserModel userModel,
-      String value,
-      String[] columns) {
+          UserModel userModel,
+          String value,
+          String[] columns) {
     value.toLowerCase();
     for (String column : columns) {
       switch (column.toLowerCase()) {
@@ -222,34 +223,34 @@ public class UserBUS implements IBUS<UserModel> {
 
   private boolean checkAllColumns(UserModel userModel, String value) {
     return (userModel.getId() == Integer.parseInt(value) ||
-        userModel.getUsername().equalsIgnoreCase(value) ||
-        userModel.getUserStatus().toString().equalsIgnoreCase(value) ||
-        userModel.getName().equalsIgnoreCase(value) ||
-        userModel.getEmail().equalsIgnoreCase(value) ||
-        userModel.getPhone().equals(value) ||
-        String.valueOf(userModel.getRoleId()).equalsIgnoreCase(value));
+            userModel.getUsername().equalsIgnoreCase(value) ||
+            userModel.getUserStatus().toString().equalsIgnoreCase(value) ||
+            userModel.getName().equalsIgnoreCase(value) ||
+            userModel.getEmail().equalsIgnoreCase(value) ||
+            userModel.getPhone().equals(value) ||
+            String.valueOf(userModel.getRoleId()).equalsIgnoreCase(value));
   }
 
   public boolean checkForDuplicate(List<String> values, String[] columns) {
     Optional<UserModel> optionalUser = UserBUS.getInstance().getAllModels().stream().filter(user -> {
-      for (String value : values) {
-        if (Arrays.asList(columns).contains("username") &&
-            !value.isEmpty() &&
-            user.getUsername().equals(value)) {
-          return true;
-        }
-        if (Arrays.asList(columns).contains("email") &&
-            user.getEmail().equals(value)) {
-          return true;
-        }
-        if (Arrays.asList(columns).contains("phone") &&
-            user.getPhone().equals(value)) {
-          return true;
-        }
-      }
-      return false;
-    })
-        .findFirst();
+              for (String value : values) {
+                if (Arrays.asList(columns).contains("username") &&
+                        !value.isEmpty() &&
+                        user.getUsername().equals(value)) {
+                  return true;
+                }
+                if (Arrays.asList(columns).contains("email") &&
+                        user.getEmail().equals(value)) {
+                  return true;
+                }
+                if (Arrays.asList(columns).contains("phone") &&
+                        user.getPhone().equals(value)) {
+                  return true;
+                }
+              }
+              return false;
+            })
+            .findFirst();
     return optionalUser.isPresent();
   }
 
@@ -259,7 +260,7 @@ public class UserBUS implements IBUS<UserModel> {
     }
     if (!Validation.isValidPassword(password)) {
       throw new LoginException(
-          "Password must have at least 8 characters, contain both letters and numbers, and capitalize the first letter");
+              "Password must have at least 8 characters, contain both letters and numbers, and capitalize the first letter");
     }
     UserModel userModel = UserDAO.getInstance().getUserByUsername(username);
     if (userModel == null) {

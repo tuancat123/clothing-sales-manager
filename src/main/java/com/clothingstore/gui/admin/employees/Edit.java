@@ -3,6 +3,9 @@ package com.clothingstore.gui.admin.employees;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.URL;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -31,6 +34,8 @@ public class Edit extends JFrame {
     private RoleBUS roleBus = RoleBUS.getInstance();
     private UserBUS userBus = UserBUS.getInstance();
     public JLabel lbl_img;
+    private String imagePath;
+    private boolean isImageChanged = false;
 
     public Edit(){
         initComponents();
@@ -174,7 +179,9 @@ public class Edit extends JFrame {
         gbc_comboBox_1.gridy = 3;
         panel_3.add(comboBox_role, gbc_comboBox_1);
         for (RoleModel role : roleBus.getAllModels()) {
-            comboBox_role.addItem(role.getId());
+            if(role.getId() > 1) {
+                comboBox_role.addItem(role.getName());
+            }
         }
 
         JLabel lbl_Email = new JLabel("Email");
@@ -266,11 +273,16 @@ public class Edit extends JFrame {
                         "JPG & GIF Images", "jpg", "gif", "png");
                 file.setFileFilter(filter);
                 int returnVal = file.showOpenDialog(null);
-                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
                     String filePath = file.getSelectedFile().getAbsolutePath();
-                    ImageIcon imageIcon = new ImageIcon(filePath);
-                    System.out.println(""+filePath);
-                    lbl_img.setIcon(imageIcon);
+                    imagePath = filePath;
+                    ImageIcon originalIcon = new ImageIcon(filePath);
+                    Image originalImage = originalIcon.getImage();
+                    Image resizedImage = originalImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                    lbl_img.setIcon(resizedIcon);
+
+                    isImageChanged = true;
                 }
             }
         });
@@ -289,15 +301,6 @@ public class Edit extends JFrame {
         });
         panel_Model.add(btnAdd);
 
-        JButton btnReset = new JButton("Reset");
-        btnReset.setPreferredSize(new Dimension(100,30));
-        btnReset.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                clearForm();
-            }
-        });
-        panel_Model.add(btnReset);
-
         JButton btnCancel = new JButton("Cancel");
         btnCancel.setPreferredSize(new Dimension(100,30));
         panel_Model.add(btnCancel);
@@ -315,39 +318,30 @@ public class Edit extends JFrame {
         panel_4.setLayout(new GridLayout(1, 0, 0, 0));
     }
 
-       public void clearForm() {
-		textField_id.setText("");
-		textField_username.setText("");
-		textField_password.setText("");
-		textField_email.setText("");
-		textField_name.setText("");
-		textField_phone.setText("");
-		comboBox_gender.setSelectedItem("Male");
-		comboBox_role.setSelectedIndex(-1);
-		textField_address.setText("");
-		lbl_img.setIcon(null);
-	}
-	
-	public void updateEmployee() {
-		int id = Integer.parseInt(textField_id.getText()+"");
-		String username = textField_username.getText()+"";
-		String password = textField_password.getText()+"";
-		String email = textField_email.getText()+"";
-		String name = textField_name.getText()+"";
-		String phone = textField_phone.getText()+"";
-		String genderCombobox = comboBox_gender.getSelectedItem()+"";
-		int roleID = Integer.parseInt(comboBox_role.getSelectedItem()+"");
-		String address = textField_address.getText()+"";
-		String image = this.lbl_img.getIcon().toString();
-		
-		int gender = genderCombobox.equals("Male") ? 1 : 0;
-		
-		UserModel userModel = new UserModel(id,username, password, email, name, phone, address, gender, image, roleID, UserStatus.ACTIVE);
-		int updatedRows = userBus.updateModel(userModel);
-		if(updatedRows > 0) {
-			JOptionPane.showMessageDialog(null, "Update thành công");
-		}else {
-			JOptionPane.showMessageDialog(null, "Update thất bại");
-		}
-	}
+    public void updateEmployee() {
+        int id = Integer.parseInt(textField_id.getText()+"");
+        String username = textField_username.getText()+"";
+        String password = textField_password.getText()+"";
+        String email = textField_email.getText()+"";
+        String name = textField_name.getText()+"";
+        String phone = textField_phone.getText()+"";
+        String genderCombobox = comboBox_gender.getSelectedItem()+"";
+        String role = comboBox_role.getSelectedItem()+"";
+        int roleID = role.toLowerCase().equals("manager") ? 2 : 3;
+        String address = textField_address.getText()+"";
+
+        if(imagePath == null) {
+            imagePath = Employees.getInstance().getImage();
+        }
+
+        int gender = genderCombobox.equals("Male") ? 1 : 0;
+        UserModel userModel = new UserModel(id,username, password, email, name, phone, address, gender, imagePath , roleID, UserStatus.ACTIVE);
+        int updatedRows = userBus.updateModel(userModel);
+        if(updatedRows > 0) {
+            JOptionPane.showMessageDialog(null, "Update thành công");
+        }else {
+            JOptionPane.showMessageDialog(null, "Update thất bại");
+        }
+    }
+
 }

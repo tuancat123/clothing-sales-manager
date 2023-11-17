@@ -1,28 +1,39 @@
 package com.clothingstore.gui.admin.employees;
 
-import java.awt.Component;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
 
-public class ImageRender extends DefaultTableCellRenderer{
+public class ImageRender extends DefaultTableCellRenderer {
 
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
-		if (value instanceof String && ((String) value).endsWith(".png") || value instanceof String && ((String) value).endsWith(".jpg")) {
-            // tao hinh anh tu chuoi string
-            ImageIcon icon = new ImageIcon((String) value);
-            // dat bieu tuong
-            setIcon(icon);
-            setText(null);
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+                                                   int row, int column) {
+        JLabel label = new JLabel();
+
+        if (value instanceof String && (((String) value).endsWith(".png") || ((String) value).endsWith(".jpg"))) {
+            // Tạo hình ảnh từ chuỗi string
+            ImageIcon originalIcon = new ImageIcon((String) value);
+
+            // Thay đổi kích thước của Image thành 70x70 pixels
+            Image originalImage = originalIcon.getImage();
+            Image resizedImage = originalImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+
+            // Tạo ImageIcon mới với kích thước 70x70
+            ImageIcon resizedIcon = new ImageIcon(resizedImage);
+
+            // Đặt alignment để căn giữa biểu tượng trong JLabel
+            label.setIcon(resizedIcon);
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            label.setVerticalAlignment(SwingConstants.CENTER);
+
+            // Loại bỏ văn bản
+            label.setText(null);
         } else {
-            // neu ko phai bieu tuong thi de mac dinh
-           return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            // Nếu không phải biểu tượng thì sử dụng giá trị mặc định
+            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         }
-        return this;
-	}
 
+        return label;
+    }
 }

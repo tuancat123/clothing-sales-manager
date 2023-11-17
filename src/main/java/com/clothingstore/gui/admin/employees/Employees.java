@@ -6,10 +6,17 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.border.EtchedBorder;
 
 import com.clothingstore.bus.ProductBUS;
@@ -24,6 +31,9 @@ import com.clothingstore.gui.admin.employees.Add;
 import com.clothingstore.gui.admin.employees.Edit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.table.DefaultTableCellRenderer;
 import java.util.List;
 
@@ -47,6 +57,8 @@ public class Employees extends JPanel {
     private JButton btnEdit;
     private UserBUS userBUS = UserBUS.getInstance();
     private ProductBUS productBUS = ProductBUS.getInstance();
+    private boolean comboBoxSelected = false;
+    private JLabel test;
 
     public static Employees getInstance() {
         if (instance == null) {
@@ -56,6 +68,7 @@ public class Employees extends JPanel {
     }
 
     private JButton btnSearch;
+    private String imagePath_2;
 
     public Employees(){
         initComponents();
@@ -135,25 +148,25 @@ public class Employees extends JPanel {
         gbc_btnSearch.gridy = 1;
         centerPanel.add(btnSearch, gbc_btnSearch);
         btnSearch.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String searchValue = textField.getText()+"";
-				
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchValue = textField.getText()+"";
+
 //				String[] columnNames = {"id","username","password","email","name","phone","address","gender","image","role_id","status"};
 //				String[] columnNames = {"id","username","status","name","email","phone",""};
-				String[] columnNames = {"username", "password", "email", "image", "name", "phone", "address", "gender", "role_id", "status"};
-				List<UserModel> searchResults = userBUS.getInstance().searchModel(searchValue, columnNames);
-				showSearchResult(searchResults);
-			}
-			
-		});
-        
+                String[] columnNames = {"username", "password", "email", "image", "name", "phone", "address", "gender", "role_id", "status"};
+                List<UserModel> searchResults = userBUS.getInstance().searchModel(searchValue, columnNames);
+                showSearchResult(searchResults);
+            }
+
+        });
+
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                	String searchValue = textField.getText();
+                    String searchValue = textField.getText();
                     String[] columnNames = {"username", "password", "email", "image", "name", "phone", "address", "gender", "role_id", "status"};
                     List<UserModel> searchResults = userBUS.getInstance().searchModel(searchValue, columnNames);
                     showSearchResult(searchResults);
@@ -175,14 +188,49 @@ public class Employees extends JPanel {
 
         table = new JTable();
         table.setModel(new DefaultTableModel(
-                new Object[][] {
-                },
-                new String[] {
-                        "ID", "Username", "Password", "Email", "Name", "Phone", "Gender", "Image", "Role", "Address", "Status"
-                }
-        ));
-        table.setRowHeight(50);
+                               new Object[][] {
+                               },
+                               new String[] {
+                                       "ID", "Username", "Email", "Name", "Phone", "Gender", "Image", "Role", "Address", "Status", "Reset"
+                               }
+                       ) {
+                           @Override
+                           public boolean isCellEditable(int row, int column) {
+                               // Chỉ cho phép chỉnh sửa cột "Status"
+                               return column == getColumnCount() - 2;
+                           }
+                       }
+
+        );
         scrollPane = new JScrollPane(table);
+
+        JTableHeader header = table.getTableHeader();
+        DefaultTableCellRenderer centerHeaderRenderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
+        centerHeaderRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        // set width
+        table.setRowHeight(70);
+        TableColumn idColumn = table.getColumnModel().getColumn(0);
+        TableColumn genderColumn = table.getColumnModel().getColumn(5);
+        TableColumn imageColumn = table.getColumnModel().getColumn(6);
+        TableColumn roleColumn = table.getColumnModel().getColumn(7);
+        TableColumn addressColumn = table.getColumnModel().getColumn(8);
+        TableColumn statusColumn = table.getColumnModel().getColumn(9);
+        TableColumn resetColumn = table.getColumnModel().getColumn(10);
+        imageColumn.setPreferredWidth(40);
+        idColumn.setPreferredWidth(10);
+        genderColumn.setPreferredWidth(30);
+        roleColumn.setPreferredWidth(30);
+        statusColumn.setPreferredWidth(30);
+        addressColumn.setPreferredWidth(110);
+        resetColumn.setPreferredWidth(0);
 
         panel_table.add(scrollPane);
         bottomPanel.add(panel_table, BorderLayout.NORTH);
@@ -211,52 +259,60 @@ public class Employees extends JPanel {
         panel_Model.add(btnDelete);
         btnDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int choice = JOptionPane.showConfirmDialog(null,"Do you want to delete this employee?","Confirm Deletion", JOptionPane.YES_NO_OPTION);               
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng muốn xóa", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+
+                int choice = JOptionPane.showConfirmDialog(null, "Do you want to delete this employee?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
-                	int selectedRow = table.getSelectedRow();
-                	int employeeId = (int) table.getModel().getValueAt(selectedRow, 0);
-                	
-                	deleteEmployee(employeeId);
-                	updateDTFromList();
-                } 
+                    int employeeId = (int) table.getModel().getValueAt(selectedRow, 0);
+                    deleteEmployee(employeeId);
+                    updateDTFromList();
+                }
             }
         });
+
 
         btnEdit = new JButton("Edit Employee");
         btnEdit.setPreferredSize(new Dimension(200,40));
         panel_Model.add(btnEdit);
         btnEdit.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		int index = table.getSelectedRow();
-    		    if (index == -1) {
-    		        JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng muốn sửa", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-    		        return;
-    		    } else {
-    		        int modelIndex = table.convertRowIndexToModel(index);
-    		        int id = (int) table.getModel().getValueAt(modelIndex, 0);
-    		        System.out.println("id: " + id);
-    		        userBUS.refreshData();
-    		        for(UserModel user : userBUS.getAllModels()) {
-    		        	if(id == user.getId()) {
-    		        		showUpdateInfo(id);
-    		        	}
-    		        }
-    		    }
-        		
-        	}
+            public void actionPerformed(ActionEvent e) {
+                int index = table.getSelectedRow();
+                if (index == -1) {
+                    JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng muốn sửa", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                } else {
+                    int modelIndex = table.convertRowIndexToModel(index);
+                    int id = (int) table.getModel().getValueAt(modelIndex, 0);
+                    System.out.println(id);
+                    UserBUS.getInstance().refreshData();
+                    if(UserBUS.getInstance().getModelById(id).getUserStatus() == UserStatus.BANNED) {
+                        JOptionPane.showMessageDialog(null, "Tài khoản đang bị khóa, không thể chỉnh sửa");
+                        return;
+                    }
+
+                    showUpdateInfo(id);
+                }
+
+            }
         });
 
         JButton btnRefresh = new JButton("Refresh");
         btnRefresh.setPreferredSize(new Dimension(200,40));
         panel_Model.add(btnRefresh);
-        btnRefresh.addActionListener(new ActionListener() {	
-        	public void actionPerformed(ActionEvent e) {
-        		updateDTFromList();
-        		textField.setText("");
-        	}
+        btnRefresh.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateDTFromList();
+                textField.setText("");
+            }
         });
         updateDTFromList();
 
+        statusHandle(table);
+        resetHandle(table);
     }
 
 
@@ -265,35 +321,61 @@ public class Employees extends JPanel {
         DefaultTableModel model_table = (DefaultTableModel) table.getModel();
         model_table.setRowCount(0);
 
+        JComboBox<String> status = new JComboBox<String>();
+        status.addItem("Active");
+        status.addItem("Banned");
+
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         for (UserModel user : UserBUS.getInstance().getAllModels()) {
-            if (user.getUserStatus() == UserStatus.ACTIVE) {
-                model_table.addRow(new Object[] { user.getId(), user.getUsername() + "", user.getPassword() + "",
-                    user.getEmail() + "", user.getName() + "", user.getPhone() + "", user.getGender() + "",
-                    user.getImage(), user.getRoleId(), user.getAddress(), user.getUserStatus() });
+            String textGender = (user.getGender() == 1) ? "Male" : "Female";
+            String textRole = null;
+//            String imagePath = "/config/image/resetImg.png";
+
+            if (user.getRoleId() == 1) {
+                textRole = "Admin";
+            } else if (user.getRoleId() == 2) {
+                textRole = "Manager";
+            } else if (user.getRoleId() == 3) {
+                textRole = "Employee";
             }
+
+            if (user.getUserStatus() == UserStatus.BANNED) {
+                status.setSelectedItem("Banned");
+            } else {
+                status.setSelectedItem("Active");
+            }
+
+            model_table.addRow(new Object[]{user.getId(), user.getUsername() + "",
+                    user.getEmail() + "", user.getName() + "", user.getPhone() + "", textGender,
+                    user.getImage(), textRole, user.getAddress(), status.getSelectedItem(), new ImageIcon(getClass().getResource("/config/image/resetImg.png"))});
+
         }
-//        for (ProductModel user : ProductBUS.getInstance().getAllModels()) {  
-//	        model_table.addRow(new Object[] { user.getId(), user.getName() + "", user.getCategoryId() + "", user.getImage() + "",
-//	        		user.getGender() + "" });
-//        }
-	    table.getColumnModel().getColumn(7).setCellRenderer(renderer);
-	    table.getColumnModel().getColumn(7).setCellRenderer(new ImageRender());
+
+        table.getColumnModel().getColumn(6).setCellRenderer(renderer);
+        table.getColumnModel().getColumn(6).setCellRenderer(new ImageRender());
+
+        TableColumn statusColumn = table.getColumnModel().getColumn(9);
+        statusColumn.setCellEditor(new DefaultCellEditor(status));
+
+        table.getColumnModel().getColumn(10).setCellRenderer(renderer);
+        table.getColumnModel().getColumn(10).setCellRenderer(new ImageRender());
+
     }
 
+
     public void deleteEmployee(int userID) {
-    	try {
-			int deletedRow = UserBUS.getInstance().deleteModel(userID);
-			if(deletedRow > 0) {
-				JOptionPane.showMessageDialog(null, "Xóa nhân viên thành công");
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Xóa nhân viên thất bại");
-		}
+        try {
+            int deletedRow = UserBUS.getInstance().deleteModel(userID);
+            if(deletedRow > 0) {
+                JOptionPane.showMessageDialog(null, "Xóa nhân viên thành công");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Xóa nhân viên thất bại");
+        }
     }
-    
+
     public void showUpdateInfo(int employeeId) {
         Edit editEmployee = new Edit();
         UserModel userModel = userBUS.getInstance().getModelById(employeeId);
@@ -306,35 +388,133 @@ public class Employees extends JPanel {
         editEmployee.textField_name.setText(userModel.getName());
         editEmployee.textField_phone.setText(userModel.getPhone());
         editEmployee.textField_address.setText(userModel.getAddress());
-        editEmployee.comboBox_role.setSelectedItem(userModel.getRoleId());
+        if(userModel.getRoleId() == 1) {
+            JOptionPane.showMessageDialog(null, "Tài khoản admin không thể sửa");
+            return;
+        }
 
-        int genderValue = Integer.parseInt((String) table.getModel().getValueAt(table.getSelectedRow(), 6));
-        editEmployee.comboBox_gender.setSelectedItem(genderValue == 1 ? "Male" : "Female");
-        
-        ImageIcon imageIcon = new ImageIcon(userModel.getImage());
-        editEmployee.lbl_img.setIcon(imageIcon);
+
+        if(userModel.getRoleId() == 2) {
+            editEmployee.comboBox_role.setSelectedItem("manager");
+        }else {
+            editEmployee.comboBox_role.setSelectedItem("employee");
+        }
+
+
+        if(table.getModel().getValueAt(table.getSelectedRow(), 5).equals("Male")) {
+            editEmployee.comboBox_role.setSelectedItem("Male");
+        }else {
+            editEmployee.comboBox_role.setSelectedItem("Female");
+        }
+
+        ImageIcon originalIcon = new ImageIcon(userModel.getImage());
+        imagePath_2 = userModel.getImage();
+        Image originalImage = originalIcon.getImage();
+        Image resizedImage = originalImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+        editEmployee.lbl_img.setIcon(resizedIcon);
 
         editEmployee.setVisible(true);
     }
-    
-    public void showSearchResult(List<UserModel> search) {
-    	DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0); 
-        
-        for (UserModel user : search) {
-        	 model.addRow(new Object[] {
-        			 user.getId(),
-        			 user.getUsername(),
-        			 user.getPassword(),
-        			 user.getEmail(),
-        			 user.getName(),
-        			 user.getPhone(),
-        			 user.getGender(),
-        			 user.getImage(),
-        			 user.getRoleId(),
-        			 user.getAddress(),
-        			 user.getUserStatus()
-        	        });
-		}
+
+    public String getImage() {
+        return imagePath_2;
     }
+
+    public void showSearchResult(List<UserModel> search) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        for (UserModel user : search) {
+            model.addRow(new Object[] {
+                    user.getId(),
+                    user.getUsername(),
+                    user.getPassword(),
+                    user.getEmail(),
+                    user.getName(),
+                    user.getPhone(),
+                    user.getGender(),
+                    user.getImage(),
+                    user.getRoleId(),
+                    user.getAddress(),
+                    user.getUserStatus()
+            });
+        }
+    }
+
+    public void statusHandle(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        model.addTableModelListener(e -> {
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+
+            if (column == 9) {
+                String selectedStatus = (String) table.getValueAt(row, column);
+
+                int id = (int) table.getValueAt(row, 0);
+
+                String currentStatus = UserBUS.getInstance().getModelById(id).getUserStatus().toString();
+                System.out.println("CurrentStatus: " + currentStatus);
+                System.out.println("SelectedStatus: " + selectedStatus);
+
+                if (currentStatus.toLowerCase().equals(selectedStatus.toLowerCase())) {
+                    JOptionPane.showMessageDialog(null, "Nhân viên hiện đang " + currentStatus);
+                    return;
+                }
+
+                if (selectedStatus.equals("Banned") && !currentStatus.equals("Banned")) {
+                    int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn khóa tài khoản nhân viên này?", "Xác nhận", JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (choice == JOptionPane.YES_OPTION) {
+                        JOptionPane.showMessageDialog(null, "Khóa tài khoản thành công");
+                        UserBUS.getInstance().getModelById(id).setUserStatus(UserStatus.BANNED);
+                        UserBUS.getInstance().updateModel(UserBUS.getInstance().getModelById(id));
+                        updateDTFromList();
+                    } else if (choice == JOptionPane.NO_OPTION || choice == JOptionPane.CANCEL_OPTION || JOptionPane.CLOSED_OPTION == -1) {
+                        UserBUS.getInstance().getModelById(id).setUserStatus(UserStatus.ACTIVE);
+                        UserBUS.getInstance().updateModel(UserBUS.getInstance().getModelById(id));
+                        updateDTFromList();
+                    }
+                } else if (selectedStatus.equals("Active") && !currentStatus.equals("Active")) {
+                    int choice = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn mở khóa tài khoản nhân viên này?", "Xác nhận", JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (choice == JOptionPane.YES_OPTION) {
+                        JOptionPane.showMessageDialog(null, "Mở khóa tài khoản thành công");
+                        UserBUS.getInstance().getModelById(id).setUserStatus(UserStatus.ACTIVE);
+                        UserBUS.getInstance().updateModel(UserBUS.getInstance().getModelById(id));
+                        updateDTFromList();
+                    } else if (choice == JOptionPane.NO_OPTION || choice == JOptionPane.CANCEL_OPTION || JOptionPane.CLOSED_OPTION == -1) {
+                        UserBUS.getInstance().getModelById(id).setUserStatus(UserStatus.BANNED);
+                        System.out.println(UserBUS.getInstance().getModelById(id));
+                        UserBUS.getInstance().updateModel(UserBUS.getInstance().getModelById(id));
+                        updateDTFromList();
+                    }
+                }
+            }
+        });
+    }
+
+
+
+
+
+    public void resetHandle(JTable table) {
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int column = table.getColumnModel().getColumnIndex("Reset");
+
+                if (table.columnAtPoint(e.getPoint()) == column) {
+                    int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn đặt lại mật khẩu mặc định?");
+                    if(choice == 0) {
+                        int row = table.rowAtPoint(e.getPoint());
+                        int id = (int) table.getValueAt(row, 0);
+                        UserBUS.getInstance().getModelById(id).setPassword("$2a$12$WXfAuG7UpCVbc3HdDx9q0e7IGZCLtgBRi09yhOcAzmGYTWwX6stqi");
+                        UserBUS.getInstance().updateModel(UserBUS.getInstance().getModelById(id));
+                        JOptionPane.showMessageDialog(null, "Reset về mật khẩu mặc định thành công");
+                    }
+                }
+            }
+        });
+    }
+
 }

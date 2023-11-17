@@ -3,6 +3,7 @@ package com.clothingstore.gui.admin.employees;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.management.relation.Role;
 import javax.swing.*;
@@ -15,6 +16,7 @@ import com.clothingstore.bus.RoleBUS;
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.models.RoleModel;
 import com.clothingstore.models.UserModel;
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
 
 public class Add extends JFrame {
 
@@ -32,6 +34,8 @@ public class Add extends JFrame {
     private JComboBox comboBox_gender;
     private JComboBox comboBox_role;
     private JLabel lbl_img;
+    private String imagePath;
+    private JPanel panel_image;
 
     public Add() {
         initComponents();
@@ -164,8 +168,10 @@ public class Add extends JFrame {
 
         comboBox_role = new JComboBox();
         for (RoleModel role : roleBus.getAllModels()) {
-			comboBox_role.addItem(role.getId());
-		}
+            if(role.getId() > 1) {
+                comboBox_role.addItem(role.getName());
+            }
+        }
         GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
         gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
         gbc_comboBox_1.fill = GridBagConstraints.BOTH;
@@ -228,7 +234,7 @@ public class Add extends JFrame {
         gbc_lbl_image.gridy = 5;
         panel_3.add(lbl_image, gbc_lbl_image);
 
-        JPanel panel_image = new JPanel();
+        panel_image = new JPanel();
         panel_image.setBorder(new LineBorder(new Color(0, 0, 0)));
         GridBagConstraints gbc_panel_image = new GridBagConstraints();
         gbc_panel_image.gridheight = 2;
@@ -253,19 +259,25 @@ public class Add extends JFrame {
         btn_Upload.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser file = new JFileChooser();
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setAcceptAllFileFilterUsed(false);
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         "JPG & GIF Images", "jpg", "gif", "png");
-                file.setFileFilter(filter);
-                int returnVal = file.showOpenDialog(null);
+                fileChooser.setFileFilter(filter);
+                int returnVal = fileChooser.showOpenDialog(null);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    String filePath = file.getSelectedFile().getAbsolutePath();
-                    ImageIcon imageIcon = new ImageIcon(filePath);
-                    System.out.println("" + filePath);
-                    lbl_img.setIcon(imageIcon);
+                    String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                    imagePath = filePath;
+                    ImageIcon originalIcon = new ImageIcon(filePath);
+                    Image originalImage = originalIcon.getImage();
+                    Image resizedImage = originalImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+                    ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                    lbl_img.setIcon(resizedIcon);
                 }
             }
         });
+
+
 
         JPanel panel_Model = new JPanel();
         panel_Model.setPreferredSize(new Dimension(500, 100));
@@ -278,7 +290,7 @@ public class Add extends JFrame {
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 addEmployee();
-				employeeGUI.updateDTFromList();
+                employeeGUI.updateDTFromList();
             }
         });
         panel_Model.add(btnAdd);
@@ -289,7 +301,7 @@ public class Add extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 clearForm();
             }
-            
+
         });
         panel_Model.add(btnReset);
 
@@ -310,47 +322,49 @@ public class Add extends JFrame {
         panel_4.setLayout(new GridLayout(1, 0, 0, 0));
     }
 
-       public void clearForm() {
-		textField_id.setText("");
-		textField_username.setText("");
-		textField_password.setText("");
-		textField_email.setText("");
-		textField_name.setText("");
-		textField_phone.setText("");
-		comboBox_gender.setSelectedItem("Male");
-		comboBox_role.setSelectedIndex(-1);
-		textField_address.setText("");
-		lbl_img.setIcon(null);
-	}
-	
-	public void addEmployee() {
-		String username = textField_username.getText()+"";
-		String password = textField_password.getText()+"";
-		String email = textField_email.getText()+"";
-		String name = textField_name.getText()+"";
-		String phone = textField_phone.getText()+"";
-		String genderCombobox = comboBox_gender.getSelectedItem()+"";
-		int roleID = Integer.parseInt(comboBox_role.getSelectedItem()+"");
-		String address = textField_address.getText()+"";
-		String image = this.lbl_img.getIcon().toString();
-		
-		int gender = genderCombobox.equals("Male") ? 1 : 0;
-		
-		UserModel newEmployee = new UserModel();
-		newEmployee.setUsername(username);
-		newEmployee.setPassword(password);
-		newEmployee.setEmail(email);
-		newEmployee.setName(name);
-		newEmployee.setPhone(phone);
-		newEmployee.setGender(gender);
-		newEmployee.setRoleId(roleID);
-		newEmployee.setAddress(address);
-		newEmployee.setImage(image);
-		
-		int newUserID = UserBUS.getInstance().addModel(newEmployee);
-		System.out.println("test id: "+newUserID);
-		
-	}
+    public void clearForm() {
+        textField_id.setText("");
+        textField_username.setText("");
+        textField_password.setText("");
+        textField_email.setText("");
+        textField_name.setText("");
+        textField_phone.setText("");
+        comboBox_gender.setSelectedItem("Male");
+        comboBox_role.setSelectedIndex(-1);
+        textField_address.setText("");
+        lbl_img.setIcon(null);
+    }
+
+    public void addEmployee() {
+        String username = textField_username.getText()+"";
+        String password = textField_password.getText()+"";
+        String email = textField_email.getText()+"";
+        String name = textField_name.getText()+"";
+        String phone = textField_phone.getText()+"";
+        String genderCombobox = comboBox_gender.getSelectedItem()+"";
+        String role = comboBox_role.getSelectedItem()+"";
+        int roleID = role.toLowerCase().equals("manager") ? 2 : 3;
+        String address = textField_address.getText()+"";
+
+
+
+        int gender = genderCombobox.equals("Male") ? 1 : 0;
+
+        UserModel newEmployee = new UserModel();
+        newEmployee.setUsername(username);
+        newEmployee.setPassword(password);
+        newEmployee.setEmail(email);
+        newEmployee.setName(name);
+        newEmployee.setPhone(phone);
+        newEmployee.setGender(gender);
+        newEmployee.setRoleId(roleID);
+        newEmployee.setAddress(address);
+        newEmployee.setImage(imagePath);
+
+        int newUserID = UserBUS.getInstance().addModel(newEmployee);
+        System.out.println("test id: "+newUserID);
+
+    }
 
 
 }
