@@ -261,15 +261,8 @@ public class Invoice extends JPanel {
     public void actionPerformed(ActionEvent e) {
       if (!orderItemList.isEmpty() && orderItemList != null) {
         if (cartChanged()) {
-          JFrame jf = new JFrame();
-          jf.setAlwaysOnTop(true);
-          int choice = JOptionPane.showConfirmDialog(jf, "Bạn đã thay đổi giỏ hàng, bạn có muốn cập nhật không?",
-              "Xác nhận cập nhật giỏ hàng", JOptionPane.YES_NO_OPTION);
-          if (choice == JOptionPane.YES_OPTION) {
-            updateCart();
-          }
+          updateCart();
         }
-
         List<OrderItemModel> itemsToShow = new ArrayList<>(orderItemList);
         InvoiceDetail invoiceDetail = new InvoiceDetail(itemsToShow);
         invoiceDetail.setVisible(true);
