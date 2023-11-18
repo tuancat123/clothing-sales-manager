@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import com.clothingstore.models.OrderModel;
-import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
 public class Invoice extends JPanel {
   private Color background;
