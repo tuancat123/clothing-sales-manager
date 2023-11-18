@@ -70,7 +70,9 @@ public class Products extends JPanel {
   private JPanel Products;
   private JScrollPane Scroll;
 
-  public void showProductsFromResult(String input, List<ProductModel> productModels) {
+  public void showProductsFromResult(List<ProductModel> productModels) {
+    revalidate();
+    repaint();
     Products.removeAll();
     for (ProductModel products : productModels) {
       if (products.getStatus() == 1) {

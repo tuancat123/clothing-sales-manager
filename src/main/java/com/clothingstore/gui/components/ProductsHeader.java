@@ -2,7 +2,6 @@ package com.clothingstore.gui.components;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -83,9 +82,14 @@ public class ProductsHeader extends JPanel {
           JOptionPane.showMessageDialog(jf, "Bạn không nhập gì hết vào ô tìm kiếm. Vui lòng kiểm tra lại");
           return;
         }
-        String input = Value.getText();
+        String input = Value.getText().toLowerCase();
         List<ProductModel> productModels = ProductBUS.getInstance().searchModel(input, new String[] { "name" });
-        Products.getInstance().showProductsFromResult(input, productModels);
+        if (productModels == null || productModels.isEmpty()) {
+          JFrame jf = new JFrame();
+          JOptionPane.showMessageDialog(jf, "Không tìm thấy sản phẩm!");
+          productModels = ProductBUS.getInstance().getAllModels();
+        }
+        Products.getInstance().showProductsFromResult(productModels);
         revalidate();
         repaint();
       }
