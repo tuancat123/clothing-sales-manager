@@ -203,6 +203,7 @@ public class Employees extends JPanel {
 
         );
         scrollPane = new JScrollPane(table);
+        table.getTableHeader().setReorderingAllowed(false);
 
         JTableHeader header = table.getTableHeader();
         DefaultTableCellRenderer centerHeaderRenderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
@@ -331,7 +332,7 @@ public class Employees extends JPanel {
         for (UserModel user : UserBUS.getInstance().getAllModels()) {
             String textGender = (user.getGender() == 1) ? "Male" : "Female";
             String textRole = null;
-//            String imagePath = "/config/image/resetImg.png";
+            String imagePath = "src\\main\\java\\config\\image\\resetImg.png";
 
             if (user.getRoleId() == 1) {
                 textRole = "Admin";
@@ -349,7 +350,7 @@ public class Employees extends JPanel {
 
             model_table.addRow(new Object[]{user.getId(), user.getUsername() + "",
                     user.getEmail() + "", user.getName() + "", user.getPhone() + "", textGender,
-                    user.getImage(), textRole, user.getAddress(), status.getSelectedItem(), new ImageIcon(getClass().getResource("/config/image/resetImg.png"))});
+                    user.getImage(), textRole, user.getAddress(), status.getSelectedItem(), imagePath});
 
         }
 
