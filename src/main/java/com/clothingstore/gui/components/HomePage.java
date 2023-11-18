@@ -121,12 +121,15 @@ public class HomePage extends JFrame {
   ComponentAdapter componentListener = new ComponentAdapter() {
     @Override
     public void componentResized(ComponentEvent e) {
-      int column =(int) HomePage.getInstance().getSize().getWidth() / 280 ;
-      double width = HomePage.getInstance().getSize().getWidth() / 280;
+      int column =(int) HomePage.getInstance().getSize().getWidth() / 250 ;
+      double width = HomePage.getInstance().getSize().getWidth() / 250;
       if( width - (int)width > 0.5 ){
         column = (int)width + 1 ;
       }
-      Products.getInstance().ChangeLayout(column);
+      if(currentUser.getRoleId()==3)
+        Products.getInstance().ChangeLayout(column-1);
+      else
+        Products.getInstance().ChangeLayout(column);
       revalidate();
       repaint();
     }

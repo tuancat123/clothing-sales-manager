@@ -52,25 +52,12 @@ public class ProductDetail extends JFrame {
   SizeModel sizeModel = null;
 
   private void initComponents(ProductModel productModel) {
-    this.productModel = productModel;
-    // List<ImportItemsModel> importItemsModels = new ArrayList<>();
-    // List<ProductModel> productModels = new ArrayList<>();
+    this.productModel = productModel;;
     List<SizeItemModel> sizeItemModels = new ArrayList<>();
     List<SizeModel> sizeModels = new ArrayList<>();
 
-    // importItemsModels.addAll(ImportItemsBUS.getInstance().getAllModels());
-    // productModels.addAll(ProductBUS.getInstance().getAllModels());
     sizeItemModels.addAll(SizeItemBUS.getInstance().getAllModels());
     sizeModels.addAll(SizeBUS.getInstance().getAllModels());
-
-    // Iterator<ImportItemsModel> importItemsIterator =
-    // importItemsModels.iterator();
-    // while (importItemsIterator.hasNext()) {
-    // ImportItemsModel importItemsModel = importItemsIterator.next();
-    // if (importItemsModel.getProduct_id() != productModel.getId()) {
-    // importItemsIterator.remove();
-    // }
-    // }
 
     Iterator<SizeItemModel> sizeItemIterator = sizeItemModels.iterator();
     while (sizeItemIterator.hasNext()) {
@@ -83,7 +70,6 @@ public class ProductDetail extends JFrame {
     }
     System.out.println(sizeItemModels.size());
 
-    ImagePanel = new JPanel();
     Name = new JTextField();
     Price = new JLabel();
     Id = new JLabel();
@@ -100,22 +86,12 @@ public class ProductDetail extends JFrame {
     Remaining = new JLabel();
     Spinner = new JSpinner();
 
-    ImagePanel.setLayout(new GridBagLayout());
-    ImagePanel.setBackground(Color.red);
-
-    // try {
-    // BufferedImage originalImage = ImageUtil.fromBase64(productModel.getImage());
-    // Image scaledImage = originalImage.getScaledInstance(180, 180,
-    // java.awt.Image.SCALE_SMOOTH);
-    // ImageIcon scaledIcon = new ImageIcon(scaledImage);
-    // JLabel imageLabel = new JLabel(scaledIcon);
-    // JPanel imagePanel = new JPanel(new GridBagLayout());
-    // imagePanel.add(imageLabel, new GridBagConstraints());
-    // imagePanel.setBackground(color);
-    getContentPane().add(ImagePanel, new AbsoluteConstraints(10, 20, 190, 240));
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
+    ImageIcon icon = new ImageIcon(productModel.getImage());
+    Image image = icon.getImage();
+    Image scaledImage = image.getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+    ImageIcon scaledIcon = new ImageIcon(scaledImage);
+    JLabel imageLabel = new JLabel(scaledIcon);
+    getContentPane().add(imageLabel, new AbsoluteConstraints(10, 20, 190, 240));
 
     Name.setEditable(false);
     Name.setBackground(new Color(255, 255, 255));
@@ -366,7 +342,6 @@ public class ProductDetail extends JFrame {
   private JLabel Gender;
   private JLabel GenderText;
   private JLabel Id;
-  private JPanel ImagePanel;
   private JTextField Name;
   private JLabel Price;
   private JLabel Remaining;

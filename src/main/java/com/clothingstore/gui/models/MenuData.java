@@ -77,17 +77,10 @@ public class MenuData {
     public static ArrayList<MenuData> getDataEmployee() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, ProductAction(), "products"));
-        data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction(),"invoice"));
-        data.add(new MenuData(
-                "Customers",
-                new ArrayList<MenuItemData>() {
-                    {
-                        add(new MenuItemData("Customer List", CustomerAction()));
-                    }
-                },
-                null,"customer"));
-        data.add(new MenuData("Logout", null, LogoutAction(), "logout"));
+        data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
+        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(),"invoice"));
+        data.add(new MenuData("Khách hàng",null,CustomerAction(),"customer"));
+        data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
 
         return data;
     }
@@ -95,70 +88,52 @@ public class MenuData {
     public static ArrayList<MenuData> getDataAdmin() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, ProductAction(), "products"));
-        data.add(new MenuData("Invoice history ", null, InvoiceHistoryAction(),"invoice"));
+        data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
+        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(),"invoice"));
         data.add(new MenuData(
-                "Inventory Management",
+                "Quản lý nhập hàng",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Add Import", ImportAction()));
-                        add(new MenuItemData("Import Management", ImportAction()));
+                        add(new MenuItemData("Danh sách hóa đơn", ImportAction()));
+                        add(new MenuItemData("Thêm hóa đơn", ImportAction()));
 
                     }
                 },
                 null, "import"));
         data.add(new MenuData(
-                "Employees Management",
+                "Quản lý nhân viên",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Employees List", EmployeeAction()));
-                        add(new MenuItemData("Add Employee", EmployeeAction()));
+                        add(new MenuItemData("Danh sách nhân viên", EmployeeAction()));
+                        add(new MenuItemData("Thêm nhân viên", EmployeeAction()));
 
                     }
                 },
                 null, "employee"));
-        data.add(new MenuData(
-                "Customers Management",
-                new ArrayList<MenuItemData>() {
-                    {
-                        add(new MenuItemData("Customers List", CustomerAction()));
-                        add(new MenuItemData("Add Customer", null));
-
-                    }
-                },
-                null, "customer"));
-        data.add(new MenuData("Revenue Statistics",null,RevenueAction(), "revenue"));
-        data.add(new MenuData("Role management", null, RoleAction(), "role"));
-        data.add(new MenuData("Logout", null, LogoutAction(), "logout"));
+        data.add(new MenuData("Quản lý khách hàng",null,CustomerAction(), "customer"));
+        data.add(new MenuData("Thống kê",null,RevenueAction(), "revenue"));
+        data.add(new MenuData("Quản lý chức vụ", null, RoleAction(), "role"));
+        data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
         return data;
     }
 
     public static ArrayList<MenuData> getDataManager() {
         ArrayList<MenuData> data = new ArrayList<>();
 
-        data.add(new MenuData("Products", null, ProductAction(), "products"));
-        data.add(new MenuData("Invoice history", null, InvoiceHistoryAction(), "products"));
+        data.add(new MenuData("Sản phẩm", null, ProductAction(), "products"));
+        data.add(new MenuData("Hóa đơn", null, InvoiceHistoryAction(), "invoice"));
         data.add(new MenuData(
-                "Inventory Management",
+                "Quản lý nhập hàng",
                 new ArrayList<MenuItemData>() {
                     {
-                        add(new MenuItemData("Import Add", ImportAction()));
-                        add(new MenuItemData("Import Management", ImportAction()));
+                        add(new MenuItemData("Danh sách hóa đơn", ImportAction()));
+                        add(new MenuItemData("Thêm hóa đơn", ImportAction()));
 
                     }
                 },
-                null, "products"));
-        data.add(new MenuData(
-                "Customer Management",
-                new ArrayList<MenuItemData>() {
-                    {
-                        add(new MenuItemData("Customers List", CustomerAction()));
-                        add(new MenuItemData("Add Customer", CustomerAction()));
-
-                    }
-                },
-                null, "products"));
-        data.add(new MenuData("Logout", null, LogoutAction(), "products"));
+                null, "import"));
+        data.add(new MenuData("Quản lý khách hàng",null,CustomerAction(), "customer"));
+        data.add(new MenuData("Đăng xuất", null, LogoutAction(), "logout"));
         return data;
     }
 
@@ -187,9 +162,9 @@ public class MenuData {
             HomePage.getInstance().Remove();
             HomePage homePage = HomePage.getInstance();
 
-            if (e.getActionCommand().equals("Import Management")) {
+            if (e.getActionCommand().equals("Danh sách hóa đơn")) {
                 homePage.Add(ImportHistory.getInstance());
-            } else if (e.getActionCommand().equals("Add Import")) {
+            } else if (e.getActionCommand().equals("Thêm hóa đơn")) {
                 homePage.Add(AddNewImport.getInstance());
             }
 
@@ -199,19 +174,16 @@ public class MenuData {
     private static ActionListener CustomerAction() {
         return e -> {
             HomePage.getInstance().Remove();
-            if (e.getActionCommand().equals("Customers List")) {
-                HomePage.getInstance().Add(Customers.getInstance());
-            } else if (e.getActionCommand().equals("Add Customer")) {
-            }
+            HomePage.getInstance().Add(Customers.getInstance());
         };
     }
 
     private static ActionListener EmployeeAction() {
         return e -> {
             HomePage.getInstance().Remove();
-            if (e.getActionCommand().equals("Employees List")) {
+            if (e.getActionCommand().equals("Danh sách nhân viên")) {
                 HomePage.getInstance().Add(Employees.getInstance());
-            } else if (e.getActionCommand().equals("Add Customer")) {
+            } else if (e.getActionCommand().equals("Thêm nhân viên")) {
             }
         };
     }

@@ -20,7 +20,7 @@ public class Products extends JPanel {
   Boolean Visible = false;
   private static Products instance;
 
-  int currentColumn = 4;
+  int currentColumn = 1 ;
 
   public static Products getInstance() {
     if (instance == null) {
@@ -62,6 +62,7 @@ public class Products extends JPanel {
       }
     }
     Scroll.setViewportView(Products);
+    Scroll.getVerticalScrollBar().setUnitIncrement(30);
     add(ProductsHeader.getInstance(), BorderLayout.NORTH);
     add(Scroll, BorderLayout.CENTER);
   }

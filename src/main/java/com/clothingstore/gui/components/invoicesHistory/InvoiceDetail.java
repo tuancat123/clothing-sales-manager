@@ -9,6 +9,7 @@ import com.clothingstore.bus.PaymentMethodBUS;
 import com.clothingstore.bus.UserBUS;
 import com.clothingstore.gui.components.InvoiceProduct;
 import com.clothingstore.gui.employee.invoiceDetail.HeaderInvoice;
+import com.clothingstore.models.CustomerModel;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.OrderModel;
 import java.awt.*;
@@ -36,18 +37,26 @@ public class InvoiceDetail extends JPanel {
   }
 
   public List<InvoiceDetail> getData() {
+    String nameCustomer;
+    String phone;
+    CustomerModel customerModel = CustomerBUS.getInstance().getModelById(orderModel.getCustomerId());
+    if(customerModel.getId() == 1){
+      nameCustomer = "null";
+      phone = "null";
+    }
+    else {
+      nameCustomer = customerModel.getCustomerName();
+      phone = customerModel.getPhone();
+    }
     return new ArrayList<InvoiceDetail>() {
       {
-
         add(new InvoiceDetail("Mã hóa đơn", "" + orderModel.getId()));
         add(new InvoiceDetail("Nhân viên phụ trách", UserBUS.getInstance().getModelById(orderModel.getUserId()).getName()));
         add(new InvoiceDetail("Ngày tạo", "" + orderModel.getOrderDate()));
         add(new InvoiceDetail("Tổng tiền", "" + orderModel.getTotalPrice()));
         add(new InvoiceDetail("Phương thức thanh toán", "" + PaymentMethodBUS.getInstance().getModelById(PaymentBUS.getInstance().searchModel(String.valueOf(orderModel.getId()), new String[]{"order_id"}).get(0).getPaymentMethodId()).getMethodName()));
-        add(new InvoiceDetail("Tên khách hàng",
-            CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getCustomerName()));
-        add(new InvoiceDetail("Số điện thoại",
-            CustomerBUS.getInstance().getModelById(orderModel.getCustomerId()).getPhone()));
+        add(new InvoiceDetail("Tên khách hàng",nameCustomer));
+        add(new InvoiceDetail("Số điện thoại", phone));
         add(new InvoiceDetail("Số lượng sản phẩm", "" + orderItemModels.size()));
       }
     };

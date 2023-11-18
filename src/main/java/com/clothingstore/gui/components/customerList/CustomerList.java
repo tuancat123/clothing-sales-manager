@@ -115,7 +115,7 @@ public class CustomerList extends JPanel {
     }
 
     Scroll.setViewportView(Customers);
-
+    Scroll.getVerticalScrollBar().setUnitIncrement(30);
     add(Scroll, BorderLayout.CENTER);
   }
 

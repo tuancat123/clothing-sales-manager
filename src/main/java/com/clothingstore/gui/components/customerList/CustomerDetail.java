@@ -33,13 +33,13 @@ public class CustomerDetail extends JPanel {
 
     public  ArrayList<CustomerDetail> getData() {
         ArrayList<CustomerDetail> data = new ArrayList<CustomerDetail>() {{
-            add(new CustomerDetail("Invoice Id",String.valueOf(customerModel.getId())));
-            add(new CustomerDetail("Customer Name", customerModel.getCustomerName()));
-            add(new CustomerDetail("Phone", customerModel.getPhone()));
+            add(new CustomerDetail("Mã khách hàng",String.valueOf(customerModel.getId())));
+            add(new CustomerDetail("Tên khách hàng", customerModel.getCustomerName()));
+            add(new CustomerDetail("Số điện thoại", customerModel.getPhone()));
             add(new CustomerDetail("Email",customerModel.getEmail() ));
-            add(new CustomerDetail("Point Earned", String.valueOf(4)));
-            add(new CustomerDetail("Point Used", String.valueOf(5)));
-            add(new CustomerDetail("Invoice Quantity", String.valueOf(OrderBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).size())));
+            add(new CustomerDetail("Điểm tích lũy", String.valueOf(4)));
+            add(new CustomerDetail("Điểm đã dùng", String.valueOf(5)));
+            add(new CustomerDetail("Tổng số hóa đơn", String.valueOf(OrderBUS.getInstance().searchModel(String.valueOf(customerModel.getId()), new String[]{"customer_id"}).size())));
         }};
         return data;
     }
@@ -59,10 +59,11 @@ public class CustomerDetail extends JPanel {
         setBackground(new Color(153, 194, 255));
 
         Scroll.setViewportView(mainPanel);
+        Scroll.getVerticalScrollBar().setUnitIncrement(30);
 
         Info.setLayout(new GridLayout(0, 1));
 
-        NamePanel.setText("-- Detail --");
+        NamePanel.setText("-- Chi tiết --");
         NamePanel.setHorizontalAlignment(SwingConstants.CENTER);
         NamePanel.setVerticalAlignment(SwingConstants.CENTER);
         NamePanel.setFont(new Font("Segoe UI", 1, 17));
@@ -84,8 +85,7 @@ public class CustomerDetail extends JPanel {
 
             JLabel Value = new JLabel(CustomerDetail.value);
             Value.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 19));
-            Value.setFont(new Font("Segoe UI", 2, 16));
-            Value.setForeground(new Color(0, 51, 153));
+            Value.setFont(new Font("Segoe UI", 0, 15));
             panel.add(Value, BorderLayout.EAST);
 
             Info.add(panel);
