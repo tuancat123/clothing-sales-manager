@@ -3,7 +3,10 @@ package com.clothingstore.gui.models;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import com.clothingstore.gui.admin.employees.Employees;
 import com.clothingstore.gui.admin.roleManagement.RoleManagement;
@@ -21,23 +24,36 @@ import com.clothingstore.models.UserModel;
 
 import services.Authentication;
 
-public class MenuData {
+public class MenuData extends JFrame{
     private String name;
     private ActionListener actionListener;
     private ArrayList<MenuItemData> menuItemData;
     private String icon;
     public Authentication authentication;
     static UserModel currentUser = Authentication.getCurrentUser();
-
-    public MenuData() {
-
-    }
+    private JButton jButton;
 
     public MenuData(String name, ArrayList<MenuItemData> menuItemData, ActionListener actionListener, String icon) {
         this.name = name;
         this.actionListener = actionListener;
         this.menuItemData = menuItemData;
         this.icon = icon;
+       
+    }
+
+    public MenuData() {
+        setTitle(icon);
+        setSize(400,300);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        initUI();
+
+        setVisible(true);
+    }
+    
+    private void initUI(){
+        JPanel panel = new JPanel();
     }
 
     public String getName() {
