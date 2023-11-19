@@ -9,9 +9,11 @@ import javax.swing.*;
 import org.netbeans.lib.awtextra.*;
 
 import com.clothingstore.bus.ProductBUS;
+import com.clothingstore.bus.SizeItemBUS;
 import com.clothingstore.gui.employee.invoiceDetail.InvoiceDetail;
 import com.clothingstore.models.OrderItemModel;
 import com.clothingstore.models.ProductModel;
+import com.clothingstore.models.SizeItemModel;
 
 public class Invoice extends JPanel {
   private static Invoice instance;
@@ -248,9 +250,9 @@ public class Invoice extends JPanel {
     repaint();
   }
 
-  public void updateQuantity(ProductModel productModel, int quantity) {
+  public void updateQuantity(ProductModel productModel, int size, int quantity) {
     for (OrderItemModel orderItem : orderItemList) {
-      if (orderItem.getProductId() == productModel.getId()) {
+      if (orderItem.getProductId() == productModel.getId() && orderItem.getSizeId() == size) {
         orderItem.setQuantity(quantity);
       }
     }
