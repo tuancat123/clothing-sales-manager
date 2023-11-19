@@ -21,6 +21,7 @@ public class Menu extends JPanel {
     private JLabel NameUser;
     private JLabel RoleUser;
     private JLabel Icon;
+    private JButton SettingButton;
 
     JPopupMenu popupMenu;
     JMenuItem menuItem;
@@ -43,6 +44,7 @@ public class Menu extends JPanel {
         NameUser = new JLabel();
         RoleUser = new JLabel();
         Icon = new JLabel();
+        SettingButton = new JButton();
         setPreferredSize(new Dimension(0,150));
         setLayout(new BorderLayout());
         
@@ -91,7 +93,7 @@ public class Menu extends JPanel {
         }
         add(Panel, BorderLayout.CENTER);
 
-        Header.setPreferredSize(new Dimension(70,75));
+        Header.setPreferredSize(new Dimension(90,90));
         Header.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));
         Header.setLayout(new BorderLayout());
         Header.setBackground(new Color(102, 102, 255));
@@ -109,6 +111,27 @@ public class Menu extends JPanel {
 
         Icon.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu/user.png")));
         Header.add(Icon, BorderLayout.WEST);
+
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(102, 102, 255));
+        panel.setLayout(new BorderLayout());
+
+        SettingButton.setIcon(new ImageIcon(getClass().getResource("/resources/icons/menu/setting.png")));
+        SettingButton.setBorder(null);
+        SettingButton.setBackground(new Color(102, 102, 255));
+        SettingButton.setPreferredSize(new Dimension(20,20));
+        SettingButton.addActionListener(SettingAction);
+        panel.add(SettingButton, BorderLayout.EAST);
+
+        Header.add(panel, BorderLayout.NORTH);
         add(Header, BorderLayout.NORTH);
     }
+    private ActionListener SettingAction = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            
+        }
+        
+    };
 }
