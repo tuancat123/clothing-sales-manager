@@ -20,7 +20,7 @@ public class HomePage extends JFrame {
 
   private static HomePage instance;
   public Authentication authentication;
-  static UserModel currentUser = Authentication.getCurrentUser();
+  UserModel currentUser;
 
   public static HomePage getInstance() {
     if (instance == null) {
@@ -30,6 +30,7 @@ public class HomePage extends JFrame {
   }
 
   public HomePage() {
+    currentUser = Authentication.getCurrentUser();
     initComponent();
     setLocationRelativeTo(null);
     this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -59,7 +60,7 @@ public class HomePage extends JFrame {
     add(Menu.getInstance(getDataMenu()), BorderLayout.WEST);
   }
 
-  public static ArrayList<MenuData> getDataMenu() {
+  public ArrayList<MenuData> getDataMenu() {
     ArrayList<MenuData> data;
     switch (currentUser.getRoleId()) {
       case 1:
@@ -104,6 +105,11 @@ public class HomePage extends JFrame {
     add(panel2, BorderLayout.EAST);
     revalidate();
     repaint();
+  }
+  public void reUI(){
+    initComponent();
+    Container contentPane = HomePage.getInstance().getContentPane();
+    System.out.println(((BorderLayout) contentPane.getLayout()).getLayoutComponent(BorderLayout.EAST));
   }
 
   WindowStateListener windowStateListener = new WindowStateListener() {
